@@ -1,675 +1,567 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media } from '@/payload-types'
 
+// Определяем тип аргументов
 type HomeArgs = {
   heroImage: Media
   metaImage: Media
 }
 
+// Указываем тип возвращаемого значения для строгой проверки
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   metaImage,
 }) => {
   return {
+    // --- Основные поля коллекции 'pages' ---
     slug: 'home',
+    title: 'Главная',
     _status: 'published',
+    publishedAt: new Date().toISOString(),
+
+    // --- Вкладка "Hero" ---
     hero: {
       type: 'highImpact',
-      links: [
-        {
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'All posts',
-            url: '/posts',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            appearance: 'outline',
-            label: 'Contact',
-            url: '/contact',
-          },
-        },
-      ],
+      links: [],
       media: heroImage.id,
       richText: {
         root: {
           type: 'root',
-          children: [
-            {
-              type: 'heading',
-              children: [
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Payload Website Template',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              tag: 'h1',
-              version: 1,
-            },
-            {
-              type: 'paragraph',
-              children: [
-                {
-                  type: 'link',
-                  children: [
-                    {
-                      type: 'text',
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Visit the admin dashboard',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  fields: {
-                    linkType: 'custom',
-                    newTab: false,
-                    url: '/admin',
-                  },
-                  format: '',
-                  indent: 0,
-                  version: 3,
-                },
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: " to begin managing this site's content. The code for this template is completely open-source and can be found ",
-                  version: 1,
-                },
-                {
-                  type: 'link',
-                  children: [
-                    {
-                      type: 'text',
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'on our Github',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  fields: {
-                    linkType: 'custom',
-                    newTab: true,
-                    url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-                  },
-                  format: '',
-                  indent: 0,
-                  version: 3,
-                },
-                {
-                  type: 'text',
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: '. ',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              textFormat: 0,
-              version: 1,
-            },
-          ],
           direction: 'ltr',
           format: '',
           indent: 0,
           version: 1,
+          children: [
+            {
+              type: 'heading',
+              tag: 'h1',
+              direction: null,
+              format: 'center',
+              indent: 0,
+              version: 1,
+              children: [
+                {
+                  type: 'text',
+                  version: 1,
+                  text: 'Prom-Stock: Поиск оборудования для АСУ ТП, КИП и А, ПЛК, ЧПУ и других компонентов ....',
+                },
+              ],
+            },
+            {
+              type: 'paragraph',
+              direction: null,
+              format: 'center',
+              indent: 0,
+              version: 1,
+              children: [
+                {
+                  type: 'text',
+                  version: 1,
+                  text: 'Например: 6ES7315-2AH14-0AB0',
+                  format: 'underline',
+                },
+              ],
+            },
+          ],
         },
       },
     },
+
+    // --- Вкладка "Content" (Блочный редактор) ---
     layout: [
+      // --- БЛОК 1: "Как пользоваться поиском?" и Преимущества ---
       {
-        blockName: 'Content Block',
         blockType: 'content',
+        blockName: 'Content Block',
         columns: [
           {
+            size: 'full',
+            enableLink: false,
             richText: {
               root: {
                 type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
                 children: [
                   {
                     type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Core features',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
                     tag: 'h2',
                     version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Как пользоваться поиском?' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'Для проверки, есть ли в наличе на складе у кого либо оборудование, которое вы ищите, введите в поисковую строку артикул и нажмите на значок поиска. После этого, если оно найдено, быдет выведена карточка компании, а ниже в таблице позиции удовлетворяющие поиску.',
+                      },
+                    ],
                   },
                 ],
-                direction: 'ltr',
+              },
+            },
+          },
+          // Колонки для преимуществ
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
                 format: '',
                 indent: 0,
                 version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Удобный поиск оборудования' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'мы делаем сервис удобным и быстрым - каждый день! Оставляйте пожелания и мы их постараемся учесть.',
+                      },
+                    ],
+                  },
+                ],
               },
             },
+          },
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Регистрация для поставщиков' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'регистрируйтесь и загружайте ваши складские позиции.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Прямой контакт с поставщиками' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'связывайтесь с поставщиками и обсуждайте детали напрямую.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Растущая база данных' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'расширяющаяся база данных позволяет находить необходимое оборудование в наличии',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Экономия времени и ресурсов' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'всё в одном месте!' }],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            size: 'oneThird',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [
+                  {
+                    type: 'heading',
+                    tag: 'h3',
+                    version: 1,
+                    children: [
+                      { type: 'text', version: 1, text: 'Текущая доступность и статус склада' },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'актуальная информация о наличии товаров на складах поставщиков.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      // --- БЛОК 2: "Популярные продукты" ---
+      {
+        blockType: 'content',
+        blockName: 'Content Block',
+        columns: [
+          {
             size: 'full',
-          },
-          {
             enableLink: false,
             richText: {
               root: {
                 type: 'root',
+                direction: null,
+                format: '',
+                indent: 0,
+                version: 1,
                 children: [
                   {
                     type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Admin Dashboard',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
+                    tag: 'h2',
+                    format: 'center',
                     version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Популярные продукты' }],
                   },
                   {
-                    type: 'paragraph',
+                    type: 'list',
+                    listType: 'unordered',
+                    start: 1,
+                    tag: 'ul',
+                    version: 1,
                     children: [
                       {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: "Manage this site's pages and posts from the ",
+                        type: 'listitem',
                         version: 1,
-                      },
-                      {
-                        type: 'link',
                         children: [
                           {
-                            type: 'text',
-                            detail: 0,
-                            format: 0,
-                            mode: 'normal',
-                            style: '',
-                            text: 'admin dashboard',
-                            version: 1,
+                            type: 'link',
+                            version: 2,
+                            fields: { url: '/stock?sku=6ES7307-1EA01-0AA0', linkType: 'custom' },
+                            children: [{ type: 'text', version: 1, text: '6ES7307-1EA01-0AA0' }],
                           },
                         ],
-                        direction: 'ltr',
-                        fields: {
-                          linkType: 'custom',
-                          newTab: false,
-                          url: '/admin',
-                        },
-                        format: '',
-                        indent: 0,
-                        version: 2,
                       },
                       {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: '.',
+                        type: 'listitem',
                         version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Preview',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Using versions, drafts, and preview, editors can review and share their changes before publishing them.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Page Builder',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Custom page builder allows you to create unique page, post, and project layouts for any type of content.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'SEO',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Editors have complete control over SEO data and site content directly from the ',
-                        version: 1,
-                      },
-                      {
-                        type: 'link',
                         children: [
                           {
-                            type: 'text',
-                            detail: 0,
-                            format: 0,
-                            mode: 'normal',
-                            style: '',
-                            text: 'admin dashboard',
-                            version: 1,
+                            type: 'link',
+                            version: 2,
+                            fields: { url: '/stock?sku=6ES7313-5BE01-0AB0', linkType: 'custom' },
+                            children: [{ type: 'text', version: 1, text: '6ES7313-5BE01-0AB0' }],
                           },
                         ],
-                        direction: 'ltr',
-                        fields: {
-                          linkType: 'custom',
-                          newTab: false,
-                          url: '/admin',
-                        },
-                        format: '',
-                        indent: 0,
-                        version: 2,
                       },
                       {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: '.',
+                        type: 'listitem',
                         version: 1,
+                        children: [
+                          {
+                            type: 'link',
+                            version: 2,
+                            fields: { url: '/stock?sku=6ES7313-5BG04-0AB0', linkType: 'custom' },
+                            children: [{ type: 'text', version: 1, text: '6ES7313-5BG04-0AB0' }],
+                          },
+                        ],
                       },
+                      // ... Добавьте остальные продукты по этому образцу
                     ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
                   },
                 ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
               },
             },
-            size: 'oneThird',
-          },
-          {
-            enableLink: false,
-            richText: {
-              root: {
-                type: 'root',
-                children: [
-                  {
-                    type: 'heading',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Dark Mode',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    tag: 'h3',
-                    version: 1,
-                  },
-                  {
-                    type: 'paragraph',
-                    children: [
-                      {
-                        type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'Users will experience this site in their preferred color scheme and each block can be inverted.',
-                        version: 1,
-                      },
-                    ],
-                    direction: 'ltr',
-                    format: '',
-                    indent: 0,
-                    textFormat: 0,
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                version: 1,
-              },
-            },
-            size: 'oneThird',
           },
         ],
       },
+      // --- БЛОК 3: Статья о сервисе ---
       {
-        blockName: 'Media Block',
-        blockType: 'mediaBlock',
-        media: metaImage.id,
-      },
-      {
-        blockName: 'Archive Block',
-        blockType: 'archive',
-        categories: [],
-        introContent: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'Recent posts',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                tag: 'h3',
-                version: 1,
-              },
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'The posts below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or posts can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                textFormat: 0,
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
-        populateBy: 'collection',
-        relationTo: 'posts',
-      },
-      {
-        blockName: 'CTA',
-        blockType: 'cta',
-        links: [
+        blockType: 'content',
+        blockName: 'Content Block',
+        columns: [
           {
-            link: {
-              type: 'custom',
-              appearance: 'default',
-              label: 'All posts',
-              url: '/posts',
-            },
-          },
-        ],
-        richText: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'This is a call to action',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
+            size: 'full',
+            enableLink: false,
+            richText: {
+              root: {
+                type: 'root',
+                direction: null,
                 format: '',
                 indent: 0,
-                tag: 'h3',
                 version: 1,
-              },
-              {
-                type: 'paragraph',
                 children: [
                   {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'This is a custom layout building block ',
+                    type: 'heading',
+                    tag: 'h2',
                     version: 1,
-                  },
-                  {
-                    type: 'link',
                     children: [
                       {
                         type: 'text',
-                        detail: 0,
-                        format: 0,
-                        mode: 'normal',
-                        style: '',
-                        text: 'configured in the admin dashboard',
                         version: 1,
+                        text: 'Prom-Stock: Сервис по поиску оборудования для АСУ ТП, КИП и А, Электроприводов и Электрооборудования',
                       },
                     ],
-                    direction: 'ltr',
-                    fields: {
-                      linkType: 'custom',
-                      newTab: false,
-                      url: '/admin',
-                    },
-                    format: '',
-                    indent: 0,
-                    version: 2,
                   },
                   {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: '.',
+                    type: 'paragraph',
                     version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'В мире современной промышленности время — это не просто деньги, это критический фактор, определяющий судьбу целых производственных линий, проектов и компаний. Ситуация, знакомая многим специалистам по снабжению и руководителям производств: срочно требуется специфический модуль или деталь, без которой оборудование стоимостью в десятки миллионов рублей простаивает, генерируя колоссальные убытки каждый день.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'Именно для решения таких проблем создан инновационный сервис ',
+                      },
+                      {
+                        type: 'link',
+                        version: 2,
+                        fields: { url: 'https://prom-stock.ru', linkType: 'custom' },
+                        children: [
+                          { type: 'text', version: 1, text: 'Prom-Stock.ru', format: 'bold' },
+                        ],
+                      },
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: ' — первая в России площадка, объединяющая владельцев неиспользуемого промышленного оборудования с теми, кто в нем нуждается прямо сейчас.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'heading',
+                    tag: 'h2',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Преимущества для покупателей' }],
+                  },
+                  {
+                    type: 'list',
+                    listType: 'unordered',
+                    start: 1,
+                    tag: 'ul',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [
+                          { type: 'text', version: 1, text: '⏱ Снижение времени простоя' },
+                        ],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [{ type: 'text', version: 1, text: '💸 Экономия бюджета' }],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [
+                          {
+                            type: 'text',
+                            version: 1,
+                            text: '🧩 Доступ к снятым с производства моделям',
+                          },
+                        ],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [{ type: 'text', version: 1, text: '🧭 Профессиональный поиск' }],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [{ type: 'text', version: 1, text: '🤝 Быстрые сделки' }],
+                      },
+                    ],
+                  },
+                  {
+                    type: 'heading',
+                    tag: 'h2',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Заключение' }],
+                  },
+                  {
+                    type: 'paragraph',
+                    version: 1,
+                    children: [{ type: 'text', version: 1, text: 'Prom-Stock.ru — это:' }],
+                  },
+                  {
+                    type: 'list',
+                    listType: 'unordered',
+                    start: 1,
+                    tag: 'ul',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [
+                          {
+                            type: 'text',
+                            version: 1,
+                            text: '💡 Новый подход к промышленным закупкам',
+                          },
+                        ],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [
+                          {
+                            type: 'text',
+                            version: 1,
+                            text: '🔄 Экономика повторного использования',
+                          },
+                        ],
+                      },
+                      {
+                        type: 'listitem',
+                        version: 1,
+                        children: [
+                          {
+                            type: 'text',
+                            version: 1,
+                            text: '🚀 Цифровая платформа для быстрого поиска и продажи',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: 'quote',
+                    version: 1,
+                    children: [
+                      {
+                        type: 'text',
+                        version: 1,
+                        text: 'Prom-Stock — меньше простоев, больше эффективности.',
+                        format: 'bold',
+                      },
+                    ],
                   },
                 ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                textFormat: 0,
-                version: 1,
               },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
+            },
           },
-        },
+        ],
       },
     ],
+
+    // --- Вкладка "SEO" ---
     meta: {
-      description: 'An open-source website built with Payload and Next.js.',
-      image: heroImage.id,
-      title: 'Payload Website Template',
+      title: 'Prom-Stock: Поиск оборудования для АСУ ТП, КИП и А, ПЛК, ЧПУ',
+      description:
+        'Prom-Stock.ru: Быстрый поиск и продажа промышленного оборудования, компонентов АСУ ТП, электроприводов и неликвидов по всей России.',
+      image: metaImage.id,
     },
-    title: 'Home',
   }
 }
