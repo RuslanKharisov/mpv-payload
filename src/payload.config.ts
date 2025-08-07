@@ -11,11 +11,26 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+
+import { Companies } from './collections/Companies'
+import { Products } from './collections/Products'
+
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+
+import { Manufacturers } from './collections/Manufacturers'
+import { ProductCategories } from './collections/ProductCategories'
+import { Stocks } from './collections/Stocks'
+import { Addresses } from './collections/Addresses'
+import { CompanyCertifications } from './collections/CompanyCertifications'
+import { CompanyPosts } from './collections/CompanyPosts'
+import { CompanyProjects } from './collections/CompanyProjects'
+import { CompanyTypes } from './collections/CompanyTypes'
+import { Subscriptions } from './collections/Subscriptions'
+import { Tariffs } from './collections/Tariffs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,7 +79,25 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Companies,
+    Products,
+    Stocks,
+    ProductCategories,
+    Manufacturers,
+    CompanyProjects,
+    CompanyCertifications,
+    CompanyPosts,
+    Subscriptions,
+    Addresses,
+    CompanyTypes,
+    Tariffs,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
