@@ -138,9 +138,10 @@ const config = {
             {
               h1: {
                 fontSize: '3.5rem',
+                fontWeight: 800,
               },
               h2: {
-                fontSize: '1.5rem',
+                fontSize: '2.25rem',
               },
             },
           ],

@@ -93,6 +93,13 @@
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply !tracking-tight;
+  }
+
   p,
   li {
     @apply text-[18px] leading-6 font-light;

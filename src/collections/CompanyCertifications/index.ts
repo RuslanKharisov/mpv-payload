@@ -3,6 +3,6 @@ import { CollectionConfig } from 'payload'
 export const CompanyCertifications: CollectionConfig = {
   slug: 'company-certifications',
   labels: { singular: 'Сертификация', plural: 'Сертификации компании' },
-  admin: { useAsTitle: 'name' },
+  admin: { useAsTitle: 'name', group: 'Tenant-Specific' },
   fields: [{ name: 'name', type: 'text', required: true }],
 }

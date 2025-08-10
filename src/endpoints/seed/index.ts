@@ -9,6 +9,7 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
+import { productCategoriesData, ProductCategoryData } from './product-categories-data'
 
 // --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ ---
 const collections: CollectionSlug[] = [
@@ -19,6 +20,7 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'product-categories',
 ]
 const globals: GlobalSlug[] = ['header', 'footer']
 
@@ -236,6 +238,38 @@ export const seed = async ({
     }),
   ])
   */
+
+  // --- ЭТАП 10 : Рекурсивная функция для создания категорий и их дочерних элементов ---
+  const seedProductCategories = async (
+    categories: ProductCategoryData[],
+    parentId: number | null = null,
+  ) => {
+    // Используем for...of для последовательного создания, чтобы избежать гонки состояний
+    for (const category of categories) {
+      const createdCategory = await payload.create({
+        collection: 'product-categories',
+        data: {
+          title: category.name_ru,
+          title_en: category.name,
+          description: category.description,
+          parent: parentId,
+        },
+      })
+
+      if (category.children && category.children.length > 0) {
+        // Рекурсивно вызываем функцию для дочерних категорий, передавая ID родителя
+        await seedProductCategories(
+          category.children,
+          typeof createdCategory.id === 'string'
+            ? parseInt(createdCategory.id, 10)
+            : createdCategory.id,
+        )
+      }
+    }
+  }
+
+  // Запускаем процесс с корневых категорий
+  await seedProductCategories(productCategoriesData)
 
   payload.logger.info('Seeded database successfully!')
 }

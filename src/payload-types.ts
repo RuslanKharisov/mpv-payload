@@ -808,6 +808,8 @@ export interface Product {
   sku: string;
   productCategory: number | ProductCategory;
   manufacturer?: (number | null) | Manufacturer;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -817,7 +819,14 @@ export interface Product {
  */
 export interface ProductCategory {
   id: number;
-  name: string;
+  title: string;
+  title_en?: string | null;
+  description?: string | null;
+  parent?: (number | null) | ProductCategory;
+  breadcrumb?: string | null;
+  depth?: number | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -828,6 +837,8 @@ export interface ProductCategory {
 export interface Manufacturer {
   id: number;
   name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1531,6 +1542,8 @@ export interface ProductsSelect<T extends boolean = true> {
   sku?: T;
   productCategory?: T;
   manufacturer?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1549,7 +1562,14 @@ export interface StocksSelect<T extends boolean = true> {
  * via the `definition` "product-categories_select".
  */
 export interface ProductCategoriesSelect<T extends boolean = true> {
-  name?: T;
+  title?: T;
+  title_en?: T;
+  description?: T;
+  parent?: T;
+  breadcrumb?: T;
+  depth?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1559,6 +1579,8 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
  */
 export interface ManufacturersSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
