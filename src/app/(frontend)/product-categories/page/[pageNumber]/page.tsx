@@ -1,7 +1,15 @@
+/**
+ * Это страница для отображения категорий продуктов при включенной пагинации.
+ * Она использует серверный компонент для получения данных о категориях
+ * и отображает их с помощью компонента CategoryGrid.
+ */
+
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Pagination } from '@/components/Pagination'
 import { notFound } from 'next/navigation'
+import { CategoryGrid } from '@/components/CategoryGrid'
+import { ProductCategory } from '@/payload-types'
 
 export const revalidate = 600
 
@@ -31,14 +39,11 @@ export default async function Page({ params: paramsPromise }: Args) {
     <div className="pt-24 pb-24">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Categories</h1>
+          <h1>Просмотр деталей промышленной автоматики по категориям</h1>
         </div>
-        {categories.docs.map((category) => (
-          <div key={category.id} className="mb-4">
-            <h2>{category.title}</h2>
-            {/* <p>{category.parent && category?.parent}</p> */}
-          </div>
-        ))}
+        <div className="container">
+          <CategoryGrid categories={categories.docs as unknown as ProductCategory[]} />
+        </div>
       </div>
 
       <div className="container">

@@ -14,6 +14,7 @@ import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import YandexMetrikaContainer from '@/utilities/YandexMetrika'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -22,6 +23,8 @@ const inter = Inter({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+
+  const analyticsEnabled = !!(process.env.NODE_ENV === 'production')
 
   return (
     <html className={cn(inter.className)} lang="ru" suppressHydrationWarning>
@@ -42,6 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
+        <YandexMetrikaContainer enabled={analyticsEnabled} />
       </body>
     </html>
   )

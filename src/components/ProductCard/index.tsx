@@ -1,0 +1,47 @@
+import Link from 'next/link'
+import { ImageMedia } from '@/components/Media/ImageMedia'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Product } from '@/payload-types' // Убедитесь, что импортировали тип продукта
+
+interface ProductCardProps {
+  product: Product
+}
+
+export function ProductCard({ product }: ProductCardProps) {
+  if (!product) {
+    return null
+  }
+
+  return (
+    <div className="col-span-4 h-full xl:col-span-3">
+      <Card className="flex h-[430px] w-full max-w-xs flex-col overflow-hidden pt-0 shadow-none">
+        <CardHeader className="p-0">
+          <div className="relative h-[200px] overflow-hidden border-b bg-muted">
+            {/* Используем поле из вашего типа Product, например `productImage` */}
+            <ImageMedia
+              resource={product.productImage}
+              fill
+              imgClassName="object-cover object-center"
+            />
+          </div>
+        </CardHeader>
+        <CardContent className="grow pt-5">
+          <div className="flex items-center space-x-2">
+            <h3 className="line-clamp-2 text-lg font-semibold">{product?.name}</h3>
+          </div>
+          <div className="line-clamp-3 text-sm text-muted-foreground">
+            {product?.shortDescription}
+          </div>
+        </CardContent>
+        <CardFooter className="mt-2 flex grow-0 flex-col justify-between gap-2">
+          <Link href={`/products/${product.slug}`} className="w-full">
+            <Button className="w-full" variant="outline" size="lg">
+              <span>Подробнее</span>
+            </Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}
