@@ -14,3 +14,13 @@ export const RegisterSchema = z.object({
     .refine((val) => !val.includes('--'), 'Username cannot contain consecutive hyphens.')
     .transform((val) => val.toLowerCase()),
 })
+
+export const LoginSchema = z.object({
+  email: z.email({
+    message: 'Укажите почту',
+  }),
+  password: z.string().min(1, {
+    message: 'Введите пароль',
+  }),
+  code: z.optional(z.string()),
+})

@@ -31,6 +31,7 @@ import { CompanyProjects } from './collections/CompanyProjects'
 import { CompanyTypes } from './collections/CompanyTypes'
 import { Subscriptions } from './collections/Subscriptions'
 import { Tariffs } from './collections/Tariffs'
+import { Tenants } from './collections/Tenants'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,11 +39,11 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
+      // Компонент `BeforeLogin` отображает сообщение, которое вы видите при входе в панель администратора.
+      // Вы можете удалить его в любое время. Просто удалите строку ниже.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
+      // Компонент `BeforeDashboard` отображает блок приветствия, который вы видите после входа в панель администратора.
+      // Вы можете удалить его в любое время. Просто удалите строку ниже.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
@@ -71,6 +72,10 @@ export default buildConfig({
         },
       ],
     },
+    meta: {
+      titleSuffix: ' - OnStock B2B',
+    },
+    
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
@@ -80,16 +85,16 @@ export default buildConfig({
     },
   }),
   collections: [
+    Companies,
+    Products,
+    ProductCategories,
+    Manufacturers,
     Pages,
     Posts,
     Media,
     Categories,
     Users,
-    Companies,
-    Products,
     Stocks,
-    ProductCategories,
-    Manufacturers,
     CompanyProjects,
     CompanyCertifications,
     CompanyPosts,
@@ -97,6 +102,7 @@ export default buildConfig({
     Addresses,
     CompanyTypes,
     Tariffs,
+    Tenants,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],

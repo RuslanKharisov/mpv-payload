@@ -1,50 +1,43 @@
 'use client'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RegisterSchema } from '@/entities/user'
+import * as z from 'zod'
+import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Spinner } from '@/shared/ui/spinner'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
 import { FormEroor } from '@/shared/ui/form-error'
-import { FormSuccess } from '@/shared/ui/form-success'
+import Link from 'next/link'
+
 import { useTRPC } from '@/trpc/client'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
-export function EmailRegisterForm() {
+export function EmailLoginForm() {
   const router = useRouter()
   const trpc = useTRPC()
-  const {
-    mutate: registerUser,
-    isError,
-    error,
-    data,
-    isPending,
-  } = useMutation(
-    trpc.auth.register.mutationOptions({
+
+  const { mutate: loginUser, isPending } = useMutation(
+    trpc.auth.login.mutationOptions({
       onSuccess: () => {
-        router.push('/')
+        router.push('/posts')
       },
     }),
   )
 
-  console.log('isError ==> ', isError)
-  console.log('error ==> ', error)
-  console.log('data ==> ', data)
+  // const isPending = false
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
-      username: '',
     },
   })
-
-  const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
-    registerUser(data)
+  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+    console.log('login data: ', data)
+    loginUser(data)
   }
 
   return (
@@ -52,19 +45,6 @@ export function EmailRegisterForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Имя</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ваше Имя" disabled={isPending} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="email"
@@ -75,7 +55,9 @@ export function EmailRegisterForm() {
                     <Input
                       placeholder="name@example.com"
                       type="email"
+                      autoCapitalize="none"
                       autoComplete="email"
+                      autoCorrect="off"
                       disabled={isPending}
                       {...field}
                     />
@@ -91,15 +73,25 @@ export function EmailRegisterForm() {
                 <FormItem>
                   <FormLabel>Пароль</FormLabel>
                   <FormControl>
-                    <Input placeholder="******" type="password" disabled={isPending} {...field} />
+                    <Input
+                      placeholder="******"
+                      type="password"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      disabled={isPending}
+                      {...field}
+                    />
                   </FormControl>
+                  <Button size="sm" variant="link" asChild className="px-0 font-normal">
+                    <Link href="/auth/reset">Забыли пароль?</Link>
+                  </Button>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {/* {data?.error && <FormEroor message={data?.error} />} */}
-            {isError && <FormEroor message={error.message} />}
-            {/* {data?.success && <FormSuccess message={data?.success} />} */}
+
+            {/* <FormEroor message={errorMsg ? 'Не верные данные' : ''} /> */}
+            {/* <FormSuccess message={success} /> */}
             <Button type="submit" disabled={isPending}>
               {isPending && <Spinner className="mr-2 h-4 w-full " aria-label="Загрузка выхода" />}
               Продолжить

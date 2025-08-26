@@ -2,7 +2,8 @@ import { RegisterSchema } from '@/entities/user'
 import { baseProcedure, createTRPCRouter } from '@/trpc/init'
 import { TRPCError } from '@trpc/server'
 import { headers as getHeaders, cookies as getCookies } from 'next/headers'
-import z from 'zod'
+import { LoginSchema } from '@/entities/user/_domain/schemas'
+import { AUTH_COOKIE } from '@/shared/modules/auth/constants'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -15,7 +16,7 @@ export const authRouter = createTRPCRouter({
 
   logout: baseProcedure.mutation(async () => {
     const cookies = await getCookies()
-    cookies.delete('AUTH_COOKIE')
+    cookies.delete(AUTH_COOKIE)
   }),
 
   register: baseProcedure
@@ -62,7 +63,7 @@ export const authRouter = createTRPCRouter({
 
       const cookies = await getCookies()
       cookies.set({
-        name: 'AUTH_COOKIE',
+        name: AUTH_COOKIE,
         value: data.token,
         httpOnly: true,
         path: '/',
@@ -72,42 +73,35 @@ export const authRouter = createTRPCRouter({
       })
     }),
 
-  login: baseProcedure
-    .input(
-      z.object({
-        email: z.email(),
-        password: z.string(),
-      }),
-    )
-    .mutation(async ({ input, ctx }) => {
-      const data = await ctx.payload.login({
-        collection: 'users',
-        data: {
-          email: input.email,
-          password: input.password,
-        },
+  login: baseProcedure.input(LoginSchema).mutation(async ({ input, ctx }) => {
+    const data = await ctx.payload.login({
+      collection: 'users',
+      data: {
+        email: input.email,
+        password: input.password,
+      },
+    })
+
+    if (!data.token) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Could not log in with those credentials.',
       })
+    }
 
-      if (!data.token) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Could not log in with those credentials.',
-        })
-      }
+    const cookies = await getCookies()
+    cookies.set({
+      name: AUTH_COOKIE,
+      value: data.token,
+      httpOnly: true,
+      path: '/',
+      // TODO: set secure to true in production
+      secure: process.env.NODE_ENV === 'production',
+      // TODO: Ensure cross-domain cookies are set correctly in production
+      // sameSite: 'none',
+      // domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : 'localhost',
+    })
 
-      const cookies = await getCookies()
-      cookies.set({
-        name: 'AUTH_COOKIE',
-        value: data.token,
-        httpOnly: true,
-        path: '/',
-        // TODO: set secure to true in production
-        secure: process.env.NODE_ENV === 'production',
-        // TODO: Ensure cross-domain cookies are set correctly in production
-        // sameSite: 'none',
-        // domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : 'localhost',
-      })
-
-      return data
-    }),
+    return data
+  }),
 })
