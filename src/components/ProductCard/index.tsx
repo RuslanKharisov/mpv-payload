@@ -23,6 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
               resource={product.productImage}
               fill
               imgClassName="object-cover object-center"
+              pictureClassName="absolute inset-0 h-full w-full"
             />
           </div>
         </CardHeader>

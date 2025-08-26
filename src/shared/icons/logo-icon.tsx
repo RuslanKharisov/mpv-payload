@@ -1,6 +1,6 @@
-import { FC, SVGProps } from "react"
+import { FC, SVGProps } from 'react'
 
-const LogoNew: FC<SVGProps<SVGSVGElement>> = (props) => {
+const LogoIcon: FC<SVGProps<SVGSVGElement>> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,4 +26,4 @@ const LogoNew: FC<SVGProps<SVGSVGElement>> = (props) => {
   )
 }
 
-export { LogoNew }
+export { LogoIcon }

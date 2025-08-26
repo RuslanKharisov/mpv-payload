@@ -1,10 +1,5 @@
 import configPromise from '@payload-config'
-import { Metadata } from 'next/types'
-import Link from 'next/link'
 import { getPayload } from 'payload'
-import { ImageMedia } from '@/components/Media/ImageMedia'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Pagination } from '@/components/Pagination'
 import { ProductsBlock } from '@/components/ProductsBlock'
 import { Product } from '@/payload-types'
@@ -17,7 +12,6 @@ export default async function Page() {
     limit: 4,
     overrideAccess: false,
   })
-  console.log('products ==> ', products)
 
   return (
     <div className="py-24">
