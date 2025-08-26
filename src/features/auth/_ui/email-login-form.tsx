@@ -11,22 +11,23 @@ import { FormEroor } from '@/shared/ui/form-error'
 import Link from 'next/link'
 
 import { useTRPC } from '@/trpc/client'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
 export function EmailLoginForm() {
   const router = useRouter()
+
   const trpc = useTRPC()
+  const queryClient = useQueryClient()
 
   const { mutate: loginUser, isPending } = useMutation(
     trpc.auth.login.mutationOptions({
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
         router.push('/posts')
       },
     }),
   )
-
-  // const isPending = false
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),

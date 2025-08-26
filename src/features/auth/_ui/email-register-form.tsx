@@ -10,12 +10,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { FormEroor } from '@/shared/ui/form-error'
 import { FormSuccess } from '@/shared/ui/form-success'
 import { useTRPC } from '@/trpc/client'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
 export function EmailRegisterForm() {
   const router = useRouter()
+
   const trpc = useTRPC()
+  const queryClient = useQueryClient()
+
   const {
     mutate: registerUser,
     isError,
@@ -24,7 +27,8 @@ export function EmailRegisterForm() {
     isPending,
   } = useMutation(
     trpc.auth.register.mutationOptions({
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
         router.push('/')
       },
     }),

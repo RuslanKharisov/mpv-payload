@@ -1,9 +1,9 @@
 import { RegisterSchema } from '@/entities/user'
 import { baseProcedure, createTRPCRouter } from '@/trpc/init'
 import { TRPCError } from '@trpc/server'
-import { headers as getHeaders, cookies as getCookies } from 'next/headers'
+import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
-import { AUTH_COOKIE } from '@/shared/modules/auth/constants'
+import { GenerateAuthCookies } from '@/utilities/generateAuthCookies'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -14,11 +14,7 @@ export const authRouter = createTRPCRouter({
     return session
   }),
 
-  logout: baseProcedure.mutation(async () => {
-    const cookies = await getCookies()
-    cookies.delete(AUTH_COOKIE)
-  }),
-
+  /**  Метод регистрации нового пользователя  */
   register: baseProcedure
     .input(RegisterSchema)
 
@@ -61,18 +57,13 @@ export const authRouter = createTRPCRouter({
         })
       }
 
-      const cookies = await getCookies()
-      cookies.set({
-        name: AUTH_COOKIE,
+      await GenerateAuthCookies({
+        prefix: ctx.payload.config.cookiePrefix,
         value: data.token,
-        httpOnly: true,
-        path: '/',
-        // TODO: set secure to true in production
-        secure: process.env.NODE_ENV === 'production',
-        // TODO: Ensure cross-domain cookies are set correctly in production
       })
     }),
 
+  /**  Метод входа пользователя  */
   login: baseProcedure.input(LoginSchema).mutation(async ({ input, ctx }) => {
     const data = await ctx.payload.login({
       collection: 'users',
@@ -89,17 +80,9 @@ export const authRouter = createTRPCRouter({
       })
     }
 
-    const cookies = await getCookies()
-    cookies.set({
-      name: AUTH_COOKIE,
+    await GenerateAuthCookies({
+      prefix: ctx.payload.config.cookiePrefix,
       value: data.token,
-      httpOnly: true,
-      path: '/',
-      // TODO: set secure to true in production
-      secure: process.env.NODE_ENV === 'production',
-      // TODO: Ensure cross-domain cookies are set correctly in production
-      // sameSite: 'none',
-      // domain: process.env.NODE_ENV === 'production' ? '.yourdomain.com' : 'localhost',
     })
 
     return data
