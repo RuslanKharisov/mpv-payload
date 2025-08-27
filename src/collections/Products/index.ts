@@ -21,7 +21,7 @@ export const Products: CollectionConfig = {
   admin: {
     useAsTitle: 'sku',
     defaultColumns: ['name', 'sku', 'productCategory', 'updatedAt'],
-    group: 'Tenant-Specific',
+    group: 'Компания и аккаунт',
   },
   fields: [
     {
