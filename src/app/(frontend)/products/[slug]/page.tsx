@@ -3,7 +3,7 @@ import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 import { cache } from 'react'
 import configPromise from '@payload-config'
-import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
 
 type Args = {
