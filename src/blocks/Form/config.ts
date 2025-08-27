@@ -45,7 +45,7 @@ export const FormBlock: Block = {
     singularName: 'FormBlock',
   },
   labels: {
-    plural: 'Form Blocks',
-    singular: 'Form Block',
+    plural: 'Блоки формы',
+    singular: 'Блок формы',
   },
 }
