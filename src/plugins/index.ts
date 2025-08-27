@@ -125,6 +125,10 @@ export const plugins: Plugin[] = [
   multiTenantPlugin<Config>({
     collections: {
       products: {},
+      stocks: {},
+      'company-projects': {},
+      'company-certifications': {},
+      'company-posts': {},
     },
     tenantsArrayField: {
       includeDefaultField: false,

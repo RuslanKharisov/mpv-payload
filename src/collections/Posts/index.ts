@@ -27,15 +27,16 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
 import { isSuperAdminAccess } from '@/access/isSuperAdmin'
+import { isHidden } from '@/access/isHidden'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   labels: { singular: 'Пост', plural: 'Посты' },
   access: {
-    create: authenticated,
+    create: isSuperAdminAccess,
     delete: isSuperAdminAccess,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: isSuperAdminAccess,
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
@@ -51,6 +52,7 @@ export const Posts: CollectionConfig<'posts'> = {
   },
   admin: {
     group: 'Посты и страницы',
+    hidden: ({ user }) => !isHidden(user),
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {

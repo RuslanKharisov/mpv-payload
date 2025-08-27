@@ -6,6 +6,10 @@ export const Tenants: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  labels: {
+    singular: 'Компания',
+    plural: 'Компании',
+  },
   fields: [
     {
       name: 'name',

@@ -4,6 +4,7 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from '@/fields/slug'
 import { isSuperAdminAccess } from '@/access/isSuperAdmin'
+import { isHidden } from '@/access/isHidden'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -17,6 +18,7 @@ export const Categories: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Посты и страницы',
+    hidden: ({ user }) => !isHidden(user),
   },
   fields: [
     {

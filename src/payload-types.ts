@@ -903,6 +903,7 @@ export interface Form {
  */
 export interface Stock {
   id: number;
+  tenant?: (number | null) | Tenant;
   quantity: number;
   product: number | Product;
   updatedAt: string;
@@ -914,6 +915,7 @@ export interface Stock {
  */
 export interface CompanyProject {
   id: number;
+  tenant?: (number | null) | Tenant;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -924,6 +926,7 @@ export interface CompanyProject {
  */
 export interface CompanyCertification {
   id: number;
+  tenant?: (number | null) | Tenant;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -934,17 +937,24 @@ export interface CompanyCertification {
  */
 export interface CompanyPost {
   id: number;
+  tenant?: (number | null) | Tenant;
   title: string;
   slug: string;
-  content?:
-    | {
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
         [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1662,6 +1672,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "stocks_select".
  */
 export interface StocksSelect<T extends boolean = true> {
+  tenant?: T;
   quantity?: T;
   product?: T;
   updatedAt?: T;
@@ -1672,6 +1683,7 @@ export interface StocksSelect<T extends boolean = true> {
  * via the `definition` "company-projects_select".
  */
 export interface CompanyProjectsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1681,6 +1693,7 @@ export interface CompanyProjectsSelect<T extends boolean = true> {
  * via the `definition` "company-certifications_select".
  */
 export interface CompanyCertificationsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1690,6 +1703,7 @@ export interface CompanyCertificationsSelect<T extends boolean = true> {
  * via the `definition` "company-posts_select".
  */
 export interface CompanyPostsSelect<T extends boolean = true> {
+  tenant?: T;
   title?: T;
   slug?: T;
   content?: T;
