@@ -1,5 +1,7 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { isHidden } from '@/access/isHidden'
+import { isSuperAdminAccess } from '@/access/isSuperAdmin'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
@@ -9,19 +11,19 @@ import { CollectionConfig } from 'payload'
 export const Products: CollectionConfig = {
   slug: 'products',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: isSuperAdminAccess,
+    delete: isSuperAdminAccess,
     read: anyone,
-    update: authenticated,
+    update: isSuperAdminAccess,
   },
   labels: {
     singular: 'Продукт',
     plural: 'Продукты',
   },
   admin: {
-    useAsTitle: 'sku',
+    hidden: ({ user }) => !isHidden(user),
+    useAsTitle: 'name',
     defaultColumns: ['name', 'sku', 'productCategory', 'updatedAt'],
-    group: 'Компания и аккаунт',
   },
   fields: [
     {

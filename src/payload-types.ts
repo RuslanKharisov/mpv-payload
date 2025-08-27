@@ -213,7 +213,6 @@ export interface Address {
  */
 export interface Product {
   id: number;
-  tenant?: (number | null) | Tenant;
   name: string;
   sku: string;
   /**
@@ -235,35 +234,6 @@ export interface Product {
   layout?: (ContentBlock | MediaBlock | CallToActionBlock)[] | null;
   slug?: string | null;
   slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants".
- */
-export interface Tenant {
-  id: number;
-  /**
-   * Название компании или организации (например, OnStock)
-   */
-  name: string;
-  /**
-   * Используется для определения домена, к которому относится этот тенант. Например: onstock.ru
-   */
-  domain?: string | null;
-  /**
-   * Идентификатор для использования в URL. Например: [slug].onstock
-   */
-  slug: string;
-  /**
-   * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
-   */
-  allowPublicRead?: boolean | null;
-  /**
-   * Вы не можете создавать продукты, пока не получено подтверждение данных аккаунта.
-   */
-  accountDetailsSubmitted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -607,6 +577,35 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: number;
+  /**
+   * Название компании или организации (например, OnStock)
+   */
+  name: string;
+  /**
+   * Используется для определения домена, к которому относится этот тенант. Например: onstock.ru
+   */
+  domain?: string | null;
+  /**
+   * Идентификатор для использования в URL. Например: [slug].onstock
+   */
+  slug: string;
+  /**
+   * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
+   */
+  allowPublicRead?: boolean | null;
+  /**
+   * Вы не можете создавать продукты, пока не получено подтверждение данных аккаунта.
+   */
+  accountDetailsSubmitted?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -906,6 +905,11 @@ export interface Stock {
   tenant?: (number | null) | Tenant;
   quantity: number;
   product: number | Product;
+  /**
+   * Вы можете установить собственную цену на этот товар.
+   */
+  price?: number | null;
+  title_in_admin?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1305,7 +1309,6 @@ export interface CompaniesSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   sku?: T;
   shortDescription?: T;
@@ -1675,6 +1678,8 @@ export interface StocksSelect<T extends boolean = true> {
   tenant?: T;
   quantity?: T;
   product?: T;
+  price?: T;
+  title_in_admin?: T;
   updatedAt?: T;
   createdAt?: T;
 }

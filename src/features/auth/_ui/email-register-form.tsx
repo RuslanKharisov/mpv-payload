@@ -34,10 +34,6 @@ export function EmailRegisterForm() {
     }),
   )
 
-  console.log('isError ==> ', isError)
-  console.log('error ==> ', error)
-  console.log('data ==> ', data)
-
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {

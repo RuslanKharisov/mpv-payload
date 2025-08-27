@@ -124,7 +124,6 @@ export const plugins: Plugin[] = [
   payloadCloudPlugin(),
   multiTenantPlugin<Config>({
     collections: {
-      products: {},
       stocks: {},
       'company-projects': {},
       'company-certifications': {},
