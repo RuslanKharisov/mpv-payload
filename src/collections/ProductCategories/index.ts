@@ -1,15 +1,16 @@
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { isSuperAdminAccess } from '@/access/isSuperAdmin'
 import { slugField } from '@/fields/slug'
 import { CollectionConfig } from 'payload'
 
 export const ProductCategories: CollectionConfig = {
   slug: 'product-categories',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: isSuperAdminAccess,
+    delete: isSuperAdminAccess,
     read: anyone,
-    update: authenticated,
+    update: isSuperAdminAccess,
   },
   labels: {
     singular: 'Категория продукта',
@@ -19,7 +20,7 @@ export const ProductCategories: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'breadcrumb', 'depth'],
     listSearchableFields: ['title', 'title_en', 'breadcrumb'],
-    group: 'Tenant-Specific',
+    group: 'Компания и аккаунт',
   },
   fields: [
     {

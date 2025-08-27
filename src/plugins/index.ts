@@ -2,6 +2,7 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
@@ -14,6 +15,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Config, Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { isSuperAdminAccess } from '@/access/isSuperAdmin'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -46,12 +48,20 @@ export const plugins: Plugin[] = [
       hooks: {
         afterChange: [revalidateRedirects],
       },
+      access: {
+        read: isSuperAdminAccess,
+        create: isSuperAdminAccess,
+        update: isSuperAdminAccess,
+        delete: isSuperAdminAccess,
+      },
     },
   }),
+
   nestedDocsPlugin({
     collections: ['categories'],
     generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
   }),
+
   seoPlugin({
     generateTitle,
     generateURL,
@@ -80,6 +90,20 @@ export const plugins: Plugin[] = [
           return field
         })
       },
+      access: {
+        read: isSuperAdminAccess,
+        create: isSuperAdminAccess,
+        update: isSuperAdminAccess,
+        delete: isSuperAdminAccess,
+      },
+    },
+    formSubmissionOverrides: {
+      access: {
+        read: isSuperAdminAccess,
+        create: isSuperAdminAccess,
+        update: isSuperAdminAccess,
+        delete: isSuperAdminAccess,
+      },
     },
   }),
   searchPlugin({
@@ -88,6 +112,12 @@ export const plugins: Plugin[] = [
     searchOverrides: {
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]
+      },
+      access: {
+        read: isSuperAdminAccess,
+        create: isSuperAdminAccess,
+        update: isSuperAdminAccess,
+        delete: isSuperAdminAccess,
       },
     },
   }),

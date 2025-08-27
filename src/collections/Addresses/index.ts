@@ -1,9 +1,10 @@
+import { isHidden } from '@/access/isHidden'
 import { CollectionConfig } from 'payload'
 
 export const Addresses: CollectionConfig = {
   slug: 'addresses',
   labels: { singular: 'Адрес', plural: 'Адреса' },
-  admin: { useAsTitle: 'fullAddress' },
+  admin: { useAsTitle: 'fullAddress', hidden: ({ user }) => !isHidden(user) },
   fields: [
     { name: 'fias_id', type: 'text', required: true, unique: true },
     { name: 'kladr_id', type: 'text' },

@@ -26,12 +26,14 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
+import { isSuperAdminAccess } from '@/access/isSuperAdmin'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: { singular: 'Пост', plural: 'Посты' },
   access: {
     create: authenticated,
-    delete: authenticated,
+    delete: isSuperAdminAccess,
     read: authenticatedOrPublished,
     update: authenticated,
   },
@@ -48,6 +50,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
+    group: 'Посты и страницы',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) => {
