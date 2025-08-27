@@ -3,6 +3,8 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
 import { anyone } from '@/access/anyone'
+import { isSuperAdmin } from '@/access/isSuperAdmin'
+import { isHidden } from '@/access/isHidden'
 
 const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayFieldName: 'tenants',
@@ -18,6 +20,16 @@ const defaultTenantArrayField = tenantsArrayField({
     create: () => true,
     update: () => true,
   },
+  rowFields: [
+    {
+      name: 'roles',
+      type: 'select',
+      defaultValue: ['tenant-viewer'],
+      hasMany: true,
+      options: ['tenant-admin', 'tenant-viewer'],
+      required: true,
+    },
+  ],
 })
 
 export const Users: CollectionConfig = {
@@ -32,6 +44,7 @@ export const Users: CollectionConfig = {
   admin: {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'email',
+    hidden: ({ user }) => !isHidden(user),
   },
   auth: true,
   fields: [
@@ -44,9 +57,14 @@ export const Users: CollectionConfig = {
     {
       name: 'roles',
       type: 'select',
-      defaultValue: 'user',
+      defaultValue: () => ['user'],
       hasMany: true,
-      options: ['super-admin', 'tenant-admin', 'user'],
+      options: ['super-admin', 'user'],
+      access: {
+        update: ({ req }) => {
+          return isSuperAdmin(req.user)
+        },
+      },
       admin: {
         position: 'sidebar',
       },

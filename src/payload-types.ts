@@ -579,10 +579,11 @@ export interface Category {
 export interface User {
   id: number;
   username: string;
-  roles?: ('super-admin' | 'tenant-admin' | 'user')[] | null;
+  roles?: ('super-admin' | 'user')[] | null;
   tenants?:
     | {
         tenant: number | Tenant;
+        roles: ('tenant-admin' | 'tenant-viewer')[];
         id?: string | null;
       }[]
     | null;
@@ -1636,6 +1637,7 @@ export interface UsersSelect<T extends boolean = true> {
     | T
     | {
         tenant?: T;
+        roles?: T;
         id?: T;
       };
   updatedAt?: T;
