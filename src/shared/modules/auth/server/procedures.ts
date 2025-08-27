@@ -34,14 +34,46 @@ export const authRouter = createTRPCRouter({
         })
       }
 
-      await ctx.payload.create({
-        collection: 'users',
+      // 1. Создаем тенант
+      const tenant = await ctx.payload.create({
+        collection: 'tenants',
         data: {
-          email: input.email,
-          password: input.password,
-          username: input.username,
+          name: input.username,
+          slug: input.username,
         },
       })
+
+      try {
+        // 2. Попытка создать пользователя
+        await ctx.payload.create({
+          collection: 'users',
+          data: {
+            email: input.email,
+            password: input.password,
+            username: input.username,
+            tenants: [
+              {
+                tenant: tenant.id,
+                roles: ['tenant-viewer'],
+              },
+            ],
+          },
+        })
+      } catch (error) {
+        // 3. Если создание пользователя не удалось, удаляем тенант
+        await ctx.payload.delete({
+          collection: 'tenants',
+          id: tenant.id,
+        })
+
+        // 4. Пробрасываем ошибку дальше, чтобы клиент знал о проблеме
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Не удалось создать пользователя. Пожалуйста, попробуйте еще раз.',
+          cause: error, // Можно передать исходную ошибку для логирования
+        })
+      }
+
       const data = await ctx.payload.login({
         collection: 'users',
         data: {
