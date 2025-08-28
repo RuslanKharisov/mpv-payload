@@ -46,6 +46,12 @@ export const seed = async ({
   )
   */
 
+  // await payload.db.deleteMany({
+  //   collection: 'media',
+  //   req,
+  //   where: {},
+  // })
+
   /* Очистка версий документов */
   await Promise.all(
     collections
@@ -54,6 +60,7 @@ export const seed = async ({
   )
 
   /* --- Загрузка медиафайлов --- */
+
   const media = await seedMedia(payload)
   const users = await seedUsers(payload)
 

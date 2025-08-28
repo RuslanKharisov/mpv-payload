@@ -1,4 +1,3 @@
-// src/endpoints/seed/seed-users.ts
 import type { Payload } from 'payload'
 
 export const seedUsers = async (payload: Payload) => {

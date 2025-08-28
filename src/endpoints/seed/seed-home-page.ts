@@ -8,7 +8,7 @@ export const seedHomePage = async (payload: Payload, media: { [key: string]: Med
   await payload.create({
     collection: 'pages',
     depth: 0,
-    data: home({ heroImage: media.imageHomeDoc, metaImage: media.image2Doc }),
+    data: home({ heroImage: media.imageHomeDoc, metaImage: media.imageHomeDoc }),
   })
 
   payload.logger.info('✓ Home page успешно создана.')
