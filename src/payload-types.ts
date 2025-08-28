@@ -219,7 +219,7 @@ export interface Product {
    * Появится в карточке товара в общем каталоге.
    */
   shortDescription?: string | null;
-  productCategory: number | ProductCategory;
+  productCategory?: (number | null) | ProductCategory;
   /**
    * Это изображение будет использоваться в качестве основного на карточке товара и в каталоге.
    */
@@ -549,7 +549,7 @@ export interface Category {
 export interface User {
   id: number;
   username: string;
-  roles?: ('super-admin' | 'user')[] | null;
+  roles?: ('super-admin' | 'user' | 'content-editor')[] | null;
   tenants?:
     | {
         tenant: number | Tenant;

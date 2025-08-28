@@ -18,10 +18,10 @@ export const Products: CollectionConfig = {
   },
   labels: {
     singular: 'Продукт',
-    plural: 'Продукты',
+    plural: 'Каталог продуктов',
   },
   admin: {
-    hidden: ({ user }) => !isHidden(user),
+    // hidden: ({ user }) => !isHidden(user),
     useAsTitle: 'name',
     defaultColumns: ['name', 'sku', 'productCategory', 'updatedAt'],
   },
@@ -64,7 +64,6 @@ export const Products: CollectionConfig = {
               name: 'productCategory',
               type: 'relationship',
               relationTo: 'product-categories',
-              required: true,
             },
             {
               name: 'productImage',
@@ -96,7 +95,12 @@ export const Products: CollectionConfig = {
                 },
               ],
             },
-            { name: 'manufacturer', type: 'relationship', relationTo: 'manufacturers' },
+            {
+              name: 'manufacturer',
+              label: 'Производитель',
+              type: 'relationship',
+              relationTo: 'manufacturers',
+            },
           ],
         },
         // --- ВКЛАДКА 2: ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ ---

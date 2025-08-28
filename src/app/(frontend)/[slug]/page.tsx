@@ -5,7 +5,7 @@ import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
+import { homeStatic } from '@/endpoints/seed/data/home-static'
 
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { RenderHero } from '@/payload/heros/RenderHero'

@@ -13,5 +13,13 @@ export const Manufacturers: CollectionConfig = {
   },
   labels: { singular: 'Производитель', plural: 'Производители' },
   admin: { useAsTitle: 'name', group: 'Компания и аккаунт' },
-  fields: [{ name: 'name', type: 'text', required: true }, ...slugField('name')],
+  fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      unique: true,
+    },
+    ...slugField('name'),
+  ],
 }
