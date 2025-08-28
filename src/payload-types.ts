@@ -234,6 +234,7 @@ export interface Product {
   layout?: (ContentBlock | MediaBlock | CallToActionBlock)[] | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  sku_normalized?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1330,6 +1331,7 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   slug?: T;
   slugLock?: T;
+  sku_normalized?: T;
   updatedAt?: T;
   createdAt?: T;
 }

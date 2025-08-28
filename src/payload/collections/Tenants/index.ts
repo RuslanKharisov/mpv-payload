@@ -1,14 +1,22 @@
+import { anyone } from '@/payload/access/anyone'
+import { authenticated } from '@/payload/access/authenticated'
+import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { CollectionConfig } from 'payload'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
-  access: {},
+  access: {
+    create: isSuperAdminAccess,
+    delete: authenticated,
+    read: authenticated,
+    update: authenticated,
+  },
   admin: {
     useAsTitle: 'name',
   },
   labels: {
-    singular: 'Компания',
-    plural: 'Компании',
+    singular: 'Поставщик',
+    plural: 'Поставщик',
   },
   fields: [
     {

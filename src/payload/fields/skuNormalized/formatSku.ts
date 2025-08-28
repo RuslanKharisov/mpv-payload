@@ -2,31 +2,32 @@ import type { FieldHook } from 'payload'
 import slugify from 'slugify'
 
 /**
- * Форматирует строку в slug:
+ * Нормализует SKU:
  * - приводит к нижнему регистру
  * - убирает всё, кроме латиницы, кириллицы и цифр
  */
-export const formatSlug = (val: string): string =>
+// export const formatSku = (val: string): string => val.toLowerCase().replace(/[^a-zа-я0-9]/gi, '')
+export const formatSku = (val: string): string =>
   slugify(val, {
+    replacement: '',
     lower: true,
     strict: true, // удаляет спецсимволы
     locale: 'ru', // поддержка русских символов
   })
 
-export const formatSlugHook =
+export const formatSkuHook =
   (fallback: string): FieldHook =>
   ({ data, operation, value }) => {
     if (typeof value === 'string') {
-      return formatSlug(value)
+      return formatSku(value)
     }
 
     if (operation === 'create' || !data?.slug) {
       const fallbackData = data?.[fallback] || data?.[fallback]
 
       if (fallbackData && typeof fallbackData === 'string') {
-        return formatSlug(fallbackData)
+        return formatSku(fallbackData)
       }
     }
-
     return value
   }

@@ -5,6 +5,7 @@ import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { CallToAction } from '@/payload/blocks/CallToAction/config'
 import { Content } from '@/payload/blocks/Content/config'
 import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
+import { skuNormalizedField } from '@/payload/fields/skuNormalized/skuNormalizedField'
 import { slugField } from '@/payload/fields/slug'
 import { CollectionConfig } from 'payload'
 
@@ -117,5 +118,6 @@ export const Products: CollectionConfig = {
       ],
     },
     ...slugField('sku'),
+    skuNormalizedField('sku'),
   ],
 }
