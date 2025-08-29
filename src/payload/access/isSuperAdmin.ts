@@ -1,5 +1,5 @@
-import type { Access, ClientUser } from 'payload'
-import { User } from '../payload-types'
+import { User } from '@/payload-types'
+import type { Access } from 'payload'
 
 export const isSuperAdminAccess: Access = ({ req }): boolean => {
   return isSuperAdmin(req.user)
