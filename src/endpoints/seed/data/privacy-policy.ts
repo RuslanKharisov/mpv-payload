@@ -7,22 +7,30 @@ import {
   createText,
   createLink,
 } from '../helpers/helpers'
+import { Media } from '@/payload-types'
 
-export const privacyPolicy: () => RequiredDataFromCollectionSlug<'pages'> = () => {
+export type PolicyArgs = {
+  heroImage: Media
+}
+
+export const privacyPolicy: (args: PolicyArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
+  heroImage,
+}) => {
   return {
-    // --- Основные поля коллекции 'pages' ---
+    // --- Основные поля ---
     slug: 'privacy-policy',
     title: 'Политика конфиденциальности',
     _status: 'published',
-    publishedAt: new Date('2025-03-01').toISOString(), // Устанавливаем дату создания из документа
+    publishedAt: new Date('2025-03-01').toISOString(),
 
-    // --- Hero ---
+    // --- ДОБАВЛЕН БЛОК HERO ---
     hero: {
-      type: 'lowImpact',
+      type: 'lowImpact', // Используем более простой тип для внутренних страниц
       links: [],
+      media: heroImage.id, // Используем переданное изображение
       richText: createRichText([
         createHeading('h1', 'Политика конфиденциальности'),
-        createParagraph('Последнее обновление: 01.03.2025'),
+        createParagraph('Ваши данные находятся под надежной защитой.'),
       ]),
     },
 
