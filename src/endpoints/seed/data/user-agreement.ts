@@ -26,7 +26,7 @@ export const userAgreement: (args: AgreementArgs) => RequiredDataFromCollectionS
 
     // --- Hero ---
     hero: {
-      type: 'lowImpact',
+      type: 'highImpact',
       links: [],
       media: heroImage.id,
       richText: createRichText([

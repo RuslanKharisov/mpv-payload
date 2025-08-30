@@ -10,7 +10,7 @@ type SeedPostsDeps = {
 }
 
 export const seedPosts = async (payload: Payload, req: PayloadRequest, deps: SeedPostsDeps) => {
-  payload.logger.info('Delete posts...')
+  console.log('Delete posts...')
   await payload.db.deleteMany({
     collection: 'posts',
     req,
@@ -28,7 +28,7 @@ export const seedPosts = async (payload: Payload, req: PayloadRequest, deps: See
     author: contentAuthor,
   })
 
-  payload.logger.info('Create posts...')
+  console.log('Create posts...')
   await payload.create({
     collection: 'posts',
     depth: 0,
@@ -36,5 +36,5 @@ export const seedPosts = async (payload: Payload, req: PayloadRequest, deps: See
     data: post1Data,
   })
 
-  payload.logger.info('✓ Posts seeded successfully.')
+  console.log('✓ Posts seeded successfully.')
 }

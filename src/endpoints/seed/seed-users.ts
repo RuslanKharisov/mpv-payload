@@ -1,7 +1,7 @@
 import type { Payload } from 'payload'
 
 export const seedUsers = async (payload: Payload) => {
-  payload.logger.info('— Seeding demo user...')
+  console.log('— Seeding demo user...')
 
   // Удаляем пользователя, если он уже существует, для чистоты
   await payload.delete({
@@ -22,7 +22,7 @@ export const seedUsers = async (payload: Payload) => {
     },
   })
 
-  payload.logger.info('✓ Demo user created successfully.')
+  console.log('✓ Demo user created successfully.')
 
   // Возвращаем созданного пользователя, чтобы использовать его в других сидерах
   return {

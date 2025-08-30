@@ -26,7 +26,7 @@ export const googleSheetsApiGuide: (args: GuideArgs) => RequiredDataFromCollecti
 
     // --- Hero ---
     hero: {
-      type: 'lowImpact',
+      type: 'highImpact',
       links: [],
       media: heroImage.id, // Можно использовать общее изображение для всех инструкций
       richText: createRichText([

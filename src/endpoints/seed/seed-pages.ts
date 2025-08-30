@@ -32,7 +32,7 @@ const pagesToSeed: PageConfig[] = [
     slug: 'home',
     cliFlag: '--home',
     dataFunction: home,
-    mediaDependencies: { heroImage: 'heroImage', metaImage: 'heroImage' },
+    mediaDependencies: { heroImage: 'homeHero', metaImage: 'homeHero' },
   },
   {
     slug: 'privacy-policy',
@@ -67,19 +67,18 @@ export const seedPages = async (
   payload: Payload,
   media: { [key: string]: Media },
   args: string[],
-  seedAll: boolean,
 ): Promise<void> => {
-  payload.logger.info('--- Заполнение статичных страниц ---')
+  console.log('--- Заполнение статичных страниц ---')
 
-  const pagesToProcess = pagesToSeed.filter((page) => seedAll || args.includes(page.cliFlag))
+  const pagesToProcess = pagesToSeed.filter((page) => args.includes(page.cliFlag))
 
   if (pagesToProcess.length === 0) {
-    payload.logger.info('Нет страниц для заполнения. Пропускаем.')
+    console.log('Нет страниц для заполнения. Пропускаем.')
     return
   }
 
   for (const page of pagesToProcess) {
-    payload.logger.info(`-> Начинаем заполнение страницы: '${page.slug}'...`)
+    console.log(`-> Начинаем заполнение страницы: '${page.slug}'...`)
 
     // 1. ЦЕЛЕВАЯ ОЧИСТКА (без изменений)
     try {
@@ -91,10 +90,10 @@ export const seedPages = async (
 
       if (existingPage.docs.length > 0) {
         await payload.delete({ collection: 'pages', id: existingPage.docs[0].id })
-        payload.logger.info(`   ✓ Старая страница '${page.slug}' удалена.`)
+        console.log(`   ✓ Старая страница '${page.slug}' удалена.`)
       }
     } catch (error) {
-      payload.logger.error(`   ! Ошибка при удалении страницы '${page.slug}': ${error}`)
+      console.log(`   ! Ошибка при удалении страницы '${page.slug}': ${error}`)
     }
 
     // 2. ПОДГОТОВКА МЕДИА (без изменений)
@@ -103,9 +102,7 @@ export const seedPages = async (
       if (media[mediaKey]) {
         requiredMedia[key] = media[mediaKey]
       } else {
-        payload.logger.warn(
-          `   ! Для страницы '${page.slug}' не найден медиафайл с ключом '${mediaKey}'`,
-        )
+        console.log(`   ! Для страницы '${page.slug}' не найден медиафайл с ключом '${mediaKey}'`)
       }
     }
 
@@ -113,13 +110,13 @@ export const seedPages = async (
     try {
       await payload.create({
         collection: 'pages',
-        data: page.dataFunction(requiredMedia), // Ошибка исчезла!
+        data: page.dataFunction(requiredMedia),
       })
-      payload.logger.info(`   ✓ Новая страница '${page.slug}' успешно создана.`)
+      console.log(`   ✓ Новая страница '${page.slug}' успешно создана.`)
     } catch (error) {
-      payload.logger.error(`   ! Ошибка при создании страницы '${page.slug}': ${error}`)
+      console.log(`   ! Ошибка при создании страницы '${page.slug}': ${error}`)
     }
   }
 
-  payload.logger.info('--- Заполнение статичных страниц завершено ---')
+  console.log('--- Заполнение статичных страниц завершено ---')
 }

@@ -11,7 +11,7 @@ const mediaFiles = [
     alt: 'Straight metallic shapes with a blue gradient',
   },
   {
-    key: 'pagehero',
+    key: 'heroImage',
     path: './images/page-hero.webp',
     alt: 'Description for post image 1',
   },
@@ -28,12 +28,13 @@ type SeedMediaResult = {
 }
 
 export const seedMedia = async (payload: Payload): Promise<SeedMediaResult> => {
-  payload.logger.info('--- Заполнение медиафайлами ---')
+  console.log('--- Заполнение медиафайлами ---')
 
   const mediaResult: SeedMediaResult = {}
 
   for (const mediaFile of mediaFiles) {
-    const filePath = path.resolve(__dirname, mediaFile.path)
+    const filePath = path.resolve(process.cwd(), 'src/endpoints/seed', mediaFile.path)
+    console.log(`>>> Проверяю путь к файлу: ${filePath}`)
     const fileName = path.basename(filePath)
 
     // 1. ПРОВЕРЯЕМ, СУЩЕСТВУЕТ ЛИ ФАЙЛ
@@ -48,12 +49,12 @@ export const seedMedia = async (payload: Payload): Promise<SeedMediaResult> => {
 
     if (existingMedia.docs.length > 0) {
       // 2. ЕСЛИ ФАЙЛ НАЙДЕН - ИСПОЛЬЗУЕМ ЕГО
-      payload.logger.info(`Медиафайл '${fileName}' уже существует. Используем его.`)
+      console.log(`Медиафайл '${fileName}' уже существует. Используем его.`)
       mediaResult[mediaFile.key] = existingMedia.docs[0] as Media
     } else {
       // 3. ЕСЛИ ФАЙЛ НЕ НАЙДЕН - СОЗДАЕМ ЕГО
       if (fs.existsSync(filePath)) {
-        payload.logger.info(`Загружаем медиафайл '${fileName}'...`)
+        console.log(`Загружаем медиафайл '${fileName}'...`)
         const createdMedia = await payload.create({
           collection: 'media',
           filePath,
@@ -63,11 +64,11 @@ export const seedMedia = async (payload: Payload): Promise<SeedMediaResult> => {
         })
         mediaResult[mediaFile.key] = createdMedia as Media
       } else {
-        payload.logger.error(`Медиафайл по пути ${filePath} не найден. Пропускаем.`)
+        console.log(`Медиафайл по пути ${filePath} не найден. Пропускаем.`)
       }
     }
   }
 
-  payload.logger.info('--- Заполнение медиафайлами завершено ---')
+  console.log('--- Заполнение медиафайлами завершено ---')
   return mediaResult
 }

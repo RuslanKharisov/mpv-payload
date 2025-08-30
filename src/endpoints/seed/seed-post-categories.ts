@@ -8,7 +8,7 @@ export const seedPostCategories = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
-  payload.logger.info('Запущен сид категорий постов...')
+  console.log('Запущен сид категорий постов...')
 
   /* Очистка существующих категорий */
   await payload.db.deleteMany({
@@ -39,8 +39,8 @@ export const seedPostCategories = async ({
   }
 
   /* Создание категорий постов */
-  payload.logger.info('Создание категорий постов...')
+  console.log('Создание категорий постов...')
   await createCategoriesRecursive(postCategoriesData)
 
-  payload.logger.info('Сид категорий постов успешно завершён!')
+  console.log('Сид категорий постов успешно завершён!')
 }

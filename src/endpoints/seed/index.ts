@@ -4,11 +4,11 @@ import { contactForm as contactFormData } from './data/contact-form'
 import { contact as contactPageData } from './data/contact-page'
 
 import { seedMedia } from './seed-media'
-import { seedHomePage } from './seed-home-page'
 import { seedPostCategories } from './seed-post-categories'
 import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
 import { seedPolicyPage } from './seed-policy-page'
+import { seedPages } from './seed-pages'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -30,14 +30,14 @@ export const seed = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
-  payload.logger.info('Запущен скрипт seed базы данных...')
+  console.log('Запущен скрипт seed базы данных...')
 
   /* --- ОЧИСТКА ДАННЫХ --- */
 
   // Этот блок очищает все указанные коллекции и глобальные настройки.
   // Полезно включать, если нужно начать с чистого листа.
   /*
-  payload.logger.info(`— Clearing collections and globals...`)
+  console.log(`— Clearing collections and globals...`)
 
 
   /* Очистка коллекций из массива collections */
@@ -63,7 +63,7 @@ export const seed = async ({
   /* --- Загрузка медиафайлов --- */
 
   const media = await seedMedia(payload)
-  // const users = await seedUsers(payload)
+  const users = await seedUsers(payload)
 
   /* --- Создание категорий --- */
   // await seedPostCategories({ payload, req })
@@ -71,9 +71,11 @@ export const seed = async ({
   /* --- Создание постов  --- */
   // await seedPosts(payload, req, { media, users })
 
+  const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
+
   /* --- Создание главной страницы --- */
-  await seedHomePage(payload, media)
+  await seedPages(payload, media, shouldSeedPages)
 
   /* --- Создание страницы политики --- */
-  await seedPolicyPage(payload, media)
+  // await seedPolicyPage(payload, media)
 }

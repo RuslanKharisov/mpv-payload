@@ -9,18 +9,18 @@ import {
   createList,
 } from '../helpers/helpers' // Убедитесь, что путь к хелперам верный
 
-// Тип аргументов остается без изменений
 export type HomeArgs = {
   heroImage: Media
   metaImage: Media
 }
 
+// Указываем тип возвращаемого значения для строгой проверки
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   metaImage,
 }) => {
   return {
-    // --- Основные поля ---
+    // --- Основные поля коллекции 'pages' ---
     slug: 'home',
     title: 'Главная',
     _status: 'published',
@@ -31,21 +31,12 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       type: 'highImpact',
       links: [],
       media: heroImage.id,
-      // Вместо огромного JSON - чистые вызовы функций
       richText: createRichText([
-        // Для заголовка с особым форматированием, создаем его узел чуть более явно
-        {
-          ...createHeading(
-            'h1',
-            'Prom-Stock: Поиск оборудования для АСУ ТП, КИП и А, ПЛК, ЧПУ и других компонентов ....',
-          ),
-          format: 'center', // Добавляем форматирование
-        },
-        {
-          ...createParagraph(''), // Создаем параграф для центрирования
-          format: 'center',
-          children: [createText('Например: 6ES7315-2AH14-0AB0', 'underline')],
-        },
+        createHeading(
+          'h1',
+          'Prom-Stock: Поиск оборудования для АСУ ТП, КИП и А, ПЛК, ЧПУ и других компонентов ....',
+        ),
+        createParagraph('Создано: 01.03.2025 | Обновлено: 01.04.2025'),
       ]),
     },
 

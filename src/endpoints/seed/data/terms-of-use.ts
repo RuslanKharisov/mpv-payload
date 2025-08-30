@@ -26,7 +26,7 @@ export const termsOfUse: (args: TermsArgs) => RequiredDataFromCollectionSlug<'pa
 
     // --- Hero ---
     hero: {
-      type: 'lowImpact',
+      type: 'highImpact',
       links: [],
       media: heroImage.id,
       richText: createRichText([

@@ -25,7 +25,7 @@ export const privacyPolicy: (args: PolicyArgs) => RequiredDataFromCollectionSlug
 
     // --- ДОБАВЛЕН БЛОК HERO ---
     hero: {
-      type: 'lowImpact', // Используем более простой тип для внутренних страниц
+      type: 'highImpact', // Используем более простой тип для внутренних страниц
       links: [],
       media: heroImage.id, // Используем переданное изображение
       richText: createRichText([

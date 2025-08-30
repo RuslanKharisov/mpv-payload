@@ -8,7 +8,7 @@ export const seedProductCategories = async ({
   payload: Payload
   req: PayloadRequest
 }): Promise<void> => {
-  payload.logger.info('Запущен сид категорий...')
+  console.log('Запущен сид категорий...')
 
   /* Очистка существующих категорий */
   await payload.db.deleteMany({
@@ -47,8 +47,8 @@ export const seedProductCategories = async ({
   }
 
   /* Создание категорий продуктов */
-  payload.logger.info('Создание категорий продуктов...')
+  console.log('Создание категорий продуктов...')
   await createCategoriesRecursive(productCategoriesData)
 
-  payload.logger.info('Сид категорий продуктов успешно завершён!')
+  console.log('Сид категорий продуктов успешно завершён!')
 }
