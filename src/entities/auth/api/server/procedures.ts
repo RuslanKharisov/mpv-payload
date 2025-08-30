@@ -1,5 +1,5 @@
 import { RegisterSchema } from '@/entities/user'
-import { baseProcedure, createTRPCRouter } from '@/trpc/init'
+import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
 import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'

@@ -5,6 +5,7 @@ import { cache } from 'react'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
+import SupplierStockWidget from '@/widgets/supplier-stocks-widget/_ui/supplier-stocks-widget'
 
 type Args = {
   params: Promise<{
@@ -17,8 +18,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   const url = '/products/' + slug
   const product = await queryProductBySlug({ slug })
 
-  console.log('product ==> ', product)
-
   if (!product) return <PayloadRedirects url={url} />
 
   const { layout } = product
@@ -29,6 +28,10 @@ export default async function Page({ params: paramsPromise }: Args) {
         <ProductTemplate product={product} />
       </div>
       {layout && <RenderBlocks blocks={layout} />}
+
+      <div className="container mb-16">
+        <SupplierStockWidget slug={slug} />
+      </div>
     </div>
   )
 }

@@ -30,6 +30,13 @@ export const Stocks: CollectionConfig = {
       },
     },
     {
+      name: 'currency',
+      type: 'relationship',
+      relationTo: 'currencies',
+      required: true,
+      label: 'Валюта',
+    },
+    {
       name: 'title_in_admin',
       label: 'Наименование',
       type: 'text',

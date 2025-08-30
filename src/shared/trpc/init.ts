@@ -11,18 +11,13 @@ export const createTRPCContext = cache(async () => {
   return { userId: 'user_123' }
 })
 
-// Избегайте экспорта всего объекта t,
-// поскольку он не очень иформативен.
-// Например, использование переменной t
-// распространено в библиотеках i18n.
-
 const t = initTRPC.create({
   /**
    * @see https://trpc.io/docs/server/data-transformers
    */
   transformer: superjson,
 })
-// Base router and procedure helpers
+
 export const createTRPCRouter = t.router
 export const createCallerFactory = t.createCallerFactory
 

@@ -85,6 +85,7 @@ export interface Config {
     'company-types': CompanyType;
     tariffs: Tariff;
     tenants: Tenant;
+    currencies: Currency;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -114,6 +115,7 @@ export interface Config {
     'company-types': CompanyTypesSelect<false> | CompanyTypesSelect<true>;
     tariffs: TariffsSelect<false> | TariffsSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
+    currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -910,7 +912,20 @@ export interface Stock {
    * Вы можете установить собственную цену на этот товар.
    */
   price?: number | null;
+  currency: number | Currency;
   title_in_admin?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "currencies".
+ */
+export interface Currency {
+  id: number;
+  code: string;
+  name: string;
+  symbol?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1230,6 +1245,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tenants';
         value: number | Tenant;
+      } | null)
+    | ({
+        relationTo: 'currencies';
+        value: number | Currency;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1681,6 +1700,7 @@ export interface StocksSelect<T extends boolean = true> {
   quantity?: T;
   product?: T;
   price?: T;
+  currency?: T;
   title_in_admin?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1773,6 +1793,17 @@ export interface TenantsSelect<T extends boolean = true> {
   slug?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "currencies_select".
+ */
+export interface CurrenciesSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  symbol?: T;
   updatedAt?: T;
   createdAt?: T;
 }

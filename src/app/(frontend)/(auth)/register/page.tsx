@@ -1,6 +1,6 @@
 import { EmailRegisterForm } from '@/features/auth'
 import { redirect } from 'next/navigation'
-import { caller } from '@/trpc/server'
+import { caller } from '@/shared/trpc/server'
 
 async function page() {
   const session = await caller.auth.session()

@@ -1,6 +1,6 @@
 import { EmailLoginForm } from '@/features/auth/_ui/email-login-form'
 import { redirect } from 'next/navigation'
-import { caller } from '@/trpc/server'
+import { caller } from '@/shared/trpc/server'
 
 async function page() {
   const session = await caller.auth.session()

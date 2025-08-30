@@ -32,6 +32,7 @@ import { CompanyTypes } from './payload/collections/CompanyTypes'
 import { Subscriptions } from './payload/collections/Subscriptions'
 import { Tariffs } from './payload/collections/Tariffs'
 import { Tenants } from './payload/collections/Tenants'
+import { Currencies } from './payload/collections/Currencies'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -102,6 +103,7 @@ export default buildConfig({
     CompanyTypes,
     Tariffs,
     Tenants,
+    Currencies,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
