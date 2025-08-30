@@ -330,6 +330,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'link',
@@ -342,6 +343,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'link',
@@ -354,6 +356,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'link',
@@ -451,6 +454,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           { type: 'text', version: 1, text: '⏱ Снижение времени простоя' },
                         ],
@@ -458,11 +462,13 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [{ type: 'text', version: 1, text: '💸 Экономия бюджета' }],
                       },
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'text',
@@ -474,11 +480,13 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [{ type: 'text', version: 1, text: '🧭 Профессиональный поиск' }],
                       },
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [{ type: 'text', version: 1, text: '🤝 Быстрые сделки' }],
                       },
                     ],
@@ -504,6 +512,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'text',
@@ -515,6 +524,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'text',
@@ -526,6 +536,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                       {
                         type: 'listitem',
                         version: 1,
+                        indent: 0, // <-- ИСПРАВЛЕНО
                         children: [
                           {
                             type: 'text',
@@ -537,7 +548,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                     ],
                   },
                   {
-                    type: 'quote',
+                    type: 'paragraph',
                     version: 1,
                     children: [
                       {

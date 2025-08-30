@@ -8,6 +8,7 @@ import { seedHomePage } from './seed-home-page'
 import { seedPostCategories } from './seed-post-categories'
 import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
+import { seedPolicyPage } from './seed-policy-page'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -62,14 +63,17 @@ export const seed = async ({
   /* --- Загрузка медиафайлов --- */
 
   const media = await seedMedia(payload)
-  const users = await seedUsers(payload)
+  // const users = await seedUsers(payload)
 
   /* --- Создание категорий --- */
-  await seedPostCategories({ payload, req })
+  // await seedPostCategories({ payload, req })
 
   /* --- Создание постов  --- */
-  await seedPosts(payload, req, { media, users })
+  // await seedPosts(payload, req, { media, users })
 
   /* --- Создание главной страницы --- */
   await seedHomePage(payload, media)
+
+  /* --- Создание страницы политики --- */
+  await seedPolicyPage(payload, media)
 }
