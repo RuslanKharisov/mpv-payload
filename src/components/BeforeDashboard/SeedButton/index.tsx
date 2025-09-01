@@ -1,9 +1,12 @@
 'use client'
 
 import React, { Fragment, useCallback, useState } from 'react'
-import { toast } from '@payloadcms/ui'
+import { Banner, toast } from '@payloadcms/ui'
 
 import './index.scss'
+import { Button } from '@/shared/ui/button'
+
+const baseClass = 'before-dashboard'
 
 const SuccessMessage: React.FC = () => (
   <div>
@@ -22,6 +25,13 @@ export const SeedButton: React.FC = () => {
   const handleClick = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
+
+      const proceed = window.confirm(
+        'Внимание! Выполнение seed базы данных изменит/добавит данные. Вы уверены?',
+      )
+      if (!proceed) {
+        return
+      }
 
       if (seeded) {
         toast.info('Database already seeded.')
@@ -79,9 +89,11 @@ export const SeedButton: React.FC = () => {
 
   return (
     <Fragment>
-      <button className="seedButton" onClick={handleClick}>
-        Seed your database
-      </button>
+      <Banner className={`${baseClass}__banner`} type="error">
+        <Button variant="outline" className="seedButton" onClick={handleClick}>
+          Выполнить SEED базы данных
+        </Button>
+      </Banner>
       {message}
     </Fragment>
   )
