@@ -34,17 +34,16 @@ import { Tariffs } from './payload/collections/Tariffs'
 import { Tenants } from './payload/collections/Tenants'
 import { Currencies } from './payload/collections/Currencies'
 
+// import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { resendAdapter } from '@payloadcms/email-resend'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
     components: {
-      // Компонент `BeforeLogin` отображает сообщение, которое вы видите при входе в панель администратора.
-      // Вы можете удалить его в любое время. Просто удалите строку ниже.
       beforeLogin: ['@/components/BeforeLogin'],
-      // Компонент `BeforeDashboard` отображает блок приветствия, который вы видите после входа в панель администратора.
-      // Вы можете удалить его в любое время. Просто удалите строку ниже.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
@@ -126,4 +125,9 @@ export default buildConfig({
     },
     tasks: [],
   },
+  email: resendAdapter({
+    defaultFromAddress: 'onboarding@resend.dev',
+    defaultFromName: 'Prom-Stock',
+    apiKey: process.env.RESEND_API || '',
+  }),
 })

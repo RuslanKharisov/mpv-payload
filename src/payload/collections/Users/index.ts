@@ -5,6 +5,8 @@ import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
 import { anyone } from '@/payload/access/anyone'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 import { isHidden } from '@/payload/access/isHidden'
+import { generateForgotPasswordEmail } from '@/payload/email/generateForgotPasswordEmail'
+import { generateVerificationEmail } from '@/payload/email/generateVerificationEmail'
 
 const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayFieldName: 'tenants',
@@ -46,7 +48,16 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
     hidden: ({ user }) => !isHidden(user),
   },
-  auth: true,
+  auth: {
+    forgotPassword: {
+      generateEmailHTML: generateForgotPasswordEmail,
+      generateEmailSubject: () => 'Reset your password',
+    },
+    verify: {
+      generateEmailHTML: generateVerificationEmail,
+      generateEmailSubject: () => 'Verify your email',
+    },
+  },
   fields: [
     {
       name: 'username',

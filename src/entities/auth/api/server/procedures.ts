@@ -42,57 +42,32 @@ export const authRouter = createTRPCRouter({
           slug: input.username,
         },
       })
+      console.log('tenant ==> ', tenant)
 
       try {
         // 2. Попытка создать пользователя
-        await ctx.payload.create({
+        console.log('create ==> ')
+        const newUser = await ctx.payload.create({
           collection: 'users',
           data: {
             email: input.email,
             password: input.password,
             username: input.username,
-            tenants: [
-              {
-                tenant: tenant.id,
-                roles: ['tenant-viewer'],
-              },
-            ],
+            tenants: [{ tenant: tenant.id, roles: ['tenant-viewer'] }],
           },
         })
+        console.log('newUser ==> ', newUser)
+        return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
       } catch (error) {
+        console.log('error ==> ', error)
         // 3. Если создание пользователя не удалось, удаляем тенант
-        await ctx.payload.delete({
-          collection: 'tenants',
-          id: tenant.id,
-        })
-
-        // 4. Пробрасываем ошибку дальше, чтобы клиент знал о проблеме
+        await ctx.payload.delete({ collection: 'tenants', id: tenant.id })
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: 'Не удалось создать пользователя. Пожалуйста, попробуйте еще раз.',
-          cause: error, // Можно передать исходную ошибку для логирования
+          cause: error,
         })
       }
-
-      const data = await ctx.payload.login({
-        collection: 'users',
-        data: {
-          email: input.email,
-          password: input.password,
-        },
-      })
-
-      if (!data.token) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Could not log in with those credentials.',
-        })
-      }
-
-      await GenerateAuthCookies({
-        prefix: ctx.payload.config.cookiePrefix,
-        value: data.token,
-      })
     }),
 
   /**  Метод входа пользователя  */
