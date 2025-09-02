@@ -18,6 +18,8 @@ export default function SupplierStockWidget({ slug }: SupplierStockWidgetProps) 
   const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
   const { data, isLoading, isError } = useQuery(stocksQueryOptions)
 
+  if (!data) return null
+
   return (
     <Card className="mt-8 rounded-2xl shadow-sm">
       <CardHeader>
@@ -42,11 +44,11 @@ export default function SupplierStockWidget({ slug }: SupplierStockWidgetProps) 
           </div>
         )}
 
-        {!isLoading && !isError && (!data || data.length === 0) && (
+        {!isLoading && !isError && (!data || data.docs.length === 0) && (
           <p className="text-sm text-muted-foreground">Нет данных о наличии</p>
         )}
 
-        {!isLoading && !isError && data && data.length > 0 && (
+        {!isLoading && !isError && data && data.docs.length > 0 && (
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -58,22 +60,30 @@ export default function SupplierStockWidget({ slug }: SupplierStockWidgetProps) 
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((s, i) => (
-                  <TableRow
-                    key={`${s.supplier.id}-${i}`}
-                    className="hover:bg-muted/30 transition-colors"
-                  >
-                    <TableCell>{s.supplier.name}</TableCell>
-                    <TableCell>{s.quantity}</TableCell>
+                {data.docs.map((stock) => (
+                  <TableRow key={`${stock.id}`} className="hover:bg-muted/30 transition-colors">
                     <TableCell>
-                      {s.price.toLocaleString('ru-RU', {
-                        style: 'currency',
-                        currency: s.currency?.code || 'RUB',
-                      })}
+                      {stock.tenant && typeof stock.tenant === 'object' && 'name' in stock.tenant
+                        ? stock.tenant.name
+                        : (stock.tenant ?? '—')}
+                    </TableCell>
+                    <TableCell>{stock.quantity}</TableCell>
+                    <TableCell>
+                      {stock.price != null
+                        ? stock.price.toLocaleString('ru-RU', {
+                            style: 'currency',
+                            currency:
+                              typeof stock.currency === 'object' &&
+                              stock.currency !== null &&
+                              'code' in stock.currency
+                                ? stock.currency.code
+                                : 'RUB',
+                          })
+                        : '—'}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {s.updatedAt
-                        ? new Date(s.updatedAt).toLocaleString('ru-RU', {
+                      {stock.updatedAt
+                        ? new Date(stock.updatedAt).toLocaleString('ru-RU', {
                             day: '2-digit',
                             month: '2-digit',
                             year: 'numeric',

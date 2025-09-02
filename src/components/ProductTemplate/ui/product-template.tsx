@@ -13,7 +13,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
     return notFound()
   }
 
-  console.log('product ==> ', product)
   return (
     <div className="flex flex-col gap-y-2 my-2">
       <div
