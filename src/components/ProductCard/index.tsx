@@ -14,8 +14,8 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div className="col-span-4 h-full xl:col-span-3">
-      <Card className="flex h-[430px] w-full max-w-xs flex-col overflow-hidden pt-0 shadow-none">
+    <div className="">
+      <Card className="flex h-[430px] w-full max-w-xs flex-col overflow-hidden pt-0 shadow-none transition-transform duration-300 hover:scale-[1.01]">
         <CardHeader className="p-0">
           <div className="relative h-[200px] overflow-hidden border-b bg-muted">
             {/* Используем поле из вашего типа Product, например `productImage` */}

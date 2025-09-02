@@ -9,9 +9,8 @@ export function ProductsBlock({ products }: ProductsBlockProps) {
   return (
     <>
       {products && products.length > 0 ? (
-        <div className="grid grid-cols-4 justify-items-center gap-x-4 gap-y-4 sm:grid-cols-8 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-8">
+        <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
-            // Теперь используем наш переиспользуемый компонент
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
