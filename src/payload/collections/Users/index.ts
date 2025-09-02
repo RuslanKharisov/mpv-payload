@@ -7,6 +7,7 @@ import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 import { isHidden } from '@/payload/access/isHidden'
 import { generateForgotPasswordEmail } from '@/payload/email/generateForgotPasswordEmail'
 import { generateVerificationEmail } from '@/payload/email/generateVerificationEmail'
+import { resendVerificationHandler } from './endpoints/resendVerification'
 
 const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayFieldName: 'tenants',
@@ -58,6 +59,7 @@ export const Users: CollectionConfig = {
       generateEmailSubject: () => 'Verify your email',
     },
   },
+  endpoints: [resendVerificationHandler],
   fields: [
     {
       name: 'username',

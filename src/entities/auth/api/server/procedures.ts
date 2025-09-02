@@ -4,6 +4,7 @@ import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { GenerateAuthCookies } from '@/utilities/generateAuthCookies'
+import z from 'zod'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -42,7 +43,6 @@ export const authRouter = createTRPCRouter({
           slug: input.username,
         },
       })
-      console.log('tenant ==> ', tenant)
 
       try {
         // 2. Попытка создать пользователя
@@ -56,7 +56,7 @@ export const authRouter = createTRPCRouter({
             tenants: [{ tenant: tenant.id, roles: ['tenant-viewer'] }],
           },
         })
-        console.log('newUser ==> ', newUser)
+
         return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
       } catch (error) {
         console.log('error ==> ', error)
@@ -94,4 +94,20 @@ export const authRouter = createTRPCRouter({
 
     return data
   }),
+
+  /** Метод для проверки почты */
+  verifyEmail: baseProcedure
+    .input(
+      z.object({
+        token: z.string(),
+        email: z.email(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const result = await ctx.payload.verifyEmail({
+        collection: 'users',
+        token: input.token,
+      })
+      return result
+    }),
 })

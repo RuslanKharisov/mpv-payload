@@ -18,7 +18,7 @@ export const generateVerificationEmail = async (
   const { token, user } = args
 
   return generateEmailHTML({
-    content: `<p>Hi${user.name ? ' ' + sanitizeUserDataForEmail(user.name) : ''}! Validate your account by clicking the button below.</p>`,
+    content: `<p>Привет${user.name ? ' ' + sanitizeUserDataForEmail(user.name) : ''}! Подтвердите свою учётную запись, нажав кнопку ниже.</p>`,
     cta: {
       buttonLabel: 'Verify',
       url: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/verify?token=${token}&email=${user.email}`,

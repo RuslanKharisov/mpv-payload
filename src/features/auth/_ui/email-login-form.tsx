@@ -7,7 +7,6 @@ import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Spinner } from '@/shared/ui/spinner'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
-import { FormEroor } from '@/shared/ui/form-error'
 import Link from 'next/link'
 
 import { useTRPC } from '@/shared/trpc/client'
@@ -45,13 +44,13 @@ export function EmailLoginForm() {
     <div className="w-full max-w-md">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Почта</FormLabel>
+                  <FormLabel className="text-xs">Почта</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="name@example.com"
@@ -72,7 +71,7 @@ export function EmailLoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel className="text-xs">Пароль</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="******"
@@ -83,9 +82,11 @@ export function EmailLoginForm() {
                       {...field}
                     />
                   </FormControl>
-                  <Button size="sm" variant="link" asChild className="px-0 font-normal">
-                    <Link href="/auth/reset">Забыли пароль?</Link>
-                  </Button>
+
+                  <Link href="/admin/forgot" className=" text-xs underline">
+                    Забыли пароль?
+                  </Link>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -93,7 +94,7 @@ export function EmailLoginForm() {
 
             {/* <FormEroor message={errorMsg ? 'Не верные данные' : ''} /> */}
             {/* <FormSuccess message={success} /> */}
-            <Button type="submit" disabled={isPending}>
+            <Button variant="secondary" type="submit" disabled={isPending}>
               {isPending && <Spinner className="mr-2 h-4 w-full " aria-label="Загрузка выхода" />}
               Продолжить
             </Button>

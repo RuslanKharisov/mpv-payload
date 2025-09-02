@@ -11,6 +11,7 @@ import { FormEroor } from '@/shared/ui/form-error'
 import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export function EmailRegisterForm() {
   const router = useRouter()
@@ -50,13 +51,13 @@ export function EmailRegisterForm() {
     <div className="w-full max-w-md">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             <FormField
               control={form.control}
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Имя</FormLabel>
+                  <FormLabel className="text-xs">Имя</FormLabel>
                   <FormControl>
                     <Input placeholder="Ваше Имя" disabled={isPending} {...field} />
                   </FormControl>
@@ -69,7 +70,7 @@ export function EmailRegisterForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Почта</FormLabel>
+                  <FormLabel className="text-xs">Почта</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="name@example.com"
@@ -88,7 +89,7 @@ export function EmailRegisterForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel className="text-xs">Пароль</FormLabel>
                   <FormControl>
                     <Input placeholder="******" type="password" disabled={isPending} {...field} />
                   </FormControl>
@@ -99,7 +100,12 @@ export function EmailRegisterForm() {
             {/* {data?.error && <FormEroor message={data?.error} />} */}
             {isError && <FormEroor message={error.message} />}
             {/* {data?.success && <FormSuccess message={data?.success} />} */}
-            <Button type="submit" disabled={isPending}>
+            {/* <Button size="sm" variant="link" asChild className="px-0 font-normal"> */}
+            <Link href="/admin/forgot" className=" text-xs underline">
+              Забыли пароль?
+            </Link>
+            {/* </Button> */}
+            <Button variant="secondary" type="submit" disabled={isPending}>
               {isPending && <Spinner className="mr-2 h-4 w-full " aria-label="Загрузка выхода" />}
               Продолжить
             </Button>
