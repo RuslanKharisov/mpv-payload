@@ -3,7 +3,7 @@ import React from 'react'
 
 import { SeedButton } from './SeedButton'
 import './index.scss'
-import { getMeUser } from '@/utilities/getMeUser'
+import { getMeUser } from '@/shared/utilities/getMeUser'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 
 const baseClass = 'before-dashboard'

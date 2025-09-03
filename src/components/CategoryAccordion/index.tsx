@@ -81,12 +81,14 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
             ) : (
               /* 4. Если дочерних категорий нет, показываем простой блок */
               <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-secondary p-4">
-                <Link
-                  href={`/product-categories/${parent.slug}`}
-                  className="w-full text-base font-semibold leading-[22px]"
-                >
-                  {parent.title}
-                </Link>
+                {parent.slug && (
+                  <Link
+                    href={`/product-categories/${encodeURIComponent(parent.slug)}`}
+                    className="w-full text-base font-semibold leading-[22px]"
+                  >
+                    {parent.title}
+                  </Link>
+                )}
               </div>
             )}
           </div>

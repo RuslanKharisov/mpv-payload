@@ -1,4 +1,4 @@
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 
 export type TypographyVariant =
   | 'visuelt-bold-48'

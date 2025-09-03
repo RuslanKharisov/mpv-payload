@@ -1,4 +1,4 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getCachedGlobal } from '@/shared/utilities/getGlobals'
 import React from 'react'
 
 import type { Footer } from '@/payload-types'

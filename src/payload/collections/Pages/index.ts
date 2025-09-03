@@ -21,7 +21,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { anyone } from '@/payload/access/anyone'
 import { isHidden } from '@/payload/access/isHidden'
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',

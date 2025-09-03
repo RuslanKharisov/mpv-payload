@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 import * as React from 'react'
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {

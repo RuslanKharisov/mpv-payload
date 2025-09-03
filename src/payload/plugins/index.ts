@@ -14,7 +14,7 @@ import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Config, Page, Post } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/getURL'
+import { getServerSideURL } from '@/shared/utilities/getURL'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {

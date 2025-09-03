@@ -3,7 +3,7 @@ import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
 import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
-import { GenerateAuthCookies } from '@/utilities/generateAuthCookies'
+import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
 import z from 'zod'
 
 export const authRouter = createTRPCRouter({

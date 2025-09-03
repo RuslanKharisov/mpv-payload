@@ -19,7 +19,7 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './payload/plugins'
 import { defaultLexical } from '@/payload/fields/defaultLexical'
-import { getServerSideURL } from './utilities/getURL'
+import { getServerSideURL } from '@/shared/utilities/getURL'
 
 import { Manufacturers } from './payload/collections/Manufacturers'
 import { ProductCategories } from './payload/collections/ProductCategories'

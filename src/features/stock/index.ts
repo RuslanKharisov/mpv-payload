@@ -1,5 +1,5 @@
 // import type { Currency, Stock, Tenant } from '@/payload-types'
-// import { WithPopulatedRelation } from '@/utilities/payload-types-extender'
+// import { WithPopulatedRelation } from '@/shared/utilities/payload-types-extender'
 
 // type StockWithTenantAndCurrency = WithPopulatedRelation<
 //   WithPopulatedRelation<Stock, 'tenant', Tenant>,

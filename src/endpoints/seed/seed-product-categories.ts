@@ -17,12 +17,6 @@ export const seedProductCategories = async ({
     where: {},
   })
 
-  await payload.db.deleteMany({
-    collection: 'manufacturers',
-    req,
-    where: {},
-  })
-
   /* Рекурсивная функция для создания категорий и их дочерних элементов */
   const createCategoriesRecursive = async (
     categories: ProductCategoryData[],

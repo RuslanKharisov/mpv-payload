@@ -20,7 +20,7 @@ import type {
 } from '@/payload-types'
 import { BannerBlock } from '@/payload/blocks/Banner/Component'
 import { CallToActionBlock } from '@/payload/blocks/CallToAction/Component'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 
 type NodeTypes =
   | DefaultNodeTypes

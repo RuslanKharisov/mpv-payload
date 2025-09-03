@@ -9,6 +9,7 @@ import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
 import { seedPolicyPage } from './seed-policy-page'
 import { seedPages } from './seed-pages'
+import { seedProducts } from './seed-products'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -54,16 +55,16 @@ export const seed = async ({
   // })
 
   /* Очистка версий документов */
-  await Promise.all(
-    collections
-      .filter((collection) => Boolean(payload.collections[collection].config.versions))
-      .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
-  )
+  // await Promise.all(
+  //   collections
+  //     .filter((collection) => Boolean(payload.collections[collection].config.versions))
+  //     .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
+  // )
 
   /* --- Загрузка медиафайлов --- */
 
-  const media = await seedMedia(payload)
-  const users = await seedUsers(payload)
+  // const media = await seedMedia(payload)
+  // const users = await seedUsers(payload)
 
   /* --- Создание категорий --- */
   // await seedPostCategories({ payload, req })
@@ -74,7 +75,9 @@ export const seed = async ({
   const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
 
   /* --- Создание главной страницы --- */
-  await seedPages(payload, media, shouldSeedPages)
+  // await seedPages(payload, media, shouldSeedPages)
+
+  // await seedProducts(payload)
 
   /* --- Создание страницы политики --- */
   // await seedPolicyPage(payload, media)

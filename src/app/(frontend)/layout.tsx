@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 import { Inter } from 'next/font/google'
 import React from 'react'
 
@@ -9,12 +9,12 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
-import YandexMetrikaContainer from '@/utilities/YandexMetrika'
+import { getServerSideURL } from '@/shared/utilities/getURL'
+import YandexMetrikaContainer from '@/shared/utilities/YandexMetrika'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],

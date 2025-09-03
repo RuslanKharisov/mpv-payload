@@ -27,7 +27,7 @@ import {
 import { slugField } from '@/payload/fields/slug'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { isHidden } from '@/payload/access/isHidden'
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',

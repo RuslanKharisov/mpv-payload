@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 import React from 'react'
 
 import { Card, CardPostData } from '@/components/Card'
