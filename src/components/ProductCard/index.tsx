@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardContent>
         <CardFooter className="mt-2 flex grow-0 flex-col justify-between gap-2">
           <Link href={`/products/${product.slug}`} className="w-full">
-            <Button className="w-full" variant="outline" size="lg">
+            <Button className="w-full" variant="default" size="lg">
               <span>Подробнее</span>
             </Button>
           </Link>

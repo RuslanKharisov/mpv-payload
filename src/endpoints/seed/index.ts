@@ -7,7 +7,6 @@ import { seedMedia } from './seed-media'
 import { seedPostCategories } from './seed-post-categories'
 import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
-import { seedPolicyPage } from './seed-policy-page'
 import { seedPages } from './seed-pages'
 import { seedProducts } from './seed-products'
 
@@ -78,7 +77,4 @@ export const seed = async ({
   // await seedPages(payload, media, shouldSeedPages)
 
   // await seedProducts(payload)
-
-  /* --- Создание страницы политики --- */
-  // await seedPolicyPage(payload, media)
 }
