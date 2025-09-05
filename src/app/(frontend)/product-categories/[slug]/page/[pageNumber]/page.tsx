@@ -6,12 +6,13 @@ import { Product } from '@/payload-types'
 import { ProductsBlock } from '@/components/ProductsBlock'
 
 type Args = {
-  params: Promise<{ slug?: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ slug?: string; pageNumber: string }>
 }
 
-export default async function Page({ params: paramsPromoce }: Args) {
-  const { slug = '' } = await paramsPromoce
+export default async function Page({ params: paramsPromice }: Args) {
+  const { slug = '', pageNumber } = await paramsPromice
+  const sanitizedPageNumber = Number(pageNumber)
+  console.log('sanitizedPageNumber ==> ', sanitizedPageNumber)
 
   const payload = await getPayload({ config: configPromise })
 
@@ -31,12 +32,13 @@ export default async function Page({ params: paramsPromoce }: Args) {
   const productsData = await payload.find({
     collection: 'products',
     limit: 8,
-    depth: 2, // Добавим depth для загрузки изображений
+    depth: 2,
     where: {
       'productCategory.id': {
         equals: category.id,
       },
     },
+    page: sanitizedPageNumber,
   })
 
   return (
