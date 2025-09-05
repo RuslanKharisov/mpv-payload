@@ -12,7 +12,7 @@ type SupplierStockWidgetProps = {
   slug: string
 }
 
-export default function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
+function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
   const trpc = useTRPC()
 
   const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
@@ -102,3 +102,5 @@ export default function SupplierStockWidget({ slug }: SupplierStockWidgetProps) 
     </Card>
   )
 }
+
+export { SupplierStockWidget }
