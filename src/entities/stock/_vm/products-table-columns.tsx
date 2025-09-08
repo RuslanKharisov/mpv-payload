@@ -1,5 +1,6 @@
 'use client'
 
+import { useCart } from '@/features/cart/CartProvider'
 import { StockWithTenantAndCurrency } from '@/features/stock'
 import { Button } from '@/shared/ui/button'
 
@@ -29,14 +30,15 @@ export const ProductsTableColumns: ColumnDef<StockWithTenantAndCurrency>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const stock = row.original
+      const { addToCart } = useCart()
       return (
         <Button
           className="w-full text-xs"
           variant="outline"
           size="sm"
-          onClick={() => console.log(stock.tenant.name)}
+          onClick={() => addToCart(stock, 1)}
         >
-          Запросить
+          В корзину
         </Button>
       )
     },
