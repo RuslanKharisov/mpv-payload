@@ -4,7 +4,7 @@ import { useEffect, useTransition, useState, JSX } from 'react'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Spinner } from '@/shared/ui/spinner'
-import { ProductsTableColumns } from '@/entities/remote-stock/_vm/_products-table-columns'
+import { ProductsTableColumns } from '@/entities/remote-stock/_vm/products-table-columns'
 
 function GoogleStock({ dataArray, count }: { dataArray: any[]; count: number }): JSX.Element {
   const { pagination, setPagination } = usePagination()

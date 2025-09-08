@@ -7,6 +7,9 @@ import { AlertCircle, Store } from 'lucide-react'
 import { useTRPC } from '@/shared/trpc/client'
 import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '@/shared/ui/skeleton'
+import { DataTable, usePagination } from '@/widgets/smart-data-table'
+import { ProductsTableColumns } from '@/entities/stock/_vm/products-table-columns'
+import { StockWithTenantAndCurrency } from '@/features/stock'
 
 type SupplierStockWidgetProps = {
   slug: string
@@ -15,10 +18,14 @@ type SupplierStockWidgetProps = {
 function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
   const trpc = useTRPC()
 
+  const { pagination, setPagination } = usePagination()
+
   const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
   const { data, isLoading, isError } = useQuery(stocksQueryOptions)
 
   if (!data) return null
+
+  console.log('data ==> ', data)
 
   return (
     <Card className="mt-8 rounded-2xl shadow-sm">
@@ -50,52 +57,15 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
 
         {!isLoading && !isError && data && data.docs.length > 0 && (
           <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/40">
-                  <TableHead className="w-[40%]">Компания</TableHead>
-                  <TableHead className="w-[20%]">Кол-во</TableHead>
-                  <TableHead className="w-[20%]">Цена</TableHead>
-                  <TableHead className="w-[20%]">Обновлено</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.docs.map((stock) => (
-                  <TableRow key={`${stock.id}`} className="hover:bg-muted/30 transition-colors">
-                    <TableCell>
-                      {stock.tenant && typeof stock.tenant === 'object' && 'name' in stock.tenant
-                        ? stock.tenant.name
-                        : (stock.tenant ?? '—')}
-                    </TableCell>
-                    <TableCell>{stock.quantity}</TableCell>
-                    <TableCell>
-                      {stock.price != null
-                        ? stock.price.toLocaleString('ru-RU', {
-                            style: 'currency',
-                            currency:
-                              typeof stock.currency === 'object' &&
-                              stock.currency !== null &&
-                              'code' in stock.currency
-                                ? stock.currency.code
-                                : 'RUB',
-                          })
-                        : '—'}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {stock.updatedAt
-                        ? new Date(stock.updatedAt).toLocaleString('ru-RU', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })
-                        : '—'}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable<StockWithTenantAndCurrency, unknown>
+              columns={ProductsTableColumns}
+              data={data.docs as StockWithTenantAndCurrency[]}
+              onPaginationChange={setPagination}
+              pagination={pagination}
+              rowCount={data.docs.length}
+              manualPagination={true}
+              handleDelete={() => {}}
+            />
           </div>
         )}
       </CardContent>
