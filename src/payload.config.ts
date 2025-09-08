@@ -36,7 +36,6 @@ import { Currencies } from './payload/collections/Currencies'
 
 // import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { resendAdapter } from '@payloadcms/email-resend'
-import { SupplierApis } from './payload/collections/SupplierApis'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)

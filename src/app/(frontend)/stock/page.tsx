@@ -27,7 +27,6 @@ export default async function page({
 
   const supplierWithApi = suppliersList.docs.filter((supplier) => supplier.apiUrl != null)
 
-  console.log('params ==> ', params)
   return (
     <div className="py-8">
       <div className="container flex flex-col gap-12">

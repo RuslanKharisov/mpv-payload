@@ -586,6 +586,8 @@ export interface User {
  */
 export interface Tenant {
   id: number;
+  slug?: string | null;
+  slugLock?: boolean | null;
   /**
    * Название компании или организации (например, OnStock)
    */
@@ -594,10 +596,6 @@ export interface Tenant {
    * Используется для определения домена, к которому относится этот тенант. Например: onstock.ru
    */
   domain?: string | null;
-  /**
-   * Идентификатор для использования в URL. Например: [slug].onstock
-   */
-  slug: string;
   /**
    * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
    */
@@ -615,6 +613,15 @@ export interface Tenant {
    */
   apiToken?: string | null;
   apiType?: ('google' | 'erp' | 'custom') | null;
+  layout?: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1801,14 +1808,31 @@ export interface TariffsSelect<T extends boolean = true> {
  * via the `definition` "tenants_select".
  */
 export interface TenantsSelect<T extends boolean = true> {
+  slug?: T;
+  slugLock?: T;
   name?: T;
   domain?: T;
-  slug?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
   apiUrl?: T;
   apiToken?: T;
   apiType?: T;
+  layout?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

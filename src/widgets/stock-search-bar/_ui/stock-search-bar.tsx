@@ -21,7 +21,6 @@ export function StockSearchBar() {
 
   const applyFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
-    console.log('params ==> ', params)
 
     if (filters.sku) params.set('sku', filters.sku)
     else params.delete('sku')

@@ -1,5 +1,20 @@
+import { anyone } from '@/payload/access/anyone'
 import { authenticated } from '@/payload/access/authenticated'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
+import { Archive } from '@/payload/blocks/ArchiveBlock/config'
+import { CallToAction } from '@/payload/blocks/CallToAction/config'
+import { Content } from '@/payload/blocks/Content/config'
+import { FormBlock } from '@/payload/blocks/Form/config'
+import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
+import { slugField } from '@/payload/fields/slug'
+import { hero } from '@/payload/heros/config'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 import { CollectionConfig } from 'payload'
 
 export const Tenants: CollectionConfig = {
@@ -7,7 +22,7 @@ export const Tenants: CollectionConfig = {
   access: {
     create: isSuperAdminAccess,
     delete: authenticated,
-    read: authenticated,
+    read: anyone,
     update: authenticated,
   },
   admin: {
@@ -19,6 +34,7 @@ export const Tenants: CollectionConfig = {
     plural: 'Профиль_Компании',
   },
   fields: [
+    ...slugField('name'),
     {
       type: 'tabs',
       tabs: [
@@ -42,16 +58,16 @@ export const Tenants: CollectionConfig = {
                   'Используется для определения домена, к которому относится этот тенант. Например: onstock.ru',
               },
             },
-            {
-              name: 'slug',
-              type: 'text',
-              index: true,
-              required: true,
-              unique: true,
-              admin: {
-                description: 'Идентификатор для использования в URL. Например: [slug].onstock',
-              },
-            },
+            // {
+            //   name: 'slug',
+            //   type: 'text',
+            //   index: true,
+            //   required: true,
+            //   unique: true,
+            //   admin: {
+            //     description: 'Идентификатор для использования в URL. Например: [slug].onstock',
+            //   },
+            // },
             {
               name: 'allowPublicRead',
               type: 'checkbox',
@@ -102,6 +118,40 @@ export const Tenants: CollectionConfig = {
                 { label: 'Google Sheets', value: 'google' },
                 { label: 'ERP', value: 'erp' },
                 { label: 'Custom', value: 'custom' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Страница компании',
+          fields: [
+            // hero,
+            {
+              name: 'layout',
+              type: 'blocks',
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              admin: {
+                initCollapsed: true,
+              },
+            },
+            {
+              name: 'meta',
+              label: 'SEO',
+              type: 'group',
+              fields: [
+                OverviewField({
+                  titlePath: 'meta.title',
+                  descriptionPath: 'meta.description',
+                  imagePath: 'meta.image',
+                }),
+                MetaTitleField({ hasGenerateFn: true }),
+                MetaImageField({ relationTo: 'media' }),
+                MetaDescriptionField({}),
+                PreviewField({
+                  hasGenerateFn: true,
+                  titlePath: 'meta.title',
+                  descriptionPath: 'meta.description',
+                }),
               ],
             },
           ],
