@@ -15,7 +15,7 @@ export default async function page() {
 
   return (
     <div className="py-24">
-      <div className="container mb-16">
+      <div className="container">
         <StocksResults
           suppliersList={supplierWithApi}
           searchParams={{

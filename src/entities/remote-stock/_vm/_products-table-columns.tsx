@@ -93,9 +93,9 @@ export const ProductsTableColumns: ColumnDef<RemoteStock>[] = [
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="w-full"
-                  variant="link"
-                  size="icon"
+                  className="w-full text-xs"
+                  variant="default"
+                  size="sm"
                   onClick={() => console.log(stock.sku)}
                 >
                   Запросить

@@ -78,10 +78,10 @@ export function StocksResults({
   console.log('validResults ==> ', validResults)
 
   return (
-    <>
+    <div className="flex flex-col gap-10 ">
       {validResults.map(({ supplier, data }) => (
-        <div key={supplier.id} className="">
-          <Card className="w-full gap-3 rounded-md">
+        <div key={supplier.id} className="supplier_stock bg-card-foreground/5 px-3 py-5">
+          <Card className=" gap-3 rounded-md">
             <CardHeader>
               <CardTitle className="uppercase">Контрагент: "{supplier.name}"</CardTitle>
             </CardHeader>
@@ -95,6 +95,6 @@ export function StocksResults({
           <GoogleStock dataArray={data?.data ?? []} count={data?.meta?.total ?? 0} />
         </div>
       ))}
-    </>
+    </div>
   )
 }
