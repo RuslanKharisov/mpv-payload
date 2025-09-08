@@ -97,7 +97,7 @@
   h2,
   h3,
   h4 {
-    @apply !tracking-tight;
+    @apply !tracking-tight text-2xl lg:text-3xl font-extrabold;
   }
 
   p,

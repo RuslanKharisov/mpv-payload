@@ -1,39 +1,25 @@
-'use client'
-
-import { useTRPC } from '@/shared/trpc/client'
 import { GoogleStock } from './google-stock'
 import { Tenant } from '@/payload-types'
-import { useQueries } from '@tanstack/react-query'
 import Link from 'next/link'
-import { Spinner } from '@/shared/ui/spinner'
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card'
+import { Card, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Button } from '@/shared/ui/button'
-import { Label } from '@/shared/ui/label'
+import { caller as serverClient } from '@/shared/trpc/server'
+import { StockResponse, SupplierStock } from '@/entities/remote-stock/_domain/tstock-response'
 
 export type SearchParams = {
-  sku: string
-  description: string
+  sku?: string
+  description?: string
   page?: string
   perPage?: string
 }
 
-export function StocksResults({
+export async function StocksResults({
   searchParams,
   suppliersList,
 }: {
   suppliersList: Tenant[]
   searchParams: SearchParams
 }) {
-  const trpc = useTRPC()
-
   const filters = {
     sku: searchParams.sku?.trim() || '',
     description: searchParams.description?.trim() || '',
@@ -44,42 +30,45 @@ export function StocksResults({
     perPage: searchParams.perPage || '5',
   }
 
-  // формируем массив запросов
-  const results = useQueries({
-    queries: suppliersList.map((supplier) => {
+  // параллельные запросы через серверный trpc
+  const results = await Promise.allSettled(
+    suppliersList.map(async (supplier) => {
       const searchQuery = JSON.stringify(filters)
       const url = `${supplier.apiUrl}/exec?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
-      return trpc.remoteStocks.getByUrl.queryOptions({ url })
+
+      try {
+        const response: StockResponse = await serverClient.remoteStocks.getByUrl({ url })
+
+        if (!response?.data?.length) {
+          return null
+        }
+
+        return {
+          supplier,
+          data: response.data,
+          meta: response.meta,
+        }
+      } catch (err) {
+        console.error(`💥 ${supplier.name}: ошибка запроса`, err)
+        return null
+      }
     }),
-  })
-
-  // обработка состояния
-  const isLoading = results.some((r) => r.isLoading)
-  const isError = results.some((r) => r.isError)
-
-  if (isLoading)
-    return (
-      <div className="text-center">
-        <Spinner />
-      </div>
-    )
-  if (isError) return <div className="text-center text-destructive">Ошибка загрузки</div>
+  )
 
   const validResults = results
-    .map((r, i) => ({
-      supplier: suppliersList[i],
-      data: r.data,
-    }))
-    .filter((r) => r.data)
+    .filter(
+      (r): r is PromiseFulfilledResult<SupplierStock> =>
+        r.status === 'fulfilled' && r.value !== null,
+    )
+    .map((r) => r.value)
 
   if (validResults.length === 0) {
     return <div className="text-center text-muted">Ничего не найдено</div>
   }
-  console.log('validResults ==> ', validResults)
 
   return (
     <div className="flex flex-col gap-10 ">
-      {validResults.map(({ supplier, data }) => (
+      {validResults.map(({ supplier, data, meta }) => (
         <div key={supplier.id} className="supplier_stock bg-card-foreground/5 px-3 py-5">
           <Card className=" gap-3 rounded-md">
             <CardHeader>
@@ -92,7 +81,7 @@ export function StocksResults({
               </Button>
             </CardFooter>
           </Card>
-          <GoogleStock dataArray={data?.data ?? []} count={data?.meta?.total ?? 0} />
+          <GoogleStock dataArray={data ?? []} count={meta.total ?? 0} />
         </div>
       ))}
     </div>

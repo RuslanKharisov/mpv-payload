@@ -4,7 +4,7 @@ import { Button } from '@/shared/ui/button'
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip'
 import { ColumnDef } from '@tanstack/react-table'
-import { RemoteStock } from '../_domain/remoteStock'
+import { RemoteStock } from '../_domain/remote-stock'
 
 export const ProductsTableColumns: ColumnDef<RemoteStock>[] = [
   {

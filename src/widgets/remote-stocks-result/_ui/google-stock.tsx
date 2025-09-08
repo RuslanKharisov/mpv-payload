@@ -7,7 +7,7 @@ import { Spinner } from '@/shared/ui/spinner'
 import { ProductsTableColumns } from '@/entities/remote-stock/_vm/_products-table-columns'
 
 function GoogleStock({ dataArray, count }: { dataArray: any[]; count: number }): JSX.Element {
-  const { onPaginationChange, pagination } = usePagination()
+  const { pagination, setPagination } = usePagination()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -43,7 +43,7 @@ function GoogleStock({ dataArray, count }: { dataArray: any[]; count: number }):
       <DataTable
         columns={ProductsTableColumns}
         data={dataArray}
-        onPaginationChange={onPaginationChange}
+        onPaginationChange={setPagination}
         pagination={pagination}
         rowCount={count}
         manualPagination={true}
