@@ -1,11 +1,11 @@
 import type { GlobalConfig } from 'payload'
 
 import { link } from '@/payload/fields/link'
-import { revalidateHeader } from './hooks/revalidateHeader'
+import { revalidateFooter } from './hooks/revalidateFooter'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 
-export const Header: GlobalConfig = {
-  slug: 'header',
+export const Footer: GlobalConfig = {
+  slug: 'footer',
   access: {
     read: () => true,
   },
@@ -25,12 +25,12 @@ export const Header: GlobalConfig = {
       admin: {
         initCollapsed: true,
         components: {
-          RowLabel: '@/Header/RowLabel#RowLabel',
+          RowLabel: '@/widgets/footer/RowLabel#RowLabel',
         },
       },
     },
   ],
   hooks: {
-    afterChange: [revalidateHeader],
+    afterChange: [revalidateFooter],
   },
 }

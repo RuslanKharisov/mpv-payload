@@ -606,6 +606,15 @@ export interface Tenant {
    * Вы не можете создавать продукты, пока не получено подтверждение данных аккаунта.
    */
   accountDetailsSubmitted?: boolean | null;
+  /**
+   * Адрес API поставщика (например: https://sheets.googleapis.com/...)
+   */
+  apiUrl?: string | null;
+  /**
+   * Токен авторизации для обращения к API
+   */
+  apiToken?: string | null;
+  apiType?: ('google' | 'erp' | 'custom') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1797,6 +1806,9 @@ export interface TenantsSelect<T extends boolean = true> {
   slug?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
+  apiUrl?: T;
+  apiToken?: T;
+  apiType?: T;
   updatedAt?: T;
   createdAt?: T;
 }

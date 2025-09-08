@@ -5,7 +5,7 @@ import { cache } from 'react'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
-import { SupplierStockWidget } from '@/widgets/supplier-stocks-widget'
+import { SupplierStockWidget } from '@/widgets/supplier-stocks'
 
 type Args = {
   params: Promise<{

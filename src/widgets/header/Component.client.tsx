@@ -1,5 +1,5 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
+import { useHeaderTheme } from '@/shared/providers/HeaderTheme'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 

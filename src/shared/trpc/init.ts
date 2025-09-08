@@ -28,3 +28,7 @@ export const baseProcedure = t.procedure.use(async ({ next }) => {
     ctx: { payload },
   })
 })
+
+export const ApiExternalProcedure = t.procedure.use(async ({ next }) => {
+  return next()
+})

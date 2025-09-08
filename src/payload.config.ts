@@ -15,8 +15,8 @@ import { Users } from './payload/collections/Users'
 import { Companies } from './payload/collections/Companies'
 import { Products } from './payload/collections/Products'
 
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
+import { Footer } from './widgets/footer/config'
+import { Header } from './widgets/header/config'
 import { plugins } from './payload/plugins'
 import { defaultLexical } from '@/payload/fields/defaultLexical'
 import { getServerSideURL } from '@/shared/utilities/getURL'
@@ -36,6 +36,7 @@ import { Currencies } from './payload/collections/Currencies'
 
 // import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { SupplierApis } from './payload/collections/SupplierApis'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
