@@ -63,7 +63,7 @@ export async function StocksResults({
     .map((r) => r.value)
 
   if (validResults.length === 0) {
-    return <div className="text-center text-muted">Ничего не найдено</div>
+    return <div className="text-center text-primary/50">По вашему запросу ничего не найдено</div>
   }
 
   return (
