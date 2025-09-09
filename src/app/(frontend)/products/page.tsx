@@ -14,7 +14,7 @@ export default async function Page() {
   })
 
   return (
-    <div className="py-24">
+    <div className="py-8 lg:py-24">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Продукты</h1>

@@ -28,7 +28,7 @@ export default async function page({
   const supplierWithApi = suppliersList.docs.filter((supplier) => supplier.apiUrl != null)
 
   return (
-    <div className="py-8">
+    <div className="py-8 lg:py-24">
       <div className="container flex flex-col gap-12">
         <h1 className="text-center">Поиск оборудования на складах</h1>
         <StockSearchBar />

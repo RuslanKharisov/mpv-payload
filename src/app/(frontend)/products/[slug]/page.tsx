@@ -23,7 +23,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { layout } = product
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="py-8 lg:py-24">
       <div className="container mb-16">
         <ProductTemplate product={product} />
       </div>
@@ -37,7 +37,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
-  console.log('slug ==> ', slug)
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })

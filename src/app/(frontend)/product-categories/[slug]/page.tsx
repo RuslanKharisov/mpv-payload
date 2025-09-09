@@ -40,7 +40,7 @@ export default async function Page({ params: paramsPromoce }: Args) {
   })
 
   return (
-    <div className="py-24">
+    <div className="py-8 lg:py-24">
       <div className="container">
         <div className="prose dark:prose-invert max-w-none mb-12">
           <h1>{category.title}</h1>

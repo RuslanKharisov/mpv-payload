@@ -86,7 +86,6 @@ export const ProductsTableColumns = (supplier: Tenant): ColumnDef<RemoteStock>[]
     enableHiding: false,
     cell: ({ row }) => {
       const stock = row.original
-      console.log('stock ==> ', stock)
       return <AddToCartCell stock={stock} supplier={supplier} />
     },
   },

@@ -60,7 +60,7 @@ export function CartWidget() {
       .toFixed(2)
 
   return (
-    <div className="relative mt-[30px] flex p-6 md:mt-[90px]">
+    <div className="relative py-8">
       <div className="container mx-auto">
         <CartHeader onClear={clearCart} />
 

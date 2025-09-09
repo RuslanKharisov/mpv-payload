@@ -12,7 +12,7 @@ export function CartHeader({ onClear }: CartHeaderProps) {
       <Button
         variant="ghost"
         onClick={onClear}
-        className="text-muted-foreground hover:text-destructive"
+        className="text-muted-foreground hover:text-destructive justify-start lg:justify-center"
       >
         <Trash2 className="mr-2 h-5 w-5" />
         Очистить

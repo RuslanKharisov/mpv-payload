@@ -36,7 +36,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   console.log('categories ==> ', categories)
   return (
-    <div className="pt-24 pb-24">
+    <div className="py-8 lg:py-24">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Просмотр деталей промышленной автоматики по категориям</h1>

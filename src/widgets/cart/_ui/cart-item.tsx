@@ -15,7 +15,6 @@ interface CartItemProps {
 
 export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: CartItemProps) {
   const { item, quantity } = entry
-  console.log('item ==> ', item)
 
   return (
     <div>
@@ -72,9 +71,6 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
-              <span className="mt-2 block text-xs text-muted-foreground">
-                Max {item.availableQuantity} parts available
-              </span>
             </div>
 
             <p className="w-full mt-4 md:mt-0 text-base font-semibold text-foreground sm:ml-4">

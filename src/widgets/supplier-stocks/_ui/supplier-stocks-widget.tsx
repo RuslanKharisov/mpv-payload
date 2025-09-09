@@ -25,8 +25,6 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
 
   if (!data) return null
 
-  console.log('data ==> ', data)
-
   return (
     <Card className="mt-8 rounded-2xl shadow-sm">
       <CardHeader>

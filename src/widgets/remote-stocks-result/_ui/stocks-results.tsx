@@ -54,7 +54,6 @@ export async function StocksResults({
       }
     }),
   )
-  console.log('results ==> ', results)
 
   const validResults = results
     .filter(
