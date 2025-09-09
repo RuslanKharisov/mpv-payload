@@ -5,13 +5,12 @@ import {
   useContext,
   useState,
   ReactNode,
-  useEffect, // Добавляем useEffect
-  useCallback, // Добавляем для мемоизации функций
-  useMemo, // Добавляем для мемоизации значения контекста
+  useEffect,
+  useCallback,
+  useMemo,
 } from 'react'
 import { StockWithTenantAndCurrency } from '@/features/stock'
 
-// Типы остаются без изменений
 export type CartItem = {
   stock: StockWithTenantAndCurrency
   quantity: number
@@ -31,7 +30,6 @@ const cartLocalStorageKey = 'shopping-cart' // Ключ для localStorage
 export function CartProvider({ children }: { children: ReactNode }) {
   // 1. Инициализируем состояние из localStorage
   const [items, setItems] = useState<CartItem[]>(() => {
-    // Эта функция-инициализатор выполнится только один раз при первом рендере
     try {
       const storedItems = window.localStorage.getItem(cartLocalStorageKey)
       return storedItems ? JSON.parse(storedItems) : []
@@ -43,7 +41,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // 2. Сохраняем изменения в localStorage с помощью useEffect
   useEffect(() => {
-    // Этот эффект будет срабатывать каждый раз, когда массив `items` меняется
     window.localStorage.setItem(cartLocalStorageKey, JSON.stringify(items))
   }, [items])
 
@@ -74,9 +71,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([])
   }, [])
 
-  // Используем useMemo, чтобы объект value не создавался заново,
-  // если сами items или функции не изменились. Это предотвращает лишние рендеры
-  // дочерних компонентов.
   const contextValue = useMemo(
     () => ({ items, addToCart, removeFromCart, clearCart, updateQuantity }),
     [items, addToCart, removeFromCart, clearCart, updateQuantity],
