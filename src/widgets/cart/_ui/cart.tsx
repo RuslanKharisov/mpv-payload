@@ -1,21 +1,32 @@
 'use client'
 
-import { useCart } from '@/features/cart/CartProvider'
-import { StockWithTenantAndCurrency } from '@/features/stock'
+import { useCart } from '@/features/cart/cart-provider' // Убедитесь, что импорт правильный
 import { Separator } from '@/shared/ui/separator'
 import { CartHeader } from './cart-header'
 import { CartSummary } from './cart-summary'
 import { CartSupplier } from './cart-supplier'
+import { useEffect, useState } from 'react'
+import { CartEntry } from '@/entities/cart/_domain/normalized-cartItem'
 
+// 1. Обновляем тип для сгруппированных элементов.
+// Ключ - имя поставщика, значение - массив записей корзины (CartEntry).
 type GroupedItems = {
-  [key: string]: Array<{
-    stock: StockWithTenantAndCurrency
-    quantity: number
-  }>
+  [supplierName: string]: CartEntry[]
 }
 
 export function CartWidget() {
+  // Хук теперь возвращает `items` типа `CartEntry[]`
   const { items, removeFromCart, clearCart, updateQuantity } = useCart()
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return null
+  }
 
   if (items.length === 0) {
     return (
@@ -26,36 +37,51 @@ export function CartWidget() {
     )
   }
 
-  const groupedItems = items.reduce((acc, item) => {
-    const tenantName = item.stock.tenant.name || 'Unknown Supplier'
-    if (!acc[tenantName]) acc[tenantName] = []
-    acc[tenantName].push(item)
+  // 2. Исправляем логику группировки.
+  // Теперь работаем с `entry`, который имеет структуру { item: NormalizedCartItem, quantity: number }
+  const groupedItems = items.reduce((acc, entry) => {
+    const supplierName = entry.item?.supplierName || 'Unknown Supplier'
+    if (!acc[supplierName]) {
+      acc[supplierName] = []
+    }
+    // В массив добавляем всю запись `entry`, а не только имя.
+    acc[supplierName].push(entry)
     return acc
   }, {} as GroupedItems)
 
-  const calculateSupplierTotal = (supplierItems: any[]) =>
-    supplierItems.reduce((total, item) => total + item.stock.price * item.quantity, 0).toFixed(2)
+  // 3. Исправляем функцию подсчета суммы.
+  // Она принимает массив `CartEntry` и работает с плоской структурой.
+  const calculateSupplierTotal = (supplierEntries: CartEntry[]) =>
+    supplierEntries
+      .reduce((total, entry) => {
+        const price = entry.item.price ?? 0
+        return total + price * entry.quantity
+      }, 0)
+      .toFixed(2)
 
   return (
     <div className="relative mt-[30px] flex p-6 md:mt-[90px]">
-      <div className="container mx-auto max-w-screen-xl">
+      <div className="container mx-auto">
         <CartHeader onClear={clearCart} />
 
+        {/* `supplierItems` теперь является массивом `CartEntry[]` */}
         {Object.entries(groupedItems).map(([tenantName, supplierItems], index) => (
           <div key={tenantName}>
             <div className="flex flex-col lg:flex-row gap-6">
+              {/* CartSupplier теперь получает `CartEntry[]` */}
               <CartSupplier
                 tenantName={tenantName}
-                items={supplierItems}
+                items={supplierItems} // Передаем сгруппированные `CartEntry`
                 onRemoveItem={removeFromCart}
                 onUpdateItemQuantity={updateQuantity}
               />
+              {/* 4. Исправляем доступ к данным для CartSummary */}
               <CartSummary
                 total={calculateSupplierTotal(supplierItems)}
-                currencyCode={supplierItems[0].stock.currency.code}
+                // Безопасно получаем currencyCode из первого элемента
+                currencyCode={supplierItems[0]?.item.currencyCode || ''}
               />
             </div>
-            {/* Добавляем Separator после каждого блока, кроме последнего */}
             {index < Object.keys(groupedItems).length - 1 && <Separator className="my-8" />}
           </div>
         ))}

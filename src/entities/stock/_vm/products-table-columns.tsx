@@ -1,8 +1,7 @@
 'use client'
 
-import { useCart } from '@/features/cart/CartProvider'
 import { StockWithTenantAndCurrency } from '@/features/stock'
-import { Button } from '@/shared/ui/button'
+import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
 
 import { ColumnDef } from '@tanstack/react-table'
 
@@ -30,17 +29,7 @@ export const ProductsTableColumns: ColumnDef<StockWithTenantAndCurrency>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const stock = row.original
-      const { addToCart } = useCart()
-      return (
-        <Button
-          className="w-full text-xs"
-          variant="outline"
-          size="sm"
-          onClick={() => addToCart(stock, 1)}
-        >
-          В корзину
-        </Button>
-      )
+      return <AddToCartCell stock={stock} />
     },
   },
 ]

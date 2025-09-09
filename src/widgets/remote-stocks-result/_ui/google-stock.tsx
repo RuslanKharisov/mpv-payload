@@ -1,18 +1,27 @@
 'use client'
 
-import { useEffect, useTransition, useState, JSX } from 'react'
+import { useEffect, useTransition, useState, JSX, useMemo } from 'react'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Spinner } from '@/shared/ui/spinner'
 import { ProductsTableColumns } from '@/entities/remote-stock/_vm/products-table-columns'
+import { Tenant } from '@/payload-types'
 
-function GoogleStock({ dataArray, count }: { dataArray: any[]; count: number }): JSX.Element {
+interface GoogleStockProps {
+  dataArray: any[]
+  count: number
+  supplier: Tenant // ✅ Добавляем supplier в props
+}
+
+function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Element {
   const { pagination, setPagination } = usePagination()
   const router = useRouter()
   const searchParams = useSearchParams()
 
   const [isPending, startTransition] = useTransition()
   const [showSpinner, setShowSpinner] = useState(false)
+
+  const columns = useMemo(() => ProductsTableColumns(supplier), [supplier])
 
   useEffect(() => {
     setShowSpinner(true)
@@ -41,7 +50,7 @@ function GoogleStock({ dataArray, count }: { dataArray: any[]; count: number }):
         </div>
       )}
       <DataTable
-        columns={ProductsTableColumns}
+        columns={columns}
         data={dataArray}
         onPaginationChange={setPagination}
         pagination={pagination}

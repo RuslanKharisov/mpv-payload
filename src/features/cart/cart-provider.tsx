@@ -1,5 +1,6 @@
 'use client'
 
+import { CartEntry, NormalizedCartItem } from '@/entities/cart'
 import {
   createContext,
   useContext,
@@ -9,62 +10,62 @@ import {
   useCallback,
   useMemo,
 } from 'react'
-import { StockWithTenantAndCurrency } from '@/features/stock'
-
-export type CartItem = {
-  stock: StockWithTenantAndCurrency
-  quantity: number
-}
 
 type CartContextType = {
-  items: CartItem[]
-  addToCart: (stock: StockWithTenantAndCurrency, quantity?: number) => void
-  removeFromCart: (stockId: string | number) => void
+  items: CartEntry[]
+  addToCart: (item: NormalizedCartItem, quantity: number) => void
+  updateQuantity: (itemId: string | number, quantity: number) => void
+  removeFromCart: (itemId: string | number) => void
   clearCart: () => void
-  updateQuantity: (stockId: string | number, quantity: number) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
+
 const cartLocalStorageKey = 'shopping-cart' // Ключ для localStorage
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  // 1. Инициализируем состояние из localStorage
-  const [items, setItems] = useState<CartItem[]>(() => {
+  const [items, setItems] = useState<CartEntry[]>([])
+
+  useEffect(() => {
     try {
       const storedItems = window.localStorage.getItem(cartLocalStorageKey)
-      return storedItems ? JSON.parse(storedItems) : []
+      if (storedItems) {
+        setItems(JSON.parse(storedItems))
+      }
     } catch (error) {
       console.error('Failed to parse cart items from localStorage', error)
-      return []
     }
-  })
+  }, []) // Пустой массив зависимостей означает, что этот эффект выполнится 1 раз после монтирования
 
-  // 2. Сохраняем изменения в localStorage с помощью useEffect
+  // Сохраняем изменения в localStorage при любом изменении `items`
   useEffect(() => {
-    window.localStorage.setItem(cartLocalStorageKey, JSON.stringify(items))
+    // Добавим проверку, чтобы не сохранять пустой массив при самой первой загрузке
+    if (items.length > 0 || localStorage.getItem(cartLocalStorageKey)) {
+      window.localStorage.setItem(cartLocalStorageKey, JSON.stringify(items))
+    }
   }, [items])
 
   // Используем useCallback, чтобы функции не создавались заново при каждом рендере
-  const addToCart = useCallback((stock: StockWithTenantAndCurrency, quantity = 1) => {
+  const addToCart = useCallback((item: NormalizedCartItem, quantity: number) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.stock.id === stock.id)
+      const existing = prev.find((i) => i.item.id === item.id)
       if (existing) {
         return prev.map((i) =>
-          i.stock.id === stock.id ? { ...i, quantity: i.quantity + quantity } : i,
+          i.item.id === item.id ? { ...i, quantity: i.quantity + quantity } : i,
         )
       }
-      return [...prev, { stock, quantity }]
+      return [...prev, { item, quantity }]
     })
   }, [])
 
   const updateQuantity = useCallback((stockId: string | number, quantity: number) => {
     setItems((prev) =>
-      prev.map((i) => (i.stock.id === stockId ? { ...i, quantity: Math.max(1, quantity) } : i)),
+      prev.map((i) => (i.item.id === stockId ? { ...i, quantity: Math.max(1, quantity) } : i)),
     )
   }, [])
 
   const removeFromCart = useCallback((stockId: string | number) => {
-    setItems((prev) => prev.filter((i) => i.stock.id !== stockId))
+    setItems((prev) => prev.filter((i) => i.item.id !== stockId))
   }, [])
 
   const clearCart = useCallback(() => {

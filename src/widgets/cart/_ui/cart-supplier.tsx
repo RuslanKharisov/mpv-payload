@@ -1,13 +1,10 @@
-import { StockWithTenantAndCurrency } from '@/features/stock'
 import { Card, CardContent, CardHeader } from '@/shared/ui/card'
 import { CartItem } from './cart-item'
+import { CartEntry } from '@/entities/cart'
 
 interface CartSupplierProps {
   tenantName: string
-  items: Array<{
-    stock: StockWithTenantAndCurrency
-    quantity: number
-  }>
+  items: CartEntry[]
   onRemoveItem: (stockId: string) => void
   onUpdateItemQuantity: (stockId: string, newQuantity: number) => void
 }
@@ -24,10 +21,10 @@ export function CartSupplier({
         <h3 className="text-sm font-semibold sm:text-base">{tenantName}</h3>
       </CardHeader>
       <CardContent className="p-0">
-        {items.map((item, index) => (
+        {items.map((entry, index) => (
           <CartItem
-            key={item.stock.id}
-            item={item}
+            key={entry.item.id}
+            entry={entry}
             isLastItem={index === items.length - 1}
             onRemove={onRemoveItem}
             onUpdateQuantity={onUpdateItemQuantity}

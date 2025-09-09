@@ -1,12 +1,11 @@
 'use client'
 
-import { Button } from '@/shared/ui/button'
-
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip'
 import { ColumnDef } from '@tanstack/react-table'
 import { RemoteStock } from '../_domain/remote-stock'
+import { AddToCartCell } from '../_ui/add-to-cart-cell'
+import { Tenant } from '@/payload-types'
 
-export const ProductsTableColumns: ColumnDef<RemoteStock>[] = [
+export const ProductsTableColumns = (supplier: Tenant): ColumnDef<RemoteStock>[] => [
   {
     accessorKey: 'sku',
     header: 'Артикул',
@@ -82,32 +81,13 @@ export const ProductsTableColumns: ColumnDef<RemoteStock>[] = [
   },
 
   {
-    header: () => 'Ссылки',
+    header: () => '',
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
       const stock = row.original
-      return (
-        <span className="flex gap-1">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  className="w-full text-xs"
-                  variant="default"
-                  size="sm"
-                  onClick={() => console.log(stock.sku)}
-                >
-                  Запросить
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs">Добавить к запросу предложения</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </span>
-      )
+      console.log('stock ==> ', stock)
+      return <AddToCartCell stock={stock} supplier={supplier} />
     },
   },
 ]

@@ -3,7 +3,7 @@ import React from 'react'
 import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { TRPCReactProvider } from '@/shared/trpc/client'
-import { CartProvider } from '@/features/cart/CartProvider'
+import { CartProvider } from '@/features/cart/cart-provider'
 
 export const Providers: React.FC<{
   children: React.ReactNode

@@ -54,6 +54,7 @@ export async function StocksResults({
       }
     }),
   )
+  console.log('results ==> ', results)
 
   const validResults = results
     .filter(
@@ -81,7 +82,7 @@ export async function StocksResults({
               </Button>
             </CardFooter>
           </Card>
-          <GoogleStock dataArray={data ?? []} count={meta.total ?? 0} />
+          <GoogleStock dataArray={data ?? []} count={meta.total ?? 0} supplier={supplier} />
         </div>
       ))}
     </div>

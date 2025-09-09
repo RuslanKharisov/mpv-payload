@@ -1,0 +1,21 @@
+export interface NormalizedCartItem {
+  id: string // Уникальный идентификатор (важно!)
+  sku: string
+  description?: string
+  imageUrl: string
+  manufacturer?: string
+  supplierName: string // Имя поставщика всегда должно быть
+  price?: number
+  currencyCode: string
+  availableQuantity: number
+
+  // Сохраняем исходный объект для возможных будущих нужд (например, при оформлении заказа)
+  originalItem: unknown
+  source: 'local' | 'remote' // Чтобы знать, откуда пришел товар
+}
+
+
+export type CartEntry = {
+  item: NormalizedCartItem
+  quantity: number
+}
