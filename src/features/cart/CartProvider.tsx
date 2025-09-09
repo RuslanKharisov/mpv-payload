@@ -22,6 +22,7 @@ type CartContextType = {
   addToCart: (stock: StockWithTenantAndCurrency, quantity?: number) => void
   removeFromCart: (stockId: string | number) => void
   clearCart: () => void
+  updateQuantity: (stockId: string | number, quantity: number) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -59,6 +60,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  const updateQuantity = useCallback((stockId: string | number, quantity: number) => {
+    setItems((prev) =>
+      prev.map((i) => (i.stock.id === stockId ? { ...i, quantity: Math.max(1, quantity) } : i)),
+    )
+  }, [])
+
   const removeFromCart = useCallback((stockId: string | number) => {
     setItems((prev) => prev.filter((i) => i.stock.id !== stockId))
   }, [])
@@ -71,8 +78,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // если сами items или функции не изменились. Это предотвращает лишние рендеры
   // дочерних компонентов.
   const contextValue = useMemo(
-    () => ({ items, addToCart, removeFromCart, clearCart }),
-    [items, addToCart, removeFromCart, clearCart],
+    () => ({ items, addToCart, removeFromCart, clearCart, updateQuantity }),
+    [items, addToCart, removeFromCart, clearCart, updateQuantity],
   )
 
   return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>

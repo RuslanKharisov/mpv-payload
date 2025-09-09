@@ -25,3 +25,31 @@ export type WithPopulatedRelation<T, K extends keyof T, R> = Omit<T, K> & { [P i
  *   // tenant: Tenant
  */
 export type WithPopulated<T, K extends keyof T, R> = Omit<T, K> & { [P in K]: R }
+
+/**
+ * WithPopulatedMany
+ *
+ * Заменяет в типе `T` сразу несколько ключей `M` на их "популянные" версии.
+ *
+ * Используется, когда данные приходят с `depth >= 1`
+ * и определённые поля гарантированно уже заменены объектами,
+ * а не просто `id` или `string`.
+ *
+ * Пример:
+ *   type StockPopulated = WithPopulatedMany<
+ *     Stock,
+ *     {
+ *       tenant: Tenant
+ *       currency: Currency
+ *       product: WithPopulated<Product, 'productImage', Media>
+ *     }
+ *   >
+ *
+ * В результате:
+ *   - поле `tenant` имеет тип `Tenant`
+ *   - поле `currency` имеет тип `Currency`
+ *   - поле `product` имеет тип `Product`, где `productImage` заменён на `Media`
+ */
+export type WithPopulatedMany<T, M extends { [K in keyof T]?: any }> = Omit<T, keyof M> & {
+  [K in keyof M]: M[K]
+}

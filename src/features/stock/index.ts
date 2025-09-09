@@ -1,10 +1,19 @@
-import type { Currency, Stock, Tenant } from '@/payload-types'
-import { WithPopulated, WithPopulatedRelation } from '@/shared/utilities/payload-types-extender'
+import type { Currency, Manufacturer, Media, Product, Stock, Tenant } from '@/payload-types'
+import { WithPopulated, WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
 
-export type StockWithTenantAndCurrency = WithPopulated<
-  WithPopulated<Stock, 'tenant', Tenant>,
-  'currency',
-  Currency
+export type StockWithTenantAndCurrency = WithPopulatedMany<
+  Stock,
+  {
+    tenant: Tenant
+    currency: Currency
+    product: WithPopulatedMany<
+      Product,
+      {
+        productImage: Media
+        manufacturer: Manufacturer
+      }
+    >
+  }
 >
 
 type NormalizedStock = {
