@@ -1002,9 +1002,11 @@ export interface CompanyPost {
  */
 export interface Subscription {
   id: number;
+  tenant?: (number | null) | Tenant;
   startDate: string;
   endDate?: string | null;
   tariff: number | Tariff;
+  status?: ('active' | 'inactive' | 'pending_payment' | 'expired') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1015,7 +1017,18 @@ export interface Subscription {
 export interface Tariff {
   id: number;
   name: string;
-  pricePerUnit: number;
+  price: number;
+  description?: string | null;
+  benefits?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Выберите, какие платные функции будут доступны по этому тарифу. Это напрямую влияет на доступы.
+   */
+  features: ('CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS')[];
   updatedAt: string;
   createdAt: string;
 }
@@ -1762,9 +1775,11 @@ export interface CompanyPostsSelect<T extends boolean = true> {
  * via the `definition` "subscriptions_select".
  */
 export interface SubscriptionsSelect<T extends boolean = true> {
+  tenant?: T;
   startDate?: T;
   endDate?: T;
   tariff?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1799,7 +1814,15 @@ export interface CompanyTypesSelect<T extends boolean = true> {
  */
 export interface TariffsSelect<T extends boolean = true> {
   name?: T;
-  pricePerUnit?: T;
+  price?: T;
+  description?: T;
+  benefits?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  features?: T;
   updatedAt?: T;
   createdAt?: T;
 }

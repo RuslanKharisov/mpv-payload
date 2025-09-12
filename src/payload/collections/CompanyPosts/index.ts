@@ -10,10 +10,19 @@ import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { CollectionConfig } from 'payload'
+import { anyone } from '@/payload/access/anyone'
+import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
+import { authenticated } from '@/payload/access/authenticated'
 
 export const CompanyPosts: CollectionConfig = {
   slug: 'company-posts',
   labels: { singular: 'Пост компании', plural: 'Посты компании' },
+  access: {
+    create: checkTenantFeatureAccess('CAN_CREATE_POSTS'),
+    read: anyone,
+    update: authenticated, // Обновлять может админ тенанта или автор
+    delete: authenticated,
+  },
   admin: { useAsTitle: 'title', group: 'Компания и аккаунт' },
   fields: [
     { name: 'title', type: 'text', required: true },

@@ -128,6 +128,7 @@ export const plugins: Plugin[] = [
       'company-projects': {},
       'company-certifications': {},
       'company-posts': {},
+      subscriptions: {},
     },
     tenantsArrayField: {
       includeDefaultField: false,

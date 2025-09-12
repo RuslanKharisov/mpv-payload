@@ -14,7 +14,75 @@ export const Tariffs: CollectionConfig = {
   labels: { singular: 'Тариф', plural: 'Тарифы' },
   admin: { useAsTitle: 'name', hidden: ({ user }) => !isHidden(user) },
   fields: [
-    { name: 'name', type: 'text', required: true },
-    { name: 'pricePerUnit', type: 'number', required: true },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'name',
+          label: 'Название',
+          type: 'text',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'price',
+          label: 'Цена',
+          type: 'number',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      name: 'description',
+      label: 'Описание тарифа',
+      type: 'textarea',
+    },
+    {
+      name: 'benefits',
+      label: 'Преимущества (для отображения на сайте)',
+      type: 'array',
+      labels: {
+        singular: 'Преимущество',
+        plural: 'Преимущества',
+      },
+      fields: [
+        {
+          name: 'value',
+          label: 'Текст преимущества',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'features',
+      label: 'Возможности тарифа',
+      type: 'select',
+      hasMany: true,
+      required: true,
+      admin: {
+        description:
+          'Выберите, какие платные функции будут доступны по этому тарифу. Это напрямую влияет на доступы.',
+      },
+      options: [
+        {
+          label: 'Ручное управление складом',
+          value: 'CAN_MANAGE_STOCK',
+        },
+        {
+          label: 'Создание постов компании',
+          value: 'CAN_CREATE_POSTS',
+        },
+        {
+          label: 'Продвижение товаров',
+          value: 'CAN_PROMOTE_PRODUCTS',
+        },
+      ],
+    },
   ],
 }

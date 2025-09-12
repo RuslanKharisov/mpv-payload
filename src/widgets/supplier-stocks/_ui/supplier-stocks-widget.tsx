@@ -26,7 +26,7 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
   if (!data) return null
 
   return (
-    <Card className="mt-8 rounded-2xl shadow-sm">
+    <Card className="mt-8 rounded-2xl shadow-sm bg-card-foreground/5">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg font-semibold">
           <Store className="h-5 w-5 text-muted-foreground" />
@@ -54,7 +54,7 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
         )}
 
         {!isLoading && !isError && data && data.docs.length > 0 && (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto ">
             <DataTable<StockWithTenantAndCurrency, unknown>
               columns={ProductsTableColumns}
               data={data.docs as StockWithTenantAndCurrency[]}
