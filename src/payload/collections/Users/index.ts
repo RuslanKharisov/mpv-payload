@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
 import { anyone } from '@/payload/access/anyone'
-import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
+import { isSuperAdmin, isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 import { isHidden } from '@/payload/access/isHidden'
 import { generateForgotPasswordEmail } from '@/payload/email/generateForgotPasswordEmail'
 import { generateVerificationEmail } from '@/payload/email/generateVerificationEmail'
@@ -84,6 +84,11 @@ export const Users: CollectionConfig = {
     },
     {
       ...defaultTenantArrayField,
+      access: {
+        read: isSuperAdminFieldAccess,
+        update: isSuperAdminFieldAccess,
+        create: isSuperAdminFieldAccess,
+      },
       admin: {
         ...(defaultTenantArrayField?.admin || {}),
         position: 'sidebar',
