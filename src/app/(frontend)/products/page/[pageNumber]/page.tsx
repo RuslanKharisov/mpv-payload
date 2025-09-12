@@ -24,7 +24,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const products = await payload.find({
     collection: 'products',
     depth: 2,
-    limit: 4,
+    limit: 16,
     overrideAccess: false,
     page: sanitizedPageNumber,
   })

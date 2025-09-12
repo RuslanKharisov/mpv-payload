@@ -9,7 +9,7 @@ export default async function Page() {
   const products = await payload.find({
     collection: 'products',
     depth: 2,
-    limit: 4,
+    limit: 16,
     overrideAccess: false,
   })
 
