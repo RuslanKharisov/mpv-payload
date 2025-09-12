@@ -71,6 +71,10 @@ export const Tariffs: CollectionConfig = {
       },
       options: [
         {
+          label: 'Без опций',
+          value: 'CANT_ANY',
+        },
+        {
           label: 'Ручное управление складом',
           value: 'CAN_MANAGE_STOCK',
         },

@@ -1,4 +1,5 @@
 import { authenticated } from '@/payload/access/authenticated'
+import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
 
 export const Stocks: CollectionConfig = {
@@ -6,7 +7,7 @@ export const Stocks: CollectionConfig = {
   labels: { singular: 'Мой склад', plural: 'Мой склад' },
   access: {
     read: authenticated,
-    create: authenticated,
+    create: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
     update: authenticated,
     delete: authenticated,
   },
@@ -54,6 +55,31 @@ export const Stocks: CollectionConfig = {
             return `${product.name} (SKU: ${product.sku})`
           },
         ],
+      },
+    },
+    {
+      name: 'isPromoted',
+      label: 'Продвигать товар',
+      type: 'checkbox',
+      defaultValue: false,
+      access: {
+        // Редактировать это поле могут только те, у кого есть фича 'CAN_PROMOTE_PRODUCTS'
+        update: async (args) => {
+          const result = await checkTenantFeatureAccess('CAN_PROMOTE_PRODUCTS')(args)
+          console.log('result ==> ', result)
+          return typeof result === 'boolean' ? result : true
+        },
+        // Видят поле все, кто может редактировать сам документ
+        read: () => true,
+      },
+      admin: {
+        description: 'Отметьте, чтобы товар появился в карусели на главной странице.',
+        // Можно даже скрыть поле, если нет доступа
+        condition: (data, siblingData, { user }) => {
+          // Эта логика сложнее и требует асинхронной проверки,
+          // но можно реализовать через кастомный UI компонент
+          return true
+        },
       },
     },
   ],

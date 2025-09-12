@@ -34,7 +34,7 @@ export const tenantHasActiveFeature = async (
     const { docs: subscriptions } = await payload.find({
       collection: 'subscriptions',
       where: {
-        tenant: { equals: tenantId }, // исправлено
+        tenant: { equals: tenantId },
         status: { equals: 'active' },
         endDate: { greater_than_equal: new Date().toISOString() },
       },
@@ -58,24 +58,22 @@ export const tenantHasActiveFeature = async (
   return false
 }
 
-// Функция доступа для использования в коллекциях
+/**
+ * Принимат в качестве аргумента
+ * - CAN_MANAGE_STOCK - доступ к созданию/изменению склада
+ * - CAN_CREATE_POSTS - доступ к созданию постов
+ * - CAN_PROMOTE_PRODUCTS - доступ к полю `isPromoted`,
+ * - Возвращает булевое значение
+ * */
 export const checkTenantFeatureAccess =
   (feature: Feature): Access =>
   async ({ req }) => {
     const { user, payload } = req
-    console.log('user ==> ', user)
     if (!user) return false
 
     if (user.roles?.includes('super-admin')) return true
 
     const activeTenantId = getActiveTenantId(user)
     if (!activeTenantId) return false
-    console.log('activeTenantId ==> ', activeTenantId)
-    console.log('feature ==> ', feature)
-
-    console.log(
-      'tenantHasActiveFeature(activeTenantId, feature, payload) ==> ',
-      await tenantHasActiveFeature(activeTenantId, feature, payload),
-    )
     return await tenantHasActiveFeature(activeTenantId, feature, payload)
   }

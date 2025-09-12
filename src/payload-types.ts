@@ -932,6 +932,10 @@ export interface Stock {
   price?: number | null;
   currency: number | Currency;
   title_in_admin?: string | null;
+  /**
+   * Отметьте, чтобы товар появился в карусели на главной странице.
+   */
+  isPromoted?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1028,7 +1032,7 @@ export interface Tariff {
   /**
    * Выберите, какие платные функции будут доступны по этому тарифу. Это напрямую влияет на доступы.
    */
-  features: ('CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS')[];
+  features: ('CANT_ANY' | 'CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS')[];
   updatedAt: string;
   createdAt: string;
 }
@@ -1735,6 +1739,7 @@ export interface StocksSelect<T extends boolean = true> {
   price?: T;
   currency?: T;
   title_in_admin?: T;
+  isPromoted?: T;
   updatedAt?: T;
   createdAt?: T;
 }
