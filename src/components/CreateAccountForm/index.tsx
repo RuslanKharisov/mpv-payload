@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 // import { useAuth } from '../../_providers/Auth'
 // import classes from './index.module.scss'
 import { Input } from './_ui/input'
-import { Button } from '../ui/button'
+import { Button } from '@/shared/ui/button'
 
 type FormData = {
   email: string

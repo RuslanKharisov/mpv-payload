@@ -1,4 +1,4 @@
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/shared/ui/typography'
 import { SearchParams } from 'next/dist/server/request/search-params'
 
 interface Props {

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { ImageMedia } from '@/components/Media/ImageMedia'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Product } from '@/payload-types' // Убедитесь, что импортировали тип продукта
+import { Button } from '@/shared/ui/button'
 
 interface ProductCardProps {
   product: Product

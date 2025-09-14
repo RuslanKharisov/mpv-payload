@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
-import { Button } from '@/components/ui/button'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/shared/utilities/getURL'
+import { Button } from '@/shared/ui/button'
 
 export type FormBlockType = {
   blockName?: string
