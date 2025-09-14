@@ -26,8 +26,6 @@ import { Textarea } from '@/shared/ui/textarea'
 
 // ======== ZOD-СХЕМА ========
 const SendPriceRequestSchema = z.object({
-  unitTargetPriceAmount: z.string().min(1, 'Введите цену за единицу'),
-  unitTargetPriceCurrency: z.enum(['EUR', 'GBP', 'PLN', 'USD']),
   deliveryTime: z.enum([
     'ANY',
     'NEXT_DAY',
@@ -37,12 +35,12 @@ const SendPriceRequestSchema = z.object({
     'SEVEN_TEN_DAYS',
     'EMERGENCY',
   ]),
-  referenceNumber: z.string().optional(),
+  // referenceNumber: z.string().optional(),
   note: z.string().optional(),
   firstName: z.string().min(1, 'Введите имя'),
   lastName: z.string().min(1, 'Введите фамилию'),
   phone: z.string().min(1, 'Введите номер телефона'),
-  email: z.string().email('Некорректный email'),
+  email: z.email('Некорректный email'),
   companyName: z.string().min(1, 'Введите название компании'),
 })
 
@@ -61,10 +59,7 @@ export function SendPriceRequestModal({ tenantName, items, trigger }: SendPriceR
   const form = useForm<SendPriceRequestFormValues>({
     resolver: zodResolver(SendPriceRequestSchema),
     defaultValues: {
-      unitTargetPriceAmount: '',
-      unitTargetPriceCurrency: 'EUR',
       deliveryTime: 'EMERGENCY',
-      referenceNumber: '',
       note: '',
       firstName: '',
       lastName: '',

@@ -1,5 +1,4 @@
 import type { Endpoint } from 'payload'
-import { APIError } from 'payload'
 import { randomBytes } from 'node:crypto'
 import { generateVerificationEmail } from '@/payload/email/generateVerificationEmail'
 

@@ -1,8 +1,6 @@
 import { CartEntry } from '@/entities/cart'
 import { SendPriceRequestModal } from '@/features/send-price-request'
-import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
-import { ArrowRight } from 'lucide-react'
 
 interface CartSummaryProps {
   total: number
