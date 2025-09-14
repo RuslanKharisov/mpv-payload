@@ -52,34 +52,31 @@ export function CartWidget() {
   // 3. Исправляем функцию подсчета суммы.
   // Она принимает массив `CartEntry` и работает с плоской структурой.
   const calculateSupplierTotal = (supplierEntries: CartEntry[]) =>
-    supplierEntries
-      .reduce((total, entry) => {
-        const price = entry.item.price ?? 0
-        return total + price * entry.quantity
-      }, 0)
-      .toFixed(2)
+    supplierEntries.reduce((total, entry) => {
+      const price = entry.item.price ?? 0
+      return total + price * entry.quantity
+    }, 0)
 
   return (
     <div className="relative py-8">
       <div className="container mx-auto">
         <CartHeader onClear={clearCart} />
 
-        {/* `supplierItems` теперь является массивом `CartEntry[]` */}
         {Object.entries(groupedItems).map(([tenantName, supplierItems], index) => (
           <div key={tenantName}>
             <div className="flex flex-col lg:flex-row gap-6">
-              {/* CartSupplier теперь получает `CartEntry[]` */}
               <CartSupplier
                 tenantName={tenantName}
                 items={supplierItems} // Передаем сгруппированные `CartEntry`
                 onRemoveItem={removeFromCart}
                 onUpdateItemQuantity={updateQuantity}
               />
-              {/* 4. Исправляем доступ к данным для CartSummary */}
+
               <CartSummary
                 total={calculateSupplierTotal(supplierItems)}
-                // Безопасно получаем currencyCode из первого элемента
                 currencyCode={supplierItems[0]?.item.currencyCode || ''}
+                tenantName={tenantName}
+                items={supplierItems}
               />
             </div>
             {index < Object.keys(groupedItems).length - 1 && <Separator className="my-8" />}

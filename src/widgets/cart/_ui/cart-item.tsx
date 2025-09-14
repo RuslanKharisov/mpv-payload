@@ -25,6 +25,7 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
             src={item.imageUrl}
             width={80}
             height={80}
+            priority={false}
             className="h-full w-full object-contain"
           />
         </figure>
@@ -54,17 +55,15 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
                 <Button
                   size="icon"
                   variant="outline"
-                  aria-label="-"
                   disabled={quantity <= 1}
                   onClick={() => onUpdateQuantity(item.id, quantity - 1)}
                 >
                   <Minus className="h-4 w-4" />
                 </Button>
-                <Input className="w-16 text-center" value={quantity} readOnly />
+                <Input id={entry.item.id} className="w-16 text-center" value={quantity} readOnly />
                 <Button
                   size="icon"
                   variant="outline"
-                  aria-label="+"
                   disabled={quantity >= item.availableQuantity}
                   onClick={() => onUpdateQuantity(item.id, quantity + 1)}
                 >

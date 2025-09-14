@@ -1,13 +1,17 @@
+import { CartEntry } from '@/entities/cart'
+import { SendPriceRequestModal } from '@/features/send-price-request'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
 import { ArrowRight } from 'lucide-react'
 
 interface CartSummaryProps {
-  total: string
+  total: number
   currencyCode: string
+  tenantName: string
+  items: CartEntry[]
 }
 
-export function CartSummary({ total, currencyCode }: CartSummaryProps) {
+export function CartSummary({ total, currencyCode, tenantName, items }: CartSummaryProps) {
   return (
     <Card className="w-full self-start lg:w-1/3">
       <CardHeader>
@@ -19,15 +23,12 @@ export function CartSummary({ total, currencyCode }: CartSummaryProps) {
             Стоимость товаров (без НДС):
           </p>
           <p className="font-semibold text-foreground">
-            {currencyCode} {total}
+            {currencyCode} {total.toFixed(2)}
           </p>
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">
-          Запросить предложение
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <SendPriceRequestModal tenantName={tenantName} items={items} />
       </CardFooter>
     </Card>
   )

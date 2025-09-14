@@ -20,12 +20,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, pathname }) => {
     <nav className="lg:flex gap-3 items-center hidden ">
       {navItems.map(({ link }, i) => {
         return (
-          <CMSLink
-            key={i}
-            {...link}
-            appearance="secondary"
-            className={pathname === link.url ? 'text-destructive' : ''}
-          />
+          <CMSLink key={i} {...link} className={pathname === link.url ? 'text-destructive' : ''} />
         )
       })}
       <Link href="/search">
