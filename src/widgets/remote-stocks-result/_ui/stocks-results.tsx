@@ -72,7 +72,7 @@ export async function StocksResults({
         <div key={supplier.id} className="supplier_stock bg-card-foreground/5 px-3 py-5">
           <Card className=" gap-3 rounded-md">
             <CardHeader>
-              <CardTitle className="uppercase">Контрагент: "{supplier.name}"</CardTitle>
+              <CardTitle className="uppercase">Контрагент: &quot;{supplier.name}&quot;</CardTitle>
             </CardHeader>
             {/* <CardContent></CardContent> */}
             <CardFooter className="flex-col gap-2">
