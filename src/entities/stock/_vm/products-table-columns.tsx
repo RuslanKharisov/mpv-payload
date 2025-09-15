@@ -4,6 +4,7 @@ import { StockWithTenantAndCurrency } from '@/features/stock'
 import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
 
 import { ColumnDef } from '@tanstack/react-table'
+import { formatNumberWithSpaces } from '@/shared/utilities/formatNumberWithSpaces'
 
 export const ProductsTableColumns: ColumnDef<StockWithTenantAndCurrency>[] = [
   {
@@ -20,8 +21,12 @@ export const ProductsTableColumns: ColumnDef<StockWithTenantAndCurrency>[] = [
     ),
   },
   {
-    accessorFn: (row) => row.currency.code,
+    accessorFn: (row) => formatNumberWithSpaces(row.price ?? ''),
     header: 'Цена',
+  },
+  {
+    accessorFn: (row) => row.currency.code,
+    header: 'Валюта',
   },
   {
     header: () => '',
