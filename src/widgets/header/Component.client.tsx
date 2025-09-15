@@ -7,9 +7,11 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav/header-nav'
-import { MenuIcon, XIcon } from 'lucide-react'
+import { MenuIcon, SearchIcon, XIcon } from 'lucide-react'
 import { cn } from '@/shared/utilities/ui'
 import { MobileNav } from './Nav/mobile-nav'
+import { CartIcon } from './_ui/cart-icon'
+import Link from 'next/link'
 
 interface HeaderClientProps {
   data: Header
@@ -37,7 +39,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container">
         <div className="py-3 flex justify-between">
-          <div className="flex items-center gap-x-8">
+          <div className="w-full flex items-center justify-between gap-x-8">
             {/* Мобильное меню (бургер) */}
             <button
               className="z-50 p-2 lg:hidden"
@@ -46,10 +48,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             >
               {isOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </button>
-            {/* Логотип */}
             <div className="hidden sm:flex">
               <Logo />
             </div>
+            <div className="flex sm:hidden items-center gap-5">
+              <Link href="/search">
+                <span className="sr-only">Search</span>
+                <SearchIcon className="w-5 text-primary" />
+              </Link>
+              <CartIcon />
+            </div>
+            {/* Логотип */}
           </div>
           {/* Десктопное меню */}
           <HeaderNav data={data} pathname={pathname} />

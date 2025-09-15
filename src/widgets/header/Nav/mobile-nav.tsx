@@ -21,7 +21,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ data, onClose, pathname })
   return (
     <div className="bg-background flex h-dvh w-full flex-col space-y-2 px-4">
       {/* 3. Добавляем `onClick` ко всем кликабельным элементам */}
-      <div onClick={onClose} className="cursor-pointer">
+      <div onClick={onClose} className="cursor-pointer ">
         <Logo />
       </div>
 
@@ -36,11 +36,6 @@ export const MobileNav: React.FC<MobileNavProps> = ({ data, onClose, pathname })
           </div>
         )
       })}
-
-      <Link href="/search" onClick={onClose}>
-        <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
     </div>
   )
 }

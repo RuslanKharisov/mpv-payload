@@ -4,7 +4,7 @@ import React from 'react'
 
 export const Logo = () => {
   return (
-    <Link className="flex items-center space-x-2" href="/">
+    <Link className="flex justify-center items-center space-x-2" href="/">
       <LogoIcon className="h-12 w-12" />
       <span className="inline-block font-bold">Prom-Stock</span>
     </Link>
