@@ -57,9 +57,9 @@ export function EmailRegisterForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs">Имя</FormLabel>
+                  <FormLabel className="text-xs">Имя пользователя</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ваше Имя" disabled={isPending} {...field} />
+                    <Input placeholder="Ваше Имя пользователя" disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

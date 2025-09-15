@@ -5,14 +5,15 @@ export const RegisterSchema = z.object({
   password: z.string().min(8),
   username: z
     .string()
-    .min(3, 'Username must be at least 3 characters long')
-    .max(100, 'Username must be at most 100 characters long')
+    .min(3, 'Имя пользователя должно быть не короче 3 символов')
+    .max(100, 'Имя пользователя должно быть не длиннее 100 символов')
     .regex(
-      /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-      'Username can only contain letters, numbers and hyphens, and cannot begin or end with a hyphen.',
+      /^[A-Za-z0-9](?:[A-Za-z0-9_-]*[A-Za-z0-9])?$/,
+      'Имя пользователя может содержать только латиницу, цифры, дефис и подчёркивание, и не может начинаться или заканчиваться на спецсимвол.',
     )
-    .refine((val) => !val.includes('--'), 'Username cannot contain consecutive hyphens.')
-    .transform((val) => val.toLowerCase()),
+    .refine((val) => !val.includes('--') && !val.includes('__'), {
+      message: 'Имя пользователя не может содержать подряд дефисы или подчёркивания.',
+    }),
 })
 
 export const LoginSchema = z.object({
