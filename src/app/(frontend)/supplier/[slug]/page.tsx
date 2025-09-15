@@ -28,7 +28,7 @@ export default async function page({ params: paramsPromise }: Args) {
 
   console.log('tenant ==> ', tenant)
 
-  if (!tenant.docs?.[0]) {
+  if (tenant.docs?.[0].layout?.length === 0) {
     return notFound()
   }
 

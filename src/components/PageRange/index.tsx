@@ -46,7 +46,13 @@ export const PageRange: React.FC<{
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) && (
+        <div className="rounded-lg bg-gray-50 py-16 text-center dark:bg-gray-800">
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+            Поиск статей не дал результатов.
+          </p>
+        </div>
+      )}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&
         `Найден ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} из ${totalDocs} ${

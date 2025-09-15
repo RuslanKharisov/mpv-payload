@@ -63,7 +63,13 @@ export async function StocksResults({
     .map((r) => r.value)
 
   if (validResults.length === 0) {
-    return <div className="text-center text-primary/50">По вашему запросу ничего не найдено</div>
+    return (
+      <div className="rounded-lg bg-gray-50 py-16 text-center dark:bg-gray-800">
+        <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+          Поиск товаров не дал результатов.
+        </p>
+      </div>
+    )
   }
 
   return (

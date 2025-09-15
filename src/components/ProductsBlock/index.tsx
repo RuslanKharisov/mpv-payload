@@ -16,7 +16,9 @@ export function ProductsBlock({ products }: ProductsBlockProps) {
         </div>
       ) : (
         <div className="rounded-lg bg-gray-50 py-16 text-center dark:bg-gray-800">
-          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">Товары не найдены.</p>
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+            Поиск товаров не дал результатов.
+          </p>
         </div>
       )}
     </>
