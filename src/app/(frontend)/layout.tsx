@@ -15,6 +15,7 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import YandexMetrikaContainer from '@/shared/utilities/YandexMetrika'
+import { Toaster } from '@/shared/ui/sonner'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
+        <Toaster richColors position="top-right" />
         <YandexMetrikaContainer enabled={analyticsEnabled} />
       </body>
     </html>

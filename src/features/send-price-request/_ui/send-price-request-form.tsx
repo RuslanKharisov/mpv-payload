@@ -22,10 +22,11 @@ import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { CartEntry } from '@/entities/cart'
 import { Textarea } from '@/shared/ui/textarea'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SendPriceRequestFormValues, SendPriceRequestSchema } from '@/entities/price-request'
 import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRequestItem'
 import { useTRPC } from '@/shared/trpc/client'
+import { toast } from 'sonner'
 
 interface SendPriceRequestModalProps {
   tenantName: string
@@ -41,9 +42,9 @@ export function SendPriceRequestModal({
   trigger,
 }: SendPriceRequestModalProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const trpc = useTRPC()
+  const queryClient = useQueryClient()
 
   const form = useForm<SendPriceRequestFormValues>({
     resolver: zodResolver(SendPriceRequestSchema),
@@ -59,31 +60,33 @@ export function SendPriceRequestModal({
     },
   })
 
-  const { mutate: sendRequest } = useMutation(
-    trpc.sendPriceRequest.sendPriceRequest.mutationOptions(),
+  const { mutate: sendRequest, isPending } = useMutation(
+    trpc.sendPriceRequest.sendPriceRequest.mutationOptions({
+      onSuccess: async () => {
+        toast.success('Запрос успешно отправлен!', {
+          description: 'Мы свяжемся с вами в ближайшее время.',
+        })
+        form.reset()
+        setIsOpen(false)
+      },
+
+      onError: (error) => {
+        toast.error('Ошибка при отправке запроса', {
+          description: error.message || 'Пожалуйста, попробуйте еще раз.',
+        })
+      },
+    }),
   )
 
   const onSubmit = async (data: SendPriceRequestFormValues) => {
-    setIsSubmitting(true)
-    console.log('Отправляем запрос поставщику:', tenantEmail, {
-      formData: data,
-      items, // 👈 все товары из корзины у этого поставщика
-    })
+    console.log('Отправляем запрос поставщику:', tenantEmail)
 
-    // TODO: fetch/trpc
     sendRequest({
       tenantName,
       tenantEmail,
       formData: data,
       items: items.map(mapCartEntryToPriceRequestItem),
     })
-
-    // После успешной отправки:
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsOpen(false)
-      form.reset() // очищаем форму после отправки
-    }, 1500)
   }
 
   return (
@@ -282,8 +285,8 @@ export function SendPriceRequestModal({
 
             {/* Кнопка отправки */}
             <DialogFooter className="pt-4">
-              <Button type="submit" disabled={isSubmitting || !form.formState.isValid}>
-                {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
+              <Button type="submit" disabled={isPending || !form.formState.isValid}>
+                {isPending && <Spinner className="mr-2 h-4 w-4" />}
                 Отправить запрос
               </Button>
             </DialogFooter>

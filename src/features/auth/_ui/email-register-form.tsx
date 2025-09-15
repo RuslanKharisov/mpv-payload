@@ -10,7 +10,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { FormEroor } from '@/shared/ui/form-error'
 import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
 
