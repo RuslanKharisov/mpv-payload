@@ -23,7 +23,7 @@ export function EmailLoginForm() {
     trpc.auth.login.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
-        router.push('/posts')
+        router.push('/admin')
       },
     }),
   )

@@ -12,24 +12,24 @@ import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export function EmailRegisterForm() {
-  const router = useRouter()
-
   const trpc = useTRPC()
   const queryClient = useQueryClient()
+
+  const [confirmationSent, setConfirmationSent] = useState(false)
 
   const {
     mutate: registerUser,
     isError,
     error,
-    data,
     isPending,
   } = useMutation(
     trpc.auth.register.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
-        router.push('/')
+        setConfirmationSent(true)
       },
     }),
   )
@@ -45,6 +45,24 @@ export function EmailRegisterForm() {
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
     registerUser(data)
+  }
+
+  if (confirmationSent) {
+    return (
+      <div className="p-6 rounded-lg border bg-card">
+        <h2 className="text-xl font-semibold mb-2">Почти готово!</h2>
+        <p className="mb-4">
+          Мы отправили письмо с подтверждением на указанную почту. Чтобы завершить регистрацию,
+          перейдите по ссылке в письме.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Не получили письмо? Проверьте папку <i>Спам</i>.
+        </p>
+        <Link href="/" className="mt-4 inline-block text-sm underline">
+          Вернуться на главную
+        </Link>
+      </div>
+    )
   }
 
   return (
