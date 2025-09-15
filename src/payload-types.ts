@@ -597,6 +597,10 @@ export interface Tenant {
    */
   domain?: string | null;
   /**
+   * На этот адрес будут приходить запросы (КП, заявки и т.д.)
+   */
+  requestEmail: string;
+  /**
    * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
    */
   allowPublicRead?: boolean | null;
@@ -1840,6 +1844,7 @@ export interface TenantsSelect<T extends boolean = true> {
   slugLock?: T;
   name?: T;
   domain?: T;
+  requestEmail?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
   apiUrl?: T;

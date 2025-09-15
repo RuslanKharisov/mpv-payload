@@ -58,16 +58,15 @@ export const Tenants: CollectionConfig = {
                   'Используется для определения домена, к которому относится этот тенант. Например: onstock.ru',
               },
             },
-            // {
-            //   name: 'slug',
-            //   type: 'text',
-            //   index: true,
-            //   required: true,
-            //   unique: true,
-            //   admin: {
-            //     description: 'Идентификатор для использования в URL. Например: [slug].onstock',
-            //   },
-            // },
+            {
+              name: 'requestEmail',
+              type: 'email',
+              required: true,
+              label: 'Email для заявок',
+              admin: {
+                description: 'На этот адрес будут приходить запросы (КП, заявки и т.д.)',
+              },
+            },
             {
               name: 'allowPublicRead',
               type: 'checkbox',

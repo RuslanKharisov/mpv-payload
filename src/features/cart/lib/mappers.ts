@@ -14,6 +14,7 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
     imageUrl: stock.product.productImage.url || PLACEHOLDER_IMAGE_URL,
     manufacturer: stock.product.manufacturer?.name,
     supplierName: stock.tenant.name,
+    supplierEmail: stock.tenant.requestEmail,
     price: stock.price ?? 0,
     currencyCode: stock.currency.code,
     availableQuantity: stock.quantity,
@@ -38,6 +39,7 @@ export function mapRemoteStockToCartItem(
     imageUrl: PLACEHOLDER_IMAGE_URL,
     manufacturer: remoteStock.manufacturer || undefined,
     supplierName: supplier.name,
+    supplierEmail: supplier.requestEmail,
     price: remoteStock.price ?? 0, // Предполагаем, что цена может приходить
     currencyCode: 'RUB', // Или получаем из `supplier` или `remoteStock`, если возможно
     availableQuantity: remoteStock.quantity,

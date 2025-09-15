@@ -23,6 +23,6 @@ export const generateVerificationEmail = async (
       buttonLabel: 'Verify',
       url: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/verify?token=${token}&email=${user.email}`,
     },
-    headline: 'Verify your account',
+    headline: 'Подтвердите вашу почту',
   })
 }

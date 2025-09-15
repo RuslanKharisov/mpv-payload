@@ -16,7 +16,7 @@ export const generateForgotPasswordEmail = async (
   return generateEmailHTML({
     content: '<p>Давайте поможем вам войти снова.</p>',
     cta: {
-      buttonLabel: 'Сбросить пароль',
+      buttonLabel: 'Подтвердить',
       url: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/admin/reset/${args?.token}`,
     },
     headline: 'Забыли пароль?',

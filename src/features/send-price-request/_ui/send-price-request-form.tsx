@@ -17,47 +17,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shared/ui/dialog'
-import Image from 'next/image'
 import { Separator } from '@/shared/ui/separator'
 import { useState } from 'react'
-import { ArrowRight, Minus } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { CartEntry } from '@/entities/cart'
 import { Textarea } from '@/shared/ui/textarea'
-
-// ======== ZOD-СХЕМА ========
-const SendPriceRequestSchema = z.object({
-  deliveryTime: z.enum([
-    'ANY',
-    'NEXT_DAY',
-    'TWO_TREE_DAYS',
-    'FOUR_SIX_DAYS',
-    'TEN_PLUS_DAYS',
-    'SEVEN_TEN_DAYS',
-    'EMERGENCY',
-  ]),
-  // referenceNumber: z.string().optional(),
-  note: z.string().optional(),
-  firstName: z.string().min(1, 'Введите имя'),
-  lastName: z.string().min(1, 'Введите фамилию'),
-  phone: z.string().min(1, 'Введите номер телефона'),
-  email: z.email('Некорректный email'),
-  companyName: z.string().min(1, 'Введите название компании'),
-})
-
-type SendPriceRequestFormValues = z.infer<typeof SendPriceRequestSchema>
+import { useMutation } from '@tanstack/react-query'
+import { SendPriceRequestFormValues, SendPriceRequestSchema } from '@/entities/price-request'
+import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRequestItem'
+import { useTRPC } from '@/shared/trpc/client'
 
 interface SendPriceRequestModalProps {
   tenantName: string
+  tenantEmail: string
   items: CartEntry[]
   trigger?: React.ReactNode
 }
 
-export function SendPriceRequestModal({ tenantName, items, trigger }: SendPriceRequestModalProps) {
+export function SendPriceRequestModal({
+  tenantName,
+  tenantEmail,
+  items,
+  trigger,
+}: SendPriceRequestModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const trpc = useTRPC()
+
   const form = useForm<SendPriceRequestFormValues>({
     resolver: zodResolver(SendPriceRequestSchema),
+    mode: 'onChange',
     defaultValues: {
       deliveryTime: 'EMERGENCY',
       note: '',
@@ -69,14 +59,24 @@ export function SendPriceRequestModal({ tenantName, items, trigger }: SendPriceR
     },
   })
 
+  const { mutate: sendRequest } = useMutation(
+    trpc.sendPriceRequest.sendPriceRequest.mutationOptions(),
+  )
+
   const onSubmit = async (data: SendPriceRequestFormValues) => {
     setIsSubmitting(true)
-    console.log('Отправляем запрос поставщику:', tenantName, {
+    console.log('Отправляем запрос поставщику:', tenantEmail, {
       formData: data,
       items, // 👈 все товары из корзины у этого поставщика
     })
 
     // TODO: fetch/trpc
+    sendRequest({
+      tenantName,
+      tenantEmail,
+      formData: data,
+      items: items.map(mapCartEntryToPriceRequestItem),
+    })
 
     // После успешной отправки:
     setTimeout(() => {
@@ -282,7 +282,7 @@ export function SendPriceRequestModal({ tenantName, items, trigger }: SendPriceR
 
             {/* Кнопка отправки */}
             <DialogFooter className="pt-4">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting || !form.formState.isValid}>
                 {isSubmitting && <Spinner className="mr-2 h-4 w-4" />}
                 Отправить запрос
               </Button>

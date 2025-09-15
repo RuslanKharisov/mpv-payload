@@ -11,7 +11,11 @@ import { CartEntry } from '@/entities/cart/_domain/normalized-cartItem'
 // 1. Обновляем тип для сгруппированных элементов.
 // Ключ - имя поставщика, значение - массив записей корзины (CartEntry).
 type GroupedItems = {
-  [supplierName: string]: CartEntry[]
+  [supplierKey: string]: {
+    supplierName: string
+    supplierEmail: string
+    entries: CartEntry[]
+  }
 }
 
 export function CartWidget() {
@@ -37,15 +41,19 @@ export function CartWidget() {
     )
   }
 
-  // 2. Исправляем логику группировки.
-  // Теперь работаем с `entry`, который имеет структуру { item: NormalizedCartItem, quantity: number }
   const groupedItems = items.reduce((acc, entry) => {
-    const supplierName = entry.item?.supplierName || 'Unknown Supplier'
-    if (!acc[supplierName]) {
-      acc[supplierName] = []
+    const { supplierName, supplierEmail } = entry.item
+    const key = supplierEmail || supplierName // уникальнее почта, можно сделать ключом
+
+    if (!acc[key]) {
+      acc[key] = {
+        supplierName,
+        supplierEmail,
+        entries: [],
+      }
     }
-    // В массив добавляем всю запись `entry`, а не только имя.
-    acc[supplierName].push(entry)
+
+    acc[key].entries.push(entry)
     return acc
   }, {} as GroupedItems)
 
@@ -62,21 +70,22 @@ export function CartWidget() {
       <div className="container mx-auto">
         <CartHeader onClear={clearCart} />
 
-        {Object.entries(groupedItems).map(([tenantName, supplierItems], index) => (
-          <div key={tenantName}>
+        {Object.values(groupedItems).map(({ supplierName, supplierEmail, entries }, index) => (
+          <div key={supplierEmail || supplierName}>
             <div className="flex flex-col lg:flex-row gap-6">
               <CartSupplier
-                tenantName={tenantName}
-                items={supplierItems} // Передаем сгруппированные `CartEntry`
+                tenantName={supplierName}
+                items={entries}
                 onRemoveItem={removeFromCart}
                 onUpdateItemQuantity={updateQuantity}
               />
 
               <CartSummary
-                total={calculateSupplierTotal(supplierItems)}
-                currencyCode={supplierItems[0]?.item.currencyCode || ''}
-                tenantName={tenantName}
-                items={supplierItems}
+                total={calculateSupplierTotal(entries)}
+                currencyCode={entries[0]?.item.currencyCode || ''}
+                tenantName={supplierName}
+                tenantEmail={supplierEmail} // <-- вот тут пробрасываешь
+                items={entries}
               />
             </div>
             {index < Object.keys(groupedItems).length - 1 && <Separator className="my-8" />}

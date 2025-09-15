@@ -4,7 +4,8 @@ export interface NormalizedCartItem {
   description?: string
   imageUrl: string
   manufacturer?: string
-  supplierName: string // Имя поставщика всегда должно быть
+  supplierName: string
+  supplierEmail: string
   price?: number
   currencyCode: string
   availableQuantity: number
@@ -13,7 +14,6 @@ export interface NormalizedCartItem {
   originalItem: unknown
   source: 'local' | 'remote' // Чтобы знать, откуда пришел товар
 }
-
 
 export type CartEntry = {
   item: NormalizedCartItem
