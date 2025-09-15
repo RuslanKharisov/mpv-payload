@@ -9,6 +9,8 @@ import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
 import { seedPages } from './seed-pages'
 import { seedProducts } from './seed-products'
+import { seedGlobal } from './seed-global'
+import { seedProductCategories } from './seed-product-categories'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -53,28 +55,28 @@ export const seed = async ({
   //   where: {},
   // })
 
-  /* Очистка версий документов */
-  // await Promise.all(
-  //   collections
-  //     .filter((collection) => Boolean(payload.collections[collection].config.versions))
-  //     .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
-  // )
+  /* --- Очистка версий документов --- */
+  await Promise.all(
+    collections
+      .filter((collection) => Boolean(payload.collections[collection].config.versions))
+      .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
+  )
 
   /* --- Загрузка медиафайлов --- */
 
+  /** 1. Загрузка медиа для возможности использования при сиде страниц */
   // const media = await seedMedia(payload)
-  // const users = await seedUsers(payload)
 
-  /* --- Создание категорий --- */
-  // await seedPostCategories({ payload, req })
-
-  /* --- Создание постов  --- */
-  // await seedPosts(payload, req, { media, users })
-
-  const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
-
-  /* --- Создание главной страницы --- */
+  /**  --- Создание главной и страниц политики и соглашений --- */
+  // const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
   // await seedPages(payload, media, shouldSeedPages)
 
+  /** --- Создание пунков навигации меню --- */
+  // await seedGlobal(payload)
+
+  /** ---  Создание катекорий проукции  --- */
+  // await seedProductCategories({ payload, req })
+
+  /** Создание товаров в каталоге */
   // await seedProducts(payload)
 }
