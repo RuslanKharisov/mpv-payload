@@ -3,6 +3,7 @@ import { generateEmailHTML } from '@/payload/email/generateEmailHTML'
 import { sanitizeEmail, sanitizePhone } from '@/shared/utilities/sanitazeData'
 import { sanitizeUserDataForEmail } from 'payload/shared'
 import z from 'zod'
+import { formatDeliveryTime } from '../_domain/deliveryTime'
 
 type GenerateRequestEmailArgs = z.infer<typeof PriceRequestSchema>
 
@@ -32,7 +33,7 @@ export const generateRequestEmail = async (args: GenerateRequestEmailArgs): Prom
         </a>
       </p>
       
-      <p><b>Желаемый срок поставки:</b> ${sanitizeUserDataForEmail(formData.deliveryTime)}</p>
+      <p><b>Желаемый срок поставки:</b> ${formatDeliveryTime(formData.deliveryTime)}</p>
       <p><b>Комментарий:</b> ${sanitizeUserDataForEmail(formData.note || '—')}</p>
 
       <h3>Список товаров</h3>

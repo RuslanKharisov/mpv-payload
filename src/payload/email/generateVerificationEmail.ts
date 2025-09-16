@@ -20,7 +20,7 @@ export const generateVerificationEmail = async (
   return generateEmailHTML({
     content: `<p>Привет${user.name ? ' ' + sanitizeUserDataForEmail(user.name) : ''}! Подтвердите свою учётную запись, нажав кнопку ниже.</p>`,
     cta: {
-      buttonLabel: 'Verify',
+      buttonLabel: 'Подтвердить',
       url: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/verify?token=${token}&email=${user.email}`,
     },
     headline: 'Подтвердите вашу почту',

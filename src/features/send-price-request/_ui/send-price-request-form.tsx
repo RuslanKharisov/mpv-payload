@@ -27,6 +27,7 @@ import { SendPriceRequestFormValues, SendPriceRequestSchema } from '@/entities/p
 import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRequestItem'
 import { useTRPC } from '@/shared/trpc/client'
 import { toast } from 'sonner'
+import { deliveryTimeLabels } from '../_domain/deliveryTime'
 
 interface SendPriceRequestModalProps {
   tenantName: string
@@ -152,13 +153,11 @@ export function SendPriceRequestModal({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="ANY">Любой</SelectItem>
-                        <SelectItem value="NEXT_DAY">На следующий день</SelectItem>
-                        <SelectItem value="TWO_TREE_DAYS">2-3 дня</SelectItem>
-                        <SelectItem value="FOUR_SIX_DAYS">4-6 дней</SelectItem>
-                        <SelectItem value="TEN_PLUS_DAYS">10+ дней</SelectItem>
-                        <SelectItem value="SEVEN_TEN_DAYS">7-10 дней</SelectItem>
-                        <SelectItem value="EMERGENCY">Срочно</SelectItem>
+                        {Object.entries(deliveryTimeLabels).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

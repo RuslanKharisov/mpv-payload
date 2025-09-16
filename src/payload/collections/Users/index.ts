@@ -56,7 +56,7 @@ export const Users: CollectionConfig = {
     },
     verify: {
       generateEmailHTML: generateVerificationEmail,
-      generateEmailSubject: () => 'Verify your email',
+      generateEmailSubject: () => 'Подтвердите вашу почту',
     },
   },
   endpoints: [resendVerificationHandler],

@@ -43,7 +43,7 @@ export const resendVerificationHandler: Endpoint = {
     const html = await generateVerificationEmail({ token, user: foundUser })
     await req.payload.sendEmail({
       to: email,
-      subject: 'Verify your email',
+      subject: 'Подтвердите вашу почту',
       html,
     })
 
