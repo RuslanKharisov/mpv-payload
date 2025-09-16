@@ -77,7 +77,7 @@ export const seed = async ({
   // await seedGlobal(payload)
 
   /** --- Создание стартового списка производителей ---  */
-  await seedManufacturers(payload)
+  // await seedManufacturers(payload)
 
   /** ---  Создание катекорий проукции  --- */
   // await seedProductCategories({ payload, req })

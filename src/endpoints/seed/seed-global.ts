@@ -19,8 +19,18 @@ export const seedGlobal = async (payload: Payload) => {
       slug: 'footer',
       data: {
         navItems: [
-          { link: { type: 'custom', label: 'Admin', url: '/admin' } },
-          // { link: { type: 'reference', label: 'Contact', reference: { relationTo: 'pages', value: contactPage.id } } },
+          {
+            link: { type: 'custom', label: 'Политика конфиденциальности', url: '/privacy-policy' },
+          },
+          {
+            link: { type: 'custom', label: 'Пользовательское соглашение', url: '/user-agreement' },
+          },
+          {
+            link: { type: 'custom', label: 'Правила использования', url: '/terms-of-use' },
+          },
+          {
+            link: { type: 'custom', label: 'API Google Таблицы', url: '/google-sheets-api-guide' },
+          },
         ],
       },
     }),
