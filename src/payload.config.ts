@@ -19,6 +19,10 @@ import { Footer } from './widgets/footer/config'
 import { Header } from './widgets/header/config'
 import { plugins } from './payload/plugins'
 import { defaultLexical } from '@/payload/fields/defaultLexical'
+
+import { en } from '@payloadcms/translations/languages/en'
+import { ru } from '@payloadcms/translations/languages/ru'
+
 import { getServerSideURL } from '@/shared/utilities/getURL'
 
 import { Manufacturers } from './payload/collections/Manufacturers'
@@ -41,6 +45,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  i18n: {
+    supportedLanguages: { en, ru },
+    fallbackLanguage: 'en',
+  },
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
