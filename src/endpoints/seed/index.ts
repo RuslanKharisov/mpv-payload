@@ -12,6 +12,7 @@ import { seedProducts } from './seed-products'
 import { seedGlobal } from './seed-global'
 import { seedProductCategories } from './seed-product-categories'
 import { seedTariffs } from './seed-tariffs'
+import { seedManufacturers } from './seed-brands'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -74,6 +75,9 @@ export const seed = async ({
 
   /** --- Создание пунков навигации меню --- */
   // await seedGlobal(payload)
+
+  /** --- Создание стартового списка производителей ---  */
+  await seedManufacturers(payload)
 
   /** ---  Создание катекорий проукции  --- */
   // await seedProductCategories({ payload, req })
