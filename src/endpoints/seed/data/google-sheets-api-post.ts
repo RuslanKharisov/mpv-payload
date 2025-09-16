@@ -179,7 +179,7 @@ export const googleSheetsApiPost: (args: PostArgs) => RequiredDataFromCollection
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: 'sku | description | category | manufacturer | quantity | newdelivery_qty_1 | newdelivery_date_1 | newdelivery_qty_2 | newdelivery_date_2',
+                text: 'sku | description | category | brand | quantity | newdelivery_qty_1 | newdelivery_date_1 | newdelivery_qty_2 | newdelivery_date_2',
                 version: 1,
               },
             ],

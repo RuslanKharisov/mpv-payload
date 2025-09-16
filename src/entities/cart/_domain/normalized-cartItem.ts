@@ -3,7 +3,7 @@ export interface NormalizedCartItem {
   sku: string
   description?: string
   imageUrl: string
-  manufacturer?: string
+  brand?: string
   supplierName: string
   supplierEmail: string
   price?: number

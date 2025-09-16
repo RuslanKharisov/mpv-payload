@@ -12,6 +12,6 @@ export type RemoteStock = {
   newDeliveryDate1: Date
   newDeliveryQty2: number
   newDeliveryDate2: Date
-  manufacturer: string
+  brand: string
   price: number
 }

@@ -17,7 +17,7 @@ export const seedProducts = async (payload: Payload) => {
         sku: product.sku,
         shortDescription: product.shortDescription,
         productCategory: product.productCategory,
-        manufacturer: product.manufacturer,
+        brand: product.brand,
         productImage: product.productImage,
       },
     })

@@ -1,4 +1,4 @@
-import type { Currency, Manufacturer, Media, Product, Stock, Tenant } from '@/payload-types'
+import type { Currency, Brand, Media, Product, Stock, Tenant } from '@/payload-types'
 import { WithPopulated, WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
 
 export type StockWithTenantAndCurrency = WithPopulatedMany<
@@ -10,7 +10,7 @@ export type StockWithTenantAndCurrency = WithPopulatedMany<
       Product,
       {
         productImage: Media
-        manufacturer: Manufacturer
+        brand: Brand
       }
     >
   }

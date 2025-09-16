@@ -3,8 +3,8 @@ import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { slugField } from '@/payload/fields/slug'
 import { CollectionConfig } from 'payload'
 
-export const Manufacturers: CollectionConfig = {
-  slug: 'manufacturers',
+export const Brands: CollectionConfig = {
+  slug: 'brands',
   access: {
     create: isSuperAdminAccess,
     delete: isSuperAdminAccess,

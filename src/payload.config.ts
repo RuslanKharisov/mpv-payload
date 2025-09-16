@@ -12,7 +12,6 @@ import { Pages } from './payload/collections/Pages'
 import { Posts } from './payload/collections/Posts'
 import { Users } from './payload/collections/Users'
 
-import { Companies } from './payload/collections/Companies'
 import { Products } from './payload/collections/Products'
 
 import { Footer } from './widgets/footer/config'
@@ -25,7 +24,7 @@ import { ru } from '@payloadcms/translations/languages/ru'
 
 import { getServerSideURL } from '@/shared/utilities/getURL'
 
-import { Manufacturers } from './payload/collections/Manufacturers'
+import { Brands } from './payload/collections/Brands'
 import { ProductCategories } from './payload/collections/ProductCategories'
 import { Stocks } from './payload/collections/Stocks'
 import { Addresses } from './payload/collections/Addresses'
@@ -94,7 +93,7 @@ export default buildConfig({
   collections: [
     Products,
     ProductCategories,
-    Manufacturers,
+    Brands,
     Pages,
     Posts,
     Media,

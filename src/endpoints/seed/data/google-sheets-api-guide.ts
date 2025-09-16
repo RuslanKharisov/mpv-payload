@@ -68,7 +68,7 @@ export const googleSheetsApiGuide: (args: GuideArgs) => RequiredDataFromCollecti
                 'Создайте Google Таблицу (или скопируйте из примера) со следующими столбцами:',
               ),
               createParagraph(
-                'sku | description | category | manufacturer | quantity | newdelivery_qty_1 | newdelivery_date_1 | newdelivery_qty_2 | newdelivery_date_2',
+                'sku | description | category | brand | quantity | newdelivery_qty_1 | newdelivery_date_1 | newdelivery_qty_2 | newdelivery_date_2',
               ),
               createParagraph(
                 '👉 Минимально обязательные поля: sku, description, quantity. Остальные можно оставить пустыми.',

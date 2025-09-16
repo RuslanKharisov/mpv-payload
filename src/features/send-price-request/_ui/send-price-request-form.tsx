@@ -116,7 +116,7 @@ export function SendPriceRequestModal({
           {items.map(({ item, quantity }) => (
             <div key={item.id} className="flex justify-between text-sm mb-2">
               <span>
-                {item.sku} ({item.manufacturer})
+                {item.sku} ({item.brand})
               </span>
               <span>
                 {quantity} × {item.currencyCode} {item.price?.toFixed(2)}

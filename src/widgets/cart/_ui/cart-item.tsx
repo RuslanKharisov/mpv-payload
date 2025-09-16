@@ -37,9 +37,7 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
                 {item.sku}
                 <ExternalLink className="ml-1 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
               </Link>
-              <span className="text-sm font-normal text-muted-foreground ml-2">
-                {item.manufacturer}
-              </span>
+              <span className="text-sm font-normal text-muted-foreground ml-2">{item.brand}</span>
             </p>
             <p className="inline-flex gap-1 text-xs leading-6">
               Склад: <span className="font-semibold text-foreground">{'!! Город'}</span>

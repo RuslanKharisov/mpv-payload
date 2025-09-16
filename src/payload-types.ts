@@ -69,7 +69,7 @@ export interface Config {
   collections: {
     products: Product;
     'product-categories': ProductCategory;
-    manufacturers: Manufacturer;
+    brands: Brand;
     pages: Page;
     posts: Post;
     media: Media;
@@ -98,7 +98,7 @@ export interface Config {
   collectionsSelect: {
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
-    manufacturers: ManufacturersSelect<false> | ManufacturersSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -190,7 +190,7 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
-  manufacturer?: (number | null) | Manufacturer;
+  brand?: (number | null) | Brand;
   layout?: (ContentBlock | MediaBlock | CallToActionBlock)[] | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -309,9 +309,9 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "manufacturers".
+ * via the `definition` "brands".
  */
-export interface Manufacturer {
+export interface Brand {
   id: number;
   name: string;
   slug?: string | null;
@@ -1207,8 +1207,8 @@ export interface PayloadLockedDocument {
         value: number | ProductCategory;
       } | null)
     | ({
-        relationTo: 'manufacturers';
-        value: number | Manufacturer;
+        relationTo: 'brands';
+        value: number | Brand;
       } | null)
     | ({
         relationTo: 'pages';
@@ -1348,7 +1348,7 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  manufacturer?: T;
+  brand?: T;
   layout?:
     | T
     | {
@@ -1439,9 +1439,9 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "manufacturers_select".
+ * via the `definition` "brands_select".
  */
-export interface ManufacturersSelect<T extends boolean = true> {
+export interface BrandsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   slugLock?: T;

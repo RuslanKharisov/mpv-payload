@@ -97,10 +97,10 @@ export const Products: CollectionConfig = {
               ],
             },
             {
-              name: 'manufacturer',
+              name: 'brand',
               label: 'Производитель',
               type: 'relationship',
-              relationTo: 'manufacturers',
+              relationTo: 'brands',
             },
           ],
         },

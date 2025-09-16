@@ -34,11 +34,11 @@ export const ProductsTableColumns = (supplier: Tenant): ColumnDef<RemoteStock>[]
     ),
   },
   {
-    accessorKey: 'manufacturer',
+    accessorKey: 'brand',
     header: 'Вендор',
     cell: ({ row, column }) => (
       <div data-title={column.columnDef.header as string}>
-        <p className="w-full text-wrap text-xs">{row.getValue('manufacturer')}</p>
+        <p className="w-full text-wrap text-xs">{row.getValue('brand')}</p>
       </div>
     ),
   },

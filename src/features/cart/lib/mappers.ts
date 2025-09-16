@@ -12,7 +12,7 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
     sku: stock.product.sku,
     description: stock.product?.shortDescription ?? '', // Уточните, где у вас описание
     imageUrl: stock.product.productImage.url || PLACEHOLDER_IMAGE_URL,
-    manufacturer: stock.product.manufacturer?.name,
+    brand: stock.product.brand?.name,
     supplierName: stock.tenant.name,
     supplierEmail: stock.tenant.requestEmail,
     price: stock.price ?? 0,
@@ -37,7 +37,7 @@ export function mapRemoteStockToCartItem(
     sku: remoteStock.sku,
     description: remoteStock.description,
     imageUrl: PLACEHOLDER_IMAGE_URL,
-    manufacturer: remoteStock.manufacturer || undefined,
+    brand: remoteStock.brand || undefined,
     supplierName: supplier.name,
     supplierEmail: supplier.requestEmail,
     price: remoteStock.price ?? 0, // Предполагаем, что цена может приходить

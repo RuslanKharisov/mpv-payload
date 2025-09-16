@@ -66,7 +66,6 @@ export const Stocks: CollectionConfig = {
         // Редактировать это поле могут только те, у кого есть фича 'CAN_PROMOTE_PRODUCTS'
         update: async (args) => {
           const result = await checkTenantFeatureAccess('CAN_PROMOTE_PRODUCTS')(args)
-          console.log('result ==> ', result)
           return typeof result === 'boolean' ? result : true
         },
         // Видят поле все, кто может редактировать сам документ
