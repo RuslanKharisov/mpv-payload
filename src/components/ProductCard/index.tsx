@@ -28,11 +28,9 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </CardHeader>
         <CardContent className="grow pt-5">
-          <div className="flex items-center space-x-2">
-            <h3 className="line-clamp-2 text-lg font-semibold">{product?.name}</h3>
-          </div>
-          <div className="line-clamp-3 text-sm text-muted-foreground">
-            {product?.shortDescription}
+          <div className="flex flex-col gap-5">
+            <h4 className="text-base font-semibold">{product?.sku}</h4>
+            <div className="line-clamp-3 text-sm text-muted-foreground">{product?.name}</div>
           </div>
         </CardContent>
         <CardFooter className="mt-2 flex grow-0 flex-col justify-between gap-2">

@@ -43,7 +43,14 @@ export default async function Page({ searchParams: paramsPromice }: Args) {
   }
 
   if (phrase) {
-    where['name'] = { contains: phrase }
+    where.or = [
+      {
+        name: { contains: phrase }, // Условие 1: Искать в названии
+      },
+      {
+        sku: { contains: phrase }, // Условие 2: Искать в SKU
+      },
+    ]
   }
 
   const productsReq = await payload.find({
