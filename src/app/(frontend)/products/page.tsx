@@ -1,5 +1,5 @@
 // src/app/(frontend)/products/page.tsx
-import React, { cache } from 'react'
+import React, { cache, useState } from 'react'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import { Product, ProductCategory } from '@/payload-types'
@@ -8,6 +8,7 @@ import { getPayload } from 'payload'
 import { FiltersSidebar } from '@/widgets/filters-sidebar'
 import { WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
 import { ProductsPagination } from '@/widgets/products-catalog'
+import { SearchInput } from '@/widgets/serch-input'
 
 export const revalidate = 60
 
@@ -19,11 +20,8 @@ type Args = {
 
 export default async function Page({ searchParams: paramsPromice }: Args) {
   const { page, category: categorySlug, phrase } = await paramsPromice
-
   const pageNumber = Number(page) || 1
-
   const payload = await getPayload({ config: configPromise })
-
   const allCategories = await getAllCategories()
 
   const where: any = {}
@@ -65,20 +63,20 @@ export default async function Page({ searchParams: paramsPromice }: Args) {
   const pageTitle = currentCategory ? currentCategory.title : 'Каталог оборудования'
 
   return (
-    <div className="py-8 lg:py-16">
+    <div className="py-3 lg:py-16">
       <div className="container">
-        <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-          <aside className="w-full md:w-1/4 lg:w-1/5">
-            <FiltersSidebar
-              allCategories={allCategories as ProductCategoryWithParents[]}
-              activeCategorySlug={categorySlug as string}
-            />
-          </aside>
+        <div className=" flex flex-col md:flex-row gap-5 lg:gap-12">
+          <FiltersSidebar
+            allCategories={allCategories as ProductCategoryWithParents[]}
+            activeCategorySlug={categorySlug as string}
+          />
 
-          <main className="w-full md:w-3/4 lg:w-4/5">
-            <div className="prose dark:prose-invert max-w-none mb-8">
+          <main className="flex flex-1 flex-col gap-5">
+            <div className="prose dark:prose-invert max-w-none">
               <h1>{pageTitle}</h1>
             </div>
+
+            <SearchInput />
 
             <ProductsBlock products={productsReq.docs as Product[]} />
 

@@ -9,11 +9,11 @@ type Args = {
 }
 
 export function SearchInput({ className }: Args) {
-  const [searchQueryDraft, setSearchQueryDraft] = useState<string>('') // Для чернового ввода
+  const [searchQueryDraft, setSearchQueryDraft] = useState<string>('')
   const router = useRouter()
 
   const handleSearchChange = (newSearchQuery: string) => {
-    setSearchQueryDraft(newSearchQuery) // Обновляем черновой фильтр
+    setSearchQueryDraft(newSearchQuery)
   }
 
   const applyFilters = () => {
@@ -23,8 +23,8 @@ export function SearchInput({ className }: Args) {
   }
 
   const handleExampleClick = (exampleSku: string) => {
-    setSearchQueryDraft(exampleSku) // Устанавливаем значение в инпут
-    router.push(`products?phrase=${encodeURIComponent(exampleSku)}`) // Переходим по ссылке
+    setSearchQueryDraft(exampleSku)
+    router.push(`products?phrase=${encodeURIComponent(exampleSku)}`)
   }
 
   return (
@@ -32,7 +32,7 @@ export function SearchInput({ className }: Args) {
       <TextFilterInput
         value={searchQueryDraft}
         onChange={(e) => handleSearchChange(e.target.value)}
-        applyFilter={applyFilters} // Применяем фильтр
+        applyFilter={applyFilters}
         placeholder="Искать ..."
       />
       <p
