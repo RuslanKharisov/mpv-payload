@@ -11,6 +11,7 @@ import { seedPages } from './seed-pages'
 import { seedProducts } from './seed-products'
 import { seedGlobal } from './seed-global'
 import { seedProductCategories } from './seed-product-categories'
+import { seedTariffs } from './seed-tariffs'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [
@@ -79,4 +80,6 @@ export const seed = async ({
 
   /** Создание товаров в каталоге */
   // await seedProducts(payload)
+
+  // await seedTariffs(payload)
 }
