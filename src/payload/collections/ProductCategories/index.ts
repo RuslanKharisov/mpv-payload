@@ -20,7 +20,7 @@ export const ProductCategories: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'breadcrumb', 'depth'],
     listSearchableFields: ['title', 'title_en', 'breadcrumb'],
-    group: 'Компания и аккаунт',
+    group: 'Продукция',
   },
   fields: [
     {

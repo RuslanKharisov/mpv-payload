@@ -67,7 +67,6 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    companies: Company;
     products: Product;
     'product-categories': ProductCategory;
     manufacturers: Manufacturer;
@@ -97,7 +96,6 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    companies: CompaniesSelect<false> | CompaniesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
     manufacturers: ManufacturersSelect<false> | ManufacturersSelect<true>;
@@ -168,46 +166,6 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "companies".
- */
-export interface Company {
-  id: number;
-  name: string;
-  type: number | CompanyType;
-  address?: (number | null) | Address;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "company-types".
- */
-export interface CompanyType {
-  id: number;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "addresses".
- */
-export interface Address {
-  id: number;
-  fias_id: string;
-  kladr_id?: string | null;
-  city?: string | null;
-  street?: string | null;
-  house?: string | null;
-  fullAddress?: string | null;
-  geo_lat?: string | null;
-  geo_lon?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1042,6 +1000,33 @@ export interface Tariff {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "addresses".
+ */
+export interface Address {
+  id: number;
+  fias_id: string;
+  kladr_id?: string | null;
+  city?: string | null;
+  street?: string | null;
+  house?: string | null;
+  fullAddress?: string | null;
+  geo_lat?: string | null;
+  geo_lon?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-types".
+ */
+export interface CompanyType {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1214,10 +1199,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'companies';
-        value: number | Company;
-      } | null)
-    | ({
         relationTo: 'products';
         value: number | Product;
       } | null)
@@ -1350,18 +1331,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "companies_select".
- */
-export interface CompaniesSelect<T extends boolean = true> {
-  name?: T;
-  type?: T;
-  address?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -27,7 +27,7 @@ export const Tenants: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Компания и аккаунт',
+    group: 'Профиль и инфо о компании',
   },
   labels: {
     singular: 'Профиль_Компании',

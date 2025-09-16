@@ -4,14 +4,14 @@ import { CollectionConfig } from 'payload'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
-  labels: { singular: 'Мой склад', plural: 'Мой склад' },
+  labels: { singular: 'СКЛАД', plural: 'СКЛАД' },
   access: {
     read: authenticated,
     create: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
     update: authenticated,
     delete: authenticated,
   },
-  admin: { useAsTitle: 'title_in_admin', group: 'Компания и аккаунт' },
+  admin: { useAsTitle: 'title_in_admin', group: 'Управление складом' },
   fields: [
     { name: 'quantity', label: 'Количество', type: 'number', required: true },
     {

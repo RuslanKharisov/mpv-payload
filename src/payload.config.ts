@@ -92,7 +92,6 @@ export default buildConfig({
     },
   }),
   collections: [
-    Companies,
     Products,
     ProductCategories,
     Manufacturers,

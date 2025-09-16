@@ -12,7 +12,7 @@ export const Manufacturers: CollectionConfig = {
     update: isSuperAdminAccess,
   },
   labels: { singular: 'Производитель', plural: 'Производители' },
-  admin: { useAsTitle: 'name', group: 'Компания и аккаунт' },
+  admin: { useAsTitle: 'name', group: 'Продукция' },
   fields: [
     {
       name: 'name',

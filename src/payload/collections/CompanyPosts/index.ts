@@ -23,7 +23,7 @@ export const CompanyPosts: CollectionConfig = {
     update: authenticated, // Обновлять может админ тенанта или автор
     delete: authenticated,
   },
-  admin: { useAsTitle: 'title', group: 'Компания и аккаунт' },
+  admin: { useAsTitle: 'title', group: 'Продвижение' },
   fields: [
     { name: 'title', type: 'text', required: true },
     { name: 'slug', type: 'text', required: true },

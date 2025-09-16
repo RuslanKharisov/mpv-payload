@@ -11,7 +11,7 @@ export const Subscriptions: CollectionConfig = {
     read: anyone,
     update: isSuperAdminAccess,
   },
-  admin: { useAsTitle: 'id', group: 'Компания и аккаунт' },
+  admin: { useAsTitle: 'id', group: 'Профиль и инфо о компании' },
   fields: [
     { name: 'startDate', type: 'date', required: true },
     { name: 'endDate', type: 'date' },
