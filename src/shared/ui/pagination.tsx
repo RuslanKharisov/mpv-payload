@@ -1,107 +1,106 @@
-'use client'
+import * as React from 'react'
+import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
 
-import { useRouter } from 'next/navigation'
-import { Arrow } from '../icons/arrow'
-import { Skeleton } from './skeleton'
-import { getRouteProductCategoriesPaginated } from '../utilities/routes'
+import { cn } from '@/shared/ui/utils'
+import { Button, buttonVariants } from '@/shared/ui/button'
 
-export const PaginationSkeleton = () => (
-  <div className="mt-6 flex w-fit items-center gap-1 rounded-[4px] border border-gray-300 px-3 py-1.5">
-    {Array.from({ length: 5 }).map((_, i) => (
-      <Skeleton key={i} className="h-[32px] w-[32px] rounded-[4px] border border-gray-200" />
-    ))}
-  </div>
-)
-
-type ServerVariant = { variant: 'server'; onPageChange?: never }
-type ClientVariant = { variant: 'client'; onPageChange: (page: number) => void }
-
-type PaginationProps = {
-  page: number
-  totalPages: number
-  isLoading?: boolean
-} & (ServerVariant | ClientVariant)
-
-export const Pagination: React.FC<PaginationProps> = ({
-  page,
-  totalPages,
-  onPageChange,
-  isLoading,
-  variant,
-}) => {
-  const router = useRouter()
-
-  const handlePageClick = (pageNum: number) => {
-    if (isLoading || pageNum === page || pageNum < 1 || pageNum > totalPages) return
-
-    if (variant === 'server') {
-      router.push(getRouteProductCategoriesPaginated(pageNum))
-    } else {
-      onPageChange?.(pageNum)
-    }
-  }
-
-  const getPagesToShow = (): (number | string)[] => {
-    if (totalPages <= 3) return Array.from({ length: totalPages }, (_, i) => i + 1)
-
-    const pages: (number | string)[] = [1]
-
-    if (page > 3) pages.push('...')
-
-    const middlePages = [Math.max(2, page - 1), page, Math.min(totalPages - 1, page + 1)].filter(
-      (p, i, arr) => arr.indexOf(p) === i && p > 1 && p < totalPages,
-    )
-
-    pages.push(...middlePages)
-
-    if (page < totalPages - 2) pages.push('...')
-
-    pages.push(totalPages)
-
-    return pages
-  }
-
-  const pagesToShow = getPagesToShow()
-
+function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
-    <div className="mb-4 flex w-fit items-center rounded-[4px] border border-gray-300">
-      <button
-        className="cursor-pointer px-3 py-1.5 disabled:opacity-50"
-        disabled={page <= 1 || isLoading}
-        onClick={() => handlePageClick(page - 1)}
-      >
-        <Arrow className="text-dark-grey" />
-      </button>
-
-      {pagesToShow.map((p, idx) =>
-        p === '...' ? (
-          <span
-            key={`ellipsis-${idx}`}
-            className="text-dark-grey cursor-default border-x border-gray-300 px-3 py-1.5 text-[14px]"
-          >
-            ...
-          </span>
-        ) : (
-          <button
-            key={p}
-            disabled={isLoading}
-            className={`${
-              p === page ? 'bg-black text-white' : 'text-dark-grey'
-            } cursor-pointer border-x border-gray-300 px-3 py-1.5 text-[14px] leading-[150%] font-medium`}
-            onClick={() => handlePageClick(p as number)}
-          >
-            {p}
-          </button>
-        ),
-      )}
-
-      <button
-        className="rotate-180 cursor-pointer px-3 py-1.5 disabled:opacity-50"
-        disabled={page >= totalPages || isLoading}
-        onClick={() => handlePageClick(page + 1)}
-      >
-        <Arrow className="text-dark-grey" />
-      </button>
-    </div>
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      data-slot="pagination"
+      className={cn('mx-auto flex w-full justify-center', className)}
+      {...props}
+    />
   )
+}
+
+function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) {
+  return (
+    <ul
+      data-slot="pagination-content"
+      className={cn('flex flex-row items-center gap-1', className)}
+      {...props}
+    />
+  )
+}
+
+function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
+  return <li data-slot="pagination-item" {...props} />
+}
+
+type PaginationLinkProps = {
+  isActive?: boolean
+} & Pick<React.ComponentProps<typeof Button>, 'size'> &
+  React.ComponentProps<'a'>
+
+function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
+  return (
+    <a
+      aria-current={isActive ? 'page' : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(
+        buttonVariants({
+          variant: isActive ? 'outline' : 'ghost',
+          size,
+        }),
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to previous page"
+      size="default"
+      className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
+      {...props}
+    >
+      <ChevronLeftIcon />
+      <span className="hidden sm:block">Previous</span>
+    </PaginationLink>
+  )
+}
+
+function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to next page"
+      size="default"
+      className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
+      {...props}
+    >
+      <span className="hidden sm:block">Next</span>
+      <ChevronRightIcon />
+    </PaginationLink>
+  )
+}
+
+function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
+  return (
+    <span
+      aria-hidden
+      data-slot="pagination-ellipsis"
+      className={cn('flex size-9 items-center justify-center', className)}
+      {...props}
+    >
+      <MoreHorizontalIcon className="size-4" />
+      <span className="sr-only">More pages</span>
+    </span>
+  )
+}
+
+export {
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
 }

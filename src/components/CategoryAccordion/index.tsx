@@ -58,7 +58,7 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                 >
                   <AccordionTrigger className="p-4 text-base font-semibold hover:no-underline">
                     {/* Оборачиваем заголовок в Link для навигации */}
-                    <Link href={`/product-categories/${parent.slug}`} className="hover:underline">
+                    <Link href={`/products?category=${parent.slug}`} className="hover:underline">
                       {parent.title}
                     </Link>
                   </AccordionTrigger>
@@ -67,7 +67,7 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                       {childCategories.map((child) => (
                         <li key={child.id} className="flex items-center gap-2">
                           <Link
-                            href={`/product-categories/${child.slug}`}
+                            href={`/products?category=${child.slug}`}
                             className="rounded px-1 text-sm  hover:bg-primary/90 hover:text-white duration-100"
                           >
                             {child.title}
@@ -83,7 +83,7 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
               <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-secondary p-4">
                 {parent.slug && (
                   <Link
-                    href={`/product-categories/${encodeURIComponent(parent.slug)}`}
+                    href={`/products?category=${encodeURIComponent(parent.slug)}`}
                     className="w-full text-base font-semibold leading-[22px]"
                   >
                     {parent.title}
