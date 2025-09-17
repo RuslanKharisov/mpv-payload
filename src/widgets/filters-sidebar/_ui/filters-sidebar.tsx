@@ -8,20 +8,18 @@ import { useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
 import { SlidersHorizontal, XIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-
-type CategoryWithParent = WithPopulatedMany<ProductCategory, { parent: ProductCategory }>
+import { ProductCategoryWithParents } from '@/entities/category'
 
 export function FiltersSidebar({
   allCategories,
   activeCategorySlug,
 }: {
-  allCategories: CategoryWithParent[]
+  allCategories: ProductCategoryWithParents[]
   activeCategorySlug?: string
 }) {
   const { title, categories, showAll } = getSidebarCategories(allCategories, activeCategorySlug)
   const [isOpen, setIsOpen] = useState(true)
   const pathname = usePathname()
-  console.log('activeCategorySlug ==> ', activeCategorySlug)
 
   return (
     <>

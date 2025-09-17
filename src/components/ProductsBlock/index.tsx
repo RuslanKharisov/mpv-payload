@@ -2,7 +2,7 @@ import { Product } from '@/payload-types'
 import { ProductCard } from '../ProductCard'
 
 interface ProductsBlockProps {
-  products: Product[]
+  products?: Product[]
 }
 
 export function ProductsBlock({ products }: ProductsBlockProps) {

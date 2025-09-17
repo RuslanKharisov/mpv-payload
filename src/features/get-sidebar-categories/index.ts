@@ -1,19 +1,11 @@
-import { ProductCategory } from '@/payload-types'
-import { WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
-
-// Уточнённый тип (parent может быть id или объект с id)
-// type CategoryWithParent = ProductCategory & {
-//   parent?: { id: string | number; slug?: string } | string | number | null
-// }
-
-type CategoryWithParent = WithPopulatedMany<ProductCategory, { parent: ProductCategory }>
+import { ProductCategoryWithParents } from '@/entities/category'
 
 export function getSidebarCategories(
-  allCategories: CategoryWithParent[],
+  allCategories: ProductCategoryWithParents[],
   activeCategorySlug?: string,
 ): {
   title: string
-  categories: CategoryWithParent[]
+  categories: ProductCategoryWithParents[]
   showAll: boolean
 } {
   if (!activeCategorySlug) {
