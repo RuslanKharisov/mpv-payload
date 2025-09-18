@@ -23,6 +23,7 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TenantField as TenantField_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
+import { default as default_3e4f70d280373795c3ca33283d5cc5ca } from '@/payload/collections/Warehouses/ui/DaDataAddressField'
 import { WatchTenantCollection as WatchTenantCollection_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
@@ -34,38 +35,68 @@ import { TenantSelector as TenantSelector_d6d5f193a167989e2ee7d14202901e62 } fro
 import { TenantSelectionProvider as TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62 } from '@payloadcms/plugin-multi-tenant/rsc'
 
 export const importMap = {
-  "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
-  "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
-  "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
-  "@payloadcms/richtext-lexical/client#IndentFeatureClient": IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#OrderedListFeatureClient": OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#UnorderedListFeatureClient": UnorderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#AlignFeatureClient": AlignFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#HeadingFeatureClient": HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/payload/fields/slug/SlugComponent#SlugComponent": SlugComponent_2f7cb6d15a7be4cbd9d669ac9f96d997,
-  "@/payload/fields/skuNormalized/SkuNormalizedComponent#SkuNormalizedComponent": SkuNormalizedComponent_d375e05c9d5870cf430940efb4063bf5,
-  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/plugin-multi-tenant/client#TenantField": TenantField_1d0591e3cf4f332c83a86da13a0de59a,
-  "@payloadcms/plugin-multi-tenant/client#WatchTenantCollection": WatchTenantCollection_1d0591e3cf4f332c83a86da13a0de59a,
-  "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
-  "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
-  "@/widgets/header/RowLabel#RowLabel": RowLabel_3d5d63dbe36d7a6ec0aa16d56ebd6120,
-  "@/widgets/footer/RowLabel#RowLabel": RowLabel_66e345e01029cb0f99515bb9f7df4120,
-  "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
-  "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
-  "@payloadcms/plugin-multi-tenant/rsc#TenantSelector": TenantSelector_d6d5f193a167989e2ee7d14202901e62,
-  "@payloadcms/plugin-multi-tenant/rsc#TenantSelectionProvider": TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62
+  '@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell':
+    RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
+  '@payloadcms/richtext-lexical/rsc#RscEntryLexicalField':
+    RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
+  '@payloadcms/richtext-lexical/rsc#LexicalDiffComponent':
+    LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
+  '@payloadcms/richtext-lexical/client#IndentFeatureClient':
+    IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#LinkFeatureClient':
+    LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#OrderedListFeatureClient':
+    OrderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#UnorderedListFeatureClient':
+    UnorderedListFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#AlignFeatureClient':
+    AlignFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient':
+    InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient':
+    FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#HeadingFeatureClient':
+    HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#ParagraphFeatureClient':
+    ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#UnderlineFeatureClient':
+    UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#BoldFeatureClient':
+    BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#ItalicFeatureClient':
+    ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@/payload/fields/slug/SlugComponent#SlugComponent':
+    SlugComponent_2f7cb6d15a7be4cbd9d669ac9f96d997,
+  '@/payload/fields/skuNormalized/SkuNormalizedComponent#SkuNormalizedComponent':
+    SkuNormalizedComponent_d375e05c9d5870cf430940efb4063bf5,
+  '@payloadcms/plugin-seo/client#OverviewComponent':
+    OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  '@payloadcms/plugin-seo/client#MetaTitleComponent':
+    MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  '@payloadcms/plugin-seo/client#MetaImageComponent':
+    MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  '@payloadcms/plugin-seo/client#MetaDescriptionComponent':
+    MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  '@payloadcms/plugin-seo/client#PreviewComponent':
+    PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  '@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient':
+    HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/richtext-lexical/client#BlocksFeatureClient':
+    BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/plugin-multi-tenant/client#TenantField':
+    TenantField_1d0591e3cf4f332c83a86da13a0de59a,
+  '@/payload/collections/Warehouses/ui/DaDataAddressField#default':
+    default_3e4f70d280373795c3ca33283d5cc5ca,
+  '@payloadcms/plugin-multi-tenant/client#WatchTenantCollection':
+    WatchTenantCollection_1d0591e3cf4f332c83a86da13a0de59a,
+  '@payloadcms/plugin-search/client#LinkToDoc': LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
+  '@payloadcms/plugin-search/client#ReindexButton': ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
+  '@/widgets/header/RowLabel#RowLabel': RowLabel_3d5d63dbe36d7a6ec0aa16d56ebd6120,
+  '@/widgets/footer/RowLabel#RowLabel': RowLabel_66e345e01029cb0f99515bb9f7df4120,
+  '@/components/BeforeDashboard#default': default_1a7510af427896d367a49dbf838d2de6,
+  '@/components/BeforeLogin#default': default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  '@payloadcms/plugin-multi-tenant/rsc#TenantSelector':
+    TenantSelector_d6d5f193a167989e2ee7d14202901e62,
+  '@payloadcms/plugin-multi-tenant/rsc#TenantSelectionProvider':
+    TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62,
 }

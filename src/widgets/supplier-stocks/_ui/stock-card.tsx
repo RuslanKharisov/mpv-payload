@@ -25,6 +25,7 @@ const formatCurrency = (amount: number, currencyCode: string) => {
 }
 
 export function StockCard({ stock }: StockCardProps) {
+  console.log('stock ==> ', stock)
   // Убедимся, что product и currency являются объектами
   const product = stock.product
   const currency = typeof stock.currency === 'object' ? stock.currency : ({} as Currency)
@@ -53,7 +54,7 @@ export function StockCard({ stock }: StockCardProps) {
             </h3>
             <p className="text-sm text-primary-grey">
               <span className="font-normal">Состояние: </span>
-              <span>{product.condition || 'Не указано'}</span>
+              <span>{stock.condition || 'Не указано'}</span>
             </p>
           </div>
           <div className="flex items-center gap-1">
@@ -91,7 +92,7 @@ export function StockCard({ stock }: StockCardProps) {
           </div>
           <div>
             <span className="opacity-70">Гарантия:</span>
-            <div className="font-medium">24 months</div>
+            <div className="font-medium">{stock.warranty || 'Не указана'} мес.</div>
           </div>
         </div>
 

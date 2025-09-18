@@ -76,6 +76,7 @@ export interface Config {
     categories: Category;
     users: User;
     stocks: Stock;
+    warehouses: Warehouse;
     'company-projects': CompanyProject;
     'company-certifications': CompanyCertification;
     'company-posts': CompanyPost;
@@ -105,6 +106,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     stocks: StocksSelect<false> | StocksSelect<true>;
+    warehouses: WarehousesSelect<false> | WarehousesSelect<true>;
     'company-projects': CompanyProjectsSelect<false> | CompanyProjectsSelect<true>;
     'company-certifications': CompanyCertificationsSelect<false> | CompanyCertificationsSelect<true>;
     'company-posts': CompanyPostsSelect<false> | CompanyPostsSelect<true>;
@@ -893,6 +895,10 @@ export interface Stock {
    */
   price?: number | null;
   currency: number | Currency;
+  condition?: ('Новый' | 'Б/У' | 'Без упаковки') | null;
+  expectedDelivery?: string | null;
+  warranty?: number | null;
+  warehouse?: (number | null) | Warehouse;
   title_in_admin?: string | null;
   /**
    * Отметьте, чтобы товар появился в карусели на главной странице.
@@ -910,6 +916,35 @@ export interface Currency {
   code: string;
   name: string;
   symbol?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warehouses".
+ */
+export interface Warehouse {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  warehouse_address: number | Address;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "addresses".
+ */
+export interface Address {
+  id: number;
+  fias_id: string;
+  kladr_id?: string | null;
+  city?: string | null;
+  street?: string | null;
+  house?: string | null;
+  fullAddress?: string | null;
+  geo_lat?: string | null;
+  geo_lon?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -995,23 +1030,6 @@ export interface Tariff {
    * Выберите, какие платные функции будут доступны по этому тарифу. Это напрямую влияет на доступы.
    */
   features: ('CANT_ANY' | 'CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS')[];
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "addresses".
- */
-export interface Address {
-  id: number;
-  fias_id: string;
-  kladr_id?: string | null;
-  city?: string | null;
-  street?: string | null;
-  house?: string | null;
-  fullAddress?: string | null;
-  geo_lat?: string | null;
-  geo_lon?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1233,6 +1251,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'stocks';
         value: number | Stock;
+      } | null)
+    | ({
+        relationTo: 'warehouses';
+        value: number | Warehouse;
       } | null)
     | ({
         relationTo: 'company-projects';
@@ -1711,8 +1733,23 @@ export interface StocksSelect<T extends boolean = true> {
   product?: T;
   price?: T;
   currency?: T;
+  condition?: T;
+  expectedDelivery?: T;
+  warranty?: T;
+  warehouse?: T;
   title_in_admin?: T;
   isPromoted?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warehouses_select".
+ */
+export interface WarehousesSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  warehouse_address?: T;
   updatedAt?: T;
   createdAt?: T;
 }

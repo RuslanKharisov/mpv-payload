@@ -38,6 +38,33 @@ export const Stocks: CollectionConfig = {
       label: 'Валюта',
     },
     {
+      name: 'condition',
+      label: 'Состояние',
+      type: 'select',
+      options: [
+        { label: 'Новый', value: 'Новый' },
+        { label: 'Б/У', value: 'Б/У' },
+        { label: 'Без упаковки', value: 'Без упаковки' },
+      ],
+    },
+    {
+      name: 'expectedDelivery',
+      label: 'Ожидаемая дата наличия',
+      type: 'date',
+    },
+    {
+      name: 'warranty',
+      label: 'Гарантия (мес.)',
+      type: 'number',
+    },
+    {
+      name: 'warehouse',
+      label: 'Склад',
+      type: 'relationship',
+      relationTo: 'warehouses',
+      required: false,
+    },
+    {
       name: 'title_in_admin',
       label: 'Наименование',
       type: 'text',

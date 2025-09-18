@@ -39,6 +39,7 @@ import { Currencies } from './payload/collections/Currencies'
 
 // import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { Warehouses } from './payload/collections/Warehouses'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -86,6 +87,7 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: postgresAdapter({
+    push: process.env.NODE_ENV !== 'production', //!!! Настройка для предотвращения записи изменений в базу в DEV режиме на Production сервере.
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
@@ -100,6 +102,7 @@ export default buildConfig({
     Categories,
     Users,
     Stocks,
+    Warehouses,
     CompanyProjects,
     CompanyCertifications,
     CompanyPosts,
