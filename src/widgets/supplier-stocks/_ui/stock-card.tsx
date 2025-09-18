@@ -12,6 +12,8 @@ import Image from 'next/image'
 import { StockWithTenantAndCurrency } from '@/features/stock'
 import { Currency, Product, Tenant } from '@/payload-types'
 import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
+import { SendPriceRequestModal } from '@/features/send-price-request'
+import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
 
 interface StockCardProps {
   stock: StockWithTenantAndCurrency
@@ -76,19 +78,17 @@ export function StockCard({ stock }: StockCardProps) {
           <div>
             <span className="opacity-70">Предложение от: </span>
             <div className="font-medium inline-flex items-center gap-1 cursor-pointer hover:underline">
-              {tenant.countryCode && (
-                <img
-                  className="w-4 h-3"
-                  alt={tenant.countryCode}
-                  src={`https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/${tenant.countryCode.toLowerCase()}.svg`}
-                />
+              {stock.warehouse?.warehouse_address?.country_iso_code && (
+                <Badge variant="default" className="">
+                  {stock.warehouse?.warehouse_address?.country_iso_code}
+                </Badge>
               )}
               {tenant.name || 'Trusted Supplier'}
             </div>
           </div>
           <div>
-            <span className="opacity-70">Предполагаемая доставка:</span>
-            <div className="font-medium">18-19 September to Germany</div>
+            <span className="opacity-70">Адрес склада:</span>
+            <div className="font-medium">{stock.warehouse?.warehouse_address?.city}</div>
           </div>
           <div>
             <span className="opacity-70">Гарантия:</span>
@@ -106,13 +106,12 @@ export function StockCard({ stock }: StockCardProps) {
             <div className="text-sm text-[#1E222C]">без НДС</div>
           </div>
           <div className="flex flex-col gap-2 w-full lg:w-auto">
-            <Button className="w-full bg-success-default text-white">Buy Now</Button>
-            <div className="flex gap-2">
-              <Button variant="outline" className="flex-1">
-                Запросить предложение
-              </Button>
-              <AddToCartCell stock={stock} className="w-fit"></AddToCartCell>
-            </div>
+            <SendPriceRequestModal
+              tenantName={tenant.name}
+              tenantEmail={tenant.requestEmail}
+              items={[{ item: mapLocalStockToCartItem(stock), quantity: 1 }]}
+            />
+            <AddToCartCell stock={stock} className=""></AddToCartCell>
           </div>
         </div>
       </div>

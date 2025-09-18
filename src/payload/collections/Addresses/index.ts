@@ -22,5 +22,6 @@ export const Addresses: CollectionConfig = {
     { name: 'fullAddress', type: 'text' },
     { name: 'geo_lat', type: 'text' },
     { name: 'geo_lon', type: 'text' },
+    { name: 'country_iso_code', type: 'text' },
   ],
 }

@@ -928,6 +928,15 @@ export interface Warehouse {
   tenant?: (number | null) | Tenant;
   title: string;
   warehouse_address: number | Address;
+  selectedAddressData?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -945,6 +954,7 @@ export interface Address {
   fullAddress?: string | null;
   geo_lat?: string | null;
   geo_lon?: string | null;
+  country_iso_code?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1750,6 +1760,7 @@ export interface WarehousesSelect<T extends boolean = true> {
   tenant?: T;
   title?: T;
   warehouse_address?: T;
+  selectedAddressData?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1811,6 +1822,7 @@ export interface AddressesSelect<T extends boolean = true> {
   fullAddress?: T;
   geo_lat?: T;
   geo_lon?: T;
+  country_iso_code?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { StocksResults } from '@/widgets/remote-stocks-result'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
-import { SearchParams } from '@/widgets/remote-stocks-result/_ui/stocks-results'
+// import { SearchParams } from '@/widgets/remote-stocks-result/_ui/stocks-results'
 
 export default async function page({
   searchParams,

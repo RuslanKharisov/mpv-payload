@@ -4,18 +4,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 // 👇 ИМПОРТИРУЕМ ПРАВИЛЬНЫЙ ХУК
 import { useField } from '@payloadcms/ui'
 import { DaDataInput } from './DaDataInput'
-import { findOrCreateAddressAction } from '../actions/findOrCreateAddressAction'
+// import { findOrCreateAddressAction } from '../actions/findOrCreateAddressAction'
 
 type Props = {
-  path: string
-  adressPath: string // e.g., 'address'
+  addressRelationPath: string
+  selectedAddressDataPath: string
 }
 
-const DaDataAddressField: React.FC<Props> = ({ path, adressPath }) => {
+const DaDataAddressField: React.FC<Props> = ({ addressRelationPath, selectedAddressDataPath }) => {
   // 👇 ИСПОЛЬЗУЕМ ХУК useField.
   // Он предназначен для работы с одним полем и предоставляет и value, и setValue.
   // В качестве generic <string> указываем тип значения поля (ID - это строка).
-  const { value: addressId, setValue } = useField<string>({ path })
+  const { value: addressId, setValue } = useField<string>({ path: addressRelationPath })
+
+  const { setValue: setSelectedAddress } = useField<object>({ path: selectedAddressDataPath })
 
   const [initialDisplayValue, setInitialDisplayValue] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -47,31 +49,27 @@ const DaDataAddressField: React.FC<Props> = ({ path, adressPath }) => {
   }, [addressId, initialDisplayValue])
 
   const handleSelect = useCallback(
-    async (suggestion: any) => {
-      // setValue может быть undefined, если поле не найдено, делаем проверку
-      if (!setValue) {
-        console.error(`Field with path "${adressPath}" not found.`)
-        return
-      }
-
-      try {
-        // Вызываем Server Action для поиска или создания адреса
-        const newAddressId = await findOrCreateAddressAction(suggestion)
-
-        // Обновляем значение в поле 'address' с помощью функции setValue из хука useField
-        setValue(newAddressId)
-      } catch (error) {
-        console.error('Error processing address selection:', error)
+    (suggestion: any) => {
+      if (setSelectedAddress) {
+        // Просто кладем весь объект suggestion в наше временное поле.
+        // Payload автоматически обработает его как JSON.
+        setSelectedAddress(suggestion)
       }
     },
-    [setValue, adressPath],
+    [setSelectedAddress],
   )
 
   if (isLoading) {
     return <div>Загрузка адреса...</div>
   }
 
-  return <DaDataInput onSelect={handleSelect} initialValue={initialDisplayValue} />
+  return (
+    <DaDataInput
+      onSelect={handleSelect}
+      initialValue={initialDisplayValue}
+      key={addressId || 'new'}
+    />
+  )
 }
 
 export default DaDataAddressField

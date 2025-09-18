@@ -28,6 +28,7 @@ export const productsRouter = createTRPCRouter({
         depth: 2,
         limit: 2,
       })
+      console.log('stockRes ==> ', stockRes)
 
       return stockRes
     }),

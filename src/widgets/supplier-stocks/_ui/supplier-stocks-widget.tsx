@@ -27,8 +27,10 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
 
   const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
   const { data, isError, isLoading } = useQuery(stocksQueryOptions)
+  console.log('data ==> ', data)
 
   const datalist = data?.docs as StockWithTenantAndCurrency[]
+  console.log('datalist ==> ', datalist)
 
   return (
     <Card className="mt-8 rounded-2xl shadow-sm bg-card/5">

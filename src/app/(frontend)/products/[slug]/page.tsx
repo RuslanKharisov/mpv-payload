@@ -7,6 +7,8 @@ import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
 import { SupplierStockWidget } from '@/widgets/supplier-stocks'
 
+export const revalidate = 600
+
 type Args = {
   params: Promise<{
     slug?: string

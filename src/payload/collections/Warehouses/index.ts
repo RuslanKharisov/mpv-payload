@@ -1,14 +1,18 @@
 import { CollectionConfig } from 'payload'
+import { beforeChangeHook } from './hooks/resolveAddress'
 
 export const Warehouses: CollectionConfig = {
   slug: 'warehouses',
-  labels: { singular: 'Склад', plural: 'Склады' },
+  labels: { singular: 'Склад', plural: 'Склады и адреса' },
   admin: { useAsTitle: 'title', group: 'Управление складом' },
   access: {
     read: () => true,
     create: () => true,
     update: () => true,
     delete: () => true,
+  },
+  hooks: {
+    beforeChange: [beforeChangeHook],
   },
   fields: [
     {
@@ -26,7 +30,8 @@ export const Warehouses: CollectionConfig = {
           Field: {
             path: '@/payload/collections/Warehouses/ui/DaDataAddressField',
             clientProps: {
-              path: 'warehouse_address',
+              addressRelationPath: 'warehouse_address',
+              selectedAddressDataPath: 'selectedAddressData',
             },
           },
         },
@@ -40,6 +45,13 @@ export const Warehouses: CollectionConfig = {
       required: true,
       admin: {
         readOnly: true,
+      },
+    },
+    {
+      name: 'selectedAddressData',
+      type: 'json',
+      admin: {
+        hidden: true, // Скрываем его из интерфейса
       },
     },
   ],
