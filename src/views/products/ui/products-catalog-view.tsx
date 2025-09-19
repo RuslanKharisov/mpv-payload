@@ -1,6 +1,6 @@
 'use client'
 
-import { Product, ProductCategory } from '@/payload-types'
+import { Brand, Product, ProductCategory } from '@/payload-types'
 import { FiltersSidebar } from '@/widgets/filters-sidebar'
 import { SearchInput } from '@/widgets/serch-input'
 import { ProductsBlock } from '@/components/ProductsBlock'
@@ -15,8 +15,10 @@ type Props = {
   }
   currentCategory?: ProductCategory
   allCategories: ProductCategoryWithParents[]
+  brands?: Brand[]
   activeCategorySlug?: string
   phrase?: string
+  selectedBrands?: string[]
 }
 
 export function ProductsCatalogView({
@@ -24,8 +26,10 @@ export function ProductsCatalogView({
   pagination,
   currentCategory,
   allCategories,
+  brands,
   activeCategorySlug,
   phrase,
+  selectedBrands,
 }: Props) {
   const pageTitle = currentCategory ? currentCategory.title : 'Каталог оборудования'
 
@@ -36,6 +40,8 @@ export function ProductsCatalogView({
           <FiltersSidebar
             allCategories={allCategories}
             activeCategorySlug={activeCategorySlug ?? ''}
+            brands={brands}
+            selectedBrands={selectedBrands}
           />
 
           <main className="flex flex-1 flex-col gap-5">

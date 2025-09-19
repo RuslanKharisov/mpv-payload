@@ -1,15 +1,17 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { Product } from '@/payload-types'
+import { Brand, Product } from '@/payload-types'
 import { ProductCategory } from '@/payload-types'
 import { ProductCategoryWithParents } from '@/entities/category/model/product-category-withParents'
 import { findAllCategoryChildrenIds } from '@/entities/category/lib/find-all-category-childrenIds'
+import { slugField } from '@/payload/fields/slug'
 
 type Params = {
   page?: string
   categorySlug?: string
   phrase?: string
   allCategories: ProductCategoryWithParents[]
+  brandsSlug?: string
 }
 
 type ProductsResponse = {
@@ -20,6 +22,7 @@ type ProductsResponse = {
   }
   currentCategory?: ProductCategory
   invalidCategory: boolean
+  selectedBrandSlugs: string[]
 }
 
 export async function getProducts({
@@ -27,12 +30,14 @@ export async function getProducts({
   categorySlug,
   phrase,
   allCategories,
+  brandsSlug,
 }: Params): Promise<ProductsResponse> {
   const payload = await getPayload({ config: configPromise })
 
   const pageNumber = Number(page) || 1
   const where: any = {}
   let currentCategory: ProductCategory | undefined
+  let selectedBrandSlugs: string[] = []
   let invalidCategory = false
 
   if (categorySlug) {
@@ -44,6 +49,15 @@ export async function getProducts({
       const allCategoryIds = [String(currentCategory.id), ...childrenIds]
 
       where['productCategory.id'] = { in: allCategoryIds }
+    }
+  }
+
+  if (brandsSlug) {
+    // Превращаем строку в массив и сохраняем в нашу переменную
+    selectedBrandSlugs = brandsSlug.split(',')
+
+    if (selectedBrandSlugs.length > 0) {
+      where['brand.slug'] = { in: selectedBrandSlugs }
     }
   }
 
@@ -67,5 +81,6 @@ export async function getProducts({
     },
     currentCategory,
     invalidCategory,
+    selectedBrandSlugs: selectedBrandSlugs,
   }
 }

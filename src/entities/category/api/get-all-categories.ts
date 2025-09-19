@@ -10,6 +10,7 @@ const getAllCategories = cache(async (): Promise<ProductCategoryWithParents[]> =
     collection: 'product-categories',
     depth: 1,
     limit: 1000,
+    sort: 'slug',
   })
 
   return result.docs as ProductCategoryWithParents[]

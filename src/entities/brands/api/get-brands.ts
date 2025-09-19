@@ -9,6 +9,7 @@ async function getBrands(): Promise<Brand[]> {
     collection: 'brands',
     depth: 1,
     limit: 200,
+    sort: 'name',
   })
 
   return brands.docs
