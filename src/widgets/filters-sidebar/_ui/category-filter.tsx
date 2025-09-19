@@ -9,9 +9,10 @@ import { useSearchParams } from 'next/navigation'
 type CategoryFilterProps = {
   categories: ProductCategoryWithParents[]
   activeCategorySlug?: string
+  pageTitle?: string
 }
 
-export function CategoryFilter({ categories, activeCategorySlug }: CategoryFilterProps) {
+export function CategoryFilter({ categories, activeCategorySlug, pageTitle }: CategoryFilterProps) {
   const searchParams = useSearchParams()
   const createCategoryUrl = (slug: string) => {
     // 1. Копируем все текущие параметры (brands, phrase и т.д.)
@@ -27,7 +28,7 @@ export function CategoryFilter({ categories, activeCategorySlug }: CategoryFilte
   }
 
   return (
-    <FilterAccordion title="Категории" defaultVisibleCount={10}>
+    <FilterAccordion title={pageTitle} defaultVisibleCount={10}>
       {categories.map((cat) => (
         <li key={cat.id}>
           <Link

@@ -47,7 +47,7 @@ export function SearchInput({ className, currentPhrase }: Args) {
   }
 
   return (
-    <div className={cn('w-full py-5', className)}>
+    <div className={cn('w-full lg:w-1/2 py-5', className)}>
       <TextFilterInput
         value={searchQueryDraft}
         onChange={(e) => handleSearchChange(e.target.value)}

@@ -1,9 +1,10 @@
 'use client'
 
+import { Typography } from '@/shared/ui/typography'
 import { useState } from 'react'
 
 type FilterAccordionProps = {
-  title: string
+  title?: string
   children: React.ReactNode
   defaultVisibleCount?: number
 }
@@ -21,7 +22,9 @@ export function FilterAccordion({
 
   return (
     <div className="border-b border-border pb-2">
-      <h4 className="font-semibold mb-2">{title}</h4>
+      <Typography variant="poppins-md-16" className="mb-5">
+        {title || 'Категории'}
+      </Typography>
       <ul className="space-y-2">{visibleItems}</ul>
       {items.length > defaultVisibleCount && (
         <button

@@ -38,6 +38,7 @@ export function ProductsCatalogView({
       <div className="container">
         <div className="flex flex-col md:flex-row gap-5 lg:gap-12">
           <FiltersSidebar
+            pageTitle={pageTitle}
             allCategories={allCategories}
             activeCategorySlug={activeCategorySlug ?? ''}
             brands={brands}

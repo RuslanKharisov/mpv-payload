@@ -2,19 +2,21 @@
 
 import { useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
-import { SlidersHorizontal, XIcon } from 'lucide-react'
+import { ArrowLeft, SlidersHorizontal, XIcon } from 'lucide-react'
 import { getSidebarCategories } from '@/features/get-sidebar-categories'
 import { ProductCategoryWithParents } from '@/entities/category'
 import { CategoryFilter } from './category-filter'
 import { BrandFilter } from './brand-filter'
 import { Brand } from '@/payload-types'
 import { ClearFiltersButton } from './clear-filters-button'
+import Link from 'next/link'
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]
   activeCategorySlug?: string
   brands?: Brand[]
   selectedBrands?: string[]
+  pageTitle?: string
 }
 
 export function FiltersSidebar({
@@ -22,6 +24,7 @@ export function FiltersSidebar({
   activeCategorySlug,
   brands = [],
   selectedBrands = [],
+  pageTitle,
 }: FiltersSidebarProps) {
   const { categories, showAll } = getSidebarCategories(allCategories, activeCategorySlug)
   const [isOpen, setIsOpen] = useState(true)
@@ -43,7 +46,17 @@ export function FiltersSidebar({
       >
         <div className="p-4 max-w-full bg-card space-y-6">
           <ClearFiltersButton />
-          <CategoryFilter categories={categories} activeCategorySlug={activeCategorySlug} />
+          <Link
+            href="/products"
+            className="flex items-center gap-2 font-medium text-ring text-base"
+          >
+            <ArrowLeft /> <span>Вернуться</span>
+          </Link>
+          <CategoryFilter
+            categories={categories}
+            activeCategorySlug={activeCategorySlug}
+            pageTitle={pageTitle}
+          />
           {brands.length > 0 && <BrandFilter brands={brands} selected={selectedBrands} />}
         </div>
       </div>
