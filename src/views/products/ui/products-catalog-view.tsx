@@ -49,7 +49,7 @@ export function ProductsCatalogView({
               <h1>{pageTitle}</h1>
             </div>
 
-            <SearchInput />
+            <SearchInput currentPhrase={phrase} />
 
             <ProductsBlock products={products} />
 
