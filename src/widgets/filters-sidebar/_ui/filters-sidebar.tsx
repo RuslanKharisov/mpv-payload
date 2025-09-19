@@ -8,6 +8,7 @@ import { ProductCategoryWithParents } from '@/entities/category'
 import { CategoryFilter } from './category-filter'
 import { BrandFilter } from './brand-filter'
 import { Brand } from '@/payload-types'
+import { ClearFiltersButton } from './clear-filters-button'
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]
@@ -41,6 +42,7 @@ export function FiltersSidebar({
         )}
       >
         <div className="p-4 max-w-full bg-card space-y-6">
+          <ClearFiltersButton />
           <CategoryFilter categories={categories} activeCategorySlug={activeCategorySlug} />
           {brands.length > 0 && <BrandFilter brands={brands} selected={selectedBrands} />}
         </div>
