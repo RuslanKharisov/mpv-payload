@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ProductCategoryWithParents } from '@/entities/category'
 import { FilterAccordion } from './filter-accordion'
 import { cn } from '@/shared/ui/utils'
+import { useSearchParams } from 'next/navigation'
 
 type CategoryFilterProps = {
   categories: ProductCategoryWithParents[]
@@ -11,12 +12,26 @@ type CategoryFilterProps = {
 }
 
 export function CategoryFilter({ categories, activeCategorySlug }: CategoryFilterProps) {
+  const searchParams = useSearchParams()
+  const createCategoryUrl = (slug: string) => {
+    // 1. Копируем все текущие параметры (brands, phrase и т.д.)
+    const params = new URLSearchParams(searchParams.toString())
+
+    // 2. Устанавливаем или меняем категорию
+    params.set('category', slug)
+
+    // 3. Сбрасываем пагинацию, т.к. результаты изменятся
+    params.delete('page')
+
+    return `/products?${params.toString()}`
+  }
+
   return (
     <FilterAccordion title="Категории" defaultVisibleCount={10}>
       {categories.map((cat) => (
         <li key={cat.id}>
           <Link
-            href={`/products?category=${cat.slug}`}
+            href={createCategoryUrl(cat.slug!)}
             className={cn(
               'hover:text-destructive text-sm',
               activeCategorySlug === cat.slug ? 'text-destructive font-medium' : '',
