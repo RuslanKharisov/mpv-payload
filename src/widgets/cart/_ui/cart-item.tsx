@@ -5,6 +5,7 @@ import { Input } from '@/shared/ui/input'
 import { ExternalLink, Minus, Plus, Trash2 } from 'lucide-react'
 import { Separator } from '@/shared/ui/separator'
 import { CartEntry } from '@/entities/cart/_domain/normalized-cartItem'
+import { formatCurrency } from '@/shared/utilities/formatAmountWithСurency'
 
 interface CartItemProps {
   entry: CartEntry
@@ -47,7 +48,7 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
             </p>
           </div>
 
-          <div className="flex w-full flex-col md:flex-row items-start md:items-center">
+          <div className="flex gap-5 w-full items-center md:items-center">
             <div className="w-full max-w-[180px]">
               <div className="flex items-center gap-1">
                 <Button
@@ -70,8 +71,8 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
               </div>
             </div>
 
-            <p className="w-full mt-4 md:mt-0 text-base font-semibold text-foreground sm:ml-4">
-              {item.currencyCode} {item.price?.toFixed(2)}
+            <p className="w-full text-base font-semibold text-foreground sm:ml-4">
+              {formatCurrency(item.price || '', item.currencyCode || '')}
             </p>
 
             <div className="flex w-full justify-end md:w-fit">

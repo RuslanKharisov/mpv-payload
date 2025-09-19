@@ -39,7 +39,6 @@ export const CreateAccountForm: React.FC = () => {
 
   const onSubmit = useCallback(
     async (data: FormData) => {
-      console.log('data ==> ', data)
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
         body: JSON.stringify(data),
         headers: {

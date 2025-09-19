@@ -29,8 +29,6 @@ export function ProductsCatalogView({
 }: Props) {
   const pageTitle = currentCategory ? currentCategory.title : 'Каталог оборудования'
 
-  console.log('pagination ==> ', pagination)
-
   return (
     <div className="py-3 lg:py-16">
       <div className="container">

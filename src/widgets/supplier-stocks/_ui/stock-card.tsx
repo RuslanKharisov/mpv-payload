@@ -14,16 +14,11 @@ import { Currency, Product, Tenant } from '@/payload-types'
 import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
 import { SendPriceRequestModal } from '@/features/send-price-request'
 import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
+import { formatDateTime } from '@/shared/utilities/formatDateTime'
+import { formatCurrency } from '@/shared/utilities/formatAmountWithСurency'
 
 interface StockCardProps {
   stock: StockWithTenantAndCurrency
-}
-
-// Пример функции для форматирования валюты
-const formatCurrency = (amount: number, currencyCode: string) => {
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: currencyCode }).format(
-    amount,
-  )
 }
 
 export function StockCard({ stock }: StockCardProps) {
@@ -34,9 +29,10 @@ export function StockCard({ stock }: StockCardProps) {
   const tenant = typeof stock.tenant === 'object' ? stock.tenant : ({} as Tenant)
 
   return (
-    <Card className="w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm hover:shadow-md transition-shadow">
-      <div className="grid grid-cols-[103px_1fr] gap-6 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
-        <div className="flex items-center justify-center rounded border border-[#F4F4F4] p-1 aspect-square">
+    <Card className="relative block min-h-[166px] w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
+      <div className="grid grid-cols-[103px_1fr] gap-6 transition-all max-md:gap-2 max-md:gap-y-5 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
+        {/* элемент сетки 1 */}
+        <div className="flex aspect-square max-h-[162px] min-h-[87px] min-w-[87px] max-w-[162px] items-center justify-center rounded border-1 border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-[132px] md:relative">
           <Image
             alt={product.name || 'Product Image'}
             className="h-full w-full object-contain"
@@ -46,36 +42,44 @@ export function StockCard({ stock }: StockCardProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div>
+        {/* ------------ элемент сетки 1 -------------- */}
+        <div className="flex flex-col md:gap-4">
+          <div className="w-fit gap-[6px]">
             <p className="text-sm uppercase text-[#4A4D58]">
               {(product.brand.name && product.brand.name) || 'Производитель'}
             </p>
             <h3 className="text-base font-semibold transition-all hover:text-primary-default hover:underline md:text-lg">
-              {stock.title_in_admin || product.name || 'Product Name'}
+              {product.sku || 'Product Name'}
             </h3>
             <p className="text-sm text-primary-grey">
               <span className="font-normal">Состояние: </span>
               <span>{stock.condition || 'Не указано'}</span>
             </p>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="opacity-70">Доступность:</span>
-            <div className="flex items-center gap-3">
-              <span className="text-base font-semibold text-primary-default">
-                {stock.quantity} шт.
-              </span>
-              {stock.quantity > 0 && (
-                <Badge variant="outline" className="bg-green-100 text-green-600 border-none">
-                  <div className="h-2 w-2 rounded-full bg-green-600 mr-2"></div>В наличии
-                </Badge>
-              )}
-            </div>
+
+          <div className="flex items-center gap-1 flex-wrap">
+            <dt className="flex flex-shrink-0 items-center gap-1.5">
+              <span className="opacity-70">Доступность:</span>
+            </dt>
+            <dd className="truncate font-medium">
+              <div className="flex items-center gap-3">
+                <span className="text-base font-semibold text-primary-default">
+                  {stock.quantity} шт.
+                </span>
+                {stock.quantity > 0 && (
+                  <Badge variant="outline" className="bg-green-100 text-green-600 border-none">
+                    <div className="h-2 w-2 rounded-full bg-green-600 mr-2"></div>В наличии
+                  </Badge>
+                )}
+              </div>
+            </dd>
           </div>
         </div>
 
+        {/* -------------- элемент сетки -------------- */}
+
         <div className="flex flex-col gap-y-3 max-lg:col-span-2">
-          <div>
+          <div className="flex gap-2">
             <span className="opacity-70">Предложение от: </span>
             <div className="font-medium inline-flex items-center gap-1 cursor-pointer hover:underline">
               {stock.warehouse?.warehouse_address?.country_iso_code && (
@@ -86,21 +90,27 @@ export function StockCard({ stock }: StockCardProps) {
               {tenant.name || 'Trusted Supplier'}
             </div>
           </div>
-          <div>
+          <div className="flex gap-2">
             <span className="opacity-70">Адрес склада:</span>
             <div className="font-medium">{stock.warehouse?.warehouse_address?.city}</div>
           </div>
-          <div>
+          <div className="flex gap-2">
             <span className="opacity-70">Гарантия:</span>
             <div className="font-medium">{stock.warranty || 'Не указана'} мес.</div>
           </div>
+          <div className="flex gap-2">
+            <span className="opacity-70">Обновлен:</span>
+            <div className="font-medium">{formatDateTime(stock.updatedAt) || 'Не указана'}.</div>
+          </div>
         </div>
+
+        {/* ---------- элемент сетки  --------------  */}
 
         <div className="flex flex-col justify-between items-end max-md:col-span-2">
           <div className="text-right">
             {stock.price && (
               <div className="text-3xl font-semibold leading-none">
-                {formatCurrency(stock.price, currency.code || 'EUR')}
+                {formatCurrency(stock.price, currency.code || '')}
               </div>
             )}
             <div className="text-sm text-[#1E222C]">без НДС</div>

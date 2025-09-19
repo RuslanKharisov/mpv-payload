@@ -9,7 +9,6 @@ export const resendVerificationHandler: Endpoint = {
     try {
       if (typeof req.json === 'function') {
         data = await req.json()
-        console.log('data ==> ', data)
       }
     } catch (error) {}
     const { password, username, email } = data
