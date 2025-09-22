@@ -1,9 +1,13 @@
 import { authenticated } from '@/payload/access/authenticated'
 import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
+import { setStockDefaults } from './hooks/set-stock-defaults'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
+  hooks: {
+    beforeValidate: [setStockDefaults],
+  },
   labels: { singular: 'СКЛАД', plural: 'СКЛАД' },
   access: {
     read: authenticated,
@@ -71,18 +75,6 @@ export const Stocks: CollectionConfig = {
       admin: {
         hidden: true,
       },
-      hooks: {
-        afterRead: [
-          async ({ data, req: { payload } }) => {
-            const product = await payload.findByID({
-              collection: 'products',
-              id: data?.product,
-              depth: 0,
-            })
-            return `${product.name} (SKU: ${product.sku})`
-          },
-        ],
-      },
     },
     {
       name: 'isPromoted',
@@ -111,7 +103,7 @@ export const Stocks: CollectionConfig = {
   ],
   indexes: [
     {
-      fields: ['product', 'tenant'],
+      fields: ['product', 'tenant', 'warehouse'],
       unique: true,
     },
   ],
