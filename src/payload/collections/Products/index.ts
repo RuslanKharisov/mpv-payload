@@ -71,7 +71,6 @@ export const Products: CollectionConfig = {
               label: 'Главное изображение продукта (миниатюра)',
               type: 'upload',
               relationTo: 'media',
-              required: true,
               admin: {
                 description:
                   'Это изображение будет использоваться в качестве основного на карточке товара и в каталоге.',
@@ -92,7 +91,6 @@ export const Products: CollectionConfig = {
                   label: 'Изображение',
                   type: 'upload',
                   relationTo: 'media',
-                  required: true,
                 },
               ],
             },

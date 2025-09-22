@@ -40,11 +40,13 @@ import { Currencies } from './payload/collections/Currencies'
 // import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { Warehouses } from './payload/collections/Warehouses'
+import { importStocksEndpoint } from './endpoints/import-stocks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  endpoints: [importStocksEndpoint],
   i18n: {
     supportedLanguages: { en, ru },
     fallbackLanguage: 'en',

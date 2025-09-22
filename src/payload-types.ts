@@ -185,10 +185,10 @@ export interface Product {
   /**
    * Это изображение будет использоваться в качестве основного на карточке товара и в каталоге.
    */
-  productImage: number | Media;
+  productImage?: (number | null) | Media;
   images?:
     | {
-        image: number | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -937,6 +937,10 @@ export interface Warehouse {
     | number
     | boolean
     | null;
+  /**
+   * Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.
+   */
+  capacity?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1761,6 +1765,7 @@ export interface WarehousesSelect<T extends boolean = true> {
   title?: T;
   warehouse_address?: T;
   selectedAddressData?: T;
+  capacity?: T;
   updatedAt?: T;
   createdAt?: T;
 }

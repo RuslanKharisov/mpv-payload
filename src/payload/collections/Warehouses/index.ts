@@ -54,5 +54,17 @@ export const Warehouses: CollectionConfig = {
         hidden: true, // Скрываем его из интерфейса
       },
     },
+    {
+      name: 'capacity',
+      label: 'Максимальная вместимость (шт.)',
+      type: 'number',
+      min: 0,
+      max: 5000,
+      defaultValue: 0,
+      admin: {
+        description:
+          'Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.',
+      },
+    },
   ],
 }
