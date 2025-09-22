@@ -27,7 +27,7 @@ export function FiltersSidebar({
   pageTitle,
 }: FiltersSidebarProps) {
   const { categories, showAll } = getSidebarCategories(allCategories, activeCategorySlug)
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>

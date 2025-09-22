@@ -512,7 +512,7 @@ export interface Category {
 export interface User {
   id: number;
   username: string;
-  roles?: ('super-admin' | 'user' | 'content-editor')[] | null;
+  roles?: ('super-admin' | 'admin' | 'user' | 'content-editor')[] | null;
   tenants?:
     | {
         tenant: number | Tenant;

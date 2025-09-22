@@ -72,7 +72,7 @@ export const Users: CollectionConfig = {
       type: 'select',
       defaultValue: () => ['user'],
       hasMany: true,
-      options: ['super-admin', 'user', 'content-editor'],
+      options: ['super-admin', 'admin', 'user', 'content-editor'],
       access: {
         update: ({ req }) => {
           return isSuperAdmin(req.user)

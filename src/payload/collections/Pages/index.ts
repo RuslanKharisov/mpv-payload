@@ -22,6 +22,7 @@ import {
 import { anyone } from '@/payload/access/anyone'
 import { isHidden } from '@/payload/access/isHidden'
 import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
+import { authenticatedOrPublished } from '@/payload/access/authenticatedOrPublished'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -29,7 +30,7 @@ export const Pages: CollectionConfig<'pages'> = {
   access: {
     create: isSuperAdminAccess,
     delete: isSuperAdminAccess,
-    read: anyone,
+    read: () => true,
     update: isSuperAdminAccess,
   },
   // This config controls what's populated by default when a page is referenced

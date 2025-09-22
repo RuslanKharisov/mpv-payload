@@ -67,11 +67,11 @@ export const seed = async ({
   /* --- Загрузка медиафайлов --- */
 
   /** 1. Загрузка медиа для возможности использования при сиде страниц */
-  // const media = await seedMedia(payload)
+  const media = await seedMedia(payload)
 
   /**  --- Создание главной и страниц политики и соглашений --- */
-  // const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
-  // await seedPages(payload, media, shouldSeedPages)
+  const shouldSeedPages = ['--home', '--policy', '--terms', '--agreement', '--guide']
+  await seedPages(payload, media, shouldSeedPages)
 
   /** --- Создание пунков навигации меню --- */
   // await seedGlobal(payload)

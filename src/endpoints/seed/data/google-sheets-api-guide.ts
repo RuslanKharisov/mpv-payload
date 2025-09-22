@@ -29,10 +29,7 @@ export const googleSheetsApiGuide: (args: GuideArgs) => RequiredDataFromCollecti
       type: 'highImpact',
       links: [],
       media: heroImage.id, // Можно использовать общее изображение для всех инструкций
-      richText: createRichText([
-        createHeading('h1', 'Инструкция по настройке API Google Таблицы'),
-        createParagraph('Создано: 01.03.2025 | Обновлено: 01.04.2025'),
-      ]),
+      richText: createRichText([createHeading('h1', 'Инструкция по настройке API Google Таблицы')]),
     },
 
     // --- Основной контент страницы ---

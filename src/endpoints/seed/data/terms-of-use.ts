@@ -29,10 +29,7 @@ export const termsOfUse: (args: TermsArgs) => RequiredDataFromCollectionSlug<'pa
       type: 'highImpact',
       links: [],
       media: heroImage.id,
-      richText: createRichText([
-        createHeading('h1', 'Правила использования Сайта'),
-        createParagraph('Создано: 01.03.2025'),
-      ]),
+      richText: createRichText([createHeading('h1', 'Правила использования Сайта')]),
     },
 
     // --- Основной контент страницы ---

@@ -29,10 +29,7 @@ export const userAgreement: (args: AgreementArgs) => RequiredDataFromCollectionS
       type: 'highImpact',
       links: [],
       media: heroImage.id,
-      richText: createRichText([
-        createHeading('h1', 'Пользовательское соглашение'),
-        createParagraph('Создано: 01.03.2025'),
-      ]),
+      richText: createRichText([createHeading('h1', 'Пользовательское соглашение')]),
     },
 
     // --- Основной контент страницы ---
