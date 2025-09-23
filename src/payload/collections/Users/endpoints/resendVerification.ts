@@ -11,9 +11,7 @@ export const resendVerificationHandler: Endpoint = {
         data = await req.json()
       }
     } catch (error) {}
-    const { password, username, email } = data
-
-    console.log('email ==> ', email)
+    const { email } = data
 
     if (!email) return Response.json({ error: 'email is required' })
 
@@ -33,9 +31,7 @@ export const resendVerificationHandler: Endpoint = {
       collection: 'users',
       id: foundUser.id,
       data: {
-        _verificationToken: token, // именно camelCase как в типах
-        // если хочешь TTL, добавь своё поле:
-        // verificationTokenExpiresAt: new Date(Date.now() + 24*60*60*1000),
+        _verificationToken: token,
       },
     })
 

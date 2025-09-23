@@ -1,7 +1,7 @@
 import { headers as getHeaders } from 'next/headers.js'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
-import React, { use } from 'react'
+import React, { Suspense, use } from 'react'
 
 import configPromise from '@payload-config'
 import { CreateAccountForm } from '@/components/CreateAccountForm'
@@ -24,7 +24,10 @@ export default async function CreateAccount() {
     <div className="container py-10 mx-auto">
       <h1>Create Account</h1>
       {JSON.stringify(user)}
-      <CreateAccountForm />
+
+      <Suspense fallback={<>...</>}>
+        <CreateAccountForm />
+      </Suspense>
     </div>
   )
 }

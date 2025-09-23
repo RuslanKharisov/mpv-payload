@@ -1,5 +1,4 @@
 import { anyone } from '@/payload/access/anyone'
-import { authenticated } from '@/payload/access/authenticated'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { slugField } from '@/payload/fields/slug'
 import { CollectionConfig } from 'payload'

@@ -1,6 +1,4 @@
 import { anyone } from '@/payload/access/anyone'
-import { authenticated } from '@/payload/access/authenticated'
-import { isHidden } from '@/payload/access/isHidden'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { CallToAction } from '@/payload/blocks/CallToAction/config'
 import { Content } from '@/payload/blocks/Content/config'
@@ -8,6 +6,7 @@ import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
 import { skuNormalizedField } from '@/payload/fields/skuNormalized/skuNormalizedField'
 import { slugField } from '@/payload/fields/slug'
 import { CollectionConfig } from 'payload'
+import { afterReadHook } from './hooks/afterReadHook'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -26,6 +25,9 @@ export const Products: CollectionConfig = {
     // hidden: ({ user }) => !isHidden(user),
     useAsTitle: 'name',
     defaultColumns: ['name', 'sku', 'productCategory', 'updatedAt'],
+  },
+  hooks: {
+    afterRead: [afterReadHook],
   },
   fields: [
     {

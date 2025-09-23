@@ -1,16 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
+import { Card } from '@/shared/ui/card'
 import { Badge } from '@/shared/ui/badge'
 import Image from 'next/image'
 import { StockWithTenantAndCurrency } from '@/features/stock'
-import { Currency, Product, Tenant } from '@/payload-types'
+import { Currency, Tenant } from '@/payload-types'
 import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
 import { SendPriceRequestModal } from '@/features/send-price-request'
 import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
@@ -22,7 +14,6 @@ interface StockCardProps {
 }
 
 export function StockCard({ stock }: StockCardProps) {
-  console.log('stock ==> ', stock)
   // Убедимся, что product и currency являются объектами
   const product = stock.product
   const currency = typeof stock.currency === 'object' ? stock.currency : ({} as Currency)

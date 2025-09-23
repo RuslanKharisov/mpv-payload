@@ -4,7 +4,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
+import React, { cache, Suspense } from 'react'
 import { homeStatic } from '@/endpoints/seed/data/home-static'
 
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
@@ -75,7 +75,9 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <div className="px-5 w-full z-50 absolute top-[60%]">
-        <SearchInput className="mx-auto" />
+        <Suspense>
+          <SearchInput className="mx-auto" />
+        </Suspense>
       </div>
 
       <RenderHero {...hero} />

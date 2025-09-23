@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
 import { ArrowLeft, SlidersHorizontal, XIcon } from 'lucide-react'
 import { getSidebarCategories } from '@/features/get-sidebar-categories'
@@ -45,19 +45,27 @@ export function FiltersSidebar({
         )}
       >
         <div className="p-4 max-w-full bg-card space-y-6">
-          <ClearFiltersButton />
+          <Suspense>
+            <ClearFiltersButton />
+          </Suspense>
           <Link
             href="/products"
             className="flex items-center gap-2 font-medium text-ring text-base"
           >
             <ArrowLeft /> <span>Вернуться</span>
           </Link>
-          <CategoryFilter
-            categories={categories}
-            activeCategorySlug={activeCategorySlug}
-            pageTitle={pageTitle}
-          />
-          {brands.length > 0 && <BrandFilter brands={brands} selected={selectedBrands} />}
+          <Suspense>
+            <CategoryFilter
+              categories={categories}
+              activeCategorySlug={activeCategorySlug}
+              pageTitle={pageTitle}
+            />
+          </Suspense>
+          {brands.length > 0 && (
+            <Suspense>
+              <BrandFilter brands={brands} selected={selectedBrands} />
+            </Suspense>
+          )}
         </div>
       </div>
     </>

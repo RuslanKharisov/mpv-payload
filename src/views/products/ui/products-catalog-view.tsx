@@ -6,6 +6,7 @@ import { SearchInput } from '@/widgets/serch-input'
 import { ProductsBlock } from '@/components/ProductsBlock'
 import { ProductsPagination } from '@/widgets/products-catalog'
 import { ProductCategoryWithParents } from '@/entities/category'
+import { Suspense } from 'react'
 
 type Props = {
   products?: Product[]
@@ -50,7 +51,9 @@ export function ProductsCatalogView({
               <h1>{pageTitle}</h1>
             </div>
 
-            <SearchInput currentPhrase={phrase} />
+            <Suspense>
+              <SearchInput currentPhrase={phrase} />
+            </Suspense>
 
             <ProductsBlock products={products} />
 

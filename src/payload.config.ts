@@ -41,6 +41,7 @@ import { Currencies } from './payload/collections/Currencies'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { Warehouses } from './payload/collections/Warehouses'
 import { importStocksEndpoint } from './endpoints/import-stocks'
+import { SiteSettings } from './payload/globals/SettingsGlobal'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -116,7 +117,7 @@ export default buildConfig({
     Currencies,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, SiteSettings],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder

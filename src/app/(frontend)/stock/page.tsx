@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { StocksResults } from '@/widgets/remote-stocks-result'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
+import { Suspense } from 'react'
 // import { SearchParams } from '@/widgets/remote-stocks-result/_ui/stocks-results'
 
 export default async function page({
@@ -31,7 +32,9 @@ export default async function page({
     <div className="py-8 lg:py-24">
       <div className="container flex flex-col gap-12">
         <h1 className="text-center">Поиск оборудования на складах</h1>
-        <StockSearchBar />
+        <Suspense>
+          <StockSearchBar />
+        </Suspense>
         <StocksResults suppliersList={supplierWithApi} searchParams={params} />
       </div>
     </div>

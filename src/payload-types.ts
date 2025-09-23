@@ -131,10 +131,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -895,7 +897,7 @@ export interface Stock {
    */
   price?: number | null;
   currency: number | Currency;
-  condition?: ('Новый' | 'Б/У' | 'Без упаковки') | null;
+  condition?: ('НОВЫЙ С ЗАВОДА' | 'НОВЫЙ ИЗЛИШЕК' | 'Б/У' | 'ВОССТАНОВЛЕН') | null;
   expectedDelivery?: string | null;
   warranty?: number | null;
   warehouse?: (number | null) | Warehouse;
@@ -2218,6 +2220,19 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * Это изображение будет показываться, если у товара нет основной картинки.
+   */
+  productPlaceholder: number | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2258,6 +2273,16 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  productPlaceholder?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

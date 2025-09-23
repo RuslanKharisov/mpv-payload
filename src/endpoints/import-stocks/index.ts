@@ -6,14 +6,16 @@ import { z } from 'zod'
 // Схема Zod остается такой же
 const stockRowSchema = z.object({
   sku: z.string().trim().min(1, { message: 'SKU не может быть пустым' }),
-  name: z.string().optional(),
-  quantity: z.number().min(0).default(0),
-  price: z.number().optional(),
+  name: z.string(),
+  quantity: z.coerce.number({ error: 'Должно быть числом' }),
+  price: z.coerce.number().optional(),
   currency: z.string().trim().toUpperCase().optional(),
-  condition: z.enum(['Новый', 'Б/У', 'Без упаковки']).optional(),
+  condition: z.enum(['НОВЫЙ С ЗАВОДА', 'НОВЫЙ ИЗЛИШЕК', 'Б/У', 'ВОССТАНОВЛЕН']),
   expectedDelivery: z.date().optional(),
-  warranty: z.number().optional(),
-  warehouse: z.string().optional(),
+  warranty: z.coerce.number(),
+  warehouse: z.string(),
+  category: z.string(),
+  brand: z.string(),
 })
 
 export const importStocksEndpoint: Endpoint = {
@@ -87,6 +89,8 @@ export const importStocksEndpoint: Endpoint = {
           name,
           currency: currencyCode,
           warehouse: warehouseTitle,
+          category: categoryName,
+          brand: brandName,
           ...restOfStockData
         } = validation.data
 
@@ -95,7 +99,7 @@ export const importStocksEndpoint: Endpoint = {
           continue
         }
 
-        // Находим ID валюты по коду
+        // --- Находим ID валюты по коду ---
         const currencyResult = await req.payload.find({
           collection: 'currencies',
           where: { code: { equals: currencyCode } },
@@ -109,7 +113,7 @@ export const importStocksEndpoint: Endpoint = {
         }
         const currencyId = currencyDoc.id // Теперь это всегда number
 
-        // Находим ID склада по названию
+        // --- Находим ID склада по названию ---
         let warehouseId: number | undefined
         if (warehouseTitle) {
           const warehouseResult = await req.payload.find({
@@ -123,6 +127,36 @@ export const importStocksEndpoint: Endpoint = {
             continue // Пропускаем
           }
           warehouseId = warehouseDoc.id
+        }
+
+        // --- Находим ID категории по названию ---
+        let categoryId: number | undefined
+        if (categoryName) {
+          const categoryResult = await req.payload.find({
+            collection: 'product-categories',
+            where: { title: { equals: categoryName } },
+            limit: 1,
+          })
+          if (!categoryResult.docs[0]) {
+            errors.push(`Строка ${rowIndex}: Категория '${categoryName}' не найдена.`)
+            continue
+          }
+          categoryId = categoryResult.docs[0].id
+        }
+
+        // --- Находим ID бренда по названию ---
+        let brandId: number | undefined
+        if (brandName) {
+          const brandResult = await req.payload.find({
+            collection: 'brands', // Убедитесь, что слаг коллекции 'brands'
+            where: { name: { equals: brandName } },
+            limit: 1,
+          })
+          if (!brandResult.docs[0]) {
+            errors.push(`Строка ${rowIndex}: Бренд '${brandName}' не найден.`)
+            continue
+          }
+          brandId = brandResult.docs[0].id
         }
 
         // Обновляем входные данные для запаса с найденными ID
@@ -148,6 +182,8 @@ export const importStocksEndpoint: Endpoint = {
             data: {
               sku,
               name: name || 'Без названия',
+              productCategory: categoryId,
+              brand: brandId,
             },
           })
         }

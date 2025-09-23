@@ -1,17 +1,10 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
-import { AlertCircle, ShoppingCart, Store } from 'lucide-react'
+import { AlertCircle, Store } from 'lucide-react'
 import { useTRPC } from '@/shared/trpc/client'
 import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '@/shared/ui/skeleton'
-import { DataTable, usePagination } from '@/widgets/smart-data-table'
-import { ProductsTableColumns } from '@/entities/stock/_vm/products-table-columns'
 import { StockWithTenantAndCurrency } from '@/features/stock'
-import { CardFooter } from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
-import { useCart } from '@/features/cart/cart-provider'
 import { StockCard } from './stock-card'
 import { Typography } from '@/shared/ui/typography'
 
@@ -21,10 +14,6 @@ type SupplierStockWidgetProps = {
 
 function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
   const trpc = useTRPC()
-
-  const { addToCart } = useCart()
-
-  const { pagination, setPagination } = usePagination()
 
   const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
   const { data, isError, isLoading } = useQuery(stocksQueryOptions)

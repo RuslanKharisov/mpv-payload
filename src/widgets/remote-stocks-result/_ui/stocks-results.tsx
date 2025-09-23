@@ -5,6 +5,7 @@ import { Card, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Button } from '@/shared/ui/button'
 import { caller as serverClient } from '@/shared/trpc/server'
 import { StockResponse, SupplierStock } from '@/entities/remote-stock/_domain/tstock-response'
+import { Suspense } from 'react'
 
 export type SearchParams = {
   sku?: string
@@ -87,7 +88,9 @@ export async function StocksResults({
               </Button>
             </CardFooter>
           </Card>
-          <GoogleStock dataArray={data ?? []} count={meta.total ?? 0} supplier={supplier} />
+          <Suspense fallback={<div>Загрузка данных ...</div>}>
+            <GoogleStock dataArray={data ?? []} count={meta.total ?? 0} supplier={supplier} />
+          </Suspense>
         </div>
       ))}
     </div>
