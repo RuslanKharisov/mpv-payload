@@ -2,11 +2,13 @@ import { authenticated } from '@/payload/access/authenticated'
 import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
 import { setStockDefaults } from './hooks/set-stock-defaults'
+import { checkWarehouseCapacity } from './hooks/check-warehouse-capacity'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
   hooks: {
     beforeValidate: [setStockDefaults],
+    beforeChange: [checkWarehouseCapacity],
   },
   labels: { singular: 'СКЛАД', plural: 'СКЛАД' },
   access: {

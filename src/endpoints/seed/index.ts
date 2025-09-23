@@ -8,7 +8,6 @@ import { seedPostCategories } from './seed-post-categories'
 import { seedUsers } from './seed-users'
 import { seedPosts } from './seed-posts'
 import { seedPages } from './seed-pages'
-import { seedProducts } from './seed-products'
 import { seedGlobal } from './seed-global'
 import { seedProductCategories } from './seed-product-categories'
 import { seedTariffs } from './seed-tariffs'
@@ -81,9 +80,6 @@ export const seed = async ({
 
   /** ---  Создание катекорий проукции  --- */
   // await seedProductCategories({ payload, req })
-
-  /** Создание товаров в каталоге */
-  // await seedProducts(payload)
 
   // await seedTariffs(payload)
 }

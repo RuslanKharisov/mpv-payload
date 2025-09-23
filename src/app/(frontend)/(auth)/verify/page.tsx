@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTRPC } from '@/shared/trpc/client'
@@ -31,15 +31,13 @@ export default function VerifyPage() {
       return
     }
     verify({ token, email })
-  }, [token, email])
+  }, [token, email, verify])
 
   return (
-    <Suspense>
-      <div className="flex h-screen items-center justify-center">
-        {status === 'loading' && <p>Проверяем ваш email...</p>}
-        {status === 'success' && <p>✅ Email успешно подтверждён!</p>}
-        {status === 'error' && <p>❌ Ошибка при подтверждении.</p>}
-      </div>
-    </Suspense>
+    <div className="flex h-screen items-center justify-center">
+      {status === 'loading' && <p>Проверяем ваш email...</p>}
+      {status === 'success' && <p>✅ Email успешно подтверждён!</p>}
+      {status === 'error' && <p>❌ Ошибка при подтверждении.</p>}
+    </div>
   )
 }

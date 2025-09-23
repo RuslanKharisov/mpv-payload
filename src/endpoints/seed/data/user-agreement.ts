@@ -1,13 +1,6 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media } from '@/payload-types'
-import {
-  createRichText,
-  createHeading,
-  createParagraph,
-  createList,
-  createText,
-  createLink,
-} from '../helpers/helpers'
+import { createRichText, createHeading, createParagraph, createList } from '../helpers/helpers'
 
 // Определяем тип аргументов для этой страницы
 export type AgreementArgs = {

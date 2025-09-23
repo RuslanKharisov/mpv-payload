@@ -5,11 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-// import { Button } from '../../_components/Button'
-// import { Input } from '../../_components/Input'
-// import { Message } from '../../_components/Message'
-// import { useAuth } from '../../_providers/Auth'
-// import classes from './index.module.scss'
 import { Input } from './_ui/input'
 import { Button } from '@/shared/ui/button'
 
@@ -53,30 +48,13 @@ export const CreateAccountForm: React.FC = () => {
         return
       }
 
-      const redirect = searchParams.get('redirect')
+      // const redirect = searchParams.get('redirect')
 
-      const timer = setTimeout(() => {
-        setLoading(true)
-      }, 1000)
-
-      //   try {
-      //     await login(data)
-      //     clearTimeout(timer)
-      //     if (redirect) {
-      //       router.push(redirect)
-      //     } else {
-      //       router.push(`/account?success=${encodeURIComponent('Account created successfully')}`)
-      //     }
-      //   } catch (_) {
-      //     clearTimeout(timer)
-      //     setError('There was an error with the credentials provided. Please try again.')
-      //   }
+      // const timer = setTimeout(() => {
+      //   setLoading(true)
+      // }, 1000)
     },
-    [
-      // login,
-      router,
-      searchParams,
-    ],
+    [router, searchParams],
   )
 
   return (

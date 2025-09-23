@@ -7,7 +7,6 @@ import { Content } from '@/payload/blocks/Content/config'
 import { FormBlock } from '@/payload/blocks/Form/config'
 import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
 import { slugField } from '@/payload/fields/slug'
-import { hero } from '@/payload/heros/config'
 import {
   MetaDescriptionField,
   MetaImageField,

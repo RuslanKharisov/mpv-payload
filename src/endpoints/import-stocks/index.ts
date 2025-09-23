@@ -63,6 +63,8 @@ export const importStocksEndpoint: Endpoint = {
       const workbook = XLSX.read(buffer, { type: 'buffer' })
       const sheetName = workbook.SheetNames[1]
       const sheet = workbook.Sheets[sheetName]
+
+      // ToDO: Типизировать данные из таблицы!!!!!!!!!!
       const rows: any[] = XLSX.utils.sheet_to_json(sheet)
 
       const errors: string[] = []
@@ -200,31 +202,37 @@ export const importStocksEndpoint: Endpoint = {
             : undefined,
         }
 
-        const whereClause: any = {
-          product: { equals: product.id },
-          tenant: { equals: tenantId },
-          warehouse: { equals: warehouseId || null },
-        }
+        try {
+          const whereClause: any = {
+            product: { equals: product.id },
+            tenant: { equals: tenantId },
+            warehouse: { equals: warehouseId || null },
+          }
 
-        const existingStock = await req.payload.find({
-          collection: 'stocks',
-          where: whereClause,
-          limit: 1,
-        })
+          const existingStock = await req.payload.find({
+            collection: 'stocks',
+            where: whereClause,
+            limit: 1,
+          })
 
-        if (existingStock.docs.length > 0) {
-          await req.payload.update({
-            collection: 'stocks',
-            id: existingStock.docs[0].id,
-            data: stockData,
-          })
-          successes.push(`SKU ${sku}: Запас обновлен.`)
-        } else {
-          await req.payload.create({
-            collection: 'stocks',
-            data: stockData,
-          })
-          successes.push(`SKU ${sku}: Запас создан.`)
+          if (existingStock.docs.length > 0) {
+            await req.payload.update({
+              collection: 'stocks',
+              id: existingStock.docs[0].id,
+              data: stockData,
+            })
+            successes.push(`SKU ${sku}: Запас обновлен.`)
+          } else {
+            await req.payload.create({
+              collection: 'stocks',
+              data: stockData,
+            })
+            successes.push(`SKU ${sku}: Запас создан.`)
+          }
+        } catch (dbError: any) {
+          // "Ловим" ошибку от хука (или любую другую ошибку БД) для этой строки
+          // и добавляем ее в наш общий массив ошибок, не прерывая цикл.
+          errors.push(`Строка ${rowIndex} (SKU: ${sku}): ${dbError.message}`)
         }
       }
 

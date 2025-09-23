@@ -1,4 +1,4 @@
-import React, { cache } from 'react'
+import React from 'react'
 import { notFound } from 'next/navigation'
 import { getAllCategories } from '@/entities/category'
 import { getProducts } from '@/entities/products'

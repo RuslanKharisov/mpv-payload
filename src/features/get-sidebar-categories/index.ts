@@ -6,7 +6,7 @@ export function getSidebarCategories(
 ): {
   title: string
   categories: ProductCategoryWithParents[]
-  showAll: boolean
+  showAll?: boolean
 } {
   if (!activeCategorySlug) {
     // Ничего не выбрано → показываем только родителей

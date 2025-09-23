@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { beforeChangeHook } from './hooks/resolveAddress'
+import { isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 
 export const Warehouses: CollectionConfig = {
   slug: 'warehouses',
@@ -64,6 +65,10 @@ export const Warehouses: CollectionConfig = {
       admin: {
         description:
           'Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.',
+      },
+      access: {
+        read: () => true,
+        update: isSuperAdminFieldAccess,
       },
     },
   ],

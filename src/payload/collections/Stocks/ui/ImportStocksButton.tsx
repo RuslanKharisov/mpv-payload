@@ -35,6 +35,7 @@ export default function ImportStocksButton(props: BeforeListTableClientProps) {
           method: 'POST',
           body: formData,
         })
+        console.log('response ==> ', response)
         result = await response.json()
       } catch (error: any) {
         result.errors = [error.message || 'Критическая ошибка. Проверьте консоль сервера.']
@@ -44,7 +45,7 @@ export default function ImportStocksButton(props: BeforeListTableClientProps) {
           inputRef.current.value = ''
         }
         setImportResult({
-          successMessage: result.message || 0,
+          successMessage: result.message,
           errors: result.errors || [],
         })
         router.refresh()

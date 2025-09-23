@@ -1,7 +1,5 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { Pagination } from '@/components/Pagination'
-import { CategoryGrid } from '@/components/CategoryGrid'
 import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { Product, Media } from '@/payload-types' // Импортируем Media
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 

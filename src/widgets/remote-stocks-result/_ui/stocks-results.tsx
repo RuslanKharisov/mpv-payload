@@ -35,7 +35,7 @@ export async function StocksResults({
   const results = await Promise.allSettled(
     suppliersList.map(async (supplier) => {
       const searchQuery = JSON.stringify(filters)
-      const url = `${supplier.apiUrl}/exec?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
+      const url = `${supplier.apiUrl}?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
 
       try {
         const response: StockResponse = await serverClient.remoteStocks.getByUrl({ url })

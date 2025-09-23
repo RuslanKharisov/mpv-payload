@@ -1,10 +1,9 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { Brand, Product } from '@/payload-types'
+import { Product } from '@/payload-types'
 import { ProductCategory } from '@/payload-types'
 import { ProductCategoryWithParents } from '@/entities/category/model/product-category-withParents'
 import { findAllCategoryChildrenIds } from '@/entities/category/lib/find-all-category-childrenIds'
-import { slugField } from '@/payload/fields/slug'
 
 type Params = {
   page?: string

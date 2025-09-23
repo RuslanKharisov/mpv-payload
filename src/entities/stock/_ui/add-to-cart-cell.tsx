@@ -1,6 +1,5 @@
 'use client'
 
-import { RemoteStock } from '@/entities/remote-stock'
 import { useCart } from '@/features/cart/cart-provider'
 import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
 import { StockWithTenantAndCurrency } from '@/features/stock'
