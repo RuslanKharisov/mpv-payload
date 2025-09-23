@@ -2,7 +2,6 @@ import { authenticated } from '@/payload/access/authenticated'
 import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
 import { setStockDefaults } from './hooks/set-stock-defaults'
-import ImportStocksButton from './ui/ImportStocksButton'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
@@ -20,7 +19,7 @@ export const Stocks: CollectionConfig = {
     useAsTitle: 'title_in_admin',
     group: 'Управление складом',
     components: {
-      beforeList: ['@/payload/collections/Stocks/ui/ImportStocksButton'],
+      beforeListTable: ['@/payload/collections/Stocks/ui/ImportStocksButton'],
     },
   },
   fields: [

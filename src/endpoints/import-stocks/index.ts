@@ -1,3 +1,4 @@
+import { formatSku } from '@/payload/fields/skuNormalized/formatSku'
 import { Endpoint, PayloadRequest } from 'payload'
 import * as XLSX from 'xlsx'
 import { z } from 'zod'
@@ -127,15 +128,17 @@ export const importStocksEndpoint: Endpoint = {
         // Обновляем входные данные для запаса с найденными ID
 
         let product
+
+        // НОРМАЛИЗУЕМ SKU ИЗ EXCEL-ФАЙЛА
+        const normalizedSku = formatSku(sku)
+
         const existingProducts = await req.payload.find({
           collection: 'products',
           where: {
-            sku: { equals: sku },
+            sku_normalized: { equals: normalizedSku },
           },
           limit: 1,
         })
-
-        console.log('existingProducts ==> ', existingProducts)
 
         product = existingProducts.docs[0]
 
@@ -160,7 +163,6 @@ export const importStocksEndpoint: Endpoint = {
             ? validation.data.expectedDelivery.toISOString()
             : undefined,
         }
-        console.log('stockData ==> ', stockData)
 
         const whereClause: any = {
           product: { equals: product.id },

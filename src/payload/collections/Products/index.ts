@@ -13,7 +13,8 @@ export const Products: CollectionConfig = {
   slug: 'products',
   access: {
     create: isSuperAdminAccess,
-    delete: isSuperAdminAccess,
+    // delete: isSuperAdminAccess,
+    delete: anyone,
     read: anyone,
     update: isSuperAdminAccess,
   },

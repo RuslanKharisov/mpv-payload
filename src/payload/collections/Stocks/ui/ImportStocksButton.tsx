@@ -1,17 +1,16 @@
 'use client'
-import { Button } from '@/shared/ui/button'
-import { useConfig } from '@payloadcms/ui'
-import React, { useState, useCallback } from 'react'
-import { toast } from 'sonner'
 
-const ImportStocksButton: React.FC = () => {
+import { Button, toast, useConfig } from '@payloadcms/ui'
+import { BeforeListTableClientProps } from 'payload'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
+
+export default function ImportStocksButton(props: BeforeListTableClientProps) {
   const { config } = useConfig()
   const serverURL = config.serverURL
   const api = config.routes?.api || '/api'
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log('serverURL ==> ', serverURL)
-  console.log('api ==> ', api)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,61 +25,58 @@ const ImportStocksButton: React.FC = () => {
       try {
         const response = await fetch(`${serverURL}${api}/import-stocks`, {
           method: 'POST',
-          headers: {
-            // Payload автоматически подставит куки с токеном аутентификации
-          },
           body: formData,
         })
 
         const result = await response.json()
 
-        if (!response.ok) {
-          // Если есть массив ошибок, покажем их
-          if (result.errors && Array.isArray(result.errors)) {
-            toast.error(`Ошибка импорта: ${result.errors.join('; ')}`)
-          } else {
-            throw new Error(result.error || 'Произошла ошибка при импорте')
-          }
+        if (!response.ok || !result.success) {
+          toast.error(result.error || 'Неизвестная ошибка')
         } else {
           toast.success(result.message || 'Импорт успешно завершен!')
-          // Опционально: перезагрузить страницу для обновления данных
-          window.location.reload()
+        }
+
+        setIsLoading(false)
+        if (inputRef.current) {
+          inputRef.current.value = ''
         }
       } catch (error: any) {
         toast.error(error.message || 'Не удалось выполнить импорт.')
       } finally {
         setIsLoading(false)
-        // Сбрасываем значение input, чтобы можно было загрузить тот же файл снова
-        event.target.value = ''
       }
     },
     [serverURL],
   )
 
   const handleClick = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = '.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    input.onchange = (e) => handleFileChange(e as any)
-    input.click()
+    inputRef.current?.click()
   }
 
+  if (!props.hasCreatePermission) return null
+
   return (
-    <div className="gutter--left gutter--right" style={{ margin: ' 2rem 0' }}>
+    <div className="" style={{ margin: ' 2rem 0' }}>
       <input
         type="file"
         accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ref={inputRef}
         onChange={handleFileChange}
-        style={{ display: 'none' }}
+        style={{ display: 'none', cursor: 'pointer' }}
         id="stock-import-input"
       />
-      <label htmlFor="stock-import-input">
-        <Button variant="default" onClick={handleClick} disabled={isLoading}>
+      <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Button onClick={handleClick} disabled={isLoading}>
           {isLoading ? 'Загрузка...' : 'Импорт из Excel'}
         </Button>
-      </label>
+        <a
+          href="/import_template.xlsx"
+          download
+          style={{ fontSize: '12px', textDecoration: 'underline' }}
+        >
+          Скачать шаблон
+        </a>
+      </div>
     </div>
   )
 }
-
-export default ImportStocksButton
