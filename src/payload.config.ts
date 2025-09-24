@@ -138,7 +138,8 @@ export default buildConfig({
     tasks: [],
   },
   email: resendAdapter({
-    defaultFromAddress: 'onboarding@resend.dev',
+    // defaultFromAddress: 'onboarding@resend.dev',
+    defaultFromAddress: 'noreply@prom-stock.ru',
     defaultFromName: 'Prom-Stock',
     apiKey: process.env.RESEND_API || '',
   }),
