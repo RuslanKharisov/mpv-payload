@@ -8,11 +8,11 @@ type ProductInfoProps = {
 const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <div className="flex flex-col md:gap-y-4 w-full">
-      <Typography tag="h2" variant="visuelt-bold-32">
+      <Typography tag="h2" variant="inter-bold-32">
         {product?.name}
       </Typography>
 
-      <Typography variant="poppins-md-16" tag="p">
+      <Typography variant="inter-md-16" tag="p">
         {product?.shortDescription}
       </Typography>
     </div>
