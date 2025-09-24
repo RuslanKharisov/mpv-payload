@@ -21,7 +21,11 @@
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
     "prepare": "husky",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "ci": "payload migrate && npm run build",
+    "migrate:create": "npm run payload migrate:create",
+    "migrate:up": "npm run payload migrate",
+    "migrate:status": "npm run payload migrate:status"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
