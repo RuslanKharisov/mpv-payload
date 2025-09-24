@@ -44,17 +44,16 @@ export const seed = async ({
 
 
   /* Очистка коллекций из массива collections */
-  /*    
+
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
   )
-  */
 
-  // await payload.db.deleteMany({
-  //   collection: 'media',
-  //   req,
-  //   where: {},
-  // })
+  await payload.db.deleteMany({
+    collection: 'media',
+    req,
+    where: {},
+  })
 
   /* --- Очистка версий документов --- */
   await Promise.all(
@@ -73,13 +72,13 @@ export const seed = async ({
   await seedPages(payload, media, shouldSeedPages)
 
   /** --- Создание пунков навигации меню --- */
-  // await seedGlobal(payload)
+  await seedGlobal(payload)
 
   /** --- Создание стартового списка производителей ---  */
-  // await seedBrands(payload)
+  await seedBrands(payload)
 
   /** ---  Создание катекорий проукции  --- */
-  // await seedProductCategories({ payload, req })
+  await seedProductCategories({ payload, req })
 
-  // await seedTariffs(payload)
+  await seedTariffs(payload)
 }
