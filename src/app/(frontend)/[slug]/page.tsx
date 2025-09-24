@@ -74,7 +74,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <div className="px-5 w-full z-50 absolute top-[60%]">
+      <div className="px-5 w-full z-10 absolute top-[60%]">
         <Suspense>
           <SearchInput className="mx-auto" />
         </Suspense>
