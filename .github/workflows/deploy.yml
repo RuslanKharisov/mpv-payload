@@ -51,11 +51,11 @@ jobs:
             --exclude='package-lock.json' \
             --exclude='node_modules' \
             --exclude='media' \
-            ./ ${{ secrets.SERVER_USER }}@${{ secrets.ENV_SERVER }}:/home/${{ secrets.SERVER_USER }}/onstock-payload-app
+            ./ ${{ secrets.SERVER_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.SERVER_USER }}/onstock-payload-app
 
       - name: Deploy & restart via PM2
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.ENV_SERVER }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
           set -e
 
           export NVM_DIR="$HOME/.nvm"
