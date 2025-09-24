@@ -4,6 +4,7 @@ import { CheckIcon } from 'lucide-react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
+import { Typography } from '@/shared/ui/typography'
 
 async function page() {
   const payload = await getPayload({ config: configPromise })
@@ -13,17 +14,23 @@ async function page() {
   })
 
   return (
-    <div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-900">
+    <div className="relative isolate px-6 py-3 lg:py-16 lg:px-8 ">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-base/7 font-semibold text-indigo-600 dark:text-indigo-400">Цены</h2>
-        <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl dark:text-white">
+        <Typography variant="inter-md-16" tag="h1">
+          Цены
+        </Typography>
+        <Typography variant="inter-bold-48" tag="p">
           Выберите подходящий тариф
-        </p>
+        </Typography>
       </div>
-      <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 sm:text-xl/8 dark:text-gray-400">
+      <Typography
+        variant="inter-md-24"
+        tag="p"
+        className="mx-auto mt-6 max-w-2xl text-center opacity-80"
+      >
         Выберите доступный тариф с лучшими функциями для взаимодействия с аудиторией, повышения
         лояльности клиентов и стимулирования продаж.
-      </p>
+      </Typography>
       <div className="mx-auto mt-16 grid grid-cols-1  gap-y-6 sm:mt-20 sm:gap-y-0 lg:grid-cols-3 gap-3">
         {tariffs.docs.map((tariff, idx) => (
           <div

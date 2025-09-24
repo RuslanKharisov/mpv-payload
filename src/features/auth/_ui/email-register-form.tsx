@@ -12,6 +12,8 @@ import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
+import { Typography } from '@/shared/ui/typography'
+import BackButton from './back-button'
 
 export function EmailRegisterForm() {
   const trpc = useTRPC()
@@ -66,6 +68,9 @@ export function EmailRegisterForm() {
 
   return (
     <div className="w-full max-w-md">
+      <Typography variant="inter-bold-32" className="text-center mb-5">
+        Регистрация
+      </Typography>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4">
@@ -126,6 +131,7 @@ export function EmailRegisterForm() {
               {isPending && <Spinner className="mr-2 h-4 w-full " aria-label="Загрузка выхода" />}
               Продолжить
             </Button>
+            <BackButton href="/login" label="Уже зарегистрированы? Войти." />
           </div>
         </form>
       </Form>

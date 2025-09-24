@@ -15,9 +15,10 @@ import Link from 'next/link'
 
 interface HeaderClientProps {
   data: Header
+  userId?: number | null
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -61,7 +62,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             {/* Логотип */}
           </div>
           {/* Десктопное меню */}
-          <HeaderNav data={data} pathname={pathname} />
+          <HeaderNav data={data} pathname={pathname} userId={userId} />
 
           {/* Мобильное меню (контент) */}
           <div

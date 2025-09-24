@@ -12,6 +12,8 @@ import Link from 'next/link'
 import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import BackButton from './back-button'
+import { Typography } from '@/shared/ui/typography'
 
 export function EmailLoginForm() {
   const router = useRouter()
@@ -42,6 +44,9 @@ export function EmailLoginForm() {
 
   return (
     <div className="w-full max-w-md">
+      <Typography variant="inter-bold-32" className="text-center mb-5">
+        Войти
+      </Typography>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4">
@@ -98,6 +103,7 @@ export function EmailLoginForm() {
               {isPending && <Spinner className="mr-2 h-4 w-full " aria-label="Загрузка выхода" />}
               Продолжить
             </Button>
+            <BackButton href="/register" label="Нет аккаунта? Зарегистрироваться." />
           </div>
         </form>
       </Form>
