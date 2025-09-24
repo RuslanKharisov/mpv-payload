@@ -8,8 +8,8 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 const nextConfig = {
   images: {
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL, 'https://placehold.co'].map((item) => {
-        const url = new URL(item)
+      ...NEXT_PUBLIC_SERVER_URL.split(',').map((item) => {
+        const url = new URL(item.trim())
 
         return {
           hostname: url.hostname,
@@ -19,7 +19,7 @@ const nextConfig = {
       }),
       {
         protocol: 'https',
-        hostname: 'arselectronic.ru',
+        hostname: 'prom-stock.ru',
         pathname: '/api/media/file/**',
       },
     ],
