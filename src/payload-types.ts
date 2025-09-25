@@ -645,6 +645,10 @@ export interface CallToActionBlock {
  */
 export interface MediaBlock {
   media: number | Media;
+  /**
+   * Выберите, как изображение будет вписано в страницу.
+   */
+  size: 'small' | 'medium' | 'large' | 'xlarge';
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1432,6 +1436,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  size?: T;
   id?: T;
   blockName?: T;
 }
