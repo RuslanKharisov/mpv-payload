@@ -175,7 +175,7 @@ export function SendPriceRequestModal({
                   <FormControl>
                     {/* <Input placeholder="Дополнительные примечания" {...field} /> */}
                     <Textarea
-                      placeholder="Tell us a little bit about yourself"
+                      placeholder="Дополнительные примечания"
                       className="resize-none"
                       {...field}
                     />
