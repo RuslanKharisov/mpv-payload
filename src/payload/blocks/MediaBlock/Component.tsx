@@ -18,6 +18,13 @@ type Props = MediaBlockProps & {
   disableInnerContainer?: boolean
 }
 
+const sizeClasses = {
+  small: 'max-w-2xl', // ~672px
+  medium: 'max-w-4xl', // ~896px
+  large: 'max-w-7xl', // ~1280px
+  xlarge: 'w-full', // Заполняет всю ширину родителя
+}
+
 export const MediaBlock: React.FC<Props> = (props) => {
   const {
     captionClassName,
@@ -27,6 +34,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
     media,
     staticImage,
     disableInnerContainer,
+    size,
   } = props
 
   let caption
@@ -35,7 +43,8 @@ export const MediaBlock: React.FC<Props> = (props) => {
   return (
     <div
       className={cn(
-        '',
+        'flex flex-col items-center',
+        size && sizeClasses[size],
         {
           container: enableGutter,
         },
@@ -43,11 +52,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
       )}
     >
       {(media || staticImage) && (
-        <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-          resource={media}
-          src={staticImage}
-        />
+        <Media imgClassName={cn('rounded-lg', imgClassName)} resource={media} src={staticImage} />
       )}
       {caption && (
         <div
