@@ -1,7 +1,4 @@
 import { Tenant } from '@/payload-types'
-import Link from 'next/link'
-import { Card, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
 import { Suspense } from 'react'
 import { SupplierStockLoader } from './supplier-stock-loader'
 
@@ -41,22 +38,10 @@ export async function StocksResults({
 
   return (
     <div className="flex flex-col gap-10">
-      {suppliersList.map((supplier) => (
-        <div key={supplier.id} className="supplier_stock bg-card-foreground/5 px-3 py-5">
-          <Card className=" gap-3 rounded-md">
-            <CardHeader>
-              <CardTitle className="uppercase">Контрагент: &quot;{supplier.name}&quot;</CardTitle>
-            </CardHeader>
-            <CardFooter className="flex-col gap-2">
-              <Button variant="secondary" className="w-full">
-                <Link href={`/supplier/${supplier.slug}`}>Подробнее</Link>
-              </Button>
-            </CardFooter>
-          </Card>
-          <Suspense fallback={<div>Загрузка данных ...</div>}>
-            <SupplierStockLoader supplier={supplier} filters={filters} pagination={pagination} />
-          </Suspense>
-        </div>
+      {suppliersList.map((supplier, i) => (
+        <Suspense key={i} fallback={<div>Загрузка данных ...</div>}>
+          <SupplierStockLoader supplier={supplier} filters={filters} pagination={pagination} />
+        </Suspense>
       ))}
     </div>
   )
