@@ -61,7 +61,7 @@ export const Warehouses: CollectionConfig = {
       type: 'number',
       min: 0,
       max: 5000,
-      defaultValue: 0,
+      defaultValue: 10,
       admin: {
         description:
           'Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.',
