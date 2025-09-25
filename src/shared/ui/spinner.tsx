@@ -1,16 +1,16 @@
-import { cn } from "./utils"
+import { cn } from './utils'
 
 interface SpinnerProps {
   className?: string
 }
 
-const Spinner = ({className}:SpinnerProps) => {
+const Spinner = ({ className }: SpinnerProps) => {
   return (
-    <div className={cn("text-center w-full", className)}>
-      <div >
+    <div className={cn('text-center w-full', className)}>
+      <div>
         <svg
           aria-hidden="true"
-          className="inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+          className="inline h-6 w-6 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -30,4 +30,4 @@ const Spinner = ({className}:SpinnerProps) => {
   )
 }
 
-export {Spinner}
+export { Spinner }

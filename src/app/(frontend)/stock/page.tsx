@@ -32,11 +32,21 @@ export default async function page({
     <div className="py-8 lg:py-24">
       <div className="container flex flex-col gap-12">
         <h1 className="text-center">Поиск оборудования на складах</h1>
-        <Suspense>
+        <Suspense fallback={<StocksSkeleton />}>
           <StockSearchBar />
+          <StocksResults suppliersList={supplierWithApi} searchParams={params} />
         </Suspense>
-        <StocksResults suppliersList={supplierWithApi} searchParams={params} />
       </div>
+    </div>
+  )
+}
+
+function StocksSkeleton() {
+  return (
+    <div className="space-y-6">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="animate-pulse bg-gray-200 h-32 rounded-lg"></div>
+      ))}
     </div>
   )
 }

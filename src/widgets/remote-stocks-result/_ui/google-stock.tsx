@@ -37,7 +37,7 @@ function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Elem
   // Убираем спиннер чуть позже, чтобы не мигал
   useEffect(() => {
     if (!isPending) {
-      const timer = setTimeout(() => setShowSpinner(false), 100)
+      const timer = setTimeout(() => setShowSpinner(false), 50)
       return () => clearTimeout(timer)
     }
   }, [isPending])

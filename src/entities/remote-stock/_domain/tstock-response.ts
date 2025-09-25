@@ -1,7 +1,8 @@
 import { Tenant } from '@/payload-types'
+import { RemoteStock } from './remote-stock'
 
 export type StockResponse = {
-  data: any[]
+  data: RemoteStock[]
   meta: {
     page: number
     per_page: number
@@ -13,6 +14,6 @@ export type StockResponse = {
 
 export type SupplierStock = {
   supplier: Tenant
-  data: StockResponse['data']
+  data: RemoteStock[]
   meta: StockResponse['meta']
 }
