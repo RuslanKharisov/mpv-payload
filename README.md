@@ -1,6 +1,6 @@
 # Payload Multitenant Website
 
-Based on official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website).
+Based on official [Онлайн склад | Prom-Stock](https://github.com/payloadcms/payload/blob/main/templates/website).
 
 Added multitenant plagin.
 
