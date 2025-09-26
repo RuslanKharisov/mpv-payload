@@ -18,7 +18,7 @@
 // import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 
 // const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-//   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+//   return doc?.title ? `${doc.title} | Онлайн склад | Prom-Stock` : 'Онлайн склад | Prom-Stock'
 // }
 
 // const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
