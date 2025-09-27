@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
+import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/shared/utilities/getURL'
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
@@ -36,17 +38,25 @@ export default async function Page() {
       <div className="container">
         <CategoryAccordion categories={categories.docs as unknown as ProductCategory[]} />
       </div>
-
-      {/* Расскоментировать если нужна пагинация */}
-      {/* <div className="container">
-        {categories.totalPages > 1 && categories.page && (
-          <Pagination
-            page={categories.page}
-            totalPages={categories.totalPages}
-            route="product-categories"
-          />
-        )}
-      </div> */}
     </div>
   )
+}
+
+export async function generateMetadata() {
+  const title = 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.'
+  const description =
+    'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.'
+
+  return {
+    title: title,
+    description: description,
+    openGraph: mergeOpenGraph({
+      title: title,
+      description: description,
+      url: `${getServerSideURL()}/products`,
+    }),
+    alternates: {
+      canonical: `${getServerSideURL()}/products`,
+    },
+  }
 }
