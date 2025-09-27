@@ -43,7 +43,7 @@ export default async function Page() {
 }
 
 export async function generateMetadata() {
-  const title = 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие'
+  const title = 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.'
   const description =
     'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.'
 

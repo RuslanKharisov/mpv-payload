@@ -45,7 +45,7 @@ export async function generateMetadata({ searchParams: paramsPromice }: Args) {
 
   if (categorySlug && typeof categorySlug === 'string') {
     const category = await getCategoryBySlug(categorySlug)
-    title = `${category[0]?.title} | Каталог товаров | Prom-Stock`
+    title = `${category[0]?.title} | Каталог товаров | Prom-Stock.`
   }
 
   return {
