@@ -423,7 +423,16 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | TimelineBlock | FAQBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | TimelineBlock
+    | FAQBlock
+    | PromotedProductsBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -944,6 +953,20 @@ export interface FAQBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotedProductsBlock".
+ */
+export interface PromotedProductsBlock {
+  title: string;
+  /**
+   * Сколько товаров будет отображаться в карусели.
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'promotedProducts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1587,6 +1610,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         timelineBlock?: T | TimelineBlockSelect<T>;
         faqBlock?: T | FAQBlockSelect<T>;
+        promotedProducts?: T | PromotedProductsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1656,6 +1680,16 @@ export interface FAQBlockSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotedProductsBlock_select".
+ */
+export interface PromotedProductsBlockSelect<T extends boolean = true> {
+  title?: T;
+  limit?: T;
   id?: T;
   blockName?: T;
 }
