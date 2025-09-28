@@ -12,7 +12,6 @@ import { RenderHero } from '@/payload/heros/RenderHero'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { SearchInput } from '@/widgets/serch-input'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -73,12 +72,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
-
-      <div className="px-5 w-full z-10 absolute top-[60%]">
-        <Suspense>
-          <SearchInput className="mx-auto" />
-        </Suspense>
-      </div>
 
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />

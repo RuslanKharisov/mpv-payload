@@ -1,12 +1,13 @@
 'use client'
 import { useHeaderTheme } from '@/shared/providers/HeaderTheme'
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 
 import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { SearchInput } from '@/widgets/serch-input'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -20,7 +21,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
       className="relative -mt-[8.4rem] flex items-center justify-center text-white"
       data-theme="dark"
     >
-      <div className="container mb-8 z-10 relative flex items-center justify-center">
+      <div className="container mb-8 z-10 relative flex flex-col items-center justify-center">
         <div className=" md:text-center">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
@@ -34,6 +35,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
               })}
             </ul>
           )}
+        </div>
+        <div className="px-5 w-full">
+          <Suspense>
+            <SearchInput className="mx-auto" />
+          </Suspense>
         </div>
       </div>
       <div className="min-h-[80vh] select-none">
