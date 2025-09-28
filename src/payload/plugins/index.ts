@@ -16,6 +16,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { Config, Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
+import { anyone } from '../access/anyone'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Онлайн склад | Prom-Stock` : 'Онлайн склад | Prom-Stock'
@@ -91,7 +92,7 @@ export const plugins: Plugin[] = [
         })
       },
       access: {
-        read: isSuperAdminAccess,
+        read: anyone,
         create: isSuperAdminAccess,
         update: isSuperAdminAccess,
         delete: isSuperAdminAccess,
