@@ -36,7 +36,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
             </ul>
           )}
         </div>
-        <div className="px-5 w-full">
+        <div className="w-full">
           <Suspense>
             <SearchInput className="mx-auto" />
           </Suspense>
