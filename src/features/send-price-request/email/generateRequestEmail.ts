@@ -16,17 +16,6 @@ export const generateRequestEmail = async (args: GenerateRequestEmailArgs): Prom
       <h2>Данные клиента</h2>
       <p><b>Компания:</b> ${sanitizeUserDataForEmail(formData.companyName)}</p>
 
-      <p><b>Контакт:</b> 
-        ${sanitizeUserDataForEmail(formData.firstName)} 
-        ${sanitizeUserDataForEmail(formData.lastName)} 
-      </p>
-
-      <p><b>Телефон:</b> 
-        <a href="tel:${sanitizePhone(formData.phone)}">
-          ${sanitizePhone(formData.phone)}
-        </a>
-      </p>
-
       <p><b>Email:</b> 
         <a href="mailto:${sanitizeEmail(formData.email)}">
           ${sanitizeEmail(formData.email)}

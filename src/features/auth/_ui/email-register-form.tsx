@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Typography } from '@/shared/ui/typography'
 import BackButton from './back-button'
+import PolicyLink from '@/shared/ui/policy-link'
 
 export function EmailRegisterForm() {
   const trpc = useTRPC()
@@ -135,6 +136,7 @@ export function EmailRegisterForm() {
           </div>
         </form>
       </Form>
+      <PolicyLink title="Продолжить" />
     </div>
   )
 }
