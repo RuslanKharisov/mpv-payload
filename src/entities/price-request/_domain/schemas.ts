@@ -12,9 +12,9 @@ export const SendPriceRequestSchema = z.object({
     'EMERGENCY',
   ]),
   note: z.string().optional(),
-  firstName: z.string().min(1, 'Введите имя'),
-  lastName: z.string().min(1, 'Введите фамилию'),
-  phone: z.string().min(1, 'Введите номер телефона'),
+  // firstName: z.string().min(1, 'Введите имя'),
+  // lastName: z.string().min(1, 'Введите фамилию'),
+  // phone: z.string().min(1, 'Введите номер телефона'),
   email: z.email('Некорректный email'),
   companyName: z.string().min(1, 'Введите название компании'),
 })

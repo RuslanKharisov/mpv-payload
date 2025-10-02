@@ -28,6 +28,7 @@ import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRe
 import { useTRPC } from '@/shared/trpc/client'
 import { toast } from 'sonner'
 import { deliveryTimeLabels } from '../_domain/deliveryTime'
+import PolicyLink from '@/shared/ui/policy-link'
 
 interface SendPriceRequestModalProps {
   tenantName: string
@@ -53,9 +54,9 @@ export function SendPriceRequestModal({
     defaultValues: {
       deliveryTime: 'EMERGENCY',
       note: '',
-      firstName: '',
-      lastName: '',
-      phone: '+7',
+      // firstName: '',
+      // lastName: '',
+      // phone: '+7',
       email: '',
       companyName: '',
     },
@@ -191,7 +192,7 @@ export function SendPriceRequestModal({
             <div className="font-semibold text-black">Контактные данные</div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="firstName"
                 render={({ field }) => (
@@ -205,9 +206,9 @@ export function SendPriceRequestModal({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="lastName"
                 render={({ field }) => (
@@ -221,9 +222,9 @@ export function SendPriceRequestModal({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
@@ -242,8 +243,23 @@ export function SendPriceRequestModal({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">
+                      Название компании <span className="text-danger">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Введите название вашей компании" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -266,24 +282,9 @@ export function SendPriceRequestModal({
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">
-                    Название компании <span className="text-danger">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder="Введите название вашей компании" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             {/* Кнопка отправки */}
-            <DialogFooter className="pt-4">
+            <DialogFooter className="pt-4 gap-5 flex-col">
+              <PolicyLink title="Отправить запрос" />
               <Button type="submit" disabled={isPending || !form.formState.isValid}>
                 {isPending && <Spinner className="mr-2 h-4 w-4" />}
                 Отправить запрос

@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import BackButton from './back-button'
 import { Typography } from '@/shared/ui/typography'
+import PolicyLink from '@/shared/ui/policy-link'
 
 export function EmailLoginForm() {
   const router = useRouter()
@@ -107,6 +108,7 @@ export function EmailLoginForm() {
           </div>
         </form>
       </Form>
+      <PolicyLink title="Продолжить" />
     </div>
   )
 }
