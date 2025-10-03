@@ -8,7 +8,7 @@ import { searchPlugin } from '@payloadcms/plugin-search'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/payload/hooks/revalidateRedirects'
-import { GenerateURL } from '@payloadcms/plugin-seo/types'
+import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
@@ -18,9 +18,9 @@ import { getServerSideURL } from '@/shared/utilities/getURL'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { anyone } from '../access/anyone'
 
-// const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-//   return doc?.title ? `${doc.title} | Онлайн склад` : 'Онлайн склад'
-// }
+const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+  return doc?.title ? `${doc.title} | Онлайн склад` : 'Онлайн склад Prom-Stock'
+}
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   const url = getServerSideURL()
@@ -64,8 +64,8 @@ export const plugins: Plugin[] = [
   }),
 
   seoPlugin({
-    // generateTitle,
-    // generateURL,
+    generateTitle,
+    generateURL,
   }),
   formBuilderPlugin({
     fields: {
