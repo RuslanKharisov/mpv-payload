@@ -57,16 +57,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const payload = await getPayload({ config: configPromise })
-
-  try {
-    const siteSettings = await payload.findGlobal({
-      slug: 'site-settings',
-    })
-
-    return generateMeta({ globals: siteSettings })
-  } catch (error) {
-    return generateMeta()
-  }
+export const metadata: Metadata = {
+  metadataBase: new URL(getServerSideURL()),
+  openGraph: mergeOpenGraph(),
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@payloadcms',
+  },
 }

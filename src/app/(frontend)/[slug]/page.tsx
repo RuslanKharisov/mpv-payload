@@ -9,9 +9,9 @@ import { homeStatic } from '@/endpoints/seed/data/home-static'
 
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { RenderHero } from '@/payload/heros/RenderHero'
-import { generateMeta } from '@/shared/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
