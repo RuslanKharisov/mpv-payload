@@ -44,7 +44,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = '' } = await paramsPromise
 
   const product = await queryProductBySlug({ slug })
-  console.log('product ==> ', product)
 
   return generateMeta({ doc: product })
 }
