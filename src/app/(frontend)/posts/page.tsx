@@ -7,6 +7,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export const revalidate = 600
 
@@ -55,8 +56,12 @@ export default async function Page() {
   )
 }
 
-export function generateMetadata(): Metadata {
-  return {
-    title: `Онлайн склад | Prom-Stock Новости`,
+export async function generateMetadata(): Promise<Metadata> {
+  const pseudoDoc = {
+    title: 'Блог | Prom-Stock',
+    description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
+    slug: 'posts',
   }
+
+  return generateMeta({ doc: pseudoDoc })
 }

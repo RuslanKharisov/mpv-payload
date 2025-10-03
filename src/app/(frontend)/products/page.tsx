@@ -4,9 +4,9 @@ import { getAllCategories } from '@/entities/category'
 import { getProducts } from '@/entities/products'
 import { ProductsCatalogView } from '@/views/products/ui/products-catalog-view'
 import getBrands from '@/entities/brands/api/get-brands'
-import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
-import { getServerSideURL } from '@/shared/utilities/getURL'
 import { getCategoryBySlug } from '@/entities/category/api/get-category-by-slug'
+import { generateMeta } from '@/shared/utilities/generateMeta'
+import { Metadata } from 'next'
 
 export const revalidate = 600
 
@@ -37,27 +37,23 @@ export default async function Page({ searchParams: paramsPromice }: Args) {
   )
 }
 
-export async function generateMetadata({ searchParams: paramsPromice }: Args) {
+export async function generateMetadata({ searchParams: paramsPromice }: Args): Promise<Metadata> {
   const { category: categorySlug } = await paramsPromice
-  let title = 'Prom-Stock — Каталог товаров: промышленное оборудование и запчасти'
-  const description =
-    'Широкий ассортимент промышленного оборудования, запчастей и расходников. Актуальные цены и наличие на складе.'
+
+  let pageTitle = 'Каталог товаров: промышленное оборудование и запчасти'
 
   if (categorySlug && typeof categorySlug === 'string') {
     const category = await getCategoryBySlug(categorySlug)
-    title = `${category[0]?.title} | Каталог товаров | Prom-Stock.`
+    if (category && category[0]?.title) {
+      pageTitle = `${category[0].title} | Каталог товаров`
+    }
   }
 
-  return {
-    title: title,
-    description: description,
-    openGraph: mergeOpenGraph({
-      title: title,
-      description: description,
-      url: `${getServerSideURL()}/products`,
-    }),
-    alternates: {
-      canonical: `${getServerSideURL()}/products`,
-    },
+  // ✅ Создаем "псевдо-документ" только с теми полями, которые нужны нашей утилите
+  const pseudoDoc = {
+    title: pageTitle,
+    slug: 'products',
   }
+
+  return generateMeta({ doc: pseudoDoc })
 }

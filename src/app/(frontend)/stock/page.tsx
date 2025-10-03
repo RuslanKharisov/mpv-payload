@@ -3,6 +3,8 @@ import configPromise from '@payload-config'
 import { StocksResults } from '@/widgets/remote-stocks-result'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
 import { Suspense } from 'react'
+import { generateMeta } from '@/shared/utilities/generateMeta'
+import { Metadata } from 'next'
 // import { SearchParams } from '@/widgets/remote-stocks-result/_ui/stocks-results'
 
 export default async function page({
@@ -49,4 +51,15 @@ function StocksSkeleton() {
       ))}
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pseudoDoc = {
+    title: 'Поиск компонентов АСУ ТП на складах',
+    description:
+      'Prom-Stock.ru: Быстрый поиск оборудования, компонентов АСУ ТП, электроприводов и неликвидов по всей России.',
+    slug: 'posts',
+  }
+
+  return generateMeta({ doc: pseudoDoc })
 }

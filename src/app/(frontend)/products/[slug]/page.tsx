@@ -6,6 +6,8 @@ import configPromise from '@payload-config'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
 import { SupplierStockWidget } from '@/widgets/supplier-stocks'
+import { generateMeta } from '@/shared/utilities/generateMeta'
+import { Metadata } from 'next'
 
 export const revalidate = 600
 
@@ -36,6 +38,15 @@ export default async function Page({ params: paramsPromise }: Args) {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { slug = '' } = await paramsPromise
+
+  const product = await queryProductBySlug({ slug })
+  console.log('product ==> ', product)
+
+  return generateMeta({ doc: product })
 }
 
 const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {

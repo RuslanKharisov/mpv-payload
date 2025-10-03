@@ -37,7 +37,7 @@ export function StockCard({ stock }: StockCardProps) {
         <div className="flex flex-col md:gap-4">
           <div className="w-fit gap-[6px]">
             <p className="text-sm uppercase text-[#4A4D58]">
-              {(product.brand.name && product.brand.name) || 'Производитель'}
+              {(product.brand?.name && product.brand?.name) || 'Производитель'}
             </p>
             <h3 className="text-base font-semibold transition-all hover:text-primary-default hover:underline md:text-lg">
               {product.sku || 'Product Name'}
