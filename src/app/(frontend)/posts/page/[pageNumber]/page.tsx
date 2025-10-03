@@ -8,6 +8,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export const revalidate = 600
 
@@ -64,9 +65,15 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
-  return {
-    title: `Онлайн склад | Prom-Stock Новости. Страница ${pageNumber || ''}`,
+
+  // 3. Создаем "псевдо-документ" с динамическим заголовком
+  const pseudoDoc = {
+    title: `Блог - Страница ${pageNumber} | Prom-Stock`,
+    description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
+    slug: `posts/${pageNumber}`,
   }
+
+  return generateMeta({ doc: pseudoDoc })
 }
 
 export async function generateStaticParams() {

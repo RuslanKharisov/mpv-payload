@@ -4,6 +4,9 @@ import { cn } from '@/shared/utilities/ui'
 import { Inter } from 'next/font/google'
 import React from 'react'
 
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/widgets/footer/Component'
 import { Header } from '@/widgets/header/Component'
@@ -16,6 +19,7 @@ import './globals.css'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import YandexMetrikaContainer from '@/shared/utilities/YandexMetrika'
 import { Toaster } from '@/shared/ui/sonner'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -53,11 +57,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const payload = await getPayload({ config: configPromise })
+
+  try {
+    const siteSettings = await payload.findGlobal({
+      slug: 'site-settings',
+    })
+
+    return generateMeta({ globals: siteSettings })
+  } catch (error) {
+    return generateMeta()
+  }
 }

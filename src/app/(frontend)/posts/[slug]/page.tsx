@@ -77,6 +77,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
+
   const post = await queryPostBySlug({ slug })
 
   return generateMeta({ doc: post })

@@ -4,6 +4,7 @@ import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
 import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
 import { getServerSideURL } from '@/shared/utilities/getURL'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
@@ -43,20 +44,12 @@ export default async function Page() {
 }
 
 export async function generateMetadata() {
-  const title = 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.'
-  const description =
-    'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.'
-
-  return {
-    title: title,
-    description: description,
-    openGraph: mergeOpenGraph({
-      title: title,
-      description: description,
-      url: `${getServerSideURL()}/products`,
-    }),
-    alternates: {
-      canonical: `${getServerSideURL()}/products`,
-    },
+  const pseudoDoc = {
+    title: 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.',
+    description:
+      'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.',
+    slug: 'product-categories',
   }
+
+  return generateMeta({ doc: pseudoDoc })
 }
