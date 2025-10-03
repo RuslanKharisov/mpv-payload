@@ -4,9 +4,6 @@ import { cn } from '@/shared/utilities/ui'
 import { Inter } from 'next/font/google'
 import React from 'react'
 
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/widgets/footer/Component'
 import { Header } from '@/widgets/header/Component'
