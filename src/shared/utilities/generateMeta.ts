@@ -26,7 +26,7 @@ export const generateMeta = async (args: {
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Онлайн склад | Prom-Stock'
+    ? doc?.meta?.title + ' | Онлайн склад'
     : 'Онлайн склад | Prom-Stock'
 
   return {

@@ -19,7 +19,7 @@ import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { anyone } from '../access/anyone'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Онлайн склад | Prom-Stock` : 'Онлайн склад | Prom-Stock'
+  return doc?.title ? `${doc.title} | Онлайн склад` : 'Онлайн склад'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
