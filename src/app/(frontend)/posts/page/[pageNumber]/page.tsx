@@ -66,7 +66,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
 
-  // 3. Создаем "псевдо-документ" с динамическим заголовком
   const pseudoDoc = {
     title: `Блог - Страница ${pageNumber} | Prom-Stock`,
     description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',

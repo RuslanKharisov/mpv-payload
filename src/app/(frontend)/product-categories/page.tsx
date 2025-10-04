@@ -2,8 +2,6 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
-import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
-import { getServerSideURL } from '@/shared/utilities/getURL'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export default async function Page() {
@@ -12,7 +10,7 @@ export default async function Page() {
   const categories = await payload.find({
     collection: 'product-categories',
     depth: 1,
-    limit: 0, // 0 для получения всех категорий без пагинации
+    limit: 0,
     overrideAccess: false,
     select: {
       title: true,
