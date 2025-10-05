@@ -8,9 +8,14 @@ const getAllCategories = cache(async (): Promise<ProductCategoryWithParents[]> =
 
   const result = await payload.find({
     collection: 'product-categories',
-    depth: 1,
+    depth: 0,
     limit: 1000,
     sort: 'slug',
+    select: {
+      title: true,
+      slug: true,
+      parent: true,
+    },
   })
 
   return result.docs as ProductCategoryWithParents[]

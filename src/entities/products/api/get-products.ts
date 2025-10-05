@@ -69,7 +69,13 @@ export async function getProducts({
     where,
     page: pageNumber,
     limit: 12,
-    depth: 2,
+    depth: 1,
+    select: {
+      sku: true,
+      name: true,
+      slug: true,
+      productImage: true,
+    },
   })
 
   return {

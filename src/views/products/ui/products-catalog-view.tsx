@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 
 import { Brand, Product, ProductCategory } from '@/payload-types'
 import { FiltersSidebar } from '@/widgets/filters-sidebar'
@@ -33,7 +33,6 @@ export function ProductsCatalogView({
   selectedBrands,
 }: Props) {
   const pageTitle = currentCategory ? currentCategory.title : 'Каталог оборудования'
-
   return (
     <div className="py-3 lg:py-16">
       <div className="container">
