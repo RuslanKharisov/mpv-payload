@@ -3,21 +3,12 @@ import configPromise from '@payload-config'
 import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
 import { generateMeta } from '@/shared/utilities/generateMeta'
+import { getAllCategoriesWithParents } from '@/entities/category/api/get-all-categories'
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
-  const categories = await payload.find({
-    collection: 'product-categories',
-    depth: 1,
-    limit: 0,
-    overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      parent: true,
-    },
-  })
+  const categories = await getAllCategoriesWithParents()
 
   return (
     <div className="py-8 lg:py-24">
@@ -35,7 +26,7 @@ export default async function Page() {
       </div>
 
       <div className="container">
-        <CategoryAccordion categories={categories.docs as unknown as ProductCategory[]} />
+        <CategoryAccordion categories={categories as unknown as ProductCategory[]} />
       </div>
     </div>
   )
