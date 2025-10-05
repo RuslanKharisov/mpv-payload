@@ -17,6 +17,8 @@ const stockRowSchema = z.object({
   brand: z.string(),
 })
 
+type ImportStockTableRows = z.infer<typeof stockRowSchema>
+
 export const importStocksEndpoint: Endpoint = {
   path: '/import-stocks',
   method: 'post',
@@ -35,8 +37,6 @@ export const importStocksEndpoint: Endpoint = {
     }
 
     const tenantId = typeof tenant === 'number' ? tenant : tenant.id
-
-    console.log('tenantId ==> ', tenantId)
 
     try {
       if (!req.formData) {
@@ -57,8 +57,7 @@ export const importStocksEndpoint: Endpoint = {
       const sheetName = workbook.SheetNames[1]
       const sheet = workbook.Sheets[sheetName]
 
-      // ToDO: Типизировать данные из таблицы!!!!!!!!!!
-      const rows: any[] = XLSX.utils.sheet_to_json(sheet)
+      const rows: ImportStockTableRows[] = XLSX.utils.sheet_to_json(sheet)
 
       const errors: string[] = []
       const successes: string[] = []
@@ -119,7 +118,7 @@ export const importStocksEndpoint: Endpoint = {
           const warehouseDoc = warehouseResult.docs[0]
           if (!warehouseDoc) {
             errors.push(`Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден.`)
-            continue // Пропускаем
+            continue
           }
           warehouseId = warehouseDoc.id
         }
@@ -154,11 +153,11 @@ export const importStocksEndpoint: Endpoint = {
           brandId = brandResult.docs[0].id
         }
 
-        // Обновляем входные данные для запаса с найденными ID
+        // --- Обновляем входные данные для запаса с найденными ID ---
 
         let product
 
-        // НОРМАЛИЗУЕМ SKU ИЗ EXCEL-ФАЙЛА
+        // --- НОРМАЛИЗУЕМ SKU ИЗ EXCEL-ФАЙЛА ---
         const normalizedSku = formatSku(sku)
 
         const existingProducts = await req.payload.find({
