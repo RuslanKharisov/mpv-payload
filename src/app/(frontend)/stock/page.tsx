@@ -5,7 +5,6 @@ import { StockSearchBar } from '@/widgets/stock-search-bar'
 import { Suspense } from 'react'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { Metadata } from 'next'
-// import { SearchParams } from '@/widgets/remote-stocks-result/_ui/stocks-results'
 
 export default async function page({
   searchParams,

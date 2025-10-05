@@ -2,7 +2,6 @@ import { ProductCategory } from '@/payload-types'
 import { CategoryGroup } from './_ui/CategoryGroup'
 
 const CategoryGrid = ({ categories }: { categories: ProductCategory[] }) => {
-  // Группируем категории по родителям
   const categoriesByParent: Record<string, ProductCategory[]> = {}
   const parentCategories: Record<string, ProductCategory> = {}
 
@@ -15,7 +14,6 @@ const CategoryGrid = ({ categories }: { categories: ProductCategory[] }) => {
       }
       categoriesByParent[parentId].push(category)
     } else if (!category.parent) {
-      // Это родительская категория без дочерних в данном списке
       if (!categoriesByParent[category.id]) {
         categoriesByParent[category.id] = []
         parentCategories[category.id] = category

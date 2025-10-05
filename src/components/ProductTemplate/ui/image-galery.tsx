@@ -1,6 +1,6 @@
 'use client'
 
-import { Product, Media } from '@/payload-types' // Импортируем Media
+import { Product, Media } from '@/payload-types'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -8,21 +8,16 @@ type ImageGalleryProps = {
   product: Product
 }
 
-// Определяем тип для одного изображения из галереи
-// Это будет объект Media или его часть
 type GalleryImage = Media | { url?: string; id?: string; alt?: string }
 
 const ImageGallery = ({ product }: ImageGalleryProps) => {
-  // Извлекаем массив изображений, разворачивая вложенную структуру
   const images: GalleryImage[] = useMemo(
     () => (product.images?.map((img) => img.image).filter(Boolean) as Media[]) || [],
     [product],
   )
 
-  // Главное изображение для превью
   const thumbnail = (product.productImage as Media)?.url || '/images/placeholder.png'
 
-  // Начальное изображение: первое из галереи или главное изображение
   const [selectedImage, setSelectedImage] = useState<GalleryImage>(
     images[0] || {
       url: thumbnail,

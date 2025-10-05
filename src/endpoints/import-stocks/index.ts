@@ -3,7 +3,6 @@ import { Endpoint, PayloadRequest } from 'payload'
 import * as XLSX from 'xlsx'
 import { z } from 'zod'
 
-// Схема Zod остается такой же
 const stockRowSchema = z.object({
   sku: z.string().trim().min(1, { message: 'SKU не может быть пустым' }),
   name: z.string(),
@@ -18,18 +17,16 @@ const stockRowSchema = z.object({
   brand: z.string(),
 })
 
+type ImportStockTableRows = z.infer<typeof stockRowSchema>
+
 export const importStocksEndpoint: Endpoint = {
   path: '/import-stocks',
   method: 'post',
-  // ИЗМЕНЕНИЕ 1: Сигнатура обработчика теперь другая. Он должен возвращать Promise<Response>.
   handler: async (req: PayloadRequest): Promise<Response> => {
-    // Проверяем, что пользователь авторизован
     if (!req.user) {
-      // ИЗМЕНЕНИЕ 2: Возвращаем Response.json вместо res.status().json()
       return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Получаем ID тенанта из текущего пользователя
     const tenant = req.user.tenants?.[0]?.tenant || null
 
     if (!tenant) {
@@ -41,10 +38,7 @@ export const importStocksEndpoint: Endpoint = {
 
     const tenantId = typeof tenant === 'number' ? tenant : tenant.id
 
-    console.log('tenantId ==> ', tenantId)
-
     try {
-      // ИЗМЕНЕНИЕ 3: Получаем данные формы, включая файл
       if (!req.formData) {
         return Response.json(
           { success: false, error: 'Invalid request: expected multipart/form-data' },
@@ -58,14 +52,12 @@ export const importStocksEndpoint: Endpoint = {
         return Response.json({ success: false, error: 'Файл не был загружен' }, { status: 400 })
       }
 
-      // Преобразуем файл в буфер для чтения библиотекой xlsx
       const buffer = Buffer.from(await file.arrayBuffer())
       const workbook = XLSX.read(buffer, { type: 'buffer' })
       const sheetName = workbook.SheetNames[1]
       const sheet = workbook.Sheets[sheetName]
 
-      // ToDO: Типизировать данные из таблицы!!!!!!!!!!
-      const rows: any[] = XLSX.utils.sheet_to_json(sheet)
+      const rows: ImportStockTableRows[] = XLSX.utils.sheet_to_json(sheet)
 
       const errors: string[] = []
       const successes: string[] = []
@@ -126,7 +118,7 @@ export const importStocksEndpoint: Endpoint = {
           const warehouseDoc = warehouseResult.docs[0]
           if (!warehouseDoc) {
             errors.push(`Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден.`)
-            continue // Пропускаем
+            continue
           }
           warehouseId = warehouseDoc.id
         }
@@ -161,11 +153,11 @@ export const importStocksEndpoint: Endpoint = {
           brandId = brandResult.docs[0].id
         }
 
-        // Обновляем входные данные для запаса с найденными ID
+        // --- Обновляем входные данные для запаса с найденными ID ---
 
         let product
 
-        // НОРМАЛИЗУЕМ SKU ИЗ EXCEL-ФАЙЛА
+        // --- НОРМАЛИЗУЕМ SKU ИЗ EXCEL-ФАЙЛА ---
         const normalizedSku = formatSku(sku)
 
         const existingProducts = await req.payload.find({

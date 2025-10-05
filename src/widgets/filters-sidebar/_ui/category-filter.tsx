@@ -15,13 +15,10 @@ type CategoryFilterProps = {
 export function CategoryFilter({ categories, activeCategorySlug, pageTitle }: CategoryFilterProps) {
   const searchParams = useSearchParams()
   const createCategoryUrl = (slug: string) => {
-    // 1. Копируем все текущие параметры (brands, phrase и т.д.)
     const params = new URLSearchParams(searchParams.toString())
 
-    // 2. Устанавливаем или меняем категорию
     params.set('category', slug)
 
-    // 3. Сбрасываем пагинацию, т.к. результаты изменятся
     params.delete('page')
 
     return `/products?${params.toString()}`

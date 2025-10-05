@@ -11,23 +11,18 @@ import {
 } from '@/components/ui/accordion'
 import { ProductCategory } from '@/payload-types'
 
-// Определяем интерфейс для пропсов
 interface CategoryAccordionProps {
   categories: ProductCategory[]
 }
 
 export function CategoryAccordion({ categories }: CategoryAccordionProps) {
-  // 1. Группируем категории по родительским
   const categoriesByParent: Record<string, ProductCategory[]> = {}
   const parentCategories: ProductCategory[] = []
 
   categories.forEach((category) => {
-    // Если у категории нет родителя, это категория верхнего уровня
     if (!category.parent) {
       parentCategories.push(category)
-    }
-    // Если родитель есть (и это объект благодаря depth: 1)
-    else if (typeof category.parent === 'object' && category.parent.id) {
+    } else if (typeof category.parent === 'object' && category.parent.id) {
       const parentId = category.parent.id.toString()
       if (!categoriesByParent[parentId]) {
         categoriesByParent[parentId] = []
@@ -36,9 +31,8 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
     }
   })
 
-  // 2. Создаем массив ID родительских категорий для состояния "все развернуты"
   const defaultExpandedValues = parentCategories
-    .filter((p) => categoriesByParent[p.id.toString()]?.length > 0) // Только те, у кого есть дочерние
+    .filter((p) => categoriesByParent[p.id.toString()]?.length > 0)
     .map((p) => p.id.toString())
 
   return (
@@ -49,7 +43,6 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
 
         return (
           <div key={parent.id} className="mb-[10px] break-inside-avoid-column">
-            {/* 3. Если есть дочерние категории, используем Accordion */}
             {hasChildren ? (
               <Accordion type="multiple" defaultValue={defaultExpandedValues} className="w-full">
                 <AccordionItem
@@ -57,7 +50,6 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                   className="overflow-hidden rounded-lg border bg-secondary"
                 >
                   <AccordionTrigger className="p-4 text-base font-semibold hover:no-underline">
-                    {/* Оборачиваем заголовок в Link для навигации */}
                     <Link href={`/products?category=${parent.slug}`} className="hover:underline">
                       {parent.title}
                     </Link>
@@ -79,7 +71,6 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                 </AccordionItem>
               </Accordion>
             ) : (
-              /* 4. Если дочерних категорий нет, показываем простой блок */
               <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-secondary p-4">
                 {parent.slug && (
                   <Link

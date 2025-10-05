@@ -49,7 +49,6 @@ export async function generateMetadata({ searchParams: paramsPromice }: Args): P
     }
   }
 
-  // ✅ Создаем "псевдо-документ" только с теми полями, которые нужны нашей утилите
   const pseudoDoc = {
     title: pageTitle,
     slug: 'products',
