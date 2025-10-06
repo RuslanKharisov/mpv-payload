@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Поиск компонентов АСУ ТП на складах',
     description:
       'Prom-Stock.ru: Быстрый поиск оборудования, компонентов АСУ ТП, электроприводов и неликвидов по всей России.',
-    slug: 'posts',
+    slug: 'stock',
   }
 
   return generateMeta({ doc: pseudoDoc })
