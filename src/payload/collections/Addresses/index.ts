@@ -17,6 +17,7 @@ export const Addresses: CollectionConfig = {
     { name: 'fias_id', type: 'text', required: true, unique: true },
     { name: 'kladr_id', type: 'text' },
     { name: 'city', type: 'text' },
+    { name: 'region', type: 'text' },
     { name: 'street', type: 'text' },
     { name: 'house', type: 'text' },
     { name: 'fullAddress', type: 'text' },
