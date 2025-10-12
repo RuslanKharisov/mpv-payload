@@ -1,6 +1,5 @@
 import { Card } from '@/shared/ui/card'
 import { Badge } from '@/shared/ui/badge'
-import Image from 'next/image'
 import { StockWithTenantAndCurrency } from '@/features/stock'
 import { Currency, Tenant } from '@/payload-types'
 import { AddToCartCell } from '@/entities/stock/_ui/add-to-cart-cell'
@@ -8,13 +7,13 @@ import { SendPriceRequestModal } from '@/features/send-price-request'
 import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
 import { formatDateTime } from '@/shared/utilities/formatDateTime'
 import { formatCurrency } from '@/shared/utilities/formatAmountWithСurency'
+import { ImageMedia } from '@/components/Media/ImageMedia'
 
 interface StockCardProps {
   stock: StockWithTenantAndCurrency
 }
 
 export function StockCard({ stock }: StockCardProps) {
-  // Убедимся, что product и currency являются объектами
   const product = stock.product
   const currency = typeof stock.currency === 'object' ? stock.currency : ({} as Currency)
   const tenant = typeof stock.tenant === 'object' ? stock.tenant : ({} as Tenant)
@@ -24,12 +23,11 @@ export function StockCard({ stock }: StockCardProps) {
       <div className="grid grid-cols-[103px_1fr] gap-6 transition-all max-md:gap-2 max-md:gap-y-5 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
         {/* элемент сетки 1 */}
         <div className="flex aspect-square max-h-[162px] min-h-[87px] min-w-[87px] max-w-[162px] items-center justify-center rounded border-1 border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-[132px] md:relative">
-          <Image
-            alt={product.name || 'Product Image'}
-            className="h-full w-full object-contain"
-            height="130"
-            src={product.productImage.thumbnailURL || '/placeholder.svg'} // Запасное изображение
-            width="130"
+          <ImageMedia
+            resource={product.productImage}
+            fill
+            imgClassName="object-contain object-center"
+            pictureClassName="absolute inset-0 h-full w-full"
           />
         </div>
 
