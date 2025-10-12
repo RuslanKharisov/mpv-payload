@@ -1040,6 +1040,7 @@ export interface Address {
   fias_id: string;
   kladr_id?: string | null;
   city?: string | null;
+  region?: string | null;
   street?: string | null;
   house?: string | null;
   fullAddress?: string | null;
@@ -1955,6 +1956,7 @@ export interface AddressesSelect<T extends boolean = true> {
   fias_id?: T;
   kladr_id?: T;
   city?: T;
+  region?: T;
   street?: T;
   house?: T;
   fullAddress?: T;
