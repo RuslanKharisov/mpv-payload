@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <ImageMedia
             resource={product.productImage}
             fill
-            imgClassName="object-cover object-center"
+            imgClassName="object-cover object-contain"
             pictureClassName="absolute inset-0 h-full w-full"
           />
         </div>
