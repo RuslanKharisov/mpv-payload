@@ -15,7 +15,6 @@ import { RegionFilter } from './region-filter'
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]
-  activeCategorySlug?: string
   brands?: Brand[]
   regions?: string[]
   cities?: string[]
@@ -24,7 +23,6 @@ type FiltersSidebarProps = {
 
 export function FiltersSidebar({
   allCategories,
-  activeCategorySlug,
   brands = [],
   regions = [],
   cities = [],

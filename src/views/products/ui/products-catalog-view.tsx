@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { Brand, Product, ProductCategory } from '@/payload-types'
 import { FiltersSidebar } from '@/widgets/filters-sidebar'
@@ -21,7 +21,6 @@ type Props = {
   cities?: string[]
   activeCategorySlug?: string
   phrase?: string
-  selectedBrands?: string[]
   condition?: string
   city?: string
   region?: string
@@ -37,7 +36,6 @@ export function ProductsCatalogView({
   cities,
   activeCategorySlug,
   phrase,
-  selectedBrands,
   condition,
   city,
   region,
@@ -50,7 +48,6 @@ export function ProductsCatalogView({
           <FiltersSidebar
             pageTitle={pageTitle}
             allCategories={allCategories}
-            activeCategorySlug={activeCategorySlug ?? ''}
             brands={brands}
             regions={regions}
             cities={cities}
