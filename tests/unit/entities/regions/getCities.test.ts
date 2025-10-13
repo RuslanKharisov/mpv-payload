@@ -1,5 +1,5 @@
+import { getCities } from '@/entities/warehouse'
 import { describe, it, expect, vi } from 'vitest'
-import getCities from '@/entities/regions/api/get-cities'
 
 // Мокаем зависимости
 vi.mock('payload', () => ({

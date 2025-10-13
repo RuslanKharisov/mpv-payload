@@ -8,8 +8,7 @@ import { getCategoryBySlug } from '@/entities/category/api/get-category-by-slug'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { Metadata } from 'next'
 import { FiltersProvider } from '@/shared/providers/Filters'
-import getRegions from '@/entities/regions/api/get-regions'
-import getCities from '@/entities/regions/api/get-cities'
+import { getCities, getRegions } from '@/entities/warehouse'
 
 export const revalidate = 600
 
