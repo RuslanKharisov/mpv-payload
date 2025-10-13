@@ -21,13 +21,7 @@ type FiltersContextType = {
 
 const FiltersContext = createContext<FiltersContextType | undefined>(undefined)
 
-export function FiltersProvider({
-  children,
-  initialFilters,
-}: {
-  children: React.ReactNode
-  initialFilters: Record<string, any>
-}) {
+export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [filters, setFilters] = useState<Filters>({})
@@ -60,7 +54,6 @@ export function FiltersProvider({
     if (key !== 'page') params.delete('page')
 
     const url = `/products?${params.toString()}`
-    console.log('Navigating to:', url)
     router.push(url, { scroll: false })
   }
 

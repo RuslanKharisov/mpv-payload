@@ -38,7 +38,7 @@ export default async function Page({ searchParams: paramsPromice }: Args) {
   if (productsData.invalidCategory) return notFound()
 
   return (
-    <FiltersProvider initialFilters={params}>
+    <FiltersProvider>
       <ProductsCatalogView
         products={productsData.products}
         pagination={productsData.pagination}
