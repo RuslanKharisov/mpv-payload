@@ -18,7 +18,7 @@ async function getWarehouseAddressField<T extends string>(
   const warehouses = await payload.find({
     collection: 'warehouses',
     depth: 1,
-    limit: 1000,
+    pagination: false,
     where,
   })
 
