@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { cache } from 'react'
+import { Warehouse } from '@/payload-types'
 
 const getCities = cache(async (region?: string): Promise<string[]> => {
   const payload = await getPayload({ config: configPromise })
@@ -22,13 +23,13 @@ const getCities = cache(async (region?: string): Promise<string[]> => {
   // Извлекаем города из адресов складов
   const citiesSet = new Set<string>()
 
-  for (const warehouse of warehouses.docs) {
+  for (const warehouse of warehouses.docs as Warehouse[]) {
     if (
       warehouse.warehouse_address &&
       typeof warehouse.warehouse_address === 'object' &&
       'city' in warehouse.warehouse_address
     ) {
-      const city = (warehouse.warehouse_address as any).city
+      const city = warehouse.warehouse_address.city
       if (city) {
         citiesSet.add(city)
       }
