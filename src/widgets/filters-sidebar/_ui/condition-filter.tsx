@@ -30,11 +30,11 @@ export function ConditionFilter() {
       {CONDITIONS.map((cond) => (
         <li key={cond.value} className="flex items-center gap-3">
           <Checkbox
-            id={`condition-${cond.value}`}
+            id={`condition-${toDomId(cond.value)}`}
             checked={currentCondition === cond.value}
             onCheckedChange={() => toggleCondition(cond.value)}
           />
-          <Label htmlFor={`condition-${cond.value}`} className="cursor-pointer font-light">
+          <Label htmlFor={`condition-${toDomId(cond.value)}`} className="cursor-pointer font-light">
             {cond.label}
           </Label>
         </li>
