@@ -51,6 +51,7 @@ jobs:
             --exclude='package-lock.json' \
             --exclude='node_modules' \
             --exclude='media' \
+            --exclude='tests' \
             ./ ${{ secrets.SERVER_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.SERVER_USER }}/onstock-payload-app
 
       - name: Deploy & restart via PM2

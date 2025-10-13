@@ -1,28 +1,26 @@
 'use client'
 
 import { Button } from '@/shared/ui/button'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useFilters } from '@/shared/providers/Filters'
 
 export function ClearFiltersButton() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const { filters, resetFilters } = useFilters()
 
   // Определяем, активен ли хотя бы один фильтр
-  const hasActiveFilters =
-    searchParams.has('category') || searchParams.has('brands') || searchParams.has('phrase')
+  const hasActiveFilters = Object.keys(filters).some((key) => {
+    const value = filters[key as keyof typeof filters]
+    if (value === undefined) return false
+    if (Array.isArray(value) && value.length === 0) return false
+    return true
+  })
 
   // Если фильтров нет, ничего не рендерим
   if (!hasActiveFilters) {
     return null
   }
 
-  const handleClear = () => {
-    // Просто переходим на базовый URL каталога без параметров
-    router.push('/products', { scroll: false })
-  }
-
   return (
-    <Button variant="outline" className="w-fit" onClick={handleClear}>
+    <Button variant="outline" className="w-fit" onClick={resetFilters}>
       Очистить все фильтры
     </Button>
   )

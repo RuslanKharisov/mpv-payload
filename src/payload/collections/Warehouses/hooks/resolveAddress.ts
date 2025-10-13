@@ -33,6 +33,7 @@ export const beforeChangeHook: CollectionBeforeChangeHook<Warehouse> = async ({
             fias_id: suggestion.data.fias_id,
             kladr_id: suggestion.data.kladr_id || '',
             city: suggestion.data.city || suggestion.data.settlement || '',
+            region: suggestion.data.region_with_type || '',
             street: suggestion.data.street || '',
             house: suggestion.data.house || '',
             fullAddress: suggestion.value,

@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { Brand, Product, ProductCategory } from '@/payload-types'
 import { FiltersSidebar } from '@/widgets/filters-sidebar'
@@ -17,9 +17,13 @@ type Props = {
   currentCategory?: ProductCategory
   allCategories: ProductCategoryWithParents[]
   brands?: Brand[]
+  regions?: string[]
+  cities?: string[]
   activeCategorySlug?: string
   phrase?: string
-  selectedBrands?: string[]
+  condition?: string
+  city?: string
+  region?: string
 }
 
 export function ProductsCatalogView({
@@ -28,9 +32,13 @@ export function ProductsCatalogView({
   currentCategory,
   allCategories,
   brands,
+  regions,
+  cities,
   activeCategorySlug,
   phrase,
-  selectedBrands,
+  condition,
+  city,
+  region,
 }: Props) {
   const pageTitle = currentCategory ? currentCategory.title : 'Каталог оборудования'
   return (
@@ -40,9 +48,9 @@ export function ProductsCatalogView({
           <FiltersSidebar
             pageTitle={pageTitle}
             allCategories={allCategories}
-            activeCategorySlug={activeCategorySlug ?? ''}
             brands={brands}
-            selectedBrands={selectedBrands}
+            regions={regions}
+            cities={cities}
           />
 
           <main className="flex flex-1 flex-col gap-5">
@@ -62,7 +70,7 @@ export function ProductsCatalogView({
                   page={pagination.page}
                   totalPages={pagination.totalPages}
                   route="products"
-                  extraParams={{ category: activeCategorySlug, phrase }}
+                  extraParams={{ category: activeCategorySlug, phrase, condition, city, region }}
                 />
               </div>
             )}
