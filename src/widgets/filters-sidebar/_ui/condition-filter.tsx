@@ -4,6 +4,7 @@ import { useFilters } from '@/shared/providers/Filters'
 import { FilterAccordion } from './filter-accordion'
 import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
+import { toDomId } from '@/shared/utilities/toDomId'
 
 const CONDITIONS = [
   { value: 'НОВЫЙ С ЗАВОДА', label: 'Новый с завода' },
