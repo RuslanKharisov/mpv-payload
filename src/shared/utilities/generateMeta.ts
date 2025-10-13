@@ -44,7 +44,6 @@ export const generateMeta = (args: GenerateMetaArgs = {}): Metadata => {
   const ogImage = getImageURL(seoFromPayload?.image || globals?.meta?.image)
 
   const canonicalUrl = doc?.slug ? `${getServerSideURL()}/${doc.slug}` : getServerSideURL()
-  console.log('canonicalUrl ==> ', canonicalUrl)
 
   return {
     metadataBase: new URL(getServerSideURL()),

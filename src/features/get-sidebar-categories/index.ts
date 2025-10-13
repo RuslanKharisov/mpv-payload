@@ -24,23 +24,35 @@ export function getSidebarCategories(
     return { title: 'Все категории', categories: [], showAll: true }
   }
 
-  // Определим родителя: если есть parent → берём его, иначе сама категория = родитель
+  // Показываем дочерние категории активной категории
+  const children = allCategories.filter((cat) => {
+    const parentValue = typeof cat.parent === 'object' ? cat.parent?.id : cat.parent
+    return parentValue === activeCategory.id
+  })
+
+  // Если есть дочерние категории, показываем их
+  if (children.length > 0) {
+    return {
+      title: activeCategory.title,
+      categories: children,
+      showAll: true,
+    }
+  }
+
+  // Если нет дочерних категорий, показываем категории того же уровня (с тем же родителем)
   const parentId =
     typeof activeCategory.parent === 'object'
       ? activeCategory.parent?.id
       : (activeCategory.parent ?? activeCategory.id)
 
-  const parent = allCategories.find((cat) => cat.id === parentId) ?? activeCategory
-
-  // Дети этого родителя
-  const children = allCategories.filter((cat) => {
+  const siblings = allCategories.filter((cat) => {
     const parentValue = typeof cat.parent === 'object' ? cat.parent?.id : cat.parent
-    return parentValue === parent.id
+    return parentValue === parentId
   })
 
   return {
-    title: parent?.title ?? 'Категории',
-    categories: children,
+    title: activeCategory.title,
+    categories: siblings,
     showAll: true,
   }
 }

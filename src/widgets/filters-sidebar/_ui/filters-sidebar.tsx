@@ -3,30 +3,33 @@
 import { Suspense, useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
 import { ArrowLeft, SlidersHorizontal, XIcon } from 'lucide-react'
-import { getSidebarCategories } from '@/features/get-sidebar-categories'
 import { ProductCategoryWithParents } from '@/entities/category'
 import { CategoryFilter } from './category-filter'
 import { BrandFilter } from './brand-filter'
 import { Brand } from '@/payload-types'
 import { ClearFiltersButton } from './clear-filters-button'
 import Link from 'next/link'
+import { ConditionFilter } from './condition-filter'
+import { CityFilter } from './city-filter'
+import { RegionFilter } from './region-filter'
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]
   activeCategorySlug?: string
   brands?: Brand[]
-  selectedBrands?: string[]
-  pageTitle?: string
+  regions?: string[]
+  cities?: string[]
+  pageTitle: string
 }
 
 export function FiltersSidebar({
   allCategories,
   activeCategorySlug,
   brands = [],
-  selectedBrands = [],
+  regions = [],
+  cities = [],
   pageTitle,
 }: FiltersSidebarProps) {
-  const { categories } = getSidebarCategories(allCategories, activeCategorySlug)
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -44,7 +47,7 @@ export function FiltersSidebar({
           isOpen ? 'translate-x-0 w-full' : '-translate-x-full',
         )}
       >
-        <div className="p-4 max-w-full bg-card space-y-6">
+        <div className="p-4 max-w-full bg-card space-y-6 h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] sticky top-4 overflow-y-auto">
           <Suspense>
             <ClearFiltersButton />
           </Suspense>
@@ -55,17 +58,22 @@ export function FiltersSidebar({
             <ArrowLeft /> <span>Вернуться</span>
           </Link>
           <Suspense>
-            <CategoryFilter
-              categories={categories}
-              activeCategorySlug={activeCategorySlug}
-              pageTitle={pageTitle}
-            />
+            <CategoryFilter allCategories={allCategories} pageTitle={pageTitle} />
           </Suspense>
           {brands.length > 0 && (
             <Suspense>
-              <BrandFilter brands={brands} selected={selectedBrands} />
+              <BrandFilter brands={brands} />
             </Suspense>
           )}
+          <Suspense>
+            <ConditionFilter />
+          </Suspense>
+          <Suspense>
+            <RegionFilter regions={regions} />
+          </Suspense>
+          <Suspense>
+            <CityFilter cities={cities} />
+          </Suspense>
         </div>
       </div>
     </>

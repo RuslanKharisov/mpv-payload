@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import { CityFilter } from '@/widgets/filters-sidebar/_ui/city-filter'
+import { FiltersProvider } from '@/shared/providers/Filters'
 import * as nextNavigation from 'next/navigation'
 
 // Мокаем next/navigation
@@ -11,12 +12,17 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => ({
     toString: () => '',
     has: vi.fn(),
+    get: vi.fn(),
   }),
 }))
 
 describe('CityFilter', () => {
   it('should render city filter options', () => {
-    const { getByText } = render(<CityFilter />)
+    const { getByText } = render(
+      <FiltersProvider initialFilters={{}}>
+        <CityFilter cities={['Москва', 'Санкт-Петербург', 'Новосибирск']} />
+      </FiltersProvider>,
+    )
 
     expect(getByText('Город')).toBeTruthy()
     expect(getByText('Москва')).toBeTruthy()
@@ -25,14 +31,22 @@ describe('CityFilter', () => {
   })
 
   it('should display filter without errors when city is provided', () => {
-    const { container } = render(<CityFilter city="Москва" />)
+    const { container } = render(
+      <FiltersProvider initialFilters={{ city: 'Москва' }}>
+        <CityFilter cities={['Москва', 'Санкт-Петербург']} />
+      </FiltersProvider>,
+    )
 
     // Проверяем, что компонент отрендерился без ошибок
     expect(container).toBeTruthy()
   })
 
   it('should filter cities by region', () => {
-    const { container } = render(<CityFilter region="Москва" />)
+    const { container } = render(
+      <FiltersProvider initialFilters={{ region: 'Москва' }}>
+        <CityFilter cities={['Москва', 'Санкт-Петербург']} />
+      </FiltersProvider>,
+    )
 
     // Проверяем, что компонент отрендерился без ошибок
     expect(container).toBeTruthy()
