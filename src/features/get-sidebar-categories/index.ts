@@ -9,7 +9,6 @@ export function getSidebarCategories(
   showAll?: boolean
 } {
   if (!activeCategorySlug) {
-    // Ничего не выбрано → показываем только родителей
     const rootCategories = allCategories.filter((cat) => !cat.parent)
     return {
       title: 'Все категории',
@@ -18,19 +17,16 @@ export function getSidebarCategories(
     }
   }
 
-  // Найдём активную категорию по slug
   const activeCategory = allCategories.find((cat) => cat.slug === activeCategorySlug)
   if (!activeCategory) {
     return { title: 'Все категории', categories: [], showAll: true }
   }
 
-  // Показываем дочерние категории активной категории
   const children = allCategories.filter((cat) => {
     const parentValue = typeof cat.parent === 'object' ? cat.parent?.id : cat.parent
     return parentValue === activeCategory.id
   })
 
-  // Если есть дочерние категории, показываем их
   if (children.length > 0) {
     return {
       title: activeCategory.title,
@@ -39,11 +35,8 @@ export function getSidebarCategories(
     }
   }
 
-  // Если нет дочерних категорий, показываем категории того же уровня (с тем же родителем)
   const parentId =
-    typeof activeCategory.parent === 'object'
-      ? activeCategory.parent?.id
-      : (activeCategory.parent ?? activeCategory.id)
+    typeof activeCategory.parent === 'object' ? activeCategory.parent?.id : activeCategory.parent
 
   const siblings = allCategories.filter((cat) => {
     const parentValue = typeof cat.parent === 'object' ? cat.parent?.id : cat.parent
