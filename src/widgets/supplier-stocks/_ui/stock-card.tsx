@@ -22,7 +22,7 @@ export function StockCard({ stock }: StockCardProps) {
     <Card className="relative block min-h-[166px] w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
       <div className="grid grid-cols-[103px_1fr] gap-6 transition-all max-md:gap-2 max-md:gap-y-5 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
         {/* элемент сетки 1 */}
-        <div className="flex aspect-square max-h-[162px] min-h-[87px] min-w-[87px] max-w-[162px] items-center justify-center rounded border-1 border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-[132px] md:relative">
+        <div className="flex aspect-square max-h-[162px] min-h-[87px] min-w-[87px] max-w-[162px] items-center justify-center rounded border-1 border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-[132px] relative">
           <ImageMedia
             resource={product.productImage}
             fill
