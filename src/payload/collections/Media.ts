@@ -23,10 +23,7 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
-  admin: {
-    hidden: ({ user }) => !isHidden(user),
-    description: 'Разрешены только изображения в формате WebP',
-  },
+  admin: { hidden: ({ user }) => !isHidden(user) },
   fields: [
     {
       name: 'alt',
@@ -48,7 +45,6 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    mimeTypes: ['image/webp'],
     imageSizes: [
       {
         name: 'thumbnail',
