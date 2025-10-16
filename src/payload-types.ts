@@ -220,6 +220,8 @@ export interface ProductCategory {
   createdAt: string;
 }
 /**
+ * Разрешены только изображения в формате WebP
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
