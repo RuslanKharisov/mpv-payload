@@ -101,7 +101,7 @@ export const plugins: Plugin[] = [
     formSubmissionOverrides: {
       access: {
         read: isSuperAdminAccess,
-        create: isSuperAdminAccess,
+        create: anyone,
         update: isSuperAdminAccess,
         delete: isSuperAdminAccess,
       },
