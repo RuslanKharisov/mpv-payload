@@ -15,6 +15,13 @@ import { isHidden } from '../access/isHidden'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const WEBP_FORMAT_OPTIONS = {
+  format: 'webp',
+  options: {
+    quality: 85,
+  },
+} as const
+
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
@@ -49,75 +56,40 @@ export const Media: CollectionConfig = {
       {
         name: 'thumbnail',
         width: 300,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'square',
         width: 500,
         height: 500,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'small',
         width: 600,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'medium',
         width: 900,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'large',
         width: 1400,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'xlarge',
         width: 1920,
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
       {
         name: 'og',
         width: 1200,
         height: 630,
         crop: 'center',
-        formatOptions: {
-          format: 'webp',
-          options: {
-            quality: 85,
-          },
-        },
+        formatOptions: WEBP_FORMAT_OPTIONS,
       },
     ],
   },
