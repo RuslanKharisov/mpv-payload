@@ -8,6 +8,7 @@ import { mapLocalStockToCartItem } from '@/features/cart/lib/mappers'
 import { formatDateTime } from '@/shared/utilities/formatDateTime'
 import { formatCurrency } from '@/shared/utilities/formatAmountWithСurency'
 import { ImageMedia } from '@/components/Media/ImageMedia'
+import Link from 'next/link'
 
 interface StockCardProps {
   stock: StockWithTenantAndCurrency
@@ -70,13 +71,19 @@ export function StockCard({ stock }: StockCardProps) {
         <div className="flex flex-col gap-y-3 max-lg:col-span-2">
           <div className="flex gap-2">
             <span className="opacity-70">Предложение от: </span>
-            <div className="font-medium inline-flex items-center gap-1 cursor-pointer hover:underline">
+            <div className="font-medium inline-flex items-center gap-1 ">
               {stock.warehouse?.warehouse_address?.country_iso_code && (
                 <Badge variant="default" className="">
                   {stock.warehouse?.warehouse_address?.country_iso_code}
                 </Badge>
               )}
-              {tenant.name || 'Trusted Supplier'}
+              <Link
+                className="cursor-pointer hover:underline hover:text-destructive duration-300"
+                href={`/supplier/${tenant.slug}`}
+                target="blank"
+              >
+                {tenant.name || 'Trusted Supplier'}
+              </Link>
             </div>
           </div>
           <div className="flex gap-2">
