@@ -1,7 +1,7 @@
 'use client'
 
 import { ImageMedia } from '@/components/Media/ImageMedia'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Product } from '@/payload-types'
 import { useRouter } from 'next/navigation'
 
