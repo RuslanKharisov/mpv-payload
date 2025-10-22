@@ -24,7 +24,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
           <ProductInfo product={product} />
         </div>
       </div>
-      <div className="container" data-testid="related-products-container"></div>
     </div>
   )
 }
