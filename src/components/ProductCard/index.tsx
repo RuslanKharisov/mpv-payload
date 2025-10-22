@@ -17,7 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card
-      onClick={() => router.push(`/products/${product.slug}`)}
+      onClick={() => product.slug && router.push(`/products/${product.slug}`)}
       onKeyDown={(e) => {
         if ((e.key === 'Enter' || e.key === ' ') && product.slug) {
           e.preventDefault()
