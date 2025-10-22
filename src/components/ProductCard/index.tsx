@@ -18,6 +18,15 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card
       onClick={() => router.push(`/products/${product.slug}`)}
+      onKeyDown={(e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && product.slug) {
+          e.preventDefault()
+          router.push(`/products/${product.slug}`)
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${product.name}`}
       className="flex h-[375px] w-full max-w-xs flex-col overflow-hidden pt-0 shadow-none transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
     >
       <CardHeader className="p-0">
