@@ -48,6 +48,8 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   endpoints: [importStocksEndpoint],
+  cors: [getServerSideURL()].filter(Boolean),
+  csrf: [getServerSideURL()].filter(Boolean),
   i18n: {
     supportedLanguages: { en, ru },
     fallbackLanguage: 'en',
@@ -116,7 +118,6 @@ export default buildConfig({
     Tenants,
     Currencies,
   ],
-  cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings],
   plugins: [
     ...plugins,
