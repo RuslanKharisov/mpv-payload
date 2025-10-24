@@ -80,7 +80,7 @@ export function StockCard({ stock }: StockCardProps) {
               <Link
                 className="cursor-pointer hover:underline hover:text-destructive duration-300"
                 href={`/supplier/${tenant.slug}`}
-                target="blank"
+                target="_blank"
               >
                 {tenant.name || 'Trusted Supplier'}
               </Link>
