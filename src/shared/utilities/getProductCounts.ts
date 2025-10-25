@@ -7,14 +7,18 @@ import { useQuery } from '@tanstack/react-query'
  */
 export function useProductCountsByBrands(brandIds: number[]) {
   const trpc = useTRPC()
+  const enabled = brandIds.length > 0 && brandIds.every((id) => id > 0)
 
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByBrandIds.queryOptions({
-      brandIds: brandIds.length > 0 ? brandIds : [0], // Избегаем пустого массива
-    })
-  }, [trpc, brandIds])
+  const queryOptions = useMemo(
+    () => trpc.products.countByBrandIds.queryOptions({ brandIds }),
+    [trpc, brandIds],
+  )
 
-  const { data } = useQuery(queryOptions)
+  const { data } = useQuery({
+    ...queryOptions,
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  })
   return data || {}
 }
 
@@ -24,13 +28,18 @@ export function useProductCountsByBrands(brandIds: number[]) {
 export function useProductCountsByCategories(categoryIds: number[]) {
   const trpc = useTRPC()
 
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByCategoryAndChildrenIdsBulk.queryOptions({
-      categoryIds: categoryIds.length > 0 ? categoryIds : [0], // Избегаем пустого массива
-    })
-  }, [trpc, categoryIds])
+  const enabled = categoryIds.length > 0 && categoryIds.every((id) => id > 0)
 
-  const { data } = useQuery(queryOptions)
+  const queryOptions = useMemo(
+    () => trpc?.products.countByCategoryAndChildrenIdsBulk.queryOptions({ categoryIds }),
+    [trpc, categoryIds],
+  )
+
+  const { data } = useQuery({
+    ...queryOptions,
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  })
   return data || {}
 }
 
@@ -40,13 +49,18 @@ export function useProductCountsByCategories(categoryIds: number[]) {
 export function useProductCountsByConditions(conditions: string[]) {
   const trpc = useTRPC()
 
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByConditions.queryOptions({
-      conditions: conditions.length > 0 ? conditions : [''], // Избегаем пустого массива
-    })
-  }, [trpc, conditions])
+  const enabled = conditions.length > 0
 
-  const { data } = useQuery(queryOptions)
+  const queryOptions = useMemo(
+    () => trpc?.products.countByConditions.queryOptions({ conditions }),
+    [trpc, conditions],
+  )
+
+  const { data } = useQuery({
+    ...queryOptions,
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  })
   return data || {}
 }
 
@@ -56,13 +70,18 @@ export function useProductCountsByConditions(conditions: string[]) {
 export function useProductCountsByRegions(regions: string[]) {
   const trpc = useTRPC()
 
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByRegions.queryOptions({
-      regions: regions.length > 0 ? regions : [''], // Избегаем пустого массива
-    })
-  }, [trpc, regions])
+  const enabled = regions.length > 0
 
-  const { data } = useQuery(queryOptions)
+  const queryOptions = useMemo(
+    () => trpc?.products.countByRegions.queryOptions({ regions }),
+    [trpc, regions],
+  )
+
+  const { data } = useQuery({
+    ...queryOptions,
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  })
   return data || {}
 }
 
@@ -72,12 +91,17 @@ export function useProductCountsByRegions(regions: string[]) {
 export function useProductCountsByCities(cities: string[]) {
   const trpc = useTRPC()
 
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByCities.queryOptions({
-      cities: cities.length > 0 ? cities : [''], // Избегаем пустого массива
-    })
-  }, [trpc, cities])
+  const enabled = cities.length > 0
 
-  const { data } = useQuery(queryOptions)
+  const queryOptions = useMemo(
+    () => trpc?.products.countByCities.queryOptions({ cities }),
+    [trpc, cities],
+  )
+
+  const { data } = useQuery({
+    ...queryOptions,
+    enabled,
+    staleTime: 5 * 60 * 1000,
+  })
   return data || {}
 }
