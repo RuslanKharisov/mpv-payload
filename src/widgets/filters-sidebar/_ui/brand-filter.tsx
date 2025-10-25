@@ -8,6 +8,7 @@ import { Checkbox } from '@/shared/ui/checkbox'
 import { useFilters } from '@/shared/providers/Filters'
 import { useProductCountsByBrands } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
+import { toDomId } from '@/shared/utilities/toDomId'
 
 type BrandFilterProps = {
   brands: Brand[]
@@ -29,12 +30,15 @@ function BrandItem({
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
         <Checkbox
-          id={`brand-${brand.slug}`}
+          id={`brand-${toDomId(brand.slug ?? brand.name)}`}
           name="brands"
           checked={isChecked}
-          onCheckedChange={() => toggleBrand(brand.slug!)}
+          onCheckedChange={() => brand.slug && toggleBrand(brand.slug)}
         />
-        <Label htmlFor={`brand-${brand.slug}`} className="cursor-pointer font-light flex-1">
+        <Label
+          htmlFor={`brand-${toDomId(brand.slug ?? brand.name)}`}
+          className="cursor-pointer font-light flex-1"
+        >
           {brand.name}
         </Label>
       </div>
