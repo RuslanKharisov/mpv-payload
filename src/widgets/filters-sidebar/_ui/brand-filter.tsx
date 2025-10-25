@@ -1,30 +1,30 @@
 'use client'
 
-import { useMemo, useCallback } from 'react'
+import { useMemo } from 'react'
 import { FilterAccordion } from './filter-accordion'
 import { Brand } from '@/payload-types'
 import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
 import { useFilters } from '@/shared/providers/Filters'
-import { useProductCountByBrand } from '@/shared/utilities/getProductCounts'
+import { useProductCountsByBrands } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
 
 type BrandFilterProps = {
   brands: Brand[]
 }
 
-// Отдельный компонент для каждого бренда, чтобы хуки вызывались корректно
+// Отдельный компонент для каждого бренда
 function BrandItem({
   brand,
   isChecked,
   toggleBrand,
+  productCount,
 }: {
   brand: Brand
   isChecked: boolean
   toggleBrand: (slug: string) => void
+  productCount: number
 }) {
-  const productQuantity = useProductCountByBrand(brand?.id || 0)
-
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
@@ -38,9 +38,9 @@ function BrandItem({
           {brand.name}
         </Label>
       </div>
-      {productQuantity !== 0 && (
-        <Badge variant="destructive" className="rounded-xl">
-          {productQuantity}
+      {productCount !== 0 && (
+        <Badge variant="secondary" className="rounded-xl">
+          {productCount}
         </Badge>
       )}
     </li>
@@ -50,31 +50,43 @@ function BrandItem({
 export function BrandFilter({ brands }: BrandFilterProps) {
   const { filters, setFilter } = useFilters()
 
-  // Используем useCallback для мемоизации функции
-  const toggleBrand = useCallback(
-    (slug: string) => {
-      const current = filters.brands || []
-      const next = current.includes(slug) ? current.filter((c) => c !== slug) : [...current, slug]
-      setFilter('brands', next.length > 0 ? next : undefined)
-    },
-    [filters.brands, setFilter],
-  )
+  // Получаем ID всех брендов для bulk запроса
+  const brandIds = useMemo(() => {
+    return brands.map((brand) => brand.id)
+  }, [brands])
 
-  // Используем useMemo для мемоизации вычислений
+  // Используем bulk хук для получения количества продуктов для всех брендов
+  const brandCounts = useProductCountsByBrands(brandIds)
+
+  const toggleBrand = (slug: string) => {
+    const current = filters.brands || []
+    const next = current.includes(slug) ? current.filter((c) => c !== slug) : [...current, slug]
+    setFilter('brands', next.length > 0 ? next : undefined)
+  }
+
+  // Подготавливаем данные для рендеринга
   const brandItems = useMemo(() => {
     return brands.map((brand) => {
       const isChecked = filters.brands ? filters.brands.includes(brand.slug!) : false
+      const productCount = brandCounts[brand.id] || 0
       return {
         brand,
         isChecked,
+        productCount,
       }
     })
-  }, [brands, filters.brands])
+  }, [brands, filters.brands, brandCounts])
 
   return (
     <FilterAccordion title="Бренды" defaultVisibleCount={10}>
-      {brandItems.map(({ brand, isChecked }) => (
-        <BrandItem key={brand.id} brand={brand} isChecked={isChecked} toggleBrand={toggleBrand} />
+      {brandItems.map(({ brand, isChecked, productCount }) => (
+        <BrandItem
+          key={brand.id}
+          brand={brand}
+          isChecked={isChecked}
+          toggleBrand={toggleBrand}
+          productCount={productCount}
+        />
       ))}
     </FilterAccordion>
   )

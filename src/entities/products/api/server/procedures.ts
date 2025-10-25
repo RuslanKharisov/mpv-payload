@@ -52,6 +52,29 @@ export const productsRouter = createTRPCRouter({
       return { totalDocs: countResult.totalDocs, docs: [] }
     }),
 
+  // Bulk endpoint для брендов
+  countByBrandIds: baseProcedure
+    .input(z.object({ brandIds: z.array(z.number().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const payload: Payload = ctx.payload
+
+      // Создаем карту для результатов
+      const counts: Record<number, number> = {}
+
+      // Выполняем отдельные запросы для каждого бренда
+      for (const brandId of input.brandIds) {
+        const countResult = await payload.count({
+          collection: 'stocks',
+          where: {
+            and: [{ 'product.brand.id': { equals: brandId } }, { quantity: { greater_than: 0 } }],
+          },
+        })
+        counts[brandId] = countResult.totalDocs
+      }
+
+      return counts
+    }),
+
   countByCategoryAndChildrenIds: baseProcedure
     .input(z.object({ categoryId: z.number().min(1) }))
     .query(async ({ ctx, input }) => {
@@ -91,6 +114,48 @@ export const productsRouter = createTRPCRouter({
       return { totalDocs: countResult.totalDocs, docs: [] }
     }),
 
+  // Bulk endpoint для категорий
+  countByCategoryAndChildrenIdsBulk: baseProcedure
+    .input(z.object({ categoryIds: z.array(z.number().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const payload: Payload = ctx.payload
+
+      // Создаем карту для результатов
+      const counts: Record<number, number> = {}
+
+      // First get all categories to find children
+      const categoriesRes = await payload.find({
+        collection: 'product-categories',
+        limit: 0,
+        select: {
+          id: true,
+          parent: true,
+        },
+      })
+
+      // Выполняем отдельные запросы для каждой категории
+      for (const categoryId of input.categoryIds) {
+        // Find all child category IDs
+        const childCategoryIds = findAllCategoryChildrenIds(categoryId, categoriesRes.docs as any)
+
+        // Include parent category ID in the list
+        const allCategoryIds = [String(categoryId), ...childCategoryIds]
+
+        const countResult = await payload.count({
+          collection: 'stocks',
+          where: {
+            and: [
+              { 'product.productCategory.id': { in: allCategoryIds } },
+              { quantity: { greater_than: 0 } },
+            ],
+          },
+        })
+        counts[categoryId] = countResult.totalDocs
+      }
+
+      return counts
+    }),
+
   countByCondition: baseProcedure
     .input(z.object({ condition: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
@@ -105,6 +170,29 @@ export const productsRouter = createTRPCRouter({
       })
 
       return { totalDocs: countResult.totalDocs, docs: [] }
+    }),
+
+  // Bulk endpoint для условий
+  countByConditions: baseProcedure
+    .input(z.object({ conditions: z.array(z.string().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const payload: Payload = ctx.payload
+
+      // Создаем карту для результатов
+      const counts: Record<string, number> = {}
+
+      // Выполняем отдельные запросы для каждого условия
+      for (const condition of input.conditions) {
+        const countResult = await payload.count({
+          collection: 'stocks',
+          where: {
+            and: [{ condition: { equals: condition } }, { quantity: { greater_than: 0 } }],
+          },
+        })
+        counts[condition] = countResult.totalDocs
+      }
+
+      return counts
     }),
 
   countByRegion: baseProcedure
@@ -126,6 +214,32 @@ export const productsRouter = createTRPCRouter({
       return { totalDocs: countResult.totalDocs, docs: [] }
     }),
 
+  // Bulk endpoint для регионов
+  countByRegions: baseProcedure
+    .input(z.object({ regions: z.array(z.string().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const payload: Payload = ctx.payload
+
+      // Создаем карту для результатов
+      const counts: Record<string, number> = {}
+
+      // Выполняем отдельные запросы для каждого региона
+      for (const region of input.regions) {
+        const countResult = await payload.count({
+          collection: 'stocks',
+          where: {
+            and: [
+              { 'warehouse.warehouse_address.region': { equals: region } },
+              { quantity: { greater_than: 0 } },
+            ],
+          },
+        })
+        counts[region] = countResult.totalDocs
+      }
+
+      return counts
+    }),
+
   countByCity: baseProcedure
     .input(z.object({ city: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
@@ -143,5 +257,31 @@ export const productsRouter = createTRPCRouter({
       })
 
       return { totalDocs: countResult.totalDocs, docs: [] }
+    }),
+
+  // Bulk endpoint для городов
+  countByCities: baseProcedure
+    .input(z.object({ cities: z.array(z.string().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const payload: Payload = ctx.payload
+
+      // Создаем карту для результатов
+      const counts: Record<string, number> = {}
+
+      // Выполняем отдельные запросы для каждого города
+      for (const city of input.cities) {
+        const countResult = await payload.count({
+          collection: 'stocks',
+          where: {
+            and: [
+              { 'warehouse.warehouse_address.city': { equals: city } },
+              { quantity: { greater_than: 0 } },
+            ],
+          },
+        })
+        counts[city] = countResult.totalDocs
+      }
+
+      return counts
     }),
 })

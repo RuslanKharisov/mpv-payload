@@ -1,29 +1,29 @@
 'use client'
 
-import { useMemo, useCallback } from 'react'
+import { useMemo } from 'react'
 import { useFilters } from '@/shared/providers/Filters'
 import { FilterAccordion } from './filter-accordion'
 import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
-import { useProductCountByRegion } from '@/shared/utilities/getProductCounts'
+import { useProductCountsByRegions } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
 
 type RegionFilterProps = {
   regions?: string[]
 }
 
-// Отдельный компонент для каждого региона, чтобы хуки вызывались корректно
+// Отдельный компонент для каждого региона
 function RegionItem({
   regionName,
   isChecked,
   toggleRegion,
+  productCount,
 }: {
   regionName: string
   isChecked: boolean
   toggleRegion: (value: string) => void
+  productCount: number
 }) {
-  const productCount = useProductCountByRegion(regionName)
-
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
@@ -37,7 +37,7 @@ function RegionItem({
         </Label>
       </div>
       {productCount !== 0 && (
-        <Badge variant="destructive" className="rounded-xl">
+        <Badge variant="secondary" className="rounded-xl">
           {productCount}
         </Badge>
       )}
@@ -49,34 +49,39 @@ export function RegionFilter({ regions = [] }: RegionFilterProps) {
   const { filters, setFilter } = useFilters()
   const currentRegion = filters.region
 
-  // Используем useCallback для мемоизации функции
-  const toggleRegion = useCallback(
-    (value: string) => {
-      if (currentRegion === value) {
-        setFilter('region', undefined)
-      } else {
-        setFilter('region', value)
-      }
-    },
-    [currentRegion, setFilter],
-  )
+  const toggleRegion = (value: string) => {
+    if (currentRegion === value) {
+      setFilter('region', undefined)
+    } else {
+      setFilter('region', value)
+    }
+  }
 
-  // Используем useMemo для мемоизации вычислений
+  // Используем bulk хук для получения количества продуктов для всех регионов
+  const regionCounts = useProductCountsByRegions(regions)
+
+  // Подготавливаем данные для рендеринга
   const regionItems = useMemo(() => {
-    return regions.map((regionName) => ({
-      regionName,
-      isChecked: currentRegion === regionName,
-    }))
-  }, [regions, currentRegion])
+    return regions.map((regionName) => {
+      const isChecked = currentRegion === regionName
+      const productCount = regionCounts[regionName] || 0
+      return {
+        regionName,
+        isChecked,
+        productCount,
+      }
+    })
+  }, [regions, currentRegion, regionCounts])
 
   return (
     <FilterAccordion title="Регион" defaultVisibleCount={10}>
-      {regionItems.map(({ regionName, isChecked }) => (
+      {regionItems.map(({ regionName, isChecked, productCount }) => (
         <RegionItem
           key={regionName}
           regionName={regionName}
           isChecked={isChecked}
           toggleRegion={toggleRegion}
+          productCount={productCount}
         />
       ))}
     </FilterAccordion>

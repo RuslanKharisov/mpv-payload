@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useCallback } from 'react'
+import { useMemo } from 'react'
 import { ProductCategoryWithParents } from '@/entities/category'
 import { FilterAccordion } from './filter-accordion'
 import { cn } from '@/shared/ui/utils'
@@ -8,7 +8,7 @@ import { useFilters } from '@/shared/providers/Filters'
 import { getSidebarCategories } from '@/features/get-sidebar-categories'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { useProductCountByCategory } from '@/shared/utilities/getProductCounts'
+import { useProductCountsByCategories } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
 
 type CategoryFilterProps = {
@@ -16,18 +16,18 @@ type CategoryFilterProps = {
   pageTitle?: string
 }
 
-// Отдельный компонент для каждой категории, чтобы хуки вызывались корректно
+// Отдельный компонент для каждой категории
 function CategoryItem({
   category,
   isActive,
   handleCategoryClick,
+  productCount,
 }: {
   category: ProductCategoryWithParents
   isActive: boolean
   handleCategoryClick: (slug: string) => void
+  productCount: number
 }) {
-  const productCount = useProductCountByCategory(category.id)
-
   return (
     <li className="flex items-center justify-between">
       <button
@@ -40,7 +40,7 @@ function CategoryItem({
         {category.title}
       </button>
       {productCount !== 0 && (
-        <Badge variant="destructive" className="rounded-xl ml-2">
+        <Badge variant="secondary" className="rounded-xl ml-2">
           {productCount}
         </Badge>
       )}
@@ -56,6 +56,14 @@ export function CategoryFilter({ allCategories, pageTitle }: CategoryFilterProps
   const { categories, title } = useMemo(() => {
     return getSidebarCategories(allCategories, activeCategorySlug)
   }, [allCategories, activeCategorySlug])
+
+  // Получаем ID всех категорий для bulk запроса
+  const categoryIds = useMemo(() => {
+    return categories.map((category) => category.id)
+  }, [categories])
+
+  // Используем bulk хук для получения количества продуктов для всех категорий
+  const categoryCounts = useProductCountsByCategories(categoryIds)
 
   // Найдем активную категорию для получения ссылки на родителя
   const activeCategory = useMemo(() => {
@@ -73,13 +81,22 @@ export function CategoryFilter({ allCategories, pageTitle }: CategoryFilterProps
     }
   }, [allCategories, activeCategory])
 
-  // Используем useCallback для мемоизации функции
-  const handleCategoryClick = useCallback(
-    (slug: string) => {
-      setFilter('category', slug)
-    },
-    [setFilter],
-  )
+  const handleCategoryClick = (slug: string) => {
+    setFilter('category', slug)
+  }
+
+  // Подготавливаем данные для рендеринга
+  const categoryItems = useMemo(() => {
+    return categories.map((category) => {
+      const isActive = activeCategorySlug === category.slug
+      const productCount = categoryCounts[category.id] || 0
+      return {
+        category,
+        isActive,
+        productCount,
+      }
+    })
+  }, [categories, activeCategorySlug, categoryCounts])
 
   return (
     <div className="border-b border-border pb-2">
@@ -95,12 +112,13 @@ export function CategoryFilter({ allCategories, pageTitle }: CategoryFilterProps
         </div>
       )}
       <FilterAccordion title={pageTitle || title} defaultVisibleCount={10}>
-        {categories.map((cat) => (
+        {categoryItems.map(({ category, isActive, productCount }) => (
           <CategoryItem
-            key={cat.id}
-            category={cat}
-            isActive={activeCategorySlug === cat.slug}
+            key={category.id}
+            category={category}
+            isActive={isActive}
             handleCategoryClick={handleCategoryClick}
+            productCount={productCount}
           />
         ))}
       </FilterAccordion>
