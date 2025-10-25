@@ -25,15 +25,12 @@ function CityItem({
   toggleCity: (value: string) => void
   productCount: number
 }) {
+  const safeId = `city-${toDomId(cityName)}`
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
-        <Checkbox
-          id={`city-${toDomId(cityName)}`}
-          checked={isChecked}
-          onCheckedChange={() => toggleCity(cityName)}
-        />
-        <Label htmlFor={`city-${toDomId(cityName)}`} className="cursor-pointer font-light flex-1">
+        <Checkbox id={safeId} checked={isChecked} onCheckedChange={() => toggleCity(cityName)} />
+        <Label htmlFor={safeId} className="cursor-pointer font-light flex-1">
           {cityName}
         </Label>
       </div>

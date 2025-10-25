@@ -28,18 +28,16 @@ function ConditionItem({
   toggleCondition: (value: string) => void
   productCount: number
 }) {
+  const safeId = `condition-${toDomId(condition.value)}`
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
         <Checkbox
-          id={`condition-${toDomId(condition.value)}`}
+          id={safeId}
           checked={isChecked}
           onCheckedChange={() => toggleCondition(condition.value)}
         />
-        <Label
-          htmlFor={`condition-${toDomId(condition.value)}`}
-          className="cursor-pointer font-light flex-1"
-        >
+        <Label htmlFor={safeId} className="cursor-pointer font-light flex-1">
           {condition.label}
         </Label>
       </div>

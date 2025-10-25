@@ -138,24 +138,17 @@ export const productsRouter = createTRPCRouter({
       // Создаем карту для результатов
       const counts: Record<string, number> = {}
 
-      // Выполняем параллельные запросы для каждого условия
-      const promises = input.conditions.map(async (condition) => {
-        const countResult = await payload.count({
-          collection: 'stocks',
-          where: {
-            and: [{ condition: { equals: condition } }, { quantity: { greater_than: 0 } }],
-          },
-        })
-        return { condition, count: countResult.totalDocs }
-      })
-
-      // Выполняем все запросы параллельно
-      const results = await Promise.all(promises)
-
-      // Заполняем карту результатами
-      for (const { condition, count } of results) {
-        counts[condition] = count
-      }
+      await Promise.all(
+        input.conditions.map(async (condition) => {
+          const countResult = await payload.count({
+            collection: 'stocks',
+            where: {
+              and: [{ condition: { equals: condition } }, { quantity: { greater_than: 0 } }],
+            },
+          })
+          counts[condition] = countResult.totalDocs
+        }),
+      )
 
       return counts
     }),

@@ -25,18 +25,17 @@ function RegionItem({
   toggleRegion: (value: string) => void
   productCount: number
 }) {
+  const safeId = `region-${toDomId(regionName)}`
+
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
         <Checkbox
-          id={`region-${toDomId(regionName)}`}
+          id={safeId}
           checked={isChecked}
           onCheckedChange={() => toggleRegion(regionName)}
         />
-        <Label
-          htmlFor={`region-${toDomId(regionName)}`}
-          className="cursor-pointer font-light flex-1"
-        >
+        <Label htmlFor={safeId} className="cursor-pointer font-light flex-1">
           {regionName}
         </Label>
       </div>
