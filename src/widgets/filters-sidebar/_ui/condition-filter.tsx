@@ -63,9 +63,7 @@ export function ConditionFilter() {
   }
 
   // Получаем все значения условий для bulk запроса
-  const conditionValues = useMemo(() => {
-    return CONDITIONS.map((cond) => cond.value)
-  }, [])
+  const conditionValues = CONDITIONS.map((cond) => cond.value)
 
   // Используем bulk хук для получения количества продуктов для всех условий
   const conditionCounts = useProductCountsByConditions(conditionValues)
