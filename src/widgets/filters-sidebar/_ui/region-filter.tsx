@@ -1,12 +1,51 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useFilters } from '@/shared/providers/Filters'
 import { FilterAccordion } from './filter-accordion'
 import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
+import { useProductCountsByRegions } from '@/shared/utilities/getProductCounts'
+import { Badge } from '@/shared/ui/badge'
+import { toDomId } from '@/shared/utilities/toDomId'
 
 type RegionFilterProps = {
   regions?: string[]
+}
+
+// Отдельный компонент для каждого региона
+function RegionItem({
+  regionName,
+  isChecked,
+  toggleRegion,
+  productCount,
+}: {
+  regionName: string
+  isChecked: boolean
+  toggleRegion: (value: string) => void
+  productCount: number
+}) {
+  const safeId = `region-${toDomId(regionName)}`
+
+  return (
+    <li className="flex items-center justify-between">
+      <div className="flex items-center gap-3 flex-1">
+        <Checkbox
+          id={safeId}
+          checked={isChecked}
+          onCheckedChange={() => toggleRegion(regionName)}
+        />
+        <Label htmlFor={safeId} className="cursor-pointer font-light flex-1">
+          {regionName}
+        </Label>
+      </div>
+      {productCount !== 0 && (
+        <Badge variant="secondary" className="rounded-xl">
+          {productCount}
+        </Badge>
+      )}
+    </li>
+  )
 }
 
 export function RegionFilter({ regions = [] }: RegionFilterProps) {
@@ -21,19 +60,32 @@ export function RegionFilter({ regions = [] }: RegionFilterProps) {
     }
   }
 
+  // Используем bulk хук для получения количества продуктов для всех регионов
+  const regionCounts = useProductCountsByRegions(regions)
+
+  // Подготавливаем данные для рендеринга
+  const regionItems = useMemo(() => {
+    return regions.map((regionName) => {
+      const isChecked = currentRegion === regionName
+      const productCount = regionCounts[regionName] || 0
+      return {
+        regionName,
+        isChecked,
+        productCount,
+      }
+    })
+  }, [regions, currentRegion, regionCounts])
+
   return (
     <FilterAccordion title="Регион" defaultVisibleCount={10}>
-      {regions.map((regionName) => (
-        <li key={regionName} className="flex items-center gap-3">
-          <Checkbox
-            id={`region-${regionName}`}
-            checked={currentRegion === regionName}
-            onCheckedChange={() => toggleRegion(regionName)}
-          />
-          <Label htmlFor={`region-${regionName}`} className="cursor-pointer font-light">
-            {regionName}
-          </Label>
-        </li>
+      {regionItems.map(({ regionName, isChecked, productCount }) => (
+        <RegionItem
+          key={regionName}
+          regionName={regionName}
+          isChecked={isChecked}
+          toggleRegion={toggleRegion}
+          productCount={productCount}
+        />
       ))}
     </FilterAccordion>
   )

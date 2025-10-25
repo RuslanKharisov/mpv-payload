@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Suspense, useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
 import { ArrowLeft, SlidersHorizontal, XIcon } from 'lucide-react'
@@ -30,6 +31,9 @@ export function FiltersSidebar({
 }: FiltersSidebarProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  // Используем useMemo для мемоизации вычислений
+  const hasBrands = useMemo(() => brands.length > 0, [brands])
+
   return (
     <>
       <button
@@ -58,7 +62,7 @@ export function FiltersSidebar({
           <Suspense>
             <CategoryFilter allCategories={allCategories} pageTitle={pageTitle} />
           </Suspense>
-          {brands.length > 0 && (
+          {hasBrands && (
             <Suspense>
               <BrandFilter brands={brands} />
             </Suspense>
