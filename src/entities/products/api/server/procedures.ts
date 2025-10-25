@@ -42,15 +42,23 @@ export const productsRouter = createTRPCRouter({
       // Создаем карту для результатов
       const counts: Record<number, number> = {}
 
-      // Выполняем отдельные запросы для каждого бренда
-      for (const brandId of input.brandIds) {
+      // Выполняем параллельные запросы для каждого бренда
+      const promises = input.brandIds.map(async (brandId) => {
         const countResult = await payload.count({
           collection: 'products',
           where: {
             'brand.id': { equals: brandId },
           },
         })
-        counts[brandId] = countResult.totalDocs
+        return { brandId, count: countResult.totalDocs }
+      })
+
+      // Выполняем все запросы параллельно
+      const results = await Promise.all(promises)
+
+      // Заполняем карту результатами
+      for (const { brandId, count } of results) {
+        counts[brandId] = count
       }
 
       return counts
@@ -75,8 +83,8 @@ export const productsRouter = createTRPCRouter({
         },
       })
 
-      // Выполняем отдельные запросы для каждой категории
-      for (const categoryId of input.categoryIds) {
+      // Выполняем параллельные запросы для каждой категории
+      const promises = input.categoryIds.map(async (categoryId) => {
         // Find all child category IDs
         const childCategoryIds = findAllCategoryChildrenIds(categoryId, categoriesRes.docs as any)
 
@@ -89,7 +97,16 @@ export const productsRouter = createTRPCRouter({
             'productCategory.id': { in: allCategoryIds },
           },
         })
-        counts[categoryId] = countResult.totalDocs
+
+        return { categoryId, count: countResult.totalDocs }
+      })
+
+      // Выполняем все запросы параллельно
+      const results = await Promise.all(promises)
+
+      // Заполняем карту результатами
+      for (const { categoryId, count } of results) {
+        counts[categoryId] = count
       }
 
       return counts
@@ -104,15 +121,23 @@ export const productsRouter = createTRPCRouter({
       // Создаем карту для результатов
       const counts: Record<string, number> = {}
 
-      // Выполняем отдельные запросы для каждого условия
-      for (const condition of input.conditions) {
+      // Выполняем параллельные запросы для каждого условия
+      const promises = input.conditions.map(async (condition) => {
         const countResult = await payload.count({
           collection: 'stocks',
           where: {
             and: [{ condition: { equals: condition } }, { quantity: { greater_than: 0 } }],
           },
         })
-        counts[condition] = countResult.totalDocs
+        return { condition, count: countResult.totalDocs }
+      })
+
+      // Выполняем все запросы параллельно
+      const results = await Promise.all(promises)
+
+      // Заполняем карту результатами
+      for (const { condition, count } of results) {
+        counts[condition] = count
       }
 
       return counts
@@ -127,18 +152,33 @@ export const productsRouter = createTRPCRouter({
       // Создаем карту для результатов
       const counts: Record<string, number> = {}
 
-      // Выполняем отдельные запросы для каждого региона
-      for (const region of input.regions) {
+      // Выполняем параллельные запросы для каждого региона
+      const promises = input.regions.map(async (region) => {
+        // Сначала получаем склады по региону
+        const warehouses = await payload.find({
+          collection: 'warehouses',
+          where: { 'warehouse_address.region': { equals: region } },
+          pagination: false,
+        })
+        const warehouseIds = warehouses.docs.map((w: any) => w.id)
+
+        // Затем считаем stocks по этим складам
         const countResult = await payload.count({
           collection: 'stocks',
           where: {
-            and: [
-              { 'warehouse.warehouse_address.region': { equals: region } },
-              { quantity: { greater_than: 0 } },
-            ],
+            and: [{ warehouse: { in: warehouseIds } }, { quantity: { greater_than: 0 } }],
           },
         })
-        counts[region] = countResult.totalDocs
+
+        return { region, count: countResult.totalDocs }
+      })
+
+      // Выполняем все запросы параллельно
+      const results = await Promise.all(promises)
+
+      // Заполняем карту результатами
+      for (const { region, count } of results) {
+        counts[region] = count
       }
 
       return counts
@@ -153,18 +193,33 @@ export const productsRouter = createTRPCRouter({
       // Создаем карту для результатов
       const counts: Record<string, number> = {}
 
-      // Выполняем отдельные запросы для каждого города
-      for (const city of input.cities) {
+      // Выполняем параллельные запросы для каждого города
+      const promises = input.cities.map(async (city) => {
+        // Сначала получаем склады по городу
+        const warehouses = await payload.find({
+          collection: 'warehouses',
+          where: { 'warehouse_address.city': { equals: city } },
+          pagination: false,
+        })
+        const warehouseIds = warehouses.docs.map((w: any) => w.id)
+
+        // Затем считаем stocks по этим складам
         const countResult = await payload.count({
           collection: 'stocks',
           where: {
-            and: [
-              { 'warehouse.warehouse_address.city': { equals: city } },
-              { quantity: { greater_than: 0 } },
-            ],
+            and: [{ warehouse: { in: warehouseIds } }, { quantity: { greater_than: 0 } }],
           },
         })
-        counts[city] = countResult.totalDocs
+
+        return { city, count: countResult.totalDocs }
+      })
+
+      // Выполняем все запросы параллельно
+      const results = await Promise.all(promises)
+
+      // Заполняем карту результатами
+      for (const { city, count } of results) {
+        counts[city] = count
       }
 
       return counts
