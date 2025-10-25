@@ -7,6 +7,7 @@ import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
 import { useProductCountsByCities } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
+import { toDomId } from '@/shared/utilities/toDomId'
 
 type CityFilterProps = {
   cities?: string[]
@@ -28,11 +29,11 @@ function CityItem({
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
         <Checkbox
-          id={`city-${cityName}`}
+          id={`city-${toDomId(cityName)}`}
           checked={isChecked}
           onCheckedChange={() => toggleCity(cityName)}
         />
-        <Label htmlFor={`city-${cityName}`} className="cursor-pointer font-light flex-1">
+        <Label htmlFor={`city-${toDomId(cityName)}`} className="cursor-pointer font-light flex-1">
           {cityName}
         </Label>
       </div>
