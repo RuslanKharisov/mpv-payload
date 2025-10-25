@@ -7,6 +7,7 @@ import { Label } from '@/shared/ui/label'
 import { Checkbox } from '@/shared/ui/checkbox'
 import { useProductCountsByRegions } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
+import { toDomId } from '@/shared/utilities/toDomId'
 
 type RegionFilterProps = {
   regions?: string[]
@@ -28,11 +29,14 @@ function RegionItem({
     <li className="flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
         <Checkbox
-          id={`region-${regionName}`}
+          id={`region-${toDomId(regionName)}`}
           checked={isChecked}
           onCheckedChange={() => toggleRegion(regionName)}
         />
-        <Label htmlFor={`region-${regionName}`} className="cursor-pointer font-light flex-1">
+        <Label
+          htmlFor={`region-${toDomId(regionName)}`}
+          className="cursor-pointer font-light flex-1"
+        >
           {regionName}
         </Label>
       </div>
