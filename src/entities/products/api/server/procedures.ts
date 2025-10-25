@@ -2,6 +2,8 @@ import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
 import { Payload } from 'payload'
 import z from 'zod'
 import { findAllCategoryChildrenIds } from '@/entities/category/lib/find-all-category-childrenIds'
+import { buildCategoryTreeMap } from '@/entities/category/lib/build-category-tree-map'
+import { getAllDescendantIds } from '@/entities/category/lib/get-all-descendant-ids'
 
 export const productsRouter = createTRPCRouter({
   stocksBySlug: baseProcedure
@@ -39,29 +41,35 @@ export const productsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const payload: Payload = ctx.payload
 
-      // Создаем карту для результатов
-      const counts: Record<number, number> = {}
+      const countsEntries = await Promise.all(
+        input.brandIds.map(async (brandId) => {
+          const products = await payload.find({
+            collection: 'products',
+            where: {
+              'brand.id': { equals: brandId },
+            },
+            select: {},
+            pagination: false,
+          })
 
-      // Выполняем параллельные запросы для каждого бренда
-      const promises = input.brandIds.map(async (brandId) => {
-        const countResult = await payload.count({
-          collection: 'products',
-          where: {
-            'brand.id': { equals: brandId },
-          },
-        })
-        return { brandId, count: countResult.totalDocs }
-      })
+          const productIds = products.docs.map((p) => p.id)
 
-      // Выполняем все запросы параллельно
-      const results = await Promise.all(promises)
+          if (productIds.length === 0) {
+            return [brandId, 0] as const
+          }
 
-      // Заполняем карту результатами
-      for (const { brandId, count } of results) {
-        counts[brandId] = count
-      }
+          const countResult = await payload.count({
+            collection: 'stocks',
+            where: {
+              and: [{ product: { in: productIds } }, { quantity: { greater_than: 0 } }],
+            },
+          })
 
-      return counts
+          return [brandId, countResult.totalDocs] as const
+        }),
+      )
+
+      return Object.fromEntries(countsEntries)
     }),
 
   // Bulk endpoint для категорий
@@ -70,46 +78,49 @@ export const productsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const payload: Payload = ctx.payload
 
-      // Создаем карту для результатов
-      const counts: Record<number, number> = {}
-
-      // First get all categories to find children
+      // Загружаем категории с минимальными полями
       const categoriesRes = await payload.find({
         collection: 'product-categories',
-        pagination: false, // Используем pagination: false вместо limit: 0
-        select: {
-          id: true,
-          parent: true,
-        },
+        pagination: false,
+        select: { id: true, parent: true },
+        depth: 0,
       })
 
-      // Выполняем параллельные запросы для каждой категории
-      const promises = input.categoryIds.map(async (categoryId) => {
-        // Find all child category IDs
-        const childCategoryIds = findAllCategoryChildrenIds(categoryId, categoriesRes.docs as any)
+      const tree = buildCategoryTreeMap(categoriesRes.docs)
 
-        // Include parent category ID in the list (без строкового преобразования)
-        const allCategoryIds = [categoryId, ...childCategoryIds]
+      const countsEntries = await Promise.all(
+        input.categoryIds.map(async (categoryId) => {
+          const descendantIds = getAllDescendantIds(categoryId, tree)
+          const allCategoryIds = [categoryId, ...descendantIds]
 
-        const countResult = await payload.count({
-          collection: 'products',
-          where: {
-            'productCategory.id': { in: allCategoryIds },
-          },
-        })
+          // Найти продукты в этих категориях
+          const products = await payload.find({
+            collection: 'products',
+            where: {
+              'productCategory.id': { in: allCategoryIds },
+            },
+            select: {},
+            pagination: false,
+          })
 
-        return { categoryId, count: countResult.totalDocs }
-      })
+          const productIds = products.docs.map((p) => p.id)
 
-      // Выполняем все запросы параллельно
-      const results = await Promise.all(promises)
+          if (productIds.length === 0) {
+            return [categoryId, 0] as const
+          }
 
-      // Заполняем карту результатами
-      for (const { categoryId, count } of results) {
-        counts[categoryId] = count
-      }
+          const countResult = await payload.count({
+            collection: 'stocks',
+            where: {
+              and: [{ product: { in: productIds } }, { quantity: { greater_than: 0 } }],
+            },
+          })
 
-      return counts
+          return [categoryId, countResult.totalDocs] as const
+        }),
+      )
+
+      return Object.fromEntries(countsEntries)
     }),
 
   // Bulk endpoint для условий

@@ -1,6 +1,10 @@
 import { ProductCategory } from '@/payload-types'
 import { ProductCategoryWithParents } from '..'
 
+/**
+ * Рекурсивно находит все дочерние категории (включая вложенные) по ID родителя.
+ * Все ID обрабатываются как строки (как в Payload CMS).
+ */
 const findAllCategoryChildrenIds = (
   categoryId: string | number,
   allCategories: ProductCategoryWithParents[],
