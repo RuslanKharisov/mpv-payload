@@ -35,7 +35,9 @@ export const productsRouter = createTRPCRouter({
       return stockRes
     }),
 
-  // Bulk endpoint для брендов
+  /**
+   * Получает количество товаров по id брендов
+   */
   countByBrandIds: baseProcedure
     .input(z.object({ brandIds: z.array(z.number().min(1)) }))
     .query(async ({ ctx, input }) => {
@@ -72,7 +74,9 @@ export const productsRouter = createTRPCRouter({
       return Object.fromEntries(countsEntries)
     }),
 
-  // Bulk endpoint для категорий
+  /**
+   * Bulk endpoint для категорий
+   */
   countByCategoryAndChildrenIdsBulk: baseProcedure
     .input(z.object({ categoryIds: z.array(z.number().min(1)) }))
     .query(async ({ ctx, input }) => {
@@ -123,7 +127,9 @@ export const productsRouter = createTRPCRouter({
       return Object.fromEntries(countsEntries)
     }),
 
-  // Bulk endpoint для условий
+  /**
+   * Получает количество товаров по множеству условий
+   */
   countByConditions: baseProcedure
     .input(z.object({ conditions: z.array(z.string().min(1)) }))
     .query(async ({ ctx, input }) => {
@@ -154,7 +160,9 @@ export const productsRouter = createTRPCRouter({
       return counts
     }),
 
-  // Bulk endpoint для регионов
+  /**
+   * Подсчет количества товаров по регионам
+   */
   countByRegions: baseProcedure
     .input(z.object({ regions: z.array(z.string().min(1)) }))
     .query(async ({ ctx, input }) => {
@@ -195,16 +203,16 @@ export const productsRouter = createTRPCRouter({
       return counts
     }),
 
-  // Bulk endpoint для городов
+  /**
+   * Получаем количество товаров по городам
+   **/
   countByCities: baseProcedure
     .input(z.object({ cities: z.array(z.string().min(1)) }))
     .query(async ({ ctx, input }) => {
       const payload: Payload = ctx.payload
 
-      // Создаем карту для результатов
       const counts: Record<string, number> = {}
 
-      // Выполняем параллельные запросы для каждого города
       const promises = input.cities.map(async (city) => {
         // Сначала получаем склады по городу
         const warehouses = await payload.find({

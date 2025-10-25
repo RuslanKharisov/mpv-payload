@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 import { useTRPC } from '@/shared/trpc/client'
 import { useQuery } from '@tanstack/react-query'
 
-// Bulk хуки для использования в компонентах фильтров
+/**
+ * Хук для получения количества продуктов по массиву ID брендов
+ */
 export function useProductCountsByBrands(brandIds: number[]) {
   const trpc = useTRPC()
 
@@ -16,6 +18,9 @@ export function useProductCountsByBrands(brandIds: number[]) {
   return data || {}
 }
 
+/**
+ * Хук для получения количества продуктов по массиву ID категорий вместе с их дочерними категориями
+ */
 export function useProductCountsByCategories(categoryIds: number[]) {
   const trpc = useTRPC()
 
@@ -29,6 +34,9 @@ export function useProductCountsByCategories(categoryIds: number[]) {
   return data || {}
 }
 
+/**
+ * Хук для получения количества продуктов по массиву состяния товара (conditions)
+ */
 export function useProductCountsByConditions(conditions: string[]) {
   const trpc = useTRPC()
 
@@ -42,6 +50,9 @@ export function useProductCountsByConditions(conditions: string[]) {
   return data || {}
 }
 
+/**
+ * Хук для получения количества продуктов по массиву регионов (regions)
+ */
 export function useProductCountsByRegions(regions: string[]) {
   const trpc = useTRPC()
 
@@ -55,6 +66,9 @@ export function useProductCountsByRegions(regions: string[]) {
   return data || {}
 }
 
+/**
+ * Хук для получения количества продуктов по массиву городов (cities)
+ */
 export function useProductCountsByCities(cities: string[]) {
   const trpc = useTRPC()
 
@@ -66,71 +80,4 @@ export function useProductCountsByCities(cities: string[]) {
 
   const { data } = useQuery(queryOptions)
   return data || {}
-}
-
-// Хуки для отдельных элементов (используют bulk endpoints для оптимизации)
-export function useProductCountByBrand(brandId: number) {
-  const trpc = useTRPC()
-
-  // Используем bulk endpoint даже для одного элемента для согласованности
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByBrandIds.queryOptions({
-      brandIds: [brandId || 0],
-    })
-  }, [trpc, brandId])
-
-  const { data } = useQuery(queryOptions)
-  return data?.[brandId] || 0
-}
-
-export function useProductCountByCategory(categoryId: number) {
-  const trpc = useTRPC()
-
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByCategoryAndChildrenIdsBulk.queryOptions({
-      categoryIds: [categoryId || 0],
-    })
-  }, [trpc, categoryId])
-
-  const { data } = useQuery(queryOptions)
-  return data?.[categoryId] || 0
-}
-
-export function useProductCountByCondition(condition: string) {
-  const trpc = useTRPC()
-
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByConditions.queryOptions({
-      conditions: [condition || ''],
-    })
-  }, [trpc, condition])
-
-  const { data } = useQuery(queryOptions)
-  return data?.[condition] || 0
-}
-
-export function useProductCountByRegion(region: string) {
-  const trpc = useTRPC()
-
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByRegions.queryOptions({
-      regions: [region || ''],
-    })
-  }, [trpc, region])
-
-  const { data } = useQuery(queryOptions)
-  return data?.[region] || 0
-}
-
-export function useProductCountByCity(city: string) {
-  const trpc = useTRPC()
-
-  const queryOptions = useMemo(() => {
-    return trpc?.products.countByCities.queryOptions({
-      cities: [city || ''],
-    })
-  }, [trpc, city])
-
-  const { data } = useQuery(queryOptions)
-  return data?.[city] || 0
 }
