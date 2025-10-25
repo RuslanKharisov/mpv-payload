@@ -6,8 +6,8 @@ export const getAllDescendantIds = (rootId: number, tree: Record<number, number[
   const result: number[] = []
   const queue: number[] = [rootId]
 
-  while (queue.length > 0) {
-    const currentId = queue.shift()!
+  for (let i = 0; i < queue.length; ) {
+    const currentId = queue[i++]
     const children = tree[currentId] || []
     result.push(...children)
     queue.push(...children)

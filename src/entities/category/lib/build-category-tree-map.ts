@@ -11,7 +11,8 @@ export const buildCategoryTreeMap = (
   const tree: Record<number, number[]> = {}
 
   for (const cat of categories) {
-    const parentId = typeof cat.parent === 'object' ? cat.parent?.id : cat.parent // cat.parent — либо число, либо null
+    const parentId =
+      cat.parent === null ? null : typeof cat.parent === 'object' ? cat.parent.id : cat.parent
 
     if (typeof parentId === 'number') {
       if (!tree[parentId]) {
