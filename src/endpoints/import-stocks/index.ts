@@ -4,7 +4,10 @@ import * as XLSX from 'xlsx'
 import { z } from 'zod'
 
 const stockRowSchema = z.object({
-  sku: z.string().trim().min(1, { message: 'SKU не может быть пустым' }),
+  sku: z
+    .union([z.string(), z.number()]) // Принимаем строку или число
+    .transform((val) => String(val).trim()) // Преобразуем в строку и убираем пробелы
+    .refine((str) => str.length > 0, { message: 'SKU не может быть пустым' }),
   name: z.string(),
   quantity: z.coerce.number({ error: 'Должно быть числом' }),
   price: z.coerce.number().optional(),
