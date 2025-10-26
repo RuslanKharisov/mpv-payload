@@ -31,14 +31,14 @@ export const ProductsPagination: React.FC<{
 
   const searchParams = useSearchParams()
 
-  // Генерация URL: берём *все* текущие searchParams и добавляем/заменяем page
+  // Generate URL: take *all* current searchParams and add/replace page
   const createPageURL = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams.toString())
 
-    // Устанавливаем нужный номер страницы
+    // Set the desired page numbe
     params.set('page', String(pageNumber))
 
-    // Возвращаем готовую строку URL
+    // Return the complete URL string
     return `/${route}?${params.toString()}`
   }
 
@@ -47,13 +47,17 @@ export const ProductsPagination: React.FC<{
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <Link href={createPageURL(page - 1)} prefetch={false}>
+            {hasPrevPage ? (
+              <Link href={createPageURL(page - 1)} prefetch={false}>
+                <PaginationPrevious />
+              </Link>
+            ) : (
               <PaginationPrevious
-                aria-disabled={!hasPrevPage}
-                tabIndex={!hasPrevPage ? -1 : undefined}
-                className={!hasPrevPage ? 'pointer-events-none opacity-50' : undefined}
+                aria-disabled={true}
+                tabIndex={-1}
+                className="pointer-events-none opacity-50"
               />
-            </Link>
+            )}
           </PaginationItem>
 
           {hasExtraPrevPages && (
@@ -71,9 +75,7 @@ export const ProductsPagination: React.FC<{
           )}
 
           <PaginationItem>
-            <PaginationLink href={createPageURL(page)} isActive>
-              {page}
-            </PaginationLink>
+            <PaginationLink isActive>{page}</PaginationLink>
           </PaginationItem>
 
           {hasNextPage && (
@@ -91,13 +93,17 @@ export const ProductsPagination: React.FC<{
           )}
 
           <PaginationItem>
-            <Link href={createPageURL(page + 1)} prefetch={false}>
+            {hasNextPage ? (
+              <Link href={createPageURL(page + 1)} prefetch={false}>
+                <PaginationNext />
+              </Link>
+            ) : (
               <PaginationNext
-                aria-disabled={!hasNextPage}
-                tabIndex={!hasNextPage ? -1 : undefined}
-                className={!hasNextPage ? 'pointer-events-none opacity-50' : undefined}
+                aria-disabled={true}
+                tabIndex={-1}
+                className="pointer-events-none opacity-50"
               />
-            </Link>
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
