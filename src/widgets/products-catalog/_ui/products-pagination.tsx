@@ -2,6 +2,8 @@
 
 import { cn } from '@/shared/utilities/ui'
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 import {
   Pagination,
@@ -13,15 +15,13 @@ import {
   PaginationPrevious,
 } from '@/shared/ui/pagination'
 
-// ИСПРАВЛЕНО: Обновляем типы пропсов
 export const ProductsPagination: React.FC<{
   className?: string
   page: number
   totalPages: number
   route: string
-  extraParams?: Record<string, any>
 }> = (props) => {
-  const { className, page, totalPages, route, extraParams = {} } = props
+  const { className, page, totalPages, route } = props
 
   const hasNextPage = page < totalPages
   const hasPrevPage = page > 1
@@ -29,21 +29,16 @@ export const ProductsPagination: React.FC<{
   const hasExtraPrevPages = page - 1 > 1
   const hasExtraNextPages = page + 1 < totalPages
 
-  // Генерация URL
+  const searchParams = useSearchParams()
+
+  // Генерация URL: берём *все* текущие searchParams и добавляем/заменяем page
   const createPageURL = (pageNumber: number) => {
-    const params = new URLSearchParams()
+    const params = new URLSearchParams(searchParams.toString())
 
-    // 1. Добавляем все существующие фильтры из extraParams
-    Object.entries(extraParams).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, String(value))
-      }
-    })
-
-    // 2. Устанавливаем нужный номер страницы
+    // Устанавливаем нужный номер страницы
     params.set('page', String(pageNumber))
 
-    // 3. Возвращаем готовую строку URL
+    // Возвращаем готовую строку URL
     return `/${route}?${params.toString()}`
   }
 
@@ -51,14 +46,14 @@ export const ProductsPagination: React.FC<{
     <div className={cn('my-12', className)}>
       <Pagination>
         <PaginationContent>
-          {/* ИСПОЛЬЗУЕМ `href` ВМЕСТО `onClick` */}
           <PaginationItem>
-            <PaginationPrevious
-              href={createPageURL(page - 1)}
-              aria-disabled={!hasPrevPage}
-              tabIndex={!hasPrevPage ? -1 : undefined}
-              className={!hasPrevPage ? 'pointer-events-none opacity-50' : undefined}
-            />
+            <Link href={createPageURL(page - 1)} prefetch={false}>
+              <PaginationPrevious
+                aria-disabled={!hasPrevPage}
+                tabIndex={!hasPrevPage ? -1 : undefined}
+                className={!hasPrevPage ? 'pointer-events-none opacity-50' : undefined}
+              />
+            </Link>
           </PaginationItem>
 
           {hasExtraPrevPages && (
@@ -69,7 +64,9 @@ export const ProductsPagination: React.FC<{
 
           {hasPrevPage && (
             <PaginationItem>
-              <PaginationLink href={createPageURL(page - 1)}>{page - 1}</PaginationLink>
+              <Link href={createPageURL(page - 1)} prefetch={false}>
+                <PaginationLink isActive={false}>{page - 1}</PaginationLink>
+              </Link>
             </PaginationItem>
           )}
 
@@ -81,7 +78,9 @@ export const ProductsPagination: React.FC<{
 
           {hasNextPage && (
             <PaginationItem>
-              <PaginationLink href={createPageURL(page + 1)}>{page + 1}</PaginationLink>
+              <Link href={createPageURL(page + 1)} prefetch={false}>
+                <PaginationLink isActive={false}>{page + 1}</PaginationLink>
+              </Link>
             </PaginationItem>
           )}
 
@@ -92,12 +91,13 @@ export const ProductsPagination: React.FC<{
           )}
 
           <PaginationItem>
-            <PaginationNext
-              href={createPageURL(page + 1)}
-              aria-disabled={!hasNextPage}
-              tabIndex={!hasNextPage ? -1 : undefined}
-              className={!hasNextPage ? 'pointer-events-none opacity-50' : undefined}
-            />
+            <Link href={createPageURL(page + 1)} prefetch={false}>
+              <PaginationNext
+                aria-disabled={!hasNextPage}
+                tabIndex={!hasNextPage ? -1 : undefined}
+                className={!hasNextPage ? 'pointer-events-none opacity-50' : undefined}
+              />
+            </Link>
           </PaginationItem>
         </PaginationContent>
       </Pagination>
