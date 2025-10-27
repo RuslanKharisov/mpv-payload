@@ -1,24 +1,15 @@
 'use client'
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import React, { useState } from 'react'
-
-import type { Theme } from './types'
-
+import React, { useState, useEffect } from 'react'
+import { Monitor, Sun, Moon } from 'lucide-react'
 import { useTheme } from '..'
-import { themeLocalStorageKey } from './types'
+import { Theme, themeLocalStorageKey } from './types'
 
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<Theme | 'auto'>('auto')
 
-  const onThemeChange = (themeToSet: Theme & 'auto') => {
+  const onThemeChange = (themeToSet: Theme | 'auto') => {
     if (themeToSet === 'auto') {
       setTheme(null)
       setValue('auto')
@@ -28,24 +19,49 @@ export const ThemeSelector: React.FC = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const preference = window.localStorage.getItem(themeLocalStorageKey)
-    setValue(preference ?? 'auto')
+    setValue(preference ? (preference as Theme) : 'auto')
   }, [])
 
+  const themes = [
+    { value: 'auto' as const, icon: Monitor, label: 'System theme' },
+    { value: 'light' as const, icon: Sun, label: 'Light theme' },
+    { value: 'dark' as const, icon: Moon, label: 'Dark theme' },
+  ]
+
   return (
-    <Select onValueChange={onThemeChange} value={value}>
-      <SelectTrigger
-        aria-label="Select a theme"
-        className="w-auto bg-transparent gap-2 pl-0 md:pl-3 border-none"
-      >
-        <SelectValue placeholder="Theme" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="auto">Auto</SelectItem>
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-      </SelectContent>
-    </Select>
+    <div className="grid grid-cols-1">
+      <div className="relative z-0 inline-grid grid-cols-3 gap-0.5 rounded-full bg-white/10 p-0.5 text-white">
+        {themes.map(({ value: themeValue, icon: Icon, label }) => (
+          <div
+            key={themeValue}
+            className={`
+              relative rounded-full p-1.5 size-7
+              transition-all duration-200
+              cursor-pointer
+              ${
+                value === themeValue
+                  ? 'bg-white text-gray-900 ring-1 ring-white/20 shadow-sm'
+                  : 'hover:bg-white/10'
+              }
+              sm:p-0
+            `}
+            onClick={() => onThemeChange(themeValue)}
+          >
+            <input
+              type="radio"
+              className="absolute inset-0 appearance-none cursor-pointer rounded-full"
+              name="theme-selector"
+              aria-label={label}
+              value={themeValue}
+              checked={value === themeValue}
+              onChange={() => onThemeChange(themeValue)}
+            />
+            <Icon className="size-full p-0.5" />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
