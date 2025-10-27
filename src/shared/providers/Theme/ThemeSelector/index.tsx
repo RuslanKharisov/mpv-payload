@@ -21,7 +21,11 @@ export const ThemeSelector: React.FC = () => {
 
   useEffect(() => {
     const preference = window.localStorage.getItem(themeLocalStorageKey)
-    setValue(preference ? (preference as Theme) : 'auto')
+    if (preference === 'dark' || preference === 'light') {
+      setValue(preference)
+    } else {
+      setValue('auto')
+    }
   }, [])
 
   const themes = [
@@ -37,7 +41,7 @@ export const ThemeSelector: React.FC = () => {
           <div
             key={themeValue}
             className={`
-              relative rounded-full p-1.5 size-7
+              relative rounded-full p-1.5 size-8
               transition-all duration-200
               cursor-pointer
               ${
@@ -45,9 +49,8 @@ export const ThemeSelector: React.FC = () => {
                   ? 'bg-white text-gray-900 ring-1 ring-white/20 shadow-sm'
                   : 'hover:bg-white/10'
               }
-              sm:p-0
+              sm:p-1
             `}
-            onClick={() => onThemeChange(themeValue)}
           >
             <input
               type="radio"
