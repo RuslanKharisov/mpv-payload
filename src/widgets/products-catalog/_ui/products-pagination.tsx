@@ -48,9 +48,7 @@ export const ProductsPagination: React.FC<{
         <PaginationContent>
           <PaginationItem>
             {hasPrevPage ? (
-              <Link href={createPageURL(page - 1)} prefetch={false}>
-                <PaginationPrevious />
-              </Link>
+              <PaginationPrevious href={createPageURL(page - 1)} />
             ) : (
               <PaginationPrevious
                 aria-disabled={true}
@@ -68,9 +66,9 @@ export const ProductsPagination: React.FC<{
 
           {hasPrevPage && (
             <PaginationItem>
-              <Link href={createPageURL(page - 1)} prefetch={false}>
-                <PaginationLink isActive={false}>{page - 1}</PaginationLink>
-              </Link>
+              <PaginationLink href={createPageURL(page - 1)} isActive={false}>
+                {page - 1}
+              </PaginationLink>
             </PaginationItem>
           )}
 
@@ -80,9 +78,9 @@ export const ProductsPagination: React.FC<{
 
           {hasNextPage && (
             <PaginationItem>
-              <Link href={createPageURL(page + 1)} prefetch={false}>
-                <PaginationLink isActive={false}>{page + 1}</PaginationLink>
-              </Link>
+              <PaginationLink href={createPageURL(page + 1)} isActive={false}>
+                {page + 1}
+              </PaginationLink>
             </PaginationItem>
           )}
 
@@ -94,9 +92,7 @@ export const ProductsPagination: React.FC<{
 
           <PaginationItem>
             {hasNextPage ? (
-              <Link href={createPageURL(page + 1)} prefetch={false}>
-                <PaginationNext />
-              </Link>
+              <PaginationNext href={createPageURL(page + 1)} />
             ) : (
               <PaginationNext
                 aria-disabled={true}
