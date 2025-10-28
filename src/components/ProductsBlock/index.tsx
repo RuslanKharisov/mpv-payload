@@ -9,7 +9,7 @@ export function ProductsBlock({ products }: ProductsBlockProps) {
   return (
     <>
       {products && products.length > 0 ? (
-        <div className="mb-4 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="mb-4 grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

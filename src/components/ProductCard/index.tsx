@@ -27,20 +27,20 @@ export function ProductCard({ product }: ProductCardProps) {
       role="button"
       tabIndex={0}
       aria-label={`View details for ${product.name}`}
-      className="flex h-[375px] w-full max-w-xs flex-col overflow-hidden pt-0 shadow-none transition-[box-shadow,transform] duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+      className="flex w-full max-w-sm flex-col overflow-hidden pt-0 shadow-none transition-[box-shadow,transform] duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer sm:max-w-full"
     >
       <CardHeader className="p-0">
-        <div className="relative h-[200px] overflow-hidden border-b bg-muted">
+        <div className="relative aspect-[4/3] overflow-hidden border-b bg-muted sm:h-[200px]">
           <ImageMedia
             resource={product.productImage}
             fill
             imgClassName="object-cover object-contain"
-            pictureClassName="absolute inset-0 h-full w-full "
+            pictureClassName="absolute inset-0 h-full w-full"
           />
         </div>
       </CardHeader>
-      <CardContent className="grow pt-5">
-        <div className="flex flex-col gap-5">
+      <CardContent className="grow p-4 sm:pt-5">
+        <div className="flex flex-col gap-3 sm:gap-5">
           <h4 className="text-base font-semibold">{product?.sku}</h4>
           <div className="line-clamp-3 text-sm text-muted-foreground">{product?.name}</div>
         </div>
