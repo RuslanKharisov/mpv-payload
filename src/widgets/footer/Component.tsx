@@ -6,6 +6,8 @@ import type { Footer } from '@/payload-types'
 import { ThemeSelector } from '@/shared/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import { Socials } from '@/widgets/socials'
+import { socialsData } from '@/widgets/socials/_vm/constans'
 
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
@@ -13,23 +15,40 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Logo />
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-6 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return (
-                <CMSLink
-                  className="text-white hover:text-gray-300 transition-colors"
-                  key={i}
-                  {...link}
-                />
-              )
-            })}
-          </nav>
+    <footer className="mt-auto border-t border-border bg-[#020617] dark:bg-card text-white pt-10 pb-6">
+      <div className="container">
+        <div className="flex flex-col items-center gap-6">
+          <Logo className="flex-col md:flex-row" />
+          <div className="w-full flex flex-col justify-between gap-24 items-center lg:flex-row md:items-center">
+            <nav className="flex flex-col flex-grow items-center  md:flex-row gap-5">
+              {navItems.map(({ link }, i) => {
+                return (
+                  <CMSLink
+                    className="text-white hover:text-gray-300 transition-colors"
+                    key={i}
+                    {...link}
+                  />
+                )
+              })}
+            </nav>
+            <div className="flex flex-col-reverse md:flex-row items-center gap-5">
+              <ThemeSelector />
+              <Socials socialsData={socialsData} />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center pt-8 gap-5">
+          <p className="text-center text-xs">
+            © 2024{' '}
+            <a
+              href="https://barbarisstudio.vercel.app/"
+              target="_blank"
+              className="hover:underline"
+            >
+              Studio Barbaris™
+            </a>
+            . All Rights Reserved.
+          </p>
         </div>
       </div>
     </footer>
