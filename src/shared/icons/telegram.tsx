@@ -1,16 +1,9 @@
-function Telegram({
-  size = '32',
-  color = 'currentColor',
-}: {
-  size?: string | '32'
-  color?: string
-}) {
+function Telegram({ size = '32' }: { size?: string }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 35 35"
-      fill={color}
       xmlns="http://www.w3.org/2000/svg"
       className="telegram-icon"
     >
