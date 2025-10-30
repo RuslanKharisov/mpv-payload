@@ -20,9 +20,10 @@ const Socials: FC<SocialsProps> = ({ size, socialsData, className }) => {
         <a
           key={index}
           href={link}
-          className="flex h-9 w-9 items-center justify-center rounded-lg hover:bg-accent hover:text-accent-foreground"
+          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-accent hover:text-accent-foreground duration-300"
           aria-label={label}
           target="_blank"
+          rel="noreferrer"
         >
           <Icon size={size} color="currentColor" />
         </a>
