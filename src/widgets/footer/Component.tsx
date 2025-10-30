@@ -15,7 +15,7 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-[#020617] dark:bg-card text-white pt-10 pb-6">
+    <footer className="mt-auto border-t border-border bg-slate-950 dark:bg-card text-white pt-10 pb-6">
       <div className="container">
         <div className="flex flex-col items-center gap-6">
           <Logo className="flex-col md:flex-row" />
@@ -43,6 +43,7 @@ export async function Footer() {
             <a
               href="https://barbarisstudio.vercel.app/"
               target="_blank"
+              rel="noreferrer"
               className="hover:underline"
             >
               Studio Barbaris™
