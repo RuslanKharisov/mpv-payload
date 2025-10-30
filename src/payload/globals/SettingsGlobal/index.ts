@@ -7,12 +7,16 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Настройки сайта',
   access: {
     read: () => true, // Доступно для чтения всем
+  },
+  admin: {
+    hidden: ({ user }) => !isSuperAdmin(user),
   },
   fields: [
     {

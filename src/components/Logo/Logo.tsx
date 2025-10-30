@@ -1,10 +1,15 @@
 import { LogoIcon } from '@/shared/icons/logo-icon'
+import { cn } from '@/shared/ui/utils'
 import Link from 'next/link'
 import React from 'react'
 
-export const Logo = () => {
+interface LogoProps {
+  className?: string
+}
+
+export const Logo = ({ className }: LogoProps) => {
   return (
-    <Link className="flex justify-center items-center space-x-2" href="/">
+    <Link className={cn('flex justify-center items-center space-x-2', className)} href="/">
       <LogoIcon className="h-12 w-12" />
       <span className="inline-block font-bold">Prom-Stock</span>
     </Link>
