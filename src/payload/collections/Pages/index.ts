@@ -21,10 +21,8 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { anyone } from '@/payload/access/anyone'
 import { isHidden } from '@/payload/access/isHidden'
 import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
-import { authenticatedOrPublished } from '@/payload/access/authenticatedOrPublished'
 import { PromotedProducts } from '@/payload/blocks/PromotedProducts/config'
 
 export const Pages: CollectionConfig<'pages'> = {

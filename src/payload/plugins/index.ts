@@ -17,6 +17,7 @@ import { Config, Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { anyone } from '../access/anyone'
+import { isHidden } from '../access/isHidden'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Онлайн склад` : 'Онлайн склад Prom-Stock'
@@ -71,6 +72,7 @@ export const plugins: Plugin[] = [
     fields: {
       payment: false,
     },
+
     formOverrides: {
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -91,6 +93,7 @@ export const plugins: Plugin[] = [
           return field
         })
       },
+      admin: { hidden: ({ user }) => !isHidden(user) },
       access: {
         read: anyone,
         create: isSuperAdminAccess,
