@@ -5,6 +5,7 @@ import { PhoneCallIcon } from 'lucide-react'
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP || ''
 const TELEGRAM = process.env.NEXT_PUBLIC_TELEGRAM || ''
+const PHONE = process.env.NEXT_PUBLIC_PHONE || ''
 
 export const socialsData: SocialsData[] = [
   {
@@ -19,7 +20,7 @@ export const socialsData: SocialsData[] = [
   },
   {
     icon: PhoneCallIcon,
-    link: 'tel:+79178696482',
+    link: `tel:${PHONE}`,
     label: 'Позвоните нам',
   },
 ]

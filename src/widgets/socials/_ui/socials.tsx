@@ -15,9 +15,8 @@ interface SocialsProps {
 
 const Socials: FC<SocialsProps> = ({ size, socialsData, className }) => {
   return (
-    // <div className={cn('flex gap-3', className)}>
     <div className={cn('grid grid-cols-1 max-w-fit min-w-fit', className)}>
-      <div className="relative z-0 inline-grid grid-cols-3 gap-1 rounded-full bg-white/10 p-0.5 text-white">
+      <div className="relative z-0 inline-grid grid-flow-col auto-cols-fr gap-1 rounded-full bg-white/10 p-0.5 text-white">
         {socialsData.map(({ icon: Icon, link, label }, index) => (
           <a
             key={index}
