@@ -40,7 +40,7 @@ export async function Footer() {
           <p className="text-center text-xs">
             © 2024{' '}
             <a
-              href="https://barbarisstudio.vercel.app/"
+              href="https://www.barbarisstudio.ru/"
               target="_blank"
               rel="noreferrer"
               className="hover:underline"
