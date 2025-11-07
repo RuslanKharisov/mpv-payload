@@ -15,19 +15,21 @@ interface SocialsProps {
 
 const Socials: FC<SocialsProps> = ({ size, socialsData, className }) => {
   return (
-    <div className={cn('flex gap-3', className)}>
-      {socialsData.map(({ icon: Icon, link, label }, index) => (
-        <a
-          key={index}
-          href={link}
-          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-accent hover:text-accent-foreground duration-300"
-          aria-label={label}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Icon size={size} color="currentColor" />
-        </a>
-      ))}
+    <div className={cn('grid grid-cols-1 max-w-fit min-w-fit', className)}>
+      <div className="relative z-0 inline-grid grid-flow-col auto-cols-fr gap-1 rounded-full bg-white/10 p-0.5 text-white">
+        {socialsData.map(({ icon: Icon, link, label }, index) => (
+          <a
+            key={index}
+            href={link}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-slate-500 hover:text-accent-foreground duration-300"
+            aria-label={label}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon size={size} />
+          </a>
+        ))}
+      </div>
     </div>
   )
 }
