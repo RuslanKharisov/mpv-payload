@@ -58,9 +58,11 @@ export default async function Page() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const pseudoDoc = {
-    title: 'Блог | Prom-Stock',
-    description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
-    slug: 'posts',
+    meta: {
+      title: 'Блог | Prom-Stock',
+      description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
+      slug: 'posts',
+    },
   }
 
   return generateMeta({ doc: pseudoDoc })

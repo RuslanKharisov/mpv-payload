@@ -54,10 +54,12 @@ function StocksSkeleton() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const pseudoDoc = {
-    title: 'Поиск компонентов АСУ ТП на складах',
-    description:
-      'Prom-Stock.ru: Быстрый поиск оборудования, компонентов АСУ ТП, электроприводов и неликвидов по всей России.',
-    slug: 'stock',
+    meta: {
+      title: 'Поиск компонентов АСУ ТП на складах',
+      description:
+        'Prom-Stock.ru: Быстрый поиск оборудования, компонентов АСУ ТП, электроприводов и неликвидов по всей России.',
+      slug: 'stock',
+    },
   }
 
   return generateMeta({ doc: pseudoDoc })
