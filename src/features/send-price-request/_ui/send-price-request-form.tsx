@@ -56,7 +56,7 @@ export function SendPriceRequestModal({
       note: '',
       email: '',
       companyName: '',
-      userEmailVerify: '',
+      website: '',
     },
   })
 
@@ -79,12 +79,12 @@ export function SendPriceRequestModal({
   )
 
   const onSubmit = async (data: SendPriceRequestFormValues) => {
-    if (data.userEmailVerify?.trim() !== '') {
+    if (data.website?.trim() !== '') {
       console.warn('Spam bot detected via honeypot. Submission blocked.')
       return
     }
 
-    const { userEmailVerify, ...safeData } = data
+    const { website, ...safeData } = data
 
     sendRequest({
       tenantName,
@@ -233,7 +233,7 @@ export function SendPriceRequestModal({
 
               <input
                 type="text"
-                {...form.register('userEmailVerify')}
+                {...form.register('website')}
                 autoComplete="off"
                 tabIndex={-1}
                 className=" h-px w-px opacity-0 overflow-hidden"

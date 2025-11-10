@@ -42,17 +42,17 @@ export function EmailRegisterForm() {
       email: '',
       password: '',
       username: '',
-      userEmailVerify: '',
+      website: '',
     },
   })
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
-    if (data.userEmailVerify?.trim() !== '') {
+    if (data.website?.trim() !== '') {
       console.warn('Spam bot detected via honeypot. Submission blocked.')
       return
     }
 
-    const { userEmailVerify, ...submitData } = data
+    const { website, ...submitData } = data
     registerUser(submitData)
   }
 
@@ -130,7 +130,7 @@ export function EmailRegisterForm() {
 
             <input
               type="text"
-              {...form.register('userEmailVerify')}
+              {...form.register('website')}
               autoComplete="off"
               tabIndex={-1}
               className=" h-px w-px opacity-0 overflow-hidden"

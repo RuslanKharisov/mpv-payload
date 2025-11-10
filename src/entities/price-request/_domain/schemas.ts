@@ -14,7 +14,7 @@ export const SendPriceRequestSchema = z.object({
   note: z.string().optional(),
   email: z.email('Некорректный email'),
   companyName: z.string().min(1, 'Введите название компании'),
-  userEmailVerify: z.string().optional(),
+  website: z.string().optional(),
 })
 
 // 👇 основная схема запроса (использует SendPriceRequestSchema)
