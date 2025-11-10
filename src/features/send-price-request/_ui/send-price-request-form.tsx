@@ -80,7 +80,6 @@ export function SendPriceRequestModal({
 
   const onSubmit = async (data: SendPriceRequestFormValues) => {
     if (data.website?.trim() !== '') {
-      console.warn('Spam bot detected via honeypot. Submission blocked.')
       return
     }
 

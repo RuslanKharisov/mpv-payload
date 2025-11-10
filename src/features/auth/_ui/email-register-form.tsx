@@ -48,7 +48,6 @@ export function EmailRegisterForm() {
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
     if (data.website?.trim() !== '') {
-      console.warn('Spam bot detected via honeypot. Submission blocked.')
       return
     }
 
