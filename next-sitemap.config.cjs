@@ -7,17 +7,25 @@ const SITE_URL =
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/posts-sitemap.xml', '/pages-sitemap.xml', '/*', '/posts/*', '/stock?*'],
+  exclude: [
+    '/posts-sitemap.xml',
+    '/pages-sitemap.xml',
+    '/admin/*',
+    '/posts/*',
+    '/stock?*',
+    '/search',
+    '/login',
+    '/register',
+    '/verify',
+  ],
   robotsTxtOptions: {
     policies: [
-      {
-        userAgent: '*',
-        disallow: '/admin/*',
-      },
-      {
-        userAgent: '*',
-        disallow: '/stock?*',
-      },
+      { userAgent: '*', disallow: '/admin/*' },
+      { userAgent: '*', disallow: '/stock?*' },
+      { userAgent: '*', disallow: '/search' },
+      { userAgent: '*', disallow: '/login' },
+      { userAgent: '*', disallow: '/register' },
+      { userAgent: '*', disallow: '/verify' },
     ],
     additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
   },
