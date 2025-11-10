@@ -65,8 +65,10 @@ export async function generateMetadata({ searchParams: paramsPromice }: Args): P
   }
 
   const pseudoDoc = {
-    title: pageTitle,
-    slug: 'products',
+    meta: {
+      title: pageTitle,
+      slug: 'products',
+    },
   }
 
   return generateMeta({ doc: pseudoDoc })

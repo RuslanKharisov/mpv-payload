@@ -67,9 +67,11 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { pageNumber } = await paramsPromise
 
   const pseudoDoc = {
-    title: `Блог - Страница ${pageNumber} | Prom-Stock`,
-    description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
-    slug: `posts/${pageNumber}`,
+    meta: {
+      title: `Блог - Страница ${pageNumber} | Prom-Stock`,
+      description: 'Новости, статьи и обзоры промышленного оборудования от экспертов Prom-Stock.',
+      slug: `posts/${pageNumber}`,
+    },
   }
 
   return generateMeta({ doc: pseudoDoc })

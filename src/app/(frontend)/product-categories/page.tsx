@@ -34,10 +34,12 @@ export default async function Page() {
 
 export async function generateMetadata() {
   const pseudoDoc = {
-    title: 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.',
-    description:
-      'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.',
-    slug: 'product-categories',
+    meta: {
+      title: 'Prom-Stock — Категории АСУТП продукции: оборудование, запчасти и комплектующие.',
+      description:
+        'Перейдите в раздел категорий и найдите нужный тип товара: оборудование, запчасти и комплектующие Prom-Stock. Удобные фильтры и навигация.',
+      slug: 'product-categories',
+    },
   }
 
   return generateMeta({ doc: pseudoDoc })
