@@ -20,6 +20,25 @@ export const authRouter = createTRPCRouter({
     .input(RegisterSchema)
 
     .mutation(async ({ input, ctx }) => {
+      if (input.website?.trim()) {
+        const headers = await getHeaders()
+
+        const ip =
+          headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+          headers.get('x-real-ip') ||
+          headers.get('remote-addr') ||
+          'unknown'
+
+        console.warn('HONEYPOT TRIGGERED — possible bot registration attempt', {
+          email: input.email,
+          username: input.username,
+          website: input.website,
+          ip,
+        })
+        // ложное сообщение для бота
+        return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
+      }
+
       const existingData = await ctx.payload.find({
         collection: 'users',
         limit: 1,

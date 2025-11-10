@@ -54,11 +54,9 @@ export function SendPriceRequestModal({
     defaultValues: {
       deliveryTime: 'EMERGENCY',
       note: '',
-      // firstName: '',
-      // lastName: '',
-      // phone: '+7',
       email: '',
       companyName: '',
+      website: '',
     },
   })
 
@@ -81,12 +79,16 @@ export function SendPriceRequestModal({
   )
 
   const onSubmit = async (data: SendPriceRequestFormValues) => {
-    console.log('Отправляем запрос поставщику:', tenantEmail)
+    if (data.website?.trim() !== '') {
+      return
+    }
+
+    const { website, ...safeData } = data
 
     sendRequest({
       tenantName,
       tenantEmail,
-      formData: data,
+      formData: safeData,
       items: items.map(mapCartEntryToPriceRequestItem),
     })
   }
@@ -192,59 +194,6 @@ export function SendPriceRequestModal({
             <div className="font-semibold text-black">Контактные данные</div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">
-                      Имя <span className="text-danger">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Введите ваше имя" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">
-                      Фамилия <span className="text-danger">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Введите вашу фамилию" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">
-                      Номер телефона <span className="text-danger">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="tel"
-                        autoComplete="mobile tel-country-code"
-                        placeholder="Введите номер телефона"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
               <FormField
                 control={form.control}
                 name="companyName"
@@ -279,6 +228,15 @@ export function SendPriceRequestModal({
                     <FormMessage />
                   </FormItem>
                 )}
+              />
+
+              <input
+                type="text"
+                {...form.register('website')}
+                autoComplete="off"
+                tabIndex={-1}
+                className="h-px w-px opacity-0 overflow-hidden"
+                aria-hidden="true"
               />
             </div>
 
