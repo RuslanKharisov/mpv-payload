@@ -236,7 +236,7 @@ export function SendPriceRequestModal({
                 {...form.register('website')}
                 autoComplete="off"
                 tabIndex={-1}
-                className=" h-px w-px opacity-0 overflow-hidden"
+                className="h-px w-px opacity-0 overflow-hidden"
                 aria-hidden="true"
               />
             </div>

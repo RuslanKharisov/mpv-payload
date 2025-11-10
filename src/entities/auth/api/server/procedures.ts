@@ -20,6 +20,11 @@ export const authRouter = createTRPCRouter({
     .input(RegisterSchema)
 
     .mutation(async ({ input, ctx }) => {
+      if (input.website?.trim()) {
+        // ложное сообщение для бота
+        return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
+      }
+
       const existingData = await ctx.payload.find({
         collection: 'users',
         limit: 1,
