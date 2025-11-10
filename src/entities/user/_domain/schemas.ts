@@ -14,6 +14,7 @@ export const RegisterSchema = z.object({
     .refine((val) => !val.includes('--') && !val.includes('__'), {
       message: 'Имя пользователя не может содержать подряд дефисы или подчёркивания.',
     }),
+  userEmailVerify: z.string().optional(),
 })
 
 export const LoginSchema = z.object({

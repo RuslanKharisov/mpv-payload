@@ -42,11 +42,17 @@ export function EmailRegisterForm() {
       email: '',
       password: '',
       username: '',
+      userEmailVerify: '',
     },
   })
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
-    registerUser(data)
+    if (data.userEmailVerify?.trim() !== '') {
+      return
+    }
+
+    const { userEmailVerify, ...submitData } = data
+    registerUser(submitData)
   }
 
   if (confirmationSent) {
@@ -120,6 +126,16 @@ export function EmailRegisterForm() {
                 </FormItem>
               )}
             />
+
+            <input
+              type="text"
+              {...form.register('userEmailVerify')}
+              autoComplete="off"
+              tabIndex={-1}
+              className=" h-px w-px opacity-0 overflow-hidden"
+              aria-hidden="true"
+            />
+
             {/* {data?.error && <FormEroor message={data?.error} />} */}
             {isError && <FormEroor message={error.message} />}
             {/* {data?.success && <FormSuccess message={data?.success} />} */}
