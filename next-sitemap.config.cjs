@@ -10,7 +10,7 @@ module.exports = {
   exclude: [
     '/posts-sitemap.xml',
     '/pages-sitemap.xml',
-    '/*',
+    '/admin/*',
     '/posts/*',
     '/stock?*',
     '/search',
