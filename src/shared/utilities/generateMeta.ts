@@ -35,7 +35,6 @@ export const generateMeta = (args: GenerateMetaArgs = {}): Metadata => {
   }
 
   const title = seoFromPayload?.title || docTitle || 'Онлайн склад | Prom-Stock'
-  console.log('seoFromPayload?.title ==> ', seoFromPayload?.title)
 
   const description =
     seoFromPayload?.description ||

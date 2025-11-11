@@ -15,8 +15,10 @@ import { useState } from 'react'
 import { Typography } from '@/shared/ui/typography'
 import BackButton from './back-button'
 import PolicyLink from '@/shared/ui/policy-link'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export function EmailRegisterForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const trpc = useTRPC()
   const queryClient = useQueryClient()
 
@@ -46,13 +48,39 @@ export function EmailRegisterForm() {
     },
   })
 
-  const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
+    if (!executeRecaptcha) {
+      console.error('reCAPTCHA not loaded')
+      return
+    }
     if (data.website?.trim() !== '') {
       return
     }
+    try {
+      const recaptchaToken = await executeRecaptcha('submit_form')
 
-    const { website, ...submitData } = data
-    registerUser(submitData)
+      if (!recaptchaToken) {
+        console.error('Failed to generate reCAPTCHA token')
+        form.setError('root', {
+          message:
+            'reCAPTCHA еще не загружена. Пожалуйста, подождите несколько секунд и попробуйте снова.',
+        })
+        return
+      }
+
+      const formDataWithToken = {
+        ...data,
+        recaptchaToken,
+      }
+
+      registerUser(formDataWithToken)
+    } catch (error) {
+      console.error('reCAPTCHA error:', error)
+      form.setError('root', {
+        message: 'Произошла ошибка при проверке reCAPTCHA. Пожалуйста, попробуйте еще раз.',
+      })
+      return
+    }
   }
 
   if (confirmationSent) {

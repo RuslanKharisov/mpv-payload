@@ -5,6 +5,7 @@ import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
 import z from 'zod'
+import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -37,6 +38,21 @@ export const authRouter = createTRPCRouter({
         })
         // ложное сообщение для бота
         return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
+      }
+
+      const isValidCaptcha = await verifyRecaptcha(input.recaptchaToken)
+      if (!isValidCaptcha) {
+        const headers = await getHeaders()
+        const ip = headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+        console.warn('reCAPTCHA verification failed', {
+          email: input.email,
+          ip,
+          timeStamp: new Date().toISOString(),
+        })
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Не удалось пройти проверку reCAPTCHA. Пожалуйста, попробуйте еще раз.',
+        })
       }
 
       const existingData = await ctx.payload.find({
