@@ -11,7 +11,7 @@ import { FormEroor } from '@/shared/ui/form-error'
 import { useTRPC } from '@/shared/trpc/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Typography } from '@/shared/ui/typography'
 import BackButton from './back-button'
 import PolicyLink from '@/shared/ui/policy-link'
@@ -45,8 +45,19 @@ export function EmailRegisterForm() {
       password: '',
       username: '',
       website: '',
+      recaptchaToken: '',
     },
   })
+
+  useEffect(() => {
+    if (executeRecaptcha) {
+      console.log('reCAPTCHA is ready')
+      // Можно снять ошибку, если была
+      form.clearErrors('recaptchaToken')
+    } else {
+      console.log('reCAPTCHA is not ready yet')
+    }
+  }, [executeRecaptcha, form])
 
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     if (!executeRecaptcha) {
