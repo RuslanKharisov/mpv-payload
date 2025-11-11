@@ -50,6 +50,7 @@ export function EmailRegisterForm() {
 
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     if (!executeRecaptcha) {
+      console.error('reCAPTCHA not loaded')
       return
     }
     if (data.website?.trim() !== '') {
@@ -59,6 +60,7 @@ export function EmailRegisterForm() {
       const recaptchaToken = await executeRecaptcha('submit_form')
 
       if (!recaptchaToken) {
+        console.error('Failed to generate reCAPTCHA token')
         return
       }
 
@@ -69,6 +71,10 @@ export function EmailRegisterForm() {
 
       registerUser(formDataWithToken)
     } catch (error) {
+      console.error('reCAPTCHA error:', error)
+      form.setError('root', {
+        message: 'Произошла ошибка при проверке reCAPTCHA. Пожалуйста, попробуйте еще раз.',
+      })
       return
     }
   }

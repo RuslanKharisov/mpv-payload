@@ -5,23 +5,26 @@ export async function verifyRecaptcha(token: string): Promise<boolean> {
     return false
   }
 
-  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}`,
-  })
+  try {
+    const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}`,
+      signal: AbortSignal.timeout(5000), // 5 second timeout
+    })
 
-  const data = await res.json()
+    if (!res.ok) {
+      console.error('reCAPTCHA API returned non-OK status:', res.status)
+      return false
+    }
 
-  console.log('reCAPTCHA verification result:', {
-    success: data.success,
-    score: data.score,
-    action: data.action,
-    hostname: data.hostname,
-    challenge_ts: data.challenge_ts,
-  })
+    const data = await res.json()
 
-  return data.success && data.score > 0.6
+    return data.success && data.score > 0.6
+  } catch (error) {
+    console.error('reCAPTCHA verification failed:', error)
+    return false
+  }
 }
