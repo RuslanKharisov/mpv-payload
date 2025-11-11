@@ -61,6 +61,10 @@ export function EmailRegisterForm() {
 
       if (!recaptchaToken) {
         console.error('Failed to generate reCAPTCHA token')
+        form.setError('root', {
+          message:
+            'reCAPTCHA еще не загружена. Пожалуйста, подождите несколько секунд и попробуйте снова.',
+        })
         return
       }
 
