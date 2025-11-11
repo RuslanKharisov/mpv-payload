@@ -66,7 +66,10 @@ export const authRouter = createTRPCRouter({
           ip,
         })
 
-        return { message: 'Не валидное имя пользователя ...' }
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Не валидное имя пользователя ...',
+        })
       }
 
       const existingData = await ctx.payload.find({
