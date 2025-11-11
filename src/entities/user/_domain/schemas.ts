@@ -15,7 +15,7 @@ export const RegisterSchema = z.object({
       message: 'Имя пользователя не может содержать подряд дефисы или подчёркивания.',
     }),
   website: z.string().optional(),
-  recaptchaToken: z.string().min(1, 'reCAPTCHA обязательна'),
+  recaptchaToken: z.string().min(0, 'reCAPTCHA обязательна'),
 })
 
 export const LoginSchema = z.object({

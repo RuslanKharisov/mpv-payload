@@ -6,6 +6,7 @@ import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
 import z from 'zod'
 import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
+import { isValidName } from '@/shared/utilities/isValidName'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -53,6 +54,19 @@ export const authRouter = createTRPCRouter({
           code: 'BAD_REQUEST',
           message: 'Не удалось пройти проверку reCAPTCHA. Пожалуйста, попробуйте еще раз.',
         })
+      }
+
+      if (!isValidName(input.username)) {
+        const headers = await getHeaders()
+        const ip = headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+
+        console.warn('Invalid username detected', {
+          username: input.username,
+          email: input.email,
+          ip,
+        })
+
+        return { message: 'Не валидное имя пользователя ...' }
       }
 
       const existingData = await ctx.payload.find({
