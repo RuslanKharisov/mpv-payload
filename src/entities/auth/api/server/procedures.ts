@@ -5,6 +5,7 @@ import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
 import z from 'zod'
+import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -37,6 +38,12 @@ export const authRouter = createTRPCRouter({
         })
         // ложное сообщение для бота
         return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
+      }
+
+      const isValidCaptcha = await verifyRecaptcha(input.recaptchaToken)
+      if (!isValidCaptcha) {
+        console.warn('reCAPTCHA verification failed', { email: input.email })
+        return { message: 'Пользователь успешно создан...' } // имитация успеха
       }
 
       const existingData = await ctx.payload.find({

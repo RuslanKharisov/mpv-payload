@@ -15,8 +15,10 @@ import { useState } from 'react'
 import { Typography } from '@/shared/ui/typography'
 import BackButton from './back-button'
 import PolicyLink from '@/shared/ui/policy-link'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export function EmailRegisterForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const trpc = useTRPC()
   const queryClient = useQueryClient()
 
@@ -46,13 +48,29 @@ export function EmailRegisterForm() {
     },
   })
 
-  const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
+    if (!executeRecaptcha) {
+      return
+    }
     if (data.website?.trim() !== '') {
       return
     }
+    try {
+      const recaptchaToken = await executeRecaptcha('submit_form')
 
-    const { website, ...submitData } = data
-    registerUser(submitData)
+      if (!recaptchaToken) {
+        return
+      }
+
+      const formDataWithToken = {
+        ...data,
+        recaptchaToken,
+      }
+
+      registerUser(formDataWithToken)
+    } catch (error) {
+      return
+    }
   }
 
   if (confirmationSent) {

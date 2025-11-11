@@ -105,6 +105,10 @@
     @apply text-[18px] leading-6 font-light;
   }
 
+  .grecaptcha-logo {
+    display: none;
+  }
+
   @media (max-width: 770px) {
     table thead tr {
       display: none;
@@ -151,4 +155,8 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+}
+
+.grecaptcha-badge {
+  display: none !important;
 }

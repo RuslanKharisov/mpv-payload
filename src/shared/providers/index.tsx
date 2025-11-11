@@ -4,6 +4,8 @@ import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { TRPCReactProvider } from '@/shared/trpc/client'
 import { CartProvider } from '@/features/cart/cart-provider'
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
+import { ReCaptchaProvider } from './ReCaptchaProvider'
 
 export const Providers: React.FC<{
   children: React.ReactNode
@@ -12,7 +14,9 @@ export const Providers: React.FC<{
     <ThemeProvider>
       <HeaderThemeProvider>
         <CartProvider>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <ReCaptchaProvider>{children}</ReCaptchaProvider>
+          </TRPCReactProvider>
         </CartProvider>
       </HeaderThemeProvider>
     </ThemeProvider>
