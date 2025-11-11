@@ -4,9 +4,8 @@ import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
 import { LoginSchema } from '@/entities/user/_domain/schemas'
 import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
-import z, { email } from 'zod'
+import z from 'zod'
 import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
-import { timeStamp } from 'console'
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -44,7 +43,7 @@ export const authRouter = createTRPCRouter({
       const isValidCaptcha = await verifyRecaptcha(input.recaptchaToken)
       if (!isValidCaptcha) {
         const headers = await getHeaders()
-        const ip = headers.get('x-forvarded-for')?.split(',')[0]?.trim || 'unknown'
+        const ip = headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
         console.warn('reCAPTCHA verification failed', {
           email: input.email,
           ip,
