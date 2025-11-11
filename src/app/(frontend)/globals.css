@@ -152,7 +152,3 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
-
-/* .grecaptcha-badge {
-  display: none !important;
-} */
