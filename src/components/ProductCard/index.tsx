@@ -2,11 +2,19 @@
 
 import { ImageMedia } from '@/components/Media/ImageMedia'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Product } from '@/payload-types'
+import { Product, Media } from '@/payload-types'
+import { WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
 import { useRouter } from 'next/navigation'
 
+type ProductWithMedia = WithPopulatedMany<
+  Product,
+  {
+    productImage: Media
+  }
+>
+
 interface ProductCardProps {
-  product: Product
+  product: ProductWithMedia
 }
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -32,6 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardHeader className="p-0">
         <div className="relative aspect-[4/3] overflow-hidden border-b bg-muted sm:h-[200px]">
           <ImageMedia
+            alt={product.productImage.alt || ''}
             resource={product.productImage}
             fill
             imgClassName="object-cover object-contain"
