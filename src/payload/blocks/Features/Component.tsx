@@ -31,7 +31,7 @@ const FutureItem: React.FC<{
 export const FeaturesBlock: React.FC<Props> = ({ title, description, items }) => {
   if (!items?.length) return null
   return (
-    <section className="py-8 sm:py-16">
+    <section className="py-3">
       <div className="container lg:px-6">
         <div className="mb-8 max-w-screen-md lg:mb-16">
           <h2 className="mb-4 text-xl font-extrabold tracking-tight lg:text-4xl">{title}</h2>
@@ -39,7 +39,12 @@ export const FeaturesBlock: React.FC<Props> = ({ title, description, items }) =>
         </div>
         <div className="space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0 lg:grid-cols-3">
           {items.map((item, i) => (
-            <FutureItem key={i} title={item.title} text={item.text} icon={item.icon} />
+            <FutureItem
+              key={item.id ?? `${item.title}-${i}`}
+              title={item.title}
+              text={item.text}
+              icon={item.icon}
+            />
           ))}
         </div>
       </div>
