@@ -42,6 +42,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { Warehouses } from './payload/collections/Warehouses'
 import { importStocksEndpoint } from './endpoints/import-stocks'
 import { SiteSettings } from './payload/globals/SettingsGlobal'
+import { Icons } from './payload/collections/Icons'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -117,6 +118,7 @@ export default buildConfig({
     Tariffs,
     Tenants,
     Currencies,
+    Icons,
   ],
   globals: [Header, Footer, SiteSettings],
   plugins: [

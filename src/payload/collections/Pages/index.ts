@@ -24,6 +24,7 @@ import {
 import { isHidden } from '@/payload/access/isHidden'
 import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
 import { PromotedProducts } from '@/payload/blocks/PromotedProducts/config'
+import { FeaturesBlock } from '@/payload/blocks/Features/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -91,6 +92,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 TimelineBlock,
                 FAQBlock,
                 PromotedProducts,
+                FeaturesBlock,
               ],
               required: true,
               admin: {
