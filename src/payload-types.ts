@@ -86,6 +86,7 @@ export interface Config {
     tariffs: Tariff;
     tenants: Tenant;
     currencies: Currency;
+    icons: Icon;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -116,6 +117,7 @@ export interface Config {
     tariffs: TariffsSelect<false> | TariffsSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
+    icons: IconsSelect<false> | IconsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -432,6 +434,7 @@ export interface Page {
     | TimelineBlock
     | FAQBlock
     | PromotedProductsBlock
+    | FeaturesBlock
   )[];
   meta?: {
     title?: string | null;
@@ -970,6 +973,47 @@ export interface PromotedProductsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock".
+ */
+export interface FeaturesBlock {
+  title: string;
+  description: string;
+  items: {
+    title: string;
+    text: string;
+    icon: number | Icon;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuresBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "icons".
+ */
+export interface Icon {
+  id: number;
+  label: string;
+  /**
+   * Уникальное имя для программного использования (например: search, database)
+   */
+  key: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "stocks".
  */
 export interface Stock {
@@ -1395,6 +1439,10 @@ export interface PayloadLockedDocument {
         value: number | Currency;
       } | null)
     | ({
+        relationTo: 'icons';
+        value: number | Icon;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1612,6 +1660,7 @@ export interface PagesSelect<T extends boolean = true> {
         timelineBlock?: T | TimelineBlockSelect<T>;
         faqBlock?: T | FAQBlockSelect<T>;
         promotedProducts?: T | PromotedProductsBlockSelect<T>;
+        featuresBlock?: T | FeaturesBlockSelect<T>;
       };
   meta?:
     | T
@@ -1691,6 +1740,24 @@ export interface FAQBlockSelect<T extends boolean = true> {
 export interface PromotedProductsBlockSelect<T extends boolean = true> {
   title?: T;
   limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock_select".
+ */
+export interface FeaturesBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        icon?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2037,6 +2104,26 @@ export interface CurrenciesSelect<T extends boolean = true> {
   symbol?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "icons_select".
+ */
+export interface IconsSelect<T extends boolean = true> {
+  label?: T;
+  key?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?: T | {};
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
