@@ -10,6 +10,7 @@ import { MediaBlock } from '@/payload/blocks/MediaBlock/Component'
 import { TimelineBlock } from './Timeline/Component'
 import { FAQBlock } from './FAQ/Component'
 import { PromotedProductsBlock } from './PromotedProducts/Component'
+import { FeaturesBlock } from './Features/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,6 +21,7 @@ const blockComponents = {
   timelineBlock: TimelineBlock,
   faqBlock: FAQBlock,
   promotedProducts: PromotedProductsBlock,
+  featuresBlock: FeaturesBlock,
 }
 
 export const RenderBlocks: React.FC<{
