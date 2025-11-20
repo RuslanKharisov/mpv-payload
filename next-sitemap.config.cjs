@@ -20,12 +20,10 @@ module.exports = {
   ],
   robotsTxtOptions: {
     policies: [
-      { userAgent: '*', disallow: '/admin/*' },
-      { userAgent: '*', disallow: '/stock?*' },
-      { userAgent: '*', disallow: '/search' },
-      { userAgent: '*', disallow: '/login' },
-      { userAgent: '*', disallow: '/register' },
-      { userAgent: '*', disallow: '/verify' },
+      {
+        userAgent: '*',
+        disallow: ['/admin/*', '/stock?*', '/search', '/login', '/register', '/verify'],
+      },
     ],
     additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
   },
