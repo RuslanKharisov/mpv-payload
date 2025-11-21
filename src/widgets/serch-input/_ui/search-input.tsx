@@ -58,7 +58,7 @@ export function SearchInput({ className, currentPhrase }: Args) {
         className="mt-1 cursor-pointer text-lg font-bold text-white underline"
         onClick={() => handleExampleClick('6ES7')}
       >
-        Например: 6ES7
+        Введите чатсть артикула: 6ES7
       </p>
     </div>
   )
