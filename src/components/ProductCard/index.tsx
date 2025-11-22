@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
       className="flex w-full max-w-sm flex-col overflow-hidden pt-0 shadow-none transition-[box-shadow,transform] duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer sm:max-w-full"
     >
       <CardHeader className="p-0">
-        <div className="relative aspect-[4/3] overflow-hidden border-b bg-muted sm:h-[200px]">
+        <div className="relative aspect-[4/3] overflow-hidden border-b sm:h-[200px]">
           <ImageMedia
             alt={altText}
             resource={product.productImage}
@@ -42,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </div>
       </CardHeader>
-      <CardContent className="grow p-4 sm:pt-5">
+      <CardContent className="grow p-4 sm:pt-5 bg-muted">
         <div className="flex flex-col gap-3 sm:gap-5">
           <h4 className="text-base font-semibold">{product?.sku}</h4>
           <div className="line-clamp-3 text-sm text-muted-foreground">{product?.name}</div>
