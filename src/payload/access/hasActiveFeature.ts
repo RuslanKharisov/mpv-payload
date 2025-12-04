@@ -1,4 +1,4 @@
-import type { Access, FieldAccess } from 'payload'
+import type { Access, FieldAccess, BasePayload } from 'payload'
 import type { User } from '@/payload-types'
 
 type Feature = 'CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS'
@@ -16,7 +16,7 @@ export const getActiveTenantId = (user: User | null | undefined): string | numbe
 export const tenantHasActiveFeature = async (
   tenantId: string | number,
   feature: Feature,
-  payload: any, // или import { BasePayload } from 'payload'
+  payload: BasePayload,
 ): Promise<boolean> => {
   if (!tenantId) return false
 
@@ -36,7 +36,13 @@ export const tenantHasActiveFeature = async (
     const activeSubscription = subscriptions[0]
     const tariff = activeSubscription.tariff
 
-    if (typeof tariff === 'object' && tariff.features?.includes(feature)) {
+    if (
+      typeof tariff === 'object' &&
+      tariff !== null &&
+      Array.isArray(tariff.features) &&
+      tariff.features.includes(feature)
+    ) {
+      // if (typeof tariff === 'object' && tariff.features?.includes(feature)) {
       return true
     }
   } catch (error) {
