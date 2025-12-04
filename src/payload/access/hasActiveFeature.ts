@@ -42,7 +42,6 @@ export const tenantHasActiveFeature = async (
       Array.isArray(tariff.features) &&
       tariff.features.includes(feature)
     ) {
-      // if (typeof tariff === 'object' && tariff.features?.includes(feature)) {
       return true
     }
   } catch (error) {
