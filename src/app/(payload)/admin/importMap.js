@@ -24,6 +24,7 @@ import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TenantField as TenantField_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
 import { default as default_289a0bce7465d20d004a3ee3261c944c } from '@/payload/collections/Stocks/ui/ImportStocksButton'
+import { AssignTenantFieldTrigger as AssignTenantFieldTrigger_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
 import { default as default_3e4f70d280373795c3ca33283d5cc5ca } from '@/payload/collections/Warehouses/ui/DaDataAddressField'
 import { WatchTenantCollection as WatchTenantCollection_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
@@ -88,6 +89,8 @@ export const importMap = {
     TenantField_1d0591e3cf4f332c83a86da13a0de59a,
   '@/payload/collections/Stocks/ui/ImportStocksButton#default':
     default_289a0bce7465d20d004a3ee3261c944c,
+  '@payloadcms/plugin-multi-tenant/client#AssignTenantFieldTrigger':
+    AssignTenantFieldTrigger_1d0591e3cf4f332c83a86da13a0de59a,
   '@/payload/collections/Warehouses/ui/DaDataAddressField#default':
     default_3e4f70d280373795c3ca33283d5cc5ca,
   '@payloadcms/plugin-multi-tenant/client#WatchTenantCollection':
