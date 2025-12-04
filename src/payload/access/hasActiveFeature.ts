@@ -1,36 +1,26 @@
-import type { Access, BasePayload } from 'payload'
-import { User, Tenant } from '@/payload-types'
-
-/***
- * CAN_MANAGE_STOCK - доступ к созданию/изменению склада
- * CAN_CREATE_POSTS - доступ к созданию постов
- * CAN_PROMOTE_PRODUCTS - доступ к полю `isPromoted`
- ***/
+import type { Access, FieldAccess } from 'payload'
+import type { User } from '@/payload-types'
 
 type Feature = 'CAN_MANAGE_STOCK' | 'CAN_CREATE_POSTS' | 'CAN_PROMOTE_PRODUCTS'
 
-// Достаём tenantId у пользователя
+// Оставьте ваши существующие утилиты как есть
 export const getActiveTenantId = (user: User | null | undefined): string | number | null => {
   if (!user || !Array.isArray(user.tenants) || user.tenants.length === 0) {
     return null
   }
-
   const first = user.tenants[0]?.tenant
   if (!first) return null
-
   return typeof first === 'object' ? first.id : first
 }
 
-// Хелпер для проверки, имеет ли тенант активную фичу
 export const tenantHasActiveFeature = async (
   tenantId: string | number,
   feature: Feature,
-  payload: BasePayload,
+  payload: any, // или import { BasePayload } from 'payload'
 ): Promise<boolean> => {
   if (!tenantId) return false
 
   try {
-    // 1. Найти активную подписку для данного тенанта
     const { docs: subscriptions } = await payload.find({
       collection: 'subscriptions',
       where: {
@@ -46,7 +36,6 @@ export const tenantHasActiveFeature = async (
     const activeSubscription = subscriptions[0]
     const tariff = activeSubscription.tariff
 
-    // 2. Проверить, есть ли у тарифа нужная фича
     if (typeof tariff === 'object' && tariff.features?.includes(feature)) {
       return true
     }
@@ -58,15 +47,9 @@ export const tenantHasActiveFeature = async (
   return false
 }
 
-/**
- * Принимат в качестве аргумента
- * - CAN_MANAGE_STOCK - доступ к созданию/изменению склада
- * - CAN_CREATE_POSTS - доступ к созданию постов
- * - CAN_PROMOTE_PRODUCTS - доступ к полю `isPromoted`,
- * - Возвращает булевое значение
- * */
+// 🔥 Ключевое изменение: объединяем Access и FieldAccess
 export const checkTenantFeatureAccess =
-  (feature: Feature): Access =>
+  (feature: Feature): Access & FieldAccess =>
   async ({ req }) => {
     const { user, payload } = req
     if (!user) return false
@@ -75,5 +58,6 @@ export const checkTenantFeatureAccess =
 
     const activeTenantId = getActiveTenantId(user)
     if (!activeTenantId) return false
+
     return await tenantHasActiveFeature(activeTenantId, feature, payload)
   }
