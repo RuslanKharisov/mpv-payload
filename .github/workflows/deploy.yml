@@ -79,9 +79,9 @@ jobs:
 
           echo "🚀 Запускаем через PM2"
           if pm2 list | grep -q onstock-payload-app; then
-            NODE_ENV=production pm2 restart onstock-payload-app --update-env
-          else
-            NODE_ENV=production pm2 start npm --name onstock-payload-app -- run start
+            pm2 restart onstock-payload-app --update-env
+          else            
+            pm2 start ecosystem.config.cjs --env production --update-env
           fi
 
           pm2 save
