@@ -32,10 +32,8 @@ export async function SupplierStockLoader({
             <CardTitle className="uppercase">Контрагент: &quot;{supplier.name}&quot;</CardTitle>
           </CardHeader>
           <CardFooter className="flex-col gap-2">
-            <Button variant="default" className="w-full">
-              <Link className="w-full" href={`/supplier/${supplier.slug}`}>
-                Подробнее
-              </Link>
+            <Button asChild variant="default" className="w-full">
+              <Link href={`/supplier/${supplier.slug}`}>Подробнее</Link>
             </Button>
           </CardFooter>
         </Card>

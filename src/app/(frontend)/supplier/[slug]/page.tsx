@@ -14,7 +14,6 @@ export default async function page({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
-  console.log('slug ==> ', slug)
   const tenant = await payload.find({
     collection: 'tenants',
     where: {
@@ -25,8 +24,6 @@ export default async function page({ params: paramsPromise }: Args) {
     draft,
     depth: 2,
   })
-
-  console.log('tenant ==> ', tenant)
 
   if (tenant.docs?.[0].layout?.length === 0) {
     return notFound()
