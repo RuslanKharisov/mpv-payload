@@ -6,10 +6,7 @@ import { NormalizedCartItem } from '@/entities/cart'
 const PLACEHOLDER_IMAGE_URL = '/images/placeholder.webp'
 
 // Адаптер для локального склада (из Payload)
-export function mapLocalStockToCartItem(
-  stock: StockWithTenantAndCurrency,
-  supplier?: Tenant,
-): NormalizedCartItem {
+export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): NormalizedCartItem {
   return {
     id: stock.id.toString(), // ID из базы данных Payload уникален
     sku: stock.product.sku,
