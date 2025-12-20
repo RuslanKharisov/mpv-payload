@@ -1,5 +1,5 @@
 import { StockWithTenantAndCurrency } from '@/features/stock'
-import { Tenant } from '@/payload-types'
+import { Address, Tenant, Warehouse } from '@/payload-types'
 import { RemoteStock } from '@/entities/remote-stock'
 import { NormalizedCartItem } from '@/entities/cart'
 
@@ -25,6 +25,16 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
 
 // Адаптер для удаленного склада
 // Обратите внимание: `supplier` передается отдельно, т.к. сам `remoteStock` его не содержит
+
+function getWarehouseCityFromTenant(tenant: Tenant): string | undefined {
+  if (!tenant.warehouse || typeof tenant.warehouse !== 'object') return undefined
+
+  const address = tenant.warehouse.warehouse_address
+  if (!address || typeof address !== 'object') return undefined
+
+  return 'city' in address ? address.city || undefined : undefined
+}
+
 export function mapRemoteStockToCartItem(
   remoteStock: RemoteStock, // Тип для одного элемента из `data`
   supplier: Tenant,
@@ -45,5 +55,6 @@ export function mapRemoteStockToCartItem(
     availableQuantity: remoteStock.quantity,
     originalItem: { ...remoteStock, supplierId: supplier.id }, // Добавляем контекст
     source: 'remote',
+    warehouse: getWarehouseCityFromTenant(supplier),
   }
 }

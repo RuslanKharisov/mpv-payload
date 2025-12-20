@@ -577,6 +577,7 @@ export interface Tenant {
    * На этот адрес будут приходить запросы (КП, заявки и т.д.)
    */
   requestEmail: string;
+  warehouse?: (number | null) | Warehouse;
   /**
    * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
    */
@@ -603,6 +604,50 @@ export interface Tenant {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warehouses".
+ */
+export interface Warehouse {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  warehouse_address: number | Address;
+  selectedAddressData?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.
+   */
+  capacity?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "addresses".
+ */
+export interface Address {
+  id: number;
+  fias_id: string;
+  kladr_id?: string | null;
+  city?: string | null;
+  region?: string | null;
+  street?: string | null;
+  house?: string | null;
+  fullAddress?: string | null;
+  geo_lat?: string | null;
+  geo_lon?: string | null;
+  country_iso_code?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1050,50 +1095,6 @@ export interface Currency {
   code: string;
   name: string;
   symbol?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "warehouses".
- */
-export interface Warehouse {
-  id: number;
-  tenant?: (number | null) | Tenant;
-  title: string;
-  warehouse_address: number | Address;
-  selectedAddressData?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Максимальное суммарное количество товаров на этом складе. 0 или пусто = без ограничения.
-   */
-  capacity?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "addresses".
- */
-export interface Address {
-  id: number;
-  fias_id: string;
-  kladr_id?: string | null;
-  city?: string | null;
-  region?: string | null;
-  street?: string | null;
-  house?: string | null;
-  fullAddress?: string | null;
-  geo_lat?: string | null;
-  geo_lon?: string | null;
-  country_iso_code?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2086,6 +2087,7 @@ export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   domain?: T;
   requestEmail?: T;
+  warehouse?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
   apiUrl?: T;

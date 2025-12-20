@@ -67,6 +67,13 @@ export const Tenants: CollectionConfig = {
               },
             },
             {
+              name: 'warehouse',
+              label: 'Склад',
+              type: 'relationship',
+              relationTo: 'warehouses',
+              required: false,
+            },
+            {
               name: 'allowPublicRead',
               type: 'checkbox',
               admin: {

@@ -8,7 +8,7 @@ import type {
   Warehouse,
   Address,
 } from '@/payload-types'
-import { WithPopulated, WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
+import { WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
 
 export type StockWithTenantAndCurrency = WithPopulatedMany<
   Stock,
