@@ -30,19 +30,14 @@ export function mapLocalStockToCartItem(
 // Обратите внимание: `supplier` передается отдельно, т.к. сам `remoteStock` его не содержит
 
 function getWarehouseCityFromTenant(tenant: Tenant): string | undefined {
-  const warehouse = tenant.warehouse
+  if (!tenant.warehouse || typeof tenant.warehouse !== 'object') return undefined
 
-  if (!warehouse || typeof warehouse !== 'object') {
-    return undefined
-  }
-  const address = warehouse.warehouse_address
+  const address = tenant.warehouse.warehouse_address
+  if (!address || typeof address !== 'object') return undefined
 
-  if (address && typeof address === 'object' && 'city' in address) {
-    return (address as Address).city || undefined
-  }
-
-  return undefined
+  return 'city' in address ? address.city || undefined : undefined
 }
+
 export function mapRemoteStockToCartItem(
   remoteStock: RemoteStock, // Тип для одного элемента из `data`
   supplier: Tenant,

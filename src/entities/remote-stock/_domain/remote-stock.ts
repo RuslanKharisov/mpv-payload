@@ -1,6 +1,3 @@
-import { Address, Warehouse } from '@/payload-types'
-import { WithPopulatedMany } from '@/shared/utilities/payload-types-extender'
-
 export type RemoteStock = {
   id: string
   sku: string
