@@ -40,9 +40,13 @@ export function CartItem({ entry, isLastItem, onRemove, onUpdateQuantity }: Cart
               </Link>
               <span className="text-sm font-normal text-muted-foreground ml-2">{item.brand}</span>
             </p>
-            <p className="inline-flex gap-1 text-xs leading-6">
-              Склад: <span className="font-semibold text-foreground">{'!! Город'}</span>
-            </p>
+            {item.warehouse ? (
+              <p className="inline-flex gap-1 text-xs leading-6">
+                Склад: <span className="font-semibold text-foreground">{item.warehouse}</span>
+              </p>
+            ) : (
+              ''
+            )}
             <p className="text-xs leading-6">
               В наличие: <span className="text-foreground">{item.availableQuantity}</span> ед.
             </p>

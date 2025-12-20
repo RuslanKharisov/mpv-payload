@@ -10,6 +10,8 @@ export interface NormalizedCartItem {
   currencyCode: string
   availableQuantity: number
 
+  warehouse?: string
+
   // Сохраняем исходный объект для возможных будущих нужд (например, при оформлении заказа)
   originalItem: unknown
   source: 'local' | 'remote' // Чтобы знать, откуда пришел товар

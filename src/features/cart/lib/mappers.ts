@@ -1,12 +1,15 @@
 import { StockWithTenantAndCurrency } from '@/features/stock'
-import { Tenant } from '@/payload-types'
+import { Address, Tenant, Warehouse } from '@/payload-types'
 import { RemoteStock } from '@/entities/remote-stock'
 import { NormalizedCartItem } from '@/entities/cart'
 
 const PLACEHOLDER_IMAGE_URL = '/images/placeholder.webp'
 
 // Адаптер для локального склада (из Payload)
-export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): NormalizedCartItem {
+export function mapLocalStockToCartItem(
+  stock: StockWithTenantAndCurrency,
+  supplier?: Tenant,
+): NormalizedCartItem {
   return {
     id: stock.id.toString(), // ID из базы данных Payload уникален
     sku: stock.product.sku,
@@ -25,6 +28,21 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
 
 // Адаптер для удаленного склада
 // Обратите внимание: `supplier` передается отдельно, т.к. сам `remoteStock` его не содержит
+
+function getWarehouseCityFromTenant(tenant: Tenant): string | undefined {
+  const warehouse = tenant.warehouse
+
+  if (!warehouse || typeof warehouse !== 'object') {
+    return undefined
+  }
+  const address = warehouse.warehouse_address
+
+  if (address && typeof address === 'object' && 'city' in address) {
+    return (address as Address).city || undefined
+  }
+
+  return undefined
+}
 export function mapRemoteStockToCartItem(
   remoteStock: RemoteStock, // Тип для одного элемента из `data`
   supplier: Tenant,
@@ -45,5 +63,6 @@ export function mapRemoteStockToCartItem(
     availableQuantity: remoteStock.quantity,
     originalItem: { ...remoteStock, supplierId: supplier.id }, // Добавляем контекст
     source: 'remote',
+    warehouse: getWarehouseCityFromTenant(supplier),
   }
 }
