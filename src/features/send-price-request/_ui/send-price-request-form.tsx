@@ -137,7 +137,7 @@ export function SendPriceRequestModal({
             <Separator className="border-border" />
 
             {/* Детали запроса */}
-            <div className="font-semibold text-black">Детали запроса</div>
+            <p className="font-semibold">Детали запроса</p>
 
             {/* Предложение за единицу */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -191,7 +191,7 @@ export function SendPriceRequestModal({
             <Separator className="border-border" />
 
             {/* Контактные данные */}
-            <div className="font-semibold text-black">Контактные данные</div>
+            <p className="font-semibold">Контактные данные</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
