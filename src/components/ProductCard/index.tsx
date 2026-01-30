@@ -29,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
       role="button"
       tabIndex={0}
       aria-label={`View details for ${product.name}`}
-      className="flex w-full max-w-sm flex-col overflow-hidden pt-0 shadow-none transition-[box-shadow,transform] duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer sm:max-w-full"
+      className="h-full flex w-full max-w-sm flex-col overflow-hidden pt-0 shadow-none transition-[box-shadow,transform] duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer sm:max-w-full"
     >
       <CardHeader className="p-0">
         <div className="relative aspect-[4/3] overflow-hidden border-b sm:h-[200px]">
@@ -37,8 +37,8 @@ export function ProductCard({ product }: ProductCardProps) {
             alt={altText}
             resource={product.productImage}
             fill
-            imgClassName="object-cover object-contain"
-            pictureClassName="absolute inset-0 h-full w-full"
+            imgClassName="object-contain"
+            pictureClassName="absolute inset-0 h-full w-full bg-white"
           />
         </div>
       </CardHeader>
