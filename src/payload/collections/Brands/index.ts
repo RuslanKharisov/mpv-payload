@@ -20,6 +20,26 @@ export const Brands: CollectionConfig = {
       required: true,
       unique: true,
     },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: false,
+      label: 'Описание производителя',
+      admin: {
+        description: 'Отображается в карточках на сайте',
+        rows: 4,
+      },
+    },
+    {
+      name: 'isPromoted',
+      label: 'Продвигать в сетке',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках',
+      },
+    },
     ...slugField('name'),
   ],
 }
