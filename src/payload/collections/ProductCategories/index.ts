@@ -62,6 +62,16 @@ export const ProductCategories: CollectionConfig = {
       },
       label: 'Глубина вложенности',
     },
+    {
+      name: 'isPromoted',
+      label: 'Продвигать в сетке',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description:
+          'Отметьте, чтобы категория отображалась в сетке на главной странице или других блоках',
+      },
+    },
     ...slugField(),
   ],
   hooks: {

@@ -219,6 +219,10 @@ export interface ProductCategory {
   parent?: (number | null) | ProductCategory;
   breadcrumb?: string | null;
   depth?: number | null;
+  /**
+   * Отметьте, чтобы категория отображалась в сетке на главной странице или других блоках
+   */
+  isPromoted?: boolean | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -323,6 +327,14 @@ export interface Media {
 export interface Brand {
   id: number;
   name: string;
+  /**
+   * Отображается в карточках на сайте
+   */
+  description?: string | null;
+  /**
+   * Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках
+   */
+  isPromoted?: boolean | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -438,6 +450,7 @@ export interface Page {
     | FAQBlock
     | PromotedProductsBlock
     | FeaturesBlock
+    | CategoriesOrBrandsGridBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1062,6 +1075,37 @@ export interface Icon {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoriesOrBrandsGridBlock".
+ */
+export interface CategoriesOrBrandsGridBlock {
+  /**
+   * Отображается над сеткой элементов
+   */
+  title?: string | null;
+  mode?: ('manual' | 'fromCollection') | null;
+  manualItems?:
+    | {
+        title: string;
+        description?: string | null;
+        /**
+         * Пример: /products?category=promyshlennye-pk
+         */
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  collection?: ('product-categories' | 'brands') | null;
+  /**
+   * Максимум 20 элементов
+   */
+  limit?: number | null;
+  columns?: ('2' | '3' | '4') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'categoriesOrBrandsGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "stocks".
  */
 export interface Stock {
@@ -1622,6 +1666,7 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
   parent?: T;
   breadcrumb?: T;
   depth?: T;
+  isPromoted?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
@@ -1633,6 +1678,8 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
  */
 export interface BrandsSelect<T extends boolean = true> {
   name?: T;
+  description?: T;
+  isPromoted?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
@@ -1678,6 +1725,7 @@ export interface PagesSelect<T extends boolean = true> {
         faqBlock?: T | FAQBlockSelect<T>;
         promotedProducts?: T | PromotedProductsBlockSelect<T>;
         featuresBlock?: T | FeaturesBlockSelect<T>;
+        categoriesOrBrandsGrid?: T | CategoriesOrBrandsGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1775,6 +1823,27 @@ export interface FeaturesBlockSelect<T extends boolean = true> {
         icon?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoriesOrBrandsGridBlock_select".
+ */
+export interface CategoriesOrBrandsGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  mode?: T;
+  manualItems?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        link?: T;
+        id?: T;
+      };
+  collection?: T;
+  limit?: T;
+  columns?: T;
   id?: T;
   blockName?: T;
 }

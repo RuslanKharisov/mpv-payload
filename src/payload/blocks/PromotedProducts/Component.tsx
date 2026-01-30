@@ -52,7 +52,7 @@ export const PromotedProductsBlock: React.FC<Props> = async ({ title, limit }) =
   }
 
   return (
-    <div className="container py-16">
+    <div className="container py-8 md:py-16">
       <h2 className="text-3xl font-bold tracking-tight text-center sm:text-4xl mb-12">{title}</h2>
       <PromotedProductsCarousel products={productsData} />
     </div>

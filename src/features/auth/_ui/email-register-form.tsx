@@ -114,7 +114,7 @@ export function EmailRegisterForm() {
 
   return (
     <div className="w-full max-w-md">
-      <Typography variant="inter-bold-32" className="text-center mb-5">
+      <Typography variant="inter-bold-36" className="text-center mb-5">
         Регистрация
       </Typography>
       <Form {...form}>

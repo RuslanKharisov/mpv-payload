@@ -11,6 +11,7 @@ import { TimelineBlock } from './Timeline/Component'
 import { FAQBlock } from './FAQ/Component'
 import { PromotedProductsBlock } from './PromotedProducts/Component'
 import { FeaturesBlock } from './Features/Component'
+import { CategoriesOrBrandsGridBlock } from './CategoriesOrBrandsGridBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -22,6 +23,7 @@ const blockComponents = {
   faqBlock: FAQBlock,
   promotedProducts: PromotedProductsBlock,
   featuresBlock: FeaturesBlock,
+  categoriesOrBrandsGrid: CategoriesOrBrandsGridBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -42,7 +44,7 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="my-16" key={index}>
+                <div key={index}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} disableInnerContainer />
                 </div>
