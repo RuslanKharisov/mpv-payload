@@ -24,7 +24,6 @@ export const sendPriceRequestRouter = createTRPCRouter({
         items,
       })
 
-      // В ctx.payload.sendEmail у тебя уже есть адаптер на Resend
       await ctx.payload.sendEmail({
         to: tenantEmail,
         subject: `Запрос на КП от ${formData.companyName}`,
