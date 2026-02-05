@@ -17,11 +17,25 @@ export async function SupplierStockLoader({
 }) {
   const searchQuery = JSON.stringify(filters)
   const url = `${supplier.apiUrl}?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
+  console.log('supplier ==> ', supplier)
 
   try {
     const response: StockResponse = await serverClient.remoteStocks.getByUrl({ url })
 
     if (!response?.data?.length) {
+      return null
+    }
+
+    // Проверяем что sku, description, quantity пристутсвуют в ответе и они не пустые
+    const hasActualData = response.data.some(
+      (item) =>
+        (item.sku && item.sku?.trim() !== '') ||
+        (item.description && item.description?.trim() !== '') ||
+        (item.quantity && item.quantity > 0),
+    )
+
+    if (!hasActualData) {
+      console.log(`Данные от ${supplier.name} получены, но они пустые.`)
       return null
     }
 
@@ -45,9 +59,7 @@ export async function SupplierStockLoader({
       </div>
     )
   } catch (err) {
-    console.error(`💥 ${supplier.name}: ошибка запроса`, err)
-    return (
-      <div className="text-red-500 text-sm px-4">Ошибка загрузки данных от {supplier.name}</div>
-    )
+    console.error(`💥 ${supplier.name}: ошибка запроса (проверить API URL)`, err)
+    return null
   }
 }
