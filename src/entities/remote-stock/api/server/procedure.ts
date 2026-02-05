@@ -8,7 +8,7 @@ export const remoteStocksRouter = createTRPCRouter({
     .output(z.custom<StockResponse>()) // Добавляем типизацию ответа
     .query(async ({ input }) => {
       const response = await fetch(input.url.toString(), {
-        next: { revalidate: 60 * 60 }, // кэш на 60 минут
+        next: { revalidate: 60 * 1 }, // кэш на 60 минут
       })
 
       if (!response.ok) {
