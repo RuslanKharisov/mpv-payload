@@ -87,7 +87,6 @@ export interface Config {
     tenants: Tenant;
     currencies: Currency;
     icons: Icon;
-    'search-requests': SearchRequest;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -120,7 +119,6 @@ export interface Config {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
     icons: IconsSelect<false> | IconsSelect<true>;
-    'search-requests': SearchRequestsSelect<false> | SearchRequestsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1251,21 +1249,6 @@ export interface CompanyType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search-requests".
- */
-export interface SearchRequest {
-  id: number;
-  productName: string;
-  companyName: string;
-  email: string;
-  phone?: string | null;
-  note?: string | null;
-  status?: ('new' | 'process') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1533,10 +1516,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'icons';
         value: number | Icon;
-      } | null)
-    | ({
-        relationTo: 'search-requests';
-        value: number | SearchRequest;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2246,20 +2225,6 @@ export interface IconsSelect<T extends boolean = true> {
   focalX?: T;
   focalY?: T;
   sizes?: T | {};
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search-requests_select".
- */
-export interface SearchRequestsSelect<T extends boolean = true> {
-  productName?: T;
-  companyName?: T;
-  email?: T;
-  phone?: T;
-  note?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

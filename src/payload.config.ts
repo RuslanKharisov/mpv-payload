@@ -44,7 +44,6 @@ import { importStocksEndpoint } from './endpoints/import-stocks'
 import { SiteSettings } from './payload/globals/SettingsGlobal'
 import { Icons } from './payload/collections/Icons'
 import { recalculateCountsEndpoint } from './endpoints/recalculate-counts'
-import { SearchRequests } from './payload/collections/SearchRequests'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -121,7 +120,6 @@ export default buildConfig({
     Tenants,
     Currencies,
     Icons,
-    SearchRequests,
   ],
   globals: [Header, Footer, SiteSettings],
   plugins: [
