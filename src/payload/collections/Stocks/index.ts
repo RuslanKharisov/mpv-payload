@@ -100,6 +100,18 @@ export const Stocks: CollectionConfig = {
       },
     },
     {
+      name: '_city',
+      type: 'text',
+      index: true,
+      admin: { hidden: true },
+    },
+    {
+      name: '_region',
+      type: 'text',
+      index: true,
+      admin: { hidden: true },
+    },
+    {
       name: 'isPromoted',
       label: 'Продвигать товар',
       type: 'checkbox',

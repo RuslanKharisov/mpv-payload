@@ -12,7 +12,13 @@ export const Brands: CollectionConfig = {
     update: isSuperAdminAccess,
   },
   labels: { singular: 'Производитель', plural: 'Производители' },
-  admin: { useAsTitle: 'name', group: 'Продукция' },
+  admin: {
+    useAsTitle: 'name',
+    group: 'Продукция',
+    components: {
+      beforeListTable: ['@/components/BeforeListTable/RecalculateCountsButton'],
+    },
+  },
   fields: [
     {
       name: 'name',
@@ -39,6 +45,17 @@ export const Brands: CollectionConfig = {
         description:
           'Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках',
       },
+    },
+    {
+      name: 'productCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        description: 'Количество товаров этого бренда',
+      },
+      label: 'Кол-во товаров бренда',
     },
     ...slugField('name'),
   ],

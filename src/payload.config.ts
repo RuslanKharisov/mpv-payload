@@ -43,7 +43,7 @@ import { Warehouses } from './payload/collections/Warehouses'
 import { importStocksEndpoint } from './endpoints/import-stocks'
 import { SiteSettings } from './payload/globals/SettingsGlobal'
 import { Icons } from './payload/collections/Icons'
-import { recalculateCountsEndpoint } from './endpoints/recalculate-category-counts'
+import { recalculateCountsEndpoint } from './endpoints/recalculate-counts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
