@@ -1,13 +1,13 @@
 'use client'
 
-import { useMemo } from 'react'
 import { useFilters } from '@/shared/providers/Filters'
-import { FilterAccordion } from './filter-accordion'
-import { Label } from '@/shared/ui/label'
-import { Checkbox } from '@/shared/ui/checkbox'
-import { useProductCountsByCities } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
+import { Checkbox } from '@/shared/ui/checkbox'
+import { Label } from '@/shared/ui/label'
+import { useAllFilterStats } from '@/shared/utilities/getProductCounts'
 import { toDomId } from '@/shared/utilities/toDomId'
+import { useMemo } from 'react'
+import { FilterAccordion } from './filter-accordion'
 
 type CityFilterProps = {
   cities?: string[]
@@ -47,30 +47,32 @@ export function CityFilter({ cities = [] }: CityFilterProps) {
   const { filters, setFilter } = useFilters()
   const currentCity = filters.city
 
+  const { stats, isLoading } = useAllFilterStats()
+
   const toggleCity = (value: string) => {
-    if (currentCity === value) {
-      setFilter('city', undefined)
-    } else {
-      setFilter('city', value)
-    }
+    // В B2B часто ищут в одном городе, поэтому оставляем логику выбора одного значения
+    setFilter('city', currentCity === value ? undefined : value)
   }
 
-  // Используем bulk хук для получения количества продуктов для всех городов
-  const cityCounts = useProductCountsByCities(cities)
-
-  // Подготавливаем данные для рендеринга
   const cityItems = useMemo(() => {
-    return cities.map((cityName) => {
-      const isChecked = currentCity === cityName
-      const productCount = cityCounts[cityName] || 0
-      return {
-        cityName,
-        isChecked,
-        productCount,
-      }
-    })
-  }, [cities, currentCity, cityCounts])
+    return (
+      cities
+        .map((cityName) => {
+          const isChecked = currentCity === cityName
+          const productCount = stats.cities[cityName] || 0
+          return { cityName, isChecked, productCount }
+        })
+        // СОРТИРОВКА: сначала города, где ЕСТЬ товары, затем по алфавиту
+        .sort((a, b) => {
+          if (b.productCount !== a.productCount) {
+            return b.productCount - a.productCount
+          }
+          return a.cityName.localeCompare(b.cityName)
+        })
+    )
+  }, [cities, currentCity, stats.cities])
 
+  // Если данных еще нет, можно показать легкий скелетон или просто скрыть Badge
   return (
     <FilterAccordion title="Город" defaultVisibleCount={10}>
       {cityItems.map(({ cityName, isChecked, productCount }) => (

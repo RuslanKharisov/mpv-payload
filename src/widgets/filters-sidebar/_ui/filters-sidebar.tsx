@@ -30,8 +30,6 @@ export function FiltersSidebar({
   pageTitle,
 }: FiltersSidebarProps) {
   const [isOpen, setIsOpen] = useState(false)
-
-  // Используем useMemo для мемоизации вычислений
   const hasBrands = useMemo(() => brands.length > 0, [brands])
 
   return (
@@ -59,23 +57,21 @@ export function FiltersSidebar({
           >
             <ArrowLeft /> <span>Вернуться</span>
           </Link>
-          <Suspense>
-            <CategoryFilter allCategories={allCategories} pageTitle={pageTitle} />
-          </Suspense>
-          {hasBrands && (
-            <Suspense>
-              <BrandFilter brands={brands} />
-            </Suspense>
-          )}
-          <Suspense>
+          <CategoryFilter allCategories={allCategories} pageTitle={pageTitle} />
+          {hasBrands && <BrandFilter brands={brands} />}
+          <div className="space-y-6">
             <ConditionFilter />
-          </Suspense>
-          <Suspense>
             <RegionFilter regions={regions} />
-          </Suspense>
-          <Suspense>
             <CityFilter cities={cities} />
-          </Suspense>
+          </div>
+
+          {/* ToDO: Вставить блок "Не нашли что искали? Оставьте заявку */}
+          {/* <div className="pt-4 border-t border-dashed">
+            <p className="text-xs text-muted-foreground mb-2">Не нашли нужную деталь?</p>
+            <button className="text-sm font-semibold text-destructive hover:underline">
+              Оставить запрос на поиск
+            </button>
+          </div> */}
         </div>
       </div>
     </>

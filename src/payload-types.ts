@@ -339,6 +339,9 @@ export interface Brand {
    * Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках
    */
   isPromoted?: boolean | null;
+  /**
+   * Количество товаров этого бренда
+   */
   productCount?: number | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -1128,6 +1131,8 @@ export interface Stock {
   warranty?: number | null;
   warehouse?: (number | null) | Warehouse;
   title_in_admin?: string | null;
+  _city?: string | null;
+  _region?: string | null;
   /**
    * Отметьте, чтобы товар появился в карусели на главной странице.
    */
@@ -2046,6 +2051,8 @@ export interface StocksSelect<T extends boolean = true> {
   warranty?: T;
   warehouse?: T;
   title_in_admin?: T;
+  _city?: T;
+  _region?: T;
   isPromoted?: T;
   updatedAt?: T;
   createdAt?: T;

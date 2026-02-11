@@ -37,6 +37,18 @@ export const recalculateCountsEndpoint: Endpoint = {
         depth: 0,
       })
 
+      const allStocks = await payload.find({ collection: 'stocks', limit: 0, depth: 0 })
+
+      for (const stock of allStocks.docs) {
+        // Вызов хука вручную или просто обновление через payload.update
+        // Это пропишет _city и _region во все старые записи
+        await payload.update({
+          collection: 'stocks',
+          id: stock.id,
+          data: { id: stock.id }, // Trigger beforeChange hook
+        })
+      }
+
       // 3. Пересчет количества
       for (const product of products.docs) {
         // Пересчет категорий
