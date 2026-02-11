@@ -1,5 +1,10 @@
 import { CollectionAfterChangeHook, CollectionAfterDeleteHook, Payload } from 'payload'
 
+const getID = (field: unknown): string | number | null =>
+  typeof field === 'object' && field !== null
+    ? (field as { id: string | number }).id
+    : (field as string | number | null)
+
 /**
  * Вспомогательная функция для обновления счетчика бренда
  */
@@ -69,8 +74,6 @@ export const syncProductStats: CollectionAfterChangeHook = async ({
   previousDoc,
   req: { payload },
 }) => {
-  const getID = (field: any) => (typeof field === 'object' ? field?.id : field)
-
   // 1. СИНХРОНИЗАЦИЯ КАТЕГОРИЙ
   const oldCatId = previousDoc ? getID(previousDoc.productCategory) : null
   const newCatId = getID(doc.productCategory)
@@ -97,8 +100,6 @@ export const syncProductStatsOnDelete: CollectionAfterDeleteHook = async ({
   doc,
   req: { payload },
 }) => {
-  const getID = (field: any) => (typeof field === 'object' ? field?.id : field)
-
   const catId = getID(doc.productCategory)
   const brandId = getID(doc.brand)
 

@@ -28,7 +28,7 @@ export const recalculateCountsEndpoint: Endpoint = {
         }),
       ])
 
-      // 2. Получаем все опубликованные товары
+      // 2. Получаем все товары
       const products = await payload.find({
         collection: 'products',
         limit: 0,

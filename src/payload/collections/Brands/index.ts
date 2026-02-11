@@ -12,7 +12,13 @@ export const Brands: CollectionConfig = {
     update: isSuperAdminAccess,
   },
   labels: { singular: 'Производитель', plural: 'Производители' },
-  admin: { useAsTitle: 'name', group: 'Продукция' },
+  admin: {
+    useAsTitle: 'name',
+    group: 'Продукция',
+    components: {
+      beforeListTable: ['@/components/BeforeListTable/RecalculateCountsButton'],
+    },
+  },
   fields: [
     {
       name: 'name',

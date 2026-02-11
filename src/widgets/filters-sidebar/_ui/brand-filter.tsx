@@ -14,8 +14,6 @@ type BrandFilterProps = {
   brands: Brand[]
 }
 
-// src\widgets\filters-sidebar\_ui\brand-filter.tsx
-
 export function BrandFilter({ brands }: BrandFilterProps) {
   const { filters, setFilter } = useFilters()
 
@@ -24,7 +22,7 @@ export function BrandFilter({ brands }: BrandFilterProps) {
       brands
         .map((brand) => {
           const isChecked = filters.brands?.includes(brand.slug!) || false
-          const productCount = (brand as any).productCount || 0
+          const productCount = brand.productCount || 0
           return { brand, isChecked, productCount }
         })
         // СОРТИРОВКА: Сначала те, где больше товаров. Если поровну — по алфавиту.

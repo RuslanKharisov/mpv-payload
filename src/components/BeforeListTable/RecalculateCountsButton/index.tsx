@@ -17,9 +17,6 @@ export default function RecalculateCountsButton() {
     setIsLoading(true)
 
     try {
-      // В Payload UI toast.promise работает немного иначе или может отсутствовать
-      // в зависимости от версии. Самый надежный способ — ручное управление:
-
       const res = await fetch(`${serverURL}${api}/recalculate-counts`, {
         method: 'POST',
       })

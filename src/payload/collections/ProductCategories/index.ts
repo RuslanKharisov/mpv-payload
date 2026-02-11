@@ -21,7 +21,7 @@ export const ProductCategories: CollectionConfig = {
     listSearchableFields: ['title', 'title_en', 'breadcrumb'],
     group: 'Продукция',
     components: {
-      beforeListTable: ['@/payload/collections/ProductCategories/ui/RecalculateCountsButton'],
+      beforeListTable: ['@/components/BeforeListTable/RecalculateCountsButton'],
     },
   },
   fields: [

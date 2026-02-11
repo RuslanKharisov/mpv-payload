@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { ProductCategoryWithParents } from '@/entities/category'
 import { FilterAccordion } from './filter-accordion'
-import { cn } from '@/shared/ui/utils' // проверьте путь (у вас было и ui/utils и utilities/ui)
+import { cn } from '@/shared/ui/utils'
 import { useFilters } from '@/shared/providers/Filters'
 import { getSidebarCategories } from '@/features/get-sidebar-categories'
 import Link from 'next/link'
