@@ -20,6 +20,9 @@ export const ProductCategories: CollectionConfig = {
     defaultColumns: ['title', 'breadcrumb', 'depth'],
     listSearchableFields: ['title', 'title_en', 'breadcrumb'],
     group: 'Продукция',
+    components: {
+      beforeListTable: ['@/payload/collections/ProductCategories/ui/RecalculateCountsButton'],
+    },
   },
   fields: [
     {
@@ -71,6 +74,17 @@ export const ProductCategories: CollectionConfig = {
         description:
           'Отметьте, чтобы категория отображалась в сетке на главной странице или других блоках',
       },
+    },
+    {
+      name: 'productCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        description: 'Количество товаров в этой категории и её подкатегориях',
+      },
+      label: 'Кол-во товаров',
     },
     ...slugField(),
   ],

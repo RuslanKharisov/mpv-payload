@@ -36,6 +36,7 @@ export const getAllCategoriesWithParents = cache(
         title: true,
         slug: true,
         parent: true,
+        productCount: true,
       },
     })
 
