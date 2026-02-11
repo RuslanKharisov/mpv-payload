@@ -1,3 +1,4 @@
+import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import {
   updateBrandCount,
   updateCategoryHierarchy,
@@ -9,6 +10,7 @@ export const recalculateCountsEndpoint: Endpoint = {
   method: 'post',
   handler: async (req) => {
     if (!req.user) return new Response('Unauthorized', { status: 401 })
+    if (!isSuperAdminAccess({ req })) return new Response('Forbidden', { status: 403 })
 
     const { payload } = req
 

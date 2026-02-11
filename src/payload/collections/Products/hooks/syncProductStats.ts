@@ -1,9 +1,11 @@
 import { CollectionAfterChangeHook, CollectionAfterDeleteHook, Payload } from 'payload'
 
-const getID = (field: unknown): string | number | null =>
-  typeof field === 'object' && field !== null
-    ? (field as { id: string | number }).id
-    : (field as string | number | null)
+const getID = (field: unknown): string | number | null => {
+  if (field == null) return null
+  if (typeof field === 'object') return (field as { id?: string | number }).id ?? null
+  if (typeof field === 'string' || typeof field === 'number') return field
+  return null
+}
 
 /**
  * Вспомогательная функция для обновления счетчика бренда

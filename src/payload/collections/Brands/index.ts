@@ -53,6 +53,7 @@ export const Brands: CollectionConfig = {
       admin: {
         readOnly: true,
         position: 'sidebar',
+        description: 'Количество товаров этого бренда',
       },
       label: 'Кол-во товаров бренда',
     },
