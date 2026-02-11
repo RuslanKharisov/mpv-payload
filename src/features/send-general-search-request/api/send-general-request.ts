@@ -2,35 +2,49 @@
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { GeneralSearchSchema } from '@/entities/search-request/_domain/schemas'
+import {
+  GeneralSearchRequestValues,
+  GeneralSearchSchema,
+} from '@/entities/search-request/_domain/schemas'
 
-export async function sendGeneralSearchRequest(formData: unknown) {
+export async function sendGeneralSearchRequest(formData: GeneralSearchRequestValues) {
   const validated = GeneralSearchSchema.safeParse(formData)
   if (!validated.success) return { error: 'Некорректные данные' }
 
+  if (formData.website && formData.website.length > 0) {
+    console.warn('Bot detected via honeypot')
+    return { success: true }
+  }
+
   const { productName, email, phone, companyName, note } = validated.data
+
   const payload = await getPayload({ config: configPromise })
 
-  try {
-    await payload.create({
-      collection: 'search-requests',
-      data: { productName, email, phone, companyName, note: note },
-    })
+  function escapeHtml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+  }
 
+  const notifyEmail = process.env.SEARCH_REQUEST_NOTIFY_EMAIL
+  if (!notifyEmail) throw new Error('SEARCH_REQUEST_NOTIFY_EMAIL is not configured')
+
+  try {
     await payload.sendEmail({
-      to: 'ruslan.kharisov@gmail.com',
+      to: notifyEmail,
       subject: `🔍 Запрос на поиск: ${productName}`,
       html: `
-        <p><b>Ищут:</b> ${productName}</p>
-        <p><b>Компания:</b> ${companyName}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Детали:</b> ${note || '-'}</p>
+        <p><b>Ищут:</b> ${escapeHtml(productName)}</p>
+       <p><b>Компания:</b> ${escapeHtml(companyName)}</p>
+       <p><b>Email:</b> ${escapeHtml(email)}</p>
+       <p><b>Детали:</b> ${escapeHtml(note || '-')}</p>
       `,
     })
-
-    return { success: true }
   } catch (err) {
-    console.error(err)
-    return { error: 'Ошибка сервера' }
+    console.error('Failed to send notification email:', err)
   }
+
+  return { success: true }
 }

@@ -66,7 +66,6 @@ export function FiltersSidebar({
             <CityFilter cities={cities} />
           </div>
 
-          {/* ToDO: Вставить блок "Не нашли что искали? Оставьте заявку */}
           <div className="pt-4 border-t border-dashed">
             <p className="text-xs text-muted-foreground mb-2">Не нашли нужную деталь?</p>
             <GeneralSearchModal />

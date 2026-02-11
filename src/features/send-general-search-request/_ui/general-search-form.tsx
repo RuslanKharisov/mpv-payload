@@ -141,7 +141,14 @@ export function GeneralSearchModal({ trigger }: { trigger?: React.ReactNode }) {
             />
 
             {/* Honeypot */}
-            <input type="text" {...form.register('website')} className="sr-only" tabIndex={-1} />
+            <input
+              type="text"
+              {...form.register('website')}
+              className="sr-only"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
 
             <PolicyLink title="Отправить запрос" />
             <Button type="submit" className="w-full" disabled={isPending}>
