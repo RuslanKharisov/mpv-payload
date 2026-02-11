@@ -1,9 +1,6 @@
 import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
 import { Payload } from 'payload'
 import z from 'zod'
-import { findAllCategoryChildrenIds } from '@/entities/category/lib/find-all-category-childrenIds'
-import { buildCategoryTreeMap } from '@/entities/category/lib/build-category-tree-map'
-import { getAllDescendantIds } from '@/entities/category/lib/get-all-descendant-ids'
 
 export const productsRouter = createTRPCRouter({
   stocksBySlug: baseProcedure
