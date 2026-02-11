@@ -40,6 +40,16 @@ export const Brands: CollectionConfig = {
           'Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках',
       },
     },
+    {
+      name: 'productCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+      },
+      label: 'Кол-во товаров бренда',
+    },
     ...slugField('name'),
   ],
 }

@@ -14,6 +14,7 @@ const getBrands = cache(async (): Promise<Brand[]> => {
     select: {
       name: true,
       slug: true,
+      productCount: true,
     },
   })
 

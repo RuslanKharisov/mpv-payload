@@ -26,17 +26,13 @@ export function CategoryFilter({ allCategories, pageTitle }: CategoryFilterProps
 
   // 2. Подготовка элементов (БЕРЕМ ДАННЫЕ ИЗ ОБЪЕКТА)
   const categoryItems = useMemo(() => {
-    return categories.map((category) => {
-      const isActive = activeCategorySlug === category.slug
-      // ВАЖНО: берем productCount, который пришел с сервера
-      const count = category.productCount || 0
-
-      return {
+    return categories
+      .map((category) => ({
         category,
-        isActive,
-        productCount: count,
-      }
-    })
+        isActive: activeCategorySlug === category.slug,
+        productCount: category.productCount || 0,
+      }))
+      .sort((a, b) => b.productCount - a.productCount)
   }, [categories, activeCategorySlug])
 
   // 3. Логика кнопки "Назад" (без изменений)
@@ -71,26 +67,24 @@ export function CategoryFilter({ allCategories, pageTitle }: CategoryFilterProps
         className="animate-in fade-in slide-in-from-left-2 duration-500"
       >
         <FilterAccordion title={pageTitle || title} defaultVisibleCount={10}>
-          <ul className="space-y-1">
-            {categoryItems.map(({ category, isActive, productCount }) => (
-              <li key={category.id} className="flex items-center justify-between">
-                <button
-                  onClick={() => setFilter('category', category.slug!)}
-                  className={cn(
-                    'hover:text-destructive text-sm text-left flex-1 transition-colors',
-                    isActive ? 'text-destructive font-medium' : '',
-                  )}
-                >
-                  {category.title}
-                </button>
-                {productCount > 0 && (
-                  <Badge variant="secondary" className="rounded-xl ml-2 font-normal">
-                    {productCount}
-                  </Badge>
+          {categoryItems.map(({ category, isActive, productCount }) => (
+            <li key={category.id} className="flex items-center justify-between">
+              <button
+                onClick={() => setFilter('category', category.slug!)}
+                className={cn(
+                  'hover:text-destructive text-sm text-left flex-1 transition-colors',
+                  isActive ? 'text-destructive font-medium' : '',
                 )}
-              </li>
-            ))}
-          </ul>
+              >
+                {category.title}
+              </button>
+              {productCount > 0 && (
+                <Badge variant="secondary" className="rounded-xl ml-2 font-normal">
+                  {productCount}
+                </Badge>
+              )}
+            </li>
+          ))}
         </FilterAccordion>
       </div>
     </div>

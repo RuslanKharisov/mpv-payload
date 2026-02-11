@@ -7,10 +7,7 @@ import { skuNormalizedField } from '@/payload/fields/skuNormalized/skuNormalized
 import { slugField } from '@/payload/fields/slug'
 import { CollectionConfig } from 'payload'
 import { afterReadHook } from './hooks/afterReadHook'
-import {
-  syncCategoryProductCounts,
-  syncCategoryProductCountsOnDelete,
-} from './hooks/syncCategoryProductCounts'
+import { syncProductStats, syncProductStatsOnDelete } from './hooks/syncProductStats'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -32,8 +29,8 @@ export const Products: CollectionConfig = {
   },
   hooks: {
     afterRead: [afterReadHook],
-    afterChange: [syncCategoryProductCounts],
-    afterDelete: [syncCategoryProductCountsOnDelete],
+    afterChange: [syncProductStats],
+    afterDelete: [syncProductStatsOnDelete],
   },
   fields: [
     {

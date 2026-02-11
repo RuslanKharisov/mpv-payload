@@ -339,6 +339,7 @@ export interface Brand {
    * Отметьте, чтобы бренд отображался в сетке на главной странице или других блоках
    */
   isPromoted?: boolean | null;
+  productCount?: number | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1685,6 +1686,7 @@ export interface BrandsSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   isPromoted?: T;
+  productCount?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

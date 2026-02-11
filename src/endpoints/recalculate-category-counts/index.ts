@@ -1,4 +1,7 @@
-import { updateCategoryHierarchy } from '@/payload/collections/Products/hooks/syncCategoryProductCounts'
+import {
+  updateBrandCount,
+  updateCategoryHierarchy,
+} from '@/payload/collections/Products/hooks/syncProductStats'
 import { Endpoint } from 'payload'
 
 export const recalculateCountsEndpoint: Endpoint = {
@@ -10,24 +13,31 @@ export const recalculateCountsEndpoint: Endpoint = {
     const { payload } = req
 
     try {
-      // 1. Сбрасываем все счетчики в 0
-      await payload.update({
-        collection: 'product-categories',
-        where: { id: { exists: true } },
-        data: { productCount: 0 },
-      })
+      // 1. Очистка счетчиков
+
+      await Promise.all([
+        payload.update({
+          collection: 'product-categories',
+          where: { id: { exists: true } },
+          data: { productCount: 0 },
+        }),
+        payload.update({
+          collection: 'brands',
+          where: { id: { exists: true } },
+          data: { productCount: 0 },
+        }),
+      ])
 
       // 2. Получаем все опубликованные товары
-      // Используйте depth: 0 для скорости
       const products = await payload.find({
         collection: 'products',
         limit: 0,
         depth: 0,
       })
 
-      // 3. Используем нашу функцию для каждого товара
-      // Важно: импортируйте updateCategoryHierarchy из вашего файла хуков
+      // 3. Пересчет количества
       for (const product of products.docs) {
+        // Пересчет категорий
         if (product.productCategory) {
           const catId =
             typeof product.productCategory === 'object'
@@ -35,6 +45,13 @@ export const recalculateCountsEndpoint: Endpoint = {
               : product.productCategory
 
           await updateCategoryHierarchy(payload, catId, 1)
+        }
+
+        // Пересчет брендов (теперь тоже через функцию-помощник)
+        if (product.brand) {
+          const brandId = typeof product.brand === 'object' ? product.brand.id : product.brand
+
+          await updateBrandCount(payload, brandId, 1)
         }
       }
 
