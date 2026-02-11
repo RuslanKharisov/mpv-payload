@@ -1,7 +1,13 @@
 import { CollectionBeforeChangeHook } from 'payload'
 
 export const fillLocationData: CollectionBeforeChangeHook = async ({ data, req: { payload } }) => {
-  if (data.warehouse) {
+  if (!data.warehouse) {
+    data._city = null
+    data._region = null
+    return data
+  }
+
+  {
     try {
       // 1. Находим склад
       const warehouse = await payload.findByID({
