@@ -223,6 +223,10 @@ export interface ProductCategory {
    * Отметьте, чтобы категория отображалась в сетке на главной странице или других блоках
    */
   isPromoted?: boolean | null;
+  /**
+   * Количество товаров в этой категории и её подкатегориях
+   */
+  productCount?: number | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1667,6 +1671,7 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
   breadcrumb?: T;
   depth?: T;
   isPromoted?: T;
+  productCount?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

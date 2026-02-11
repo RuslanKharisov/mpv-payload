@@ -43,12 +43,13 @@ import { Warehouses } from './payload/collections/Warehouses'
 import { importStocksEndpoint } from './endpoints/import-stocks'
 import { SiteSettings } from './payload/globals/SettingsGlobal'
 import { Icons } from './payload/collections/Icons'
+import { recalculateCountsEndpoint } from './endpoints/recalculate-category-counts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  endpoints: [importStocksEndpoint],
+  endpoints: [importStocksEndpoint, recalculateCountsEndpoint],
   cors: [getServerSideURL()].filter(Boolean),
   csrf: [getServerSideURL()].filter(Boolean),
   i18n: {

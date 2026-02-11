@@ -1,9 +1,8 @@
 'use client'
 
 import { cn } from '@/shared/utilities/ui'
-import React from 'react'
 import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import React from 'react'
 
 import {
   Pagination,
