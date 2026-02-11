@@ -3,12 +3,13 @@ import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
 import { setStockDefaults } from './hooks/set-stock-defaults'
 import { checkWarehouseCapacity } from './hooks/check-warehouse-capacity'
+import { fillLocationData } from './hooks/fillLocationData'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
   hooks: {
     beforeValidate: [setStockDefaults],
-    beforeChange: [checkWarehouseCapacity],
+    beforeChange: [checkWarehouseCapacity, fillLocationData],
   },
   labels: { singular: 'СКЛАД', plural: 'СКЛАД' },
   access: {
@@ -136,6 +137,7 @@ export const Stocks: CollectionConfig = {
       },
     },
   ],
+
   indexes: [
     {
       fields: ['product', 'tenant', 'warehouse'],
