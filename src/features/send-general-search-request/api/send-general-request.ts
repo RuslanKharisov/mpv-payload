@@ -39,7 +39,7 @@ export async function sendGeneralSearchRequest(formData: GeneralSearchRequestVal
         <p><b>Ищут:</b> ${escapeHtml(productName)}</p>
        <p><b>Компания:</b> ${escapeHtml(companyName)}</p>
        <p><b>Email:</b> ${escapeHtml(email)}</p>
-       <p><b>Phone:</b> ${phone && escapeHtml(phone)}</p>
+       <p><b>Телефон:</b> ${escapeHtml(phone || '-')}</p>
        <p><b>Детали:</b> ${escapeHtml(note || '-')}</p>
       `,
     })
