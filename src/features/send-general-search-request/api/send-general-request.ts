@@ -29,7 +29,10 @@ export async function sendGeneralSearchRequest(formData: GeneralSearchRequestVal
   const payload = await getPayload({ config: configPromise })
 
   const notifyEmail = process.env.SEARCH_REQUEST_NOTIFY_EMAIL
-  if (!notifyEmail) throw new Error('SEARCH_REQUEST_NOTIFY_EMAIL is not configured')
+  if (!notifyEmail) {
+    console.error('SEARCH_REQUEST_NOTIFY_EMAIL is not configured')
+    return { error: 'Ошибка сервера' }
+  }
 
   try {
     await payload.sendEmail({
