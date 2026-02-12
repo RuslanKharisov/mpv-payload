@@ -7,6 +7,14 @@ import {
   GeneralSearchSchema,
 } from '@/entities/search-request/_domain/schemas'
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 export async function sendGeneralSearchRequest(formData: GeneralSearchRequestValues) {
   const validated = GeneralSearchSchema.safeParse(formData)
   if (!validated.success) return { error: 'Некорректные данные' }
@@ -19,14 +27,6 @@ export async function sendGeneralSearchRequest(formData: GeneralSearchRequestVal
   const { productName, email, phone, companyName, note } = validated.data
 
   const payload = await getPayload({ config: configPromise })
-
-  function escapeHtml(str: string): string {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-  }
 
   const notifyEmail = process.env.SEARCH_REQUEST_NOTIFY_EMAIL
   if (!notifyEmail) throw new Error('SEARCH_REQUEST_NOTIFY_EMAIL is not configured')
