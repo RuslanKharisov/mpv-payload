@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useConfig, toast, useAuth } from '@payloadcms/ui'
 import { Button } from '@/shared/ui/button'
 import { useRouter } from 'next/navigation'
+import { isHidden } from '@/payload/access/isHidden'
 
 export default function RecalculateCountsButton() {
   const router = useRouter()
@@ -11,10 +12,7 @@ export default function RecalculateCountsButton() {
   const [isLoading, setIsLoading] = useState(false)
 
   const { user } = useAuth()
-  const isSuperAdmin = user?.roles?.includes('super-admin')
-
-  // Скрываем кнопку, если роль не подтверждена.
-  if (!isSuperAdmin) return null
+  if (!isHidden(user)) return null
 
   const serverURL = config.serverURL
   const api = config.routes?.api || '/api'
