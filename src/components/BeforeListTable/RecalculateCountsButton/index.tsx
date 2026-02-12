@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useConfig, toast } from '@payloadcms/ui'
+import { useConfig, toast, useAuth } from '@payloadcms/ui'
 import { Button } from '@/shared/ui/button'
 import { useRouter } from 'next/navigation'
 
@@ -9,6 +9,12 @@ export default function RecalculateCountsButton() {
   const router = useRouter()
   const { config } = useConfig()
   const [isLoading, setIsLoading] = useState(false)
+
+  const { user } = useAuth()
+  const isSuperAdmin = user?.roles?.includes('super-admin')
+
+  // Скрываем кнопку, если роль не подтверждена.
+  if (!isSuperAdmin) return null
 
   const serverURL = config.serverURL
   const api = config.routes?.api || '/api'
