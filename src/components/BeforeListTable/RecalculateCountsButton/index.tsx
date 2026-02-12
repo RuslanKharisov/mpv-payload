@@ -1,14 +1,18 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useConfig, toast } from '@payloadcms/ui'
+import { useConfig, toast, useAuth } from '@payloadcms/ui'
 import { Button } from '@/shared/ui/button'
 import { useRouter } from 'next/navigation'
+import { isHidden } from '@/payload/access/isHidden'
 
 export default function RecalculateCountsButton() {
   const router = useRouter()
   const { config } = useConfig()
   const [isLoading, setIsLoading] = useState(false)
+
+  const { user } = useAuth()
+  if (!isHidden(user)) return null
 
   const serverURL = config.serverURL
   const api = config.routes?.api || '/api'
