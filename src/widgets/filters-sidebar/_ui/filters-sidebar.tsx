@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { ConditionFilter } from './condition-filter'
 import { CityFilter } from './city-filter'
 import { RegionFilter } from './region-filter'
+import { GeneralSearchModal } from '@/features/send-general-search-request/_ui/general-search-form'
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]
@@ -65,13 +66,10 @@ export function FiltersSidebar({
             <CityFilter cities={cities} />
           </div>
 
-          {/* ToDO: Вставить блок "Не нашли что искали? Оставьте заявку */}
-          {/* <div className="pt-4 border-t border-dashed">
+          <div className="pt-4 border-t border-dashed">
             <p className="text-xs text-muted-foreground mb-2">Не нашли нужную деталь?</p>
-            <button className="text-sm font-semibold text-destructive hover:underline">
-              Оставить запрос на поиск
-            </button>
-          </div> */}
+            <GeneralSearchModal />
+          </div>
         </div>
       </div>
     </>
