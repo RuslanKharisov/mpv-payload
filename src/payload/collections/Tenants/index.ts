@@ -21,7 +21,7 @@ export const Tenants: CollectionConfig = {
   access: {
     create: isSuperAdminAccess,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {
