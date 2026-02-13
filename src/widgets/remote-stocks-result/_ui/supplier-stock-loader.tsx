@@ -17,7 +17,6 @@ export async function SupplierStockLoader({
 }) {
   const searchQuery = JSON.stringify(filters)
   const url = `${supplier.apiUrl}?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
-  console.log('supplier ==> ', supplier)
 
   try {
     const response: StockResponse = await serverClient.remoteStocks.getByUrl({ url })

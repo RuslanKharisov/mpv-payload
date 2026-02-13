@@ -2,7 +2,7 @@ import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
-import notFound from '../../not-found'
+import notFound from '../../../not-found'
 
 type Args = {
   params: Promise<{ slug?: string }>

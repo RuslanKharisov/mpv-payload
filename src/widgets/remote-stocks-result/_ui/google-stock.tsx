@@ -10,7 +10,7 @@ import { Tenant } from '@/payload-types'
 interface GoogleStockProps {
   dataArray: any[]
   count: number
-  supplier: Tenant // ✅ Добавляем supplier в props
+  supplier?: Tenant
 }
 
 function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Element {
