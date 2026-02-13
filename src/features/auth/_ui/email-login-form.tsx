@@ -39,7 +39,6 @@ export function EmailLoginForm() {
     },
   })
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log('login data: ', data)
     loginUser(data)
   }
 
