@@ -1,4 +1,3 @@
-// src/widgets/warehouses/google-config.tsx
 'use client'
 
 import { StockResponse } from '@/entities/remote-stock/_domain/tstock-response'
@@ -24,7 +23,11 @@ export function GoogleSheetsConfig() {
   const trpc = useTRPC()
   const searchParams = useSearchParams()
 
-  const supplier = user.tenants?.[0].tenant as Tenant
+  const supplier = user.tenants?.[0]?.tenant as Tenant | undefined
+
+  if (!supplier) {
+    return <div>Поставщик не зарегистрирован или не закреплен</div>
+  }
 
   // Читаем параметры из URL
   const page = useMemo(() => Number(searchParams.get('page')) || 1, [searchParams])
