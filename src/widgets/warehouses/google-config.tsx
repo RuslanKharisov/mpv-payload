@@ -50,13 +50,17 @@ export function GoogleSheetsConfig() {
     const filters = { sku: '', description: '' }
     const searchQuery = JSON.stringify(filters)
 
-    const url = new URL(supplier.apiUrl!)
-    url.searchParams.set('token', supplier.apiToken!)
-    url.searchParams.set('page', page.toString())
-    url.searchParams.set('per_page', perPage.toString())
-    url.searchParams.set('filters', searchQuery)
+    try {
+      const url = new URL(supplier.apiUrl!)
+      url.searchParams.set('token', supplier.apiToken!)
+      url.searchParams.set('page', page.toString())
+      url.searchParams.set('per_page', perPage.toString())
+      url.searchParams.set('filters', searchQuery)
 
-    return url.toString()
+      return url.toString()
+    } catch {
+      return null
+    }
   }, [hasSavedConfig, supplier.apiUrl, supplier.apiToken, page, perPage])
 
   // Запрос с сохранением предыдущих данных
@@ -86,13 +90,17 @@ export function GoogleSheetsConfig() {
     const filters = { sku: '', description: '' }
     const searchQuery = JSON.stringify(filters)
 
-    const url = new URL(tempApiUrl.trim())
-    url.searchParams.set('token', tempApiToken.trim())
-    url.searchParams.set('page', page.toString())
-    url.searchParams.set('per_page', perPage.toString())
-    url.searchParams.set('filters', searchQuery)
+    try {
+      const url = new URL(tempApiUrl.trim())
+      url.searchParams.set('token', tempApiToken.trim())
+      url.searchParams.set('page', page.toString())
+      url.searchParams.set('per_page', perPage.toString())
+      url.searchParams.set('filters', searchQuery)
 
-    return url.toString()
+      return url.toString()
+    } catch {
+      return null
+    }
   }
 
   // Проверка подключения
