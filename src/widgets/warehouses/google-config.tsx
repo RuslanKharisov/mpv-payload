@@ -4,7 +4,6 @@ import { StockResponse } from '@/entities/remote-stock/_domain/tstock-response'
 import { updateRemoteConfig } from '@/entities/tenant/api/update-remote-config'
 import { Tenant } from '@/payload-types'
 import { useUser } from '@/shared/providers/UserProvider'
-import { useTRPC } from '@/shared/trpc/client'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Input } from '@/shared/ui/input'
@@ -15,19 +14,13 @@ import { ExternalLink, Loader2, RefreshCw, Save } from 'lucide-react'
 import { useState, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
 import { GoogleStock } from '../remote-stocks-result/_ui/google-stock'
-import { Spinner } from '@/shared/ui/spinner'
 
 export function GoogleSheetsConfig() {
   const [isSaving, setIsSaving] = useState(false)
   const user = useUser()
-  const trpc = useTRPC()
   const searchParams = useSearchParams()
 
-  const supplier = user.tenants?.[0]?.tenant as Tenant | undefined
-
-  if (!supplier) {
-    return <div>Поставщик не зарегистрирован или не закреплен</div>
-  }
+  const supplier = user.tenants?.[0].tenant as Tenant
 
   // Читаем параметры из URL
   const page = useMemo(() => Number(searchParams.get('page')) || 1, [searchParams])
@@ -64,15 +57,18 @@ export function GoogleSheetsConfig() {
   }, [hasSavedConfig, supplier.apiUrl, supplier.apiToken, page, perPage])
 
   // Запрос с сохранением предыдущих данных
-  const {
-    data,
-    refetch: refetchPreview,
-    isFetching,
-  } = useQuery({
-    ...trpc.remoteStocks.getByUrl.queryOptions({ url: previewUrl! }),
+  const { data, isFetching } = useQuery({
+    queryKey: ['remote-stocks-preview', previewUrl],
+    queryFn: async () => {
+      const response = await fetch(previewUrl!)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result: StockResponse = await response.json()
+      return result
+    },
     enabled: !!previewUrl,
     placeholderData: (previousData) => {
-      // Сохраняем и возвращаем предыдущие данные
       if (previousData) {
         lastSuccessfulData.current = previousData
       }
@@ -89,7 +85,6 @@ export function GoogleSheetsConfig() {
 
     const filters = { sku: '', description: '' }
     const searchQuery = JSON.stringify(filters)
-
     try {
       const url = new URL(tempApiUrl.trim())
       url.searchParams.set('token', tempApiToken.trim())
@@ -114,23 +109,25 @@ export function GoogleSheetsConfig() {
     if (!checkUrl) return
 
     try {
-      const result = await refetchPreview()
+      // ✅ Прямой запрос к временному URL
+      const response = await fetch(checkUrl)
 
-      // Проверяем наличие ошибки
-      if (result.isError || result.error) {
-        toast.error('Ошибка подключения: ' + (result.error?.message || 'Неизвестная ошибка'))
-        return
+      if (!response.ok) {
+        throw new Error(`Ошибка ${response.status}: ${response.statusText}`)
       }
 
+      const result: StockResponse = await response.json()
+
       // Проверяем наличие данных
-      if (!result.data || !result.data.data) {
+      if (!result.data || result.data.length === 0) {
         toast.error('Нет данных. Проверьте корректность URL и токена.')
         return
       }
 
       toast.success('Подключение работает!')
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Ошибка подключения')
+      const errorMessage = err instanceof Error ? err.message : 'Ошибка подключения'
+      toast.error(errorMessage)
     }
   }
 
@@ -234,14 +231,10 @@ export function GoogleSheetsConfig() {
         <Card>
           <CardHeader>
             <CardTitle>Предпросмотр</CardTitle>
-            <CardDescription className="font-bold">
-              {isFetching ? (
-                <span className="text-destructive flex items-start gap-3">
-                  Загрузка ... <Spinner className="w-4 h-4" />{' '}
-                </span>
-              ) : (
-                `Показано ${displayData.data.length} позиций из ${displayData.meta.total}`
-              )}
+            <CardDescription>
+              {isFetching
+                ? 'Загрузка...'
+                : `Показано ${displayData.data.length} позиций из ${displayData.meta.total}`}
             </CardDescription>
           </CardHeader>
           <CardContent>
