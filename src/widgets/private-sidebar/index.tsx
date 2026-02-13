@@ -74,7 +74,7 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
 
       <SidebarFooter className="border-t">
         <SidebarMenuButton asChild>
-          <Link href="/clients">
+          <Link href="/supplier">
             <UserIcon height={16} />
             <span>{user?.email}</span>
           </Link>
