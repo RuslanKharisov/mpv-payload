@@ -5,7 +5,7 @@ import { RemoteStock } from '../_domain/remote-stock'
 import { AddToCartCell } from '../_ui/add-to-cart-cell'
 import { Tenant } from '@/payload-types'
 
-export const ProductsTableColumns = (supplier: Tenant): ColumnDef<RemoteStock>[] => [
+export const ProductsTableColumns = (supplier?: Tenant): ColumnDef<RemoteStock>[] => [
   {
     accessorKey: 'sku',
     header: 'Артикул',
@@ -86,7 +86,7 @@ export const ProductsTableColumns = (supplier: Tenant): ColumnDef<RemoteStock>[]
     enableHiding: false,
     cell: ({ row }) => {
       const stock = row.original
-      return <AddToCartCell stock={stock} supplier={supplier} />
+      return supplier ? <AddToCartCell stock={stock} supplier={supplier} /> : null
     },
   },
 ]

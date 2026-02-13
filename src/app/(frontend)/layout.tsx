@@ -4,9 +4,9 @@ import { cn } from '@/shared/utilities/ui'
 import { Inter } from 'next/font/google'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/widgets/footer/Component'
-import { Header } from '@/widgets/header/Component'
+// import { AdminBar } from '@/components/AdminBar'
+// import { Footer } from '@/widgets/footer/Component'
+// import { Header } from '@/widgets/header/Component'
 import { Providers } from '@/shared/providers'
 import { InitTheme } from '@/shared/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
@@ -16,7 +16,7 @@ import './globals.css'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import YandexMetrikaContainer from '@/shared/utilities/YandexMetrika'
 import { Toaster } from '@/shared/ui/sonner'
-import { generateMeta } from '@/shared/utilities/generateMeta'
+// import { generateMeta } from '@/shared/utilities/generateMeta'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -36,17 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
-        <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
+        <Providers>{children}</Providers>
         <Toaster richColors position="top-right" />
         <YandexMetrikaContainer enabled={analyticsEnabled} />
       </body>
