@@ -9,7 +9,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">
-      <h1 className="text-lg font-semibold">Профиль компании</h1>
+      <h1 className="text-lg font-semibold">Профиль компании!</h1>
       {/* <TenantProfileForm tenantId={tenant.id} /> */}
     </div>
   )
