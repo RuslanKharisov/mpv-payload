@@ -18,7 +18,6 @@ import {
   Boxes,
   Building2,
   CreditCard,
-  FileText,
   Inbox,
   LayoutDashboard,
   UserIcon,
@@ -26,7 +25,6 @@ import {
   WarehouseIcon,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 const supplierItems = [
   { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' },
