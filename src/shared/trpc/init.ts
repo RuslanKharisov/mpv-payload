@@ -32,7 +32,7 @@ export const baseProcedure = t.procedure.use(async ({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
   return next({
-    ctx,
+    ctx: { ...ctx, user: ctx.user },
   })
 })
 

@@ -73,19 +73,19 @@ async function fetchRemoteStock(
   return validationResult.data
 }
 
+const remoteStockInput = z.object({
+  tenantId: z.number().int(),
+  page: z.number().int().min(1).default(1),
+  perPage: z.number().int().min(1).max(100).default(5),
+  filters: z.object({
+    sku: z.string().default(''),
+    description: z.string().default(''),
+  }),
+})
+
 export const remoteStocksRouter = createTRPCRouter({
   getByUrl: baseProcedure
-    .input(
-      z.object({
-        tenantId: z.number().int(),
-        page: z.number().int().min(1).default(1),
-        perPage: z.number().int().min(1).max(100).default(5),
-        filters: z.object({
-          sku: z.string().default(''),
-          description: z.string().default(''),
-        }),
-      }),
-    )
+    .input(remoteStockInput)
     .output(StockResponseSchema)
     .query(async ({ ctx, input }) => {
       const { payload, user } = ctx
@@ -103,17 +103,7 @@ export const remoteStocksRouter = createTRPCRouter({
       return fetchRemoteStock(payload, input)
     }),
 
-  getByUrlPublic: ApiExternalProcedure.input(
-    z.object({
-      tenantId: z.number().int(),
-      page: z.number().int().min(1).default(1),
-      perPage: z.number().int().min(1).max(100).default(5),
-      filters: z.object({
-        sku: z.string().default(''),
-        description: z.string().default(''),
-      }),
-    }),
-  )
+  getByUrlPublic: ApiExternalProcedure.input(remoteStockInput)
     .output(StockResponseSchema)
     .query(async ({ ctx, input }) => {
       const { payload } = ctx

@@ -21,10 +21,15 @@ export default async function WarehousesPage() {
     return <div className="px-4 py-6">Нет привязанных компаний.</div>
   }
 
-  const supplier = (await payload.findByID({
-    collection: 'tenants',
-    id: currentTenantId,
-  })) as Tenant
+  let supplier: Tenant
+  try {
+    supplier = await payload.findByID({
+      collection: 'tenants',
+      id: currentTenantId,
+    })
+  } catch {
+    return <div className="px-4 py-6">Компания не найдена.</div>
+  }
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">
