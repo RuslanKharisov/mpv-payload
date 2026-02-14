@@ -21,7 +21,7 @@ export const Tenants: CollectionConfig = {
   slug: 'tenants',
   access: {
     create: isSuperAdminAccess,
-    delete: authenticated,
+    delete: isSuperAdminAccess,
     read: canReadTenant,
     update: authenticated,
   },

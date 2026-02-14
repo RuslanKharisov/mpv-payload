@@ -19,7 +19,9 @@ export default async function page({
   }
 
   const suppliersList = await getTenants()
-  const supplierWithApi = suppliersList.filter((supplier) => supplier.apiUrl != null)
+  const supplierWithApi = suppliersList.filter(
+    (supplier) => supplier.apiUrl && supplier.apiUrl.trim().length > 0,
+  )
 
   return (
     <div className="py-8 lg:py-24">

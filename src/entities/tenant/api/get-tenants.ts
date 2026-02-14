@@ -10,7 +10,6 @@ export async function getTenants() {
     const suppliersList = await payload.find({
       collection: 'tenants',
       depth: 2,
-      limit: 12,
       pagination: false,
     })
 

@@ -14,9 +14,7 @@ const defaultTenantArrayField = tenantsArrayField({
   tenantsCollectionSlug: 'tenants',
   tenantsArrayTenantFieldName: 'tenant',
   arrayFieldAccess: {
-    read: ({ req }) => {
-      return true
-    },
+    read: () => true,
     create: isSuperAdminFieldAccess,
     update: isSuperAdminFieldAccess,
   },

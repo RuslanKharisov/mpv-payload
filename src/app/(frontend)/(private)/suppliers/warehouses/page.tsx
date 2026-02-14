@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 import { getMeUser } from '@/shared/utilities/getMeUser'
+import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -7,15 +8,14 @@ import { Tenant } from '@/payload-types'
 // import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
 
 export default async function WarehousesPage() {
-  const { user } = await getMeUser()
+  const { user } = await getMeUser({ nullUserRedirect: '/login' })
   if (!user) {
     return null
   }
+
   const payload = await getPayload({ config: configPromise })
 
-  const tenantIds =
-    user.tenants?.map((t) => (typeof t.tenant === 'object' ? t.tenant.id : t.tenant)) ?? []
-
+  const tenantIds = getUserTenantIDs(user)
   const currentTenantId = tenantIds[0]
   if (!currentTenantId) {
     return <div className="px-4 py-6">Нет привязанных компаний.</div>
