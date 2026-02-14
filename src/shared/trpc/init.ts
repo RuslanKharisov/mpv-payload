@@ -1,34 +1,42 @@
-import { initTRPC } from '@trpc/server'
-import { getPayload } from 'payload'
 import config from '@payload-config'
+import { initTRPC, TRPCError } from '@trpc/server'
+import { getPayload } from 'payload'
 import { cache } from 'react'
 import superjson from 'superjson'
+import { getMeUser } from '../utilities/getMeUser'
 
+// 1) Функция контекста для одного запроса (RSC / server actions)
 export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: 'user_123' }
+  const payload = await getPayload({ config })
+
+  // getMeUser уже умеет доставать текущего пользователя из куки/сессии
+  // Returns null user during static generation when cookies() is not available
+  const { user } = await getMeUser()
+
+  return {
+    payload,
+    user,
+  }
 })
 
-const t = initTRPC.create({
-  /**
-   * @see https://trpc.io/docs/server/data-transformers
-   */
+// 2) Инициализация tRPC с типизированным контекстом
+const t = initTRPC.context<Awaited<ReturnType<typeof createTRPCContext>>>().create({
   transformer: superjson,
 })
 
 export const createTRPCRouter = t.router
-export const createCallerFactory = t.createCallerFactory
 
-export const baseProcedure = t.procedure.use(async ({ next }) => {
-  const payload = await getPayload({ config })
-
+// 3) Базовая процедура: гарантирует наличие payload + user в ctx
+export const baseProcedure = t.procedure.use(async ({ ctx, next }) => {
+  if (!ctx.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
+  }
   return next({
-    ctx: { payload },
+    ctx: { ...ctx, user: ctx.user },
   })
 })
 
+// 4) Внешняя процедура без доп. контекста (для совсем публичных вещей)
 export const ApiExternalProcedure = t.procedure.use(async ({ next }) => {
   return next()
 })

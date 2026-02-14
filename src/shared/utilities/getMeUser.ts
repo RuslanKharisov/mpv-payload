@@ -9,11 +9,23 @@ export const getMeUser = async (args?: {
   validUserRedirect?: string
 }): Promise<{
   token: string
-  user: User
+  user: User | null
 }> => {
   const { nullUserRedirect, validUserRedirect } = args || {}
-  const cookieStore = await cookies()
-  const token = cookieStore.get('payload-token')?.value
+
+  // Handle static generation context where cookies() is not available
+  let token: string | undefined
+  try {
+    const cookieStore = await cookies()
+    token = cookieStore.get('payload-token')?.value
+  } catch {
+    // During static generation, cookies() throws an error
+    // Return null user in this case
+    return {
+      token: '',
+      user: null,
+    }
+  }
 
   const meUserReq = await fetch(`${getClientSideURL()}/api/users/me`, {
     headers: {

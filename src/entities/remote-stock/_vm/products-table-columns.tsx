@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { RemoteStock } from '../_domain/remote-stock'
+import { RemoteStock } from '../_domain/tstock-response'
 import { AddToCartCell } from '../_ui/add-to-cart-cell'
 import { Tenant } from '@/payload-types'
 
@@ -48,11 +48,11 @@ export const ProductsTableColumns = (supplier?: Tenant): ColumnDef<RemoteStock>[
     enableHiding: false,
     cell: ({ row, column }) => {
       const newDeliveryQty1 = row.original.newDeliveryQty1
-      const newDeliveryDate1 = row.original.newDeliveryDate1!
+      const newDeliveryDate1 = row.original.newDeliveryDate1
         ? new Date(row.original.newDeliveryDate1).toLocaleDateString('ru-RU')
         : ''
       const newDeliveryQty2 = row.original.newDeliveryQty2
-      const newDeliveryDate2 = row.original.newDeliveryDate2!
+      const newDeliveryDate2 = row.original.newDeliveryDate2
         ? new Date(row.original.newDeliveryDate2).toLocaleDateString('ru-RU')
         : ''
       return (
@@ -60,7 +60,7 @@ export const ProductsTableColumns = (supplier?: Tenant): ColumnDef<RemoteStock>[
           data-title={column.columnDef.header as string}
           className="flex flex-col md:gap-2 md:text-xs"
         >
-          {newDeliveryQty1 > 0 ? (
+          {newDeliveryQty1 && newDeliveryQty1 > 0 ? (
             <p>
               {newDeliveryQty1} шт. <span>{newDeliveryDate1}</span>
             </p>
@@ -68,7 +68,7 @@ export const ProductsTableColumns = (supplier?: Tenant): ColumnDef<RemoteStock>[
             ''
           )}
 
-          {newDeliveryQty2 > 0 ? (
+          {newDeliveryQty2 && newDeliveryQty2 > 0 ? (
             <p>
               {newDeliveryQty2} шт. <span>{newDeliveryDate2}</span>
             </p>

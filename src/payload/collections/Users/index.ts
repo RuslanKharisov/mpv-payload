@@ -1,12 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
-import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
 import { anyone } from '@/payload/access/anyone'
-import { isSuperAdmin, isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 import { isHidden } from '@/payload/access/isHidden'
+import { isSuperAdmin, isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 import { generateForgotPasswordEmail } from '@/payload/email/generateForgotPasswordEmail'
 import { generateVerificationEmail } from '@/payload/email/generateVerificationEmail'
+import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
+import { authenticated, isAuthenticatedFieldAccess } from '../../access/authenticated'
 import { resendVerificationHandler } from './endpoints/resendVerification'
 
 const defaultTenantArrayField = tenantsArrayField({
@@ -15,13 +15,13 @@ const defaultTenantArrayField = tenantsArrayField({
   tenantsArrayTenantFieldName: 'tenant',
   arrayFieldAccess: {
     read: () => true,
-    create: () => true,
-    update: () => true,
+    create: isSuperAdminFieldAccess,
+    update: isSuperAdminFieldAccess,
   },
   tenantFieldAccess: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
+    read: isAuthenticatedFieldAccess,
+    create: isSuperAdminFieldAccess,
+    update: isSuperAdminFieldAccess,
   },
   rowFields: [
     {
@@ -31,6 +31,7 @@ const defaultTenantArrayField = tenantsArrayField({
       hasMany: true,
       options: ['tenant-admin', 'tenant-viewer'],
       required: true,
+      saveToJWT: true,
     },
   ],
 })
@@ -84,8 +85,9 @@ export const Users: CollectionConfig = {
     },
     {
       ...defaultTenantArrayField,
+      maxRows: 1,
       access: {
-        read: isSuperAdminFieldAccess,
+        read: isAuthenticatedFieldAccess,
         update: isSuperAdminFieldAccess,
         create: isSuperAdminFieldAccess,
       },

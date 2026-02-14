@@ -37,7 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
 
   return (
     // <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="container">
         <div className="py-3 flex justify-between">
           <div className="w-full flex items-center justify-between gap-x-8">
@@ -67,7 +67,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
           {/* Мобильное меню (контент) */}
           <div
             className={cn(
-              'bg-background fixed inset-0 z-40 max-w-[90%] transform pt-20 transition-all duration-500 md:w-[550px]',
+              'bg-background fixed inset-0 z-40 max-w-[90%] transform pt-20 transition-all duration-500 md:w-137.5',
               'lg:hidden',
               isOpen ? 'translate-x-0' : '-translate-x-full',
             )}

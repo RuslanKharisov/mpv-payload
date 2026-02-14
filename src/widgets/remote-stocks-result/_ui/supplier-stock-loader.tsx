@@ -1,10 +1,9 @@
-import { caller as serverClient } from '@/shared/trpc/server'
-import { StockResponse } from '@/entities/remote-stock/_domain/tstock-response'
-import { GoogleStock } from './google-stock'
 import { Tenant } from '@/payload-types'
-import { Card, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
+import { caller as serverClient } from '@/shared/trpc/server'
 import { Button } from '@/shared/ui/button'
+import { Card, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
 import Link from 'next/link'
+import { GoogleStock } from './google-stock'
 
 export async function SupplierStockLoader({
   supplier,
@@ -15,11 +14,13 @@ export async function SupplierStockLoader({
   filters: { sku: string; description: string }
   pagination: { page: string; perPage: string }
 }) {
-  const searchQuery = JSON.stringify(filters)
-  const url = `${supplier.apiUrl}?token=${supplier.apiToken}&page=${pagination.page}&per_page=${pagination.perPage}&filters=${searchQuery}`
-
   try {
-    const response: StockResponse = await serverClient.remoteStocks.getByUrl({ url })
+    const response = await serverClient.remoteStocks.getByUrlPublic({
+      tenantId: supplier.id,
+      filters,
+      page: Number(pagination.page) || 1,
+      perPage: Number(pagination.perPage) || 20,
+    })
 
     if (!response?.data?.length) {
       return null

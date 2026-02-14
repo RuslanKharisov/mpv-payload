@@ -35,7 +35,6 @@ export default function ImportStocksButton(props: BeforeListTableClientProps) {
           method: 'POST',
           body: formData,
         })
-        console.log('response ==> ', response)
         result = await response.json()
       } catch (error: any) {
         result.errors = [error.message || 'Критическая ошибка. Проверьте консоль сервера.']
