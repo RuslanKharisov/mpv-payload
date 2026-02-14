@@ -1,1 +1,1 @@
-export type { RemoteStock } from './_domain/remote-stock'
+export type { RemoteStock } from './_domain/tstock-response'
