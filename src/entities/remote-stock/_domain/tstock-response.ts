@@ -8,20 +8,20 @@ export const RemoteStockSchema = z.object({
   // Required fields
   sku: z.string(),
   description: z.string(),
-  quantity: z.number(),
+  quantity: z.coerce.number(),
   // Optional fields - external API may not provide these
   id: z.string().optional(),
   name: z.string().optional(),
   supplier: z.string().optional(),
-  supplierId: z.number().optional(),
+  supplierId: z.coerce.number().optional(),
   email: z.string().optional(),
   siteUrl: z.string().nullable().optional(),
-  newDeliveryQty1: z.number().optional(),
+  newDeliveryQty1: z.coerce.number().optional(),
   newDeliveryDate1: z.iso.datetime().or(z.date()).optional(),
-  newDeliveryQty2: z.number().optional(),
+  newDeliveryQty2: z.coerce.number().optional(),
   newDeliveryDate2: z.iso.datetime().or(z.date()).optional(),
   brand: z.string().optional(),
-  price: z.number().optional(),
+  price: z.coerce.number().optional(),
 })
 
 // Zod schema for runtime validation of StockResponse

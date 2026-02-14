@@ -41,7 +41,29 @@ async function fetchRemoteStock(
     pagination: { page: input.page, perPage: input.perPage },
   })
 
-  const response = await fetch(urlStr, { next: { revalidate: 60 } })
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s timeout
+
+  let response: Response
+  try {
+    response = await fetch(urlStr, {
+      next: { revalidate: 60 },
+      signal: controller.signal,
+    })
+  } catch (fetchError) {
+    clearTimeout(timeoutId)
+    if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+      throw new TRPCError({
+        code: 'GATEWAY_TIMEOUT',
+        message: 'External API request timed out after 10s',
+      })
+    }
+    throw new TRPCError({
+      code: 'BAD_GATEWAY',
+      message: `Failed to fetch external API: ${fetchError instanceof Error ? fetchError.message : String(fetchError)}`,
+    })
+  }
+  clearTimeout(timeoutId)
 
   if (!response.ok) {
     throw new TRPCError({
@@ -89,9 +111,6 @@ export const remoteStocksRouter = createTRPCRouter({
     .output(StockResponseSchema)
     .query(async ({ ctx, input }) => {
       const { payload, user } = ctx
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED' })
-      }
 
       const isInternalStaff =
         user.roles?.some((role) => ['super-admin', 'admin'].includes(role)) ?? false
