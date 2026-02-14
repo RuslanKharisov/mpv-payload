@@ -36,7 +36,14 @@ export const baseProcedure = t.procedure.use(async ({ ctx, next }) => {
   })
 })
 
-// 4) Внешняя процедура без доп. контекста (для совсем публичных вещей)
+// 4) Базовая процедура без проверки для публичных роутов
+export const baseProcedurePublic = t.procedure.use(async ({ ctx, next }) => {
+  return next({
+    ctx: { ...ctx, user: ctx.user },
+  })
+})
+
+// 5) Внешняя процедура без доп. контекста (для совсем публичных вещей)
 export const ApiExternalProcedure = t.procedure.use(async ({ next }) => {
   return next()
 })

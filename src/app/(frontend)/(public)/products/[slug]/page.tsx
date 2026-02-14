@@ -5,9 +5,9 @@ import { cache } from 'react'
 import configPromise from '@payload-config'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
 import { ProductTemplate } from '@/components/ProductTemplate'
-import { SupplierStockWidget } from '@/widgets/supplier-stocks'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { Metadata } from 'next'
+import { SupplierStockWidget } from '@/widgets/supplier-stocks'
 
 export const revalidate = 600
 

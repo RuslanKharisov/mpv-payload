@@ -15,7 +15,7 @@ type SupplierStockWidgetProps = {
 function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
   const trpc = useTRPC()
 
-  const stocksQueryOptions = trpc.products.stocksBySlug.queryOptions({ slug })
+  const stocksQueryOptions = trpc.products.stocksBySlugPublic.queryOptions({ slug })
   const { data, isError, isLoading } = useQuery(stocksQueryOptions)
 
   const datalist = data?.docs as StockWithTenantAndCurrency[]
