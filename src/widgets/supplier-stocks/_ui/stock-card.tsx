@@ -20,10 +20,10 @@ export function StockCard({ stock }: StockCardProps) {
   const tenant = typeof stock.tenant === 'object' ? stock.tenant : ({} as Tenant)
 
   return (
-    <Card className="relative block min-h-[166px] w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
+    <Card className="relative block min-h-41.5 w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
       <div className="grid grid-cols-[103px_1fr] gap-6 transition-all max-md:gap-2 max-md:gap-y-5 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
         {/* элемент сетки 1 */}
-        <div className="flex aspect-square max-h-[162px] min-h-[87px] min-w-[87px] max-w-[162px] items-center justify-center rounded border-1 border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-[132px] relative">
+        <div className="flex aspect-square max-h-40.5 min-h-21.75 min-w-21.75 max-w-40.5 items-center justify-center rounded border border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-33 relative">
           <ImageMedia
             resource={product.productImage}
             fill
@@ -34,7 +34,7 @@ export function StockCard({ stock }: StockCardProps) {
 
         {/* ------------ элемент сетки 1 -------------- */}
         <div className="flex flex-col md:gap-4">
-          <div className="w-fit gap-[6px]">
+          <div className="w-fit gap-1.5">
             <p className="text-sm uppercase text-[#4A4D58]">
               {(product.brand?.name && product.brand?.name) || 'Производитель'}
             </p>
@@ -48,7 +48,7 @@ export function StockCard({ stock }: StockCardProps) {
           </div>
 
           <div className="flex items-center gap-1 flex-wrap">
-            <dt className="flex flex-shrink-0 items-center gap-1.5">
+            <dt className="flex shrink-0 items-center gap-1.5">
               <span className="opacity-70">Доступность:</span>
             </dt>
             <dd className="truncate font-medium">

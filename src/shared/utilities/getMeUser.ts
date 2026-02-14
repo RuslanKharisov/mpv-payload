@@ -27,6 +27,14 @@ export const getMeUser = async (args?: {
     }
   }
 
+  // If no token, return null user immediately
+  if (!token) {
+    return {
+      token: '',
+      user: null,
+    }
+  }
+
   const meUserReq = await fetch(`${getClientSideURL()}/api/users/me`, {
     headers: {
       Authorization: `JWT ${token}`,
