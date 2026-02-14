@@ -15,7 +15,7 @@ export async function SupplierStockLoader({
   pagination: { page: string; perPage: string }
 }) {
   try {
-    const response = await serverClient.remoteStocks.getByUrl({
+    const response = await serverClient.remoteStocks.getByUrlPublic({
       tenantId: supplier.id,
       filters,
       page: Number(pagination.page) || 1,

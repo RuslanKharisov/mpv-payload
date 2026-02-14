@@ -9,5 +9,5 @@ export async function Header() {
   const headerData: Header = await getCachedGlobal('header', 1)()
   const { user } = await getMeUser()
 
-  return <HeaderClient data={headerData} userId={user?.id} />
+  return <HeaderClient data={headerData} userId={user?.id ?? null} />
 }

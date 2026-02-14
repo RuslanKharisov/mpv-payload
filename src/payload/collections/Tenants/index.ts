@@ -1,5 +1,6 @@
 import { anyone } from '@/payload/access/anyone'
 import { authenticated } from '@/payload/access/authenticated'
+import { canReadTenant } from '@/payload/access/canReadTenant'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { Archive } from '@/payload/blocks/ArchiveBlock/config'
 import { CallToAction } from '@/payload/blocks/CallToAction/config'
@@ -21,7 +22,7 @@ export const Tenants: CollectionConfig = {
   access: {
     create: isSuperAdminAccess,
     delete: authenticated,
-    read: authenticated,
+    read: canReadTenant,
     update: authenticated,
   },
   admin: {

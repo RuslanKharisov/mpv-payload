@@ -2,7 +2,6 @@
 
 import { updateRemoteConfig } from '@/entities/tenant/api/update-remote-config'
 import { Tenant } from '@/payload-types'
-import { useUser } from '@/shared/providers/UserProvider'
 import { useTRPC } from '@/shared/trpc/client'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
@@ -15,13 +14,14 @@ import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { GoogleStock } from '../remote-stocks-result/_ui/google-stock'
 
-export function GoogleSheetsConfig() {
+type GoogleSheetsConfigProps = {
+  supplier: Tenant
+}
+
+export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
   const [isSaving, setIsSaving] = useState(false)
-  const user = useUser()
   const trpc = useTRPC()
   const searchParams = useSearchParams()
-
-  const supplier = user.tenants?.[0].tenant as Tenant
 
   // Пагинация из URL
   const page = useMemo(() => Number(searchParams.get('page')) || 1, [searchParams])

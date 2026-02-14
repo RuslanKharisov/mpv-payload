@@ -1,10 +1,9 @@
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { getTenants } from '@/entities/tenant/api/get-tenants'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 import { StocksResults } from '@/widgets/remote-stocks-result'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
-import { Suspense } from 'react'
-import { generateMeta } from '@/shared/utilities/generateMeta'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export default async function page({
   searchParams,
@@ -19,15 +18,8 @@ export default async function page({
     perPage: sp.perPage ?? '5',
   }
 
-  const payload = await getPayload({ config: configPromise })
-
-  const suppliersList = await payload.find({
-    collection: 'tenants',
-    depth: 2,
-    limit: 12,
-  })
-
-  const supplierWithApi = suppliersList.docs.filter((supplier) => supplier.apiUrl != null)
+  const suppliersList = await getTenants()
+  const supplierWithApi = suppliersList.filter((supplier) => supplier.apiUrl != null)
 
   return (
     <div className="py-8 lg:py-24">
