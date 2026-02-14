@@ -47,8 +47,6 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
     placeholderData: (previousData) => previousData,
   })
 
-  const displayData = data
-
   // Сохранение в Tenant
   const handleSaveConfig = async () => {
     if (!tempApiUrl.trim() || !tempApiToken.trim()) {
@@ -135,18 +133,18 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
         </CardContent>
       </Card>
 
-      {displayData && displayData.data && displayData.data.length > 0 && (
+      {data && data.data && data.data.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Предпросмотр</CardTitle>
             <CardDescription>
               {isFetching
                 ? 'Загрузка...'
-                : `Показано ${displayData.data.length} позиций из ${displayData.meta.total}`}
+                : `Показано ${data.data.length} позиций из ${data.meta.total}`}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <GoogleStock dataArray={displayData.data} count={displayData.meta.total ?? 0} />
+            <GoogleStock dataArray={data.data} count={data.meta.total ?? 0} />
           </CardContent>
         </Card>
       )}
