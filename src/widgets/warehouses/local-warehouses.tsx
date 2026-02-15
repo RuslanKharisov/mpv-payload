@@ -57,6 +57,7 @@ function LocalWarehouses({
     })
   }, [pagination])
 
+  // ToDo Handle delete stock item
   const handleDelete = useCallback(() => {}, [])
 
   // Hide spinner shortly after transition completes to avoid flickering
