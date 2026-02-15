@@ -20,8 +20,8 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
 
   // Parse search params for pagination
   const sp = await searchParams
-  const page = parseInt(sp.page ?? '1', 10)
-  const perPage = parseInt(sp.perPage ?? '20', 10)
+  const page = Math.max(1, parseInt(sp.page, 10) || 1)
+  const perPage = Math.min(100, Math.max(1, parseInt(sp.perPage, 10) || 20))
 
   const payload = await getPayload({ config: configPromise })
 
@@ -41,8 +41,8 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
     return <div className="px-4 py-6">Компания не найдена.</div>
   }
 
-  // Fetch local stocks for the tenant
-  const { data: stocks, total } = await getStocksByTenant({ page, perPage })
+  // Fetch local stocks for the tenant (pass user to avoid double auth)
+  const { data: stocks, total } = await getStocksByTenant({ page, perPage }, user)
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useTransition, useState, JSX, useMemo } from 'react'
+import { useEffect, useTransition, useState, JSX, useMemo, useRef } from 'react'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Spinner } from '@/shared/ui/spinner'
@@ -39,8 +39,17 @@ function LocalWarehouses({
       pageSize: initialPerPage,
     })
   }, [initialPage, initialPerPage])
+  // Add setPagination if eslint exhaustive-deps warn
+
+  const isMounted = useRef(false)
 
   useEffect(() => {
+    // Skip first render to avoid unnecessary router.push on mount
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
+    }
+
     setShowSpinner(true)
 
     startTransition(() => {

@@ -2,23 +2,25 @@
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { getMeUser } from '@/shared/utilities/getMeUser'
-import type { Stock } from '@/payload-types'
+import type { Currency, Product, Stock, User, Warehouse } from '@/payload-types'
 
-export async function getStocksByTenant(params: { page: number; perPage: number }): Promise<{
+type PopulatedStock = Stock & {
+  product: Product
+  warehouse?: Warehouse | null
+  currency: Currency
+}
+
+export async function getStocksByTenant(
+  params: { page: number; perPage: number },
+  user?: User | null,
+): Promise<{
   data: Stock[]
   total: number
   page: number
   perPage: number
 }> {
-  const { user } = await getMeUser()
-
-  if (!user) {
-    throw new Error('UNAUTHORIZED')
-  }
-
   // Get tenantId from user's first tenant
-  const firstTenant = user.tenants?.[0]
+  const firstTenant = user?.tenants?.[0]
   if (!firstTenant) {
     return { data: [], total: 0, page: params.page, perPage: params.perPage }
   }
@@ -45,7 +47,7 @@ export async function getStocksByTenant(params: { page: number; perPage: number 
   })
 
   return {
-    data: result.docs as Stock[],
+    data: result.docs as PopulatedStock[],
     total: result.totalDocs,
     page: params.page,
     perPage: params.perPage,

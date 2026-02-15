@@ -12,7 +12,8 @@ export type LocalStockRow = Stock & {
 
 export const LocalStocksTableColumns: ColumnDef<LocalStockRow>[] = [
   {
-    accessorKey: 'sku',
+    id: 'sku',
+    accessorFn: (row) => row.product?.sku ?? '-',
     header: 'Артикул',
     cell: ({ row }) => {
       const product = row.original.product
@@ -20,7 +21,8 @@ export const LocalStocksTableColumns: ColumnDef<LocalStockRow>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    id: 'name',
+    accessorFn: (row) => row.product?.name ?? '-',
     header: 'Наименование',
     cell: ({ row }) => {
       const product = row.original.product

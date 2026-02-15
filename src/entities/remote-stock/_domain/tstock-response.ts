@@ -4,6 +4,12 @@ import { Tenant } from '@/payload-types'
 // Zod schema for runtime validation of RemoteStock
 // Only sku, description, and quantity are required - other fields are optional
 // to accommodate varying external API responses
+// Helper for optional numeric fields that should preserve null instead of coercing to 0
+const optionalNumber = z.preprocess(
+  (v) => (v === '' || v === undefined || v === null ? null : v),
+  z.number().nullable().optional(),
+)
+
 export const RemoteStockSchema = z.object({
   // Required fields
   sku: z.string(),
@@ -13,15 +19,15 @@ export const RemoteStockSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
   supplier: z.string().optional(),
-  supplierId: z.coerce.number().optional(),
+  supplierId: optionalNumber,
   email: z.string().optional(),
   siteUrl: z.string().nullable().optional(),
-  newDeliveryQty1: z.coerce.number().optional(),
+  newDeliveryQty1: optionalNumber,
   newDeliveryDate1: z.iso.datetime().or(z.date()).optional(),
-  newDeliveryQty2: z.coerce.number().optional(),
+  newDeliveryQty2: optionalNumber,
   newDeliveryDate2: z.iso.datetime().or(z.date()).optional(),
   brand: z.string().optional(),
-  price: z.coerce.number().optional(),
+  price: optionalNumber,
 })
 
 // Zod schema for runtime validation of StockResponse
