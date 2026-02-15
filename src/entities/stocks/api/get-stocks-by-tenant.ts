@@ -1,20 +1,15 @@
 'use server'
 
-import { getPayload } from 'payload'
+import type { User } from '@/payload-types'
 import configPromise from '@payload-config'
-import type { Currency, Product, Stock, User, Warehouse } from '@/payload-types'
-
-type PopulatedStock = Stock & {
-  product: Product
-  warehouse?: Warehouse | null
-  currency: Currency
-}
+import { getPayload } from 'payload'
+import { StockWithRelations } from '../model/stock-with-relations'
 
 export async function getStocksByTenant(
   params: { page: number; perPage: number },
   user?: User | null,
 ): Promise<{
-  data: Stock[]
+  data: StockWithRelations[]
   total: number
   page: number
   perPage: number
@@ -41,13 +36,27 @@ export async function getStocksByTenant(
         equals: tenantId,
       },
     },
-    depth: 2,
+    depth: 2, // Ensures product, currency, and warehouse are populated objects, not IDs
     page: params.page,
     limit: params.perPage,
   })
 
+  // Validate that depth: 2 correctly populated relations (product and currency are required)
+  // If relations are not populated (e.g., due to access control or data issues), filter them out
+  const validatedDocs = result.docs.filter((doc): doc is StockWithRelations => {
+    const hasProduct = typeof doc.product === 'object' && doc.product !== null
+    const hasCurrency = typeof doc.currency === 'object' && doc.currency !== null
+    if (!hasProduct || !hasCurrency) {
+      console.warn(
+        `[getStocksByTenant] Skipping stock ${doc.id}: missing populated relations (product: ${hasProduct}, currency: ${hasCurrency})`,
+      )
+      return false
+    }
+    return true
+  })
+
   return {
-    data: result.docs as PopulatedStock[],
+    data: validatedDocs,
     total: result.totalDocs,
     page: params.page,
     perPage: params.perPage,

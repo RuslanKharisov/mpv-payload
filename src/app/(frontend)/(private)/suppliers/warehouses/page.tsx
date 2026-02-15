@@ -4,9 +4,11 @@ import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
 import { getStocksByTenant } from '@/entities/stocks/api/get-stocks-by-tenant'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
+import { UploadExcelDialog } from '@/widgets/stocks/upload-excel-dialog'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Tenant } from '@/payload-types'
+import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
 
 interface WarehousesPageProps {
   searchParams: Promise<Record<string, string>>
@@ -55,6 +57,13 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
         </TabsList>
 
         <TabsContent value="local" className="pt-4">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-sm text-muted-foreground">
+              Управление локальными остатками в базе данных.
+            </div>
+            <UploadExcelDialogWithRefresh />
+          </div>
+
           <LocalWarehouses
             initialData={stocks}
             total={total}

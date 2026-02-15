@@ -21,9 +21,7 @@ export const Stocks: CollectionConfig = {
   admin: {
     useAsTitle: 'title_in_admin',
     group: 'Управление складом',
-    components: {
-      beforeListTable: ['@/payload/collections/Stocks/ui/ImportStocksButton'],
-    },
+    // Import button moved to frontend: src/widgets/stocks/upload-excel-dialog.tsx
   },
   fields: [
     { name: 'quantity', label: 'Количество', type: 'number', required: true },

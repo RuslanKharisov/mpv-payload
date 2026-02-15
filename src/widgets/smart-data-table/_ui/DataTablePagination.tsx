@@ -15,7 +15,7 @@ export function DataTablePagination<TData>({ table, totalCount }: DataTablePagin
         {table.getFilteredSelectedRowModel().rows.length} из{" "}
         {table.getFilteredRowModel().rows.length} строк(и) выбрано.
       </div> */}
-      <div className="flex w-[100px] items-center justify-center text-sm font-medium text-foreground/70">
+      <div className="flex w-25 items-center justify-center text-sm font-medium text-foreground/70">
         Найдено: {totalCount}
       </div>
       <div className="flex flex-wrap items-center justify-center gap-5 lg:space-x-8">
@@ -27,7 +27,7 @@ export function DataTablePagination<TData>({ table, totalCount }: DataTablePagin
               table.setPageSize(Number(value))
             }}
           >
-            <SelectTrigger className="h-8 w-[70px]">
+            <SelectTrigger className="h-8 w-17.5">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
@@ -39,7 +39,7 @@ export function DataTablePagination<TData>({ table, totalCount }: DataTablePagin
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        <div className="flex w-25 items-center justify-center text-sm font-medium">
           {table.getPageCount() > 0 ? (
             <>
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}

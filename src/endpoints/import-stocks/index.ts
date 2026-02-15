@@ -58,6 +58,12 @@ export const importStocksEndpoint: Endpoint = {
       const buffer = Buffer.from(await file.arrayBuffer())
       const workbook = XLSX.read(buffer, { type: 'buffer' })
       const sheetName = workbook.SheetNames[1]
+      if (!sheetName) {
+        return Response.json(
+          { success: false, error: 'Рабочая книга не содержит второго листа.' },
+          { status: 400 },
+        )
+      }
       const sheet = workbook.Sheets[sheetName]
 
       const rows: ImportStockTableRows[] = XLSX.utils.sheet_to_json(sheet)
@@ -105,7 +111,10 @@ export const importStocksEndpoint: Endpoint = {
         const currencyDoc = currencyResult.docs[0]
 
         if (!currencyDoc) {
-          errors.push(`Строка ${rowIndex}: Валюта с кодом '${currencyCode}' не найдена.`)
+          errors.push(
+            `Строка ${rowIndex}: Валюта с кодом '${currencyCode}' не найдена. ` +
+              `Обратитесь к администратору для добавления новой валюты.`,
+          )
           continue
         }
         const currencyId = currencyDoc.id // Теперь это всегда number
@@ -120,7 +129,10 @@ export const importStocksEndpoint: Endpoint = {
           })
           const warehouseDoc = warehouseResult.docs[0]
           if (!warehouseDoc) {
-            errors.push(`Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден.`)
+            errors.push(
+              `Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден. ` +
+                `Обратитесь к администратору для добавления нового склада.`,
+            )
             continue
           }
           warehouseId = warehouseDoc.id
@@ -135,7 +147,10 @@ export const importStocksEndpoint: Endpoint = {
             limit: 1,
           })
           if (!categoryResult.docs[0]) {
-            errors.push(`Строка ${rowIndex}: Категория '${categoryName}' не найдена.`)
+            errors.push(
+              `Строка ${rowIndex}: Категория '${categoryName}' не найдена. ` +
+                `Обратитесь к администратору для добавления новой категории.`,
+            )
             continue
           }
           categoryId = categoryResult.docs[0].id
@@ -150,7 +165,10 @@ export const importStocksEndpoint: Endpoint = {
             limit: 1,
           })
           if (!brandResult.docs[0]) {
-            errors.push(`Строка ${rowIndex}: Бренд '${brandName}' не найден.`)
+            errors.push(
+              `Строка ${rowIndex}: Бренд '${brandName}' не найден. ` +
+                `Обратитесь к администратору для добавления нового бренда.`,
+            )
             continue
           }
           brandId = brandResult.docs[0].id

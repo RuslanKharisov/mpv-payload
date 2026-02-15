@@ -1,15 +1,15 @@
 import { RegisterSchema } from '@/entities/user'
-import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
+import { LoginSchema } from '@/entities/user/_domain/schemas'
+import { baseProcedurePublic, createTRPCRouter } from '@/shared/trpc/init'
+import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
+import { isValidName } from '@/shared/utilities/isValidName'
+import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
 import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
-import { LoginSchema } from '@/entities/user/_domain/schemas'
-import { GenerateAuthCookies } from '@/shared/utilities/generateAuthCookies'
 import z from 'zod'
-import { verifyRecaptcha } from '@/shared/utilities/verifyRecaptcha'
-import { isValidName } from '@/shared/utilities/isValidName'
 
 export const authRouter = createTRPCRouter({
-  session: baseProcedure.query(async ({ ctx }) => {
+  session: baseProcedurePublic.query(async ({ ctx }) => {
     const headers = await getHeaders()
 
     const session = await ctx.payload.auth({ headers })
@@ -18,7 +18,7 @@ export const authRouter = createTRPCRouter({
   }),
 
   /**  Метод регистрации нового пользователя  */
-  register: baseProcedure
+  register: baseProcedurePublic
     .input(RegisterSchema)
 
     .mutation(async ({ input, ctx }) => {
@@ -98,7 +98,6 @@ export const authRouter = createTRPCRouter({
 
       try {
         // 2. Попытка создать пользователя
-        console.log('create ==> ')
         const newUser = await ctx.payload.create({
           collection: 'users',
           data: {
@@ -111,7 +110,6 @@ export const authRouter = createTRPCRouter({
 
         return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
       } catch (error) {
-        console.log('error ==> ', error)
         // 3. Если создание пользователя не удалось, удаляем тенант
         await ctx.payload.delete({ collection: 'tenants', id: tenant.id })
         throw new TRPCError({
@@ -123,7 +121,7 @@ export const authRouter = createTRPCRouter({
     }),
 
   /**  Метод входа пользователя  */
-  login: baseProcedure.input(LoginSchema).mutation(async ({ input, ctx }) => {
+  login: baseProcedurePublic.input(LoginSchema).mutation(async ({ input, ctx }) => {
     const data = await ctx.payload.login({
       collection: 'users',
       data: {
@@ -148,7 +146,7 @@ export const authRouter = createTRPCRouter({
   }),
 
   /** Метод для проверки почты */
-  verifyEmail: baseProcedure
+  verifyEmail: baseProcedurePublic
     .input(
       z.object({
         token: z.string(),
