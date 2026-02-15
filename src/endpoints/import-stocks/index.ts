@@ -124,7 +124,7 @@ export const importStocksEndpoint: Endpoint = {
           const warehouseDoc = warehouseResult.docs[0]
           if (!warehouseDoc) {
             errors.push(
-              `Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден.` +
+              `Строка ${rowIndex}: Склад с названием '${warehouseTitle}' не найден. ` +
                 `Обратитесь к администратору для добавления нового склада.`,
             )
             continue
