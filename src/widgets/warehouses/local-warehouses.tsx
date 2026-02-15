@@ -55,7 +55,7 @@ function LocalWarehouses({
       params.set('perPage', pagination.pageSize.toString())
       router.push(`?${params.toString()}`)
     })
-  }, [pagination])
+  }, [pagination, searchParams])
 
   const handleDelete = useCallback(() => {}, [])
 
