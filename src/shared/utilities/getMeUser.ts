@@ -20,7 +20,21 @@ export const getMeUser = async (args?: {
     token = cookieStore.get('payload-token')?.value
   } catch {
     // During static generation, cookies() throws an error
-    // Return null user in this case
+    // Redirect if nullUserRedirect is provided, otherwise return null user
+    if (nullUserRedirect) {
+      redirect(nullUserRedirect)
+    }
+    return {
+      token: '',
+      user: null,
+    }
+  }
+
+  // If no token, redirect if nullUserRedirect is provided, otherwise return null user
+  if (!token) {
+    if (nullUserRedirect) {
+      redirect(nullUserRedirect)
+    }
     return {
       token: '',
       user: null,
