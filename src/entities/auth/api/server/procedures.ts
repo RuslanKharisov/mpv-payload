@@ -98,7 +98,6 @@ export const authRouter = createTRPCRouter({
 
       try {
         // 2. Попытка создать пользователя
-        console.log('create ==> ')
         const newUser = await ctx.payload.create({
           collection: 'users',
           data: {
@@ -111,7 +110,6 @@ export const authRouter = createTRPCRouter({
 
         return { message: 'Пользователь успешно создан. Пожалуйста, подтвердите почту.' }
       } catch (error) {
-        console.log('error ==> ', error)
         // 3. Если создание пользователя не удалось, удаляем тенант
         await ctx.payload.delete({ collection: 'tenants', id: tenant.id })
         throw new TRPCError({
