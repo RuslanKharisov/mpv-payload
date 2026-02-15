@@ -1,15 +1,21 @@
 import { z } from 'zod'
 import { Tenant } from '@/payload-types'
 
+/**
+ * Helper to parse optional numeric fields from external API.
+ * External API may return numbers as strings, null, undefined, or empty strings.
+ * This transformer converts empty/null/undefined to null, and parses strings to numbers.
+ */
+const optionalNumberFromApi = z
+  .union([z.number(), z.string(), z.null(), z.undefined()])
+  .transform((v) => {
+    if (v === '' || v === undefined || v === null) return null
+    return typeof v === 'string' ? Number(v) : v
+  })
+
 // Zod schema for runtime validation of RemoteStock
 // Only sku, description, and quantity are required - other fields are optional
 // to accommodate varying external API responses
-// Helper for optional numeric fields that should preserve null instead of coercing to 0
-const optionalNumber = z.preprocess(
-  (v) => (v === '' || v === undefined || v === null ? null : v),
-  z.number().nullable().optional(),
-)
-
 export const RemoteStockSchema = z.object({
   // Required fields
   sku: z.string(),
@@ -19,15 +25,15 @@ export const RemoteStockSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
   supplier: z.string().optional(),
-  supplierId: optionalNumber,
+  supplierId: optionalNumberFromApi.optional(),
   email: z.string().optional(),
   siteUrl: z.string().nullable().optional(),
-  newDeliveryQty1: optionalNumber,
+  newDeliveryQty1: optionalNumberFromApi.optional(),
   newDeliveryDate1: z.iso.datetime().or(z.date()).optional(),
-  newDeliveryQty2: optionalNumber,
+  newDeliveryQty2: optionalNumberFromApi.optional(),
   newDeliveryDate2: z.iso.datetime().or(z.date()).optional(),
   brand: z.string().optional(),
-  price: optionalNumber,
+  price: optionalNumberFromApi.optional(),
 })
 
 // Zod schema for runtime validation of StockResponse

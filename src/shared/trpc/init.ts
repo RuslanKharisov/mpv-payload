@@ -32,7 +32,7 @@ export const baseProcedure = t.procedure.use(async ({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
   return next({
-    ctx: { ...ctx, user: ctx.user },
+    ctx: { ...ctx, user: ctx.user as NonNullable<typeof ctx.user> },
   })
 })
 
@@ -43,7 +43,9 @@ export const baseProcedurePublic = t.procedure.use(async ({ ctx, next }) => {
   })
 })
 
-// 5) Внешняя процедура без доп. контекста (для совсем публичных вещей)
-export const ApiExternalProcedure = t.procedure.use(async ({ next }) => {
-  return next()
+// 5) Внешняя процедура с payload в контексте (для совсем публичных вещей)
+export const ApiExternalProcedure = t.procedure.use(async ({ ctx, next }) => {
+  return next({
+    ctx: { ...ctx },
+  })
 })

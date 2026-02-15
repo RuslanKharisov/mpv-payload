@@ -125,7 +125,7 @@ export const remoteStocksRouter = createTRPCRouter({
   getByUrlPublic: ApiExternalProcedure.input(remoteStockInput)
     .output(StockResponseSchema)
     .query(async ({ ctx, input }) => {
-      const { payload } = ctx
+      const { payload } = ctx as { payload: Payload }
       return fetchRemoteStock(payload, input)
     }),
 })
