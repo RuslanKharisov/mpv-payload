@@ -58,6 +58,12 @@ export const importStocksEndpoint: Endpoint = {
       const buffer = Buffer.from(await file.arrayBuffer())
       const workbook = XLSX.read(buffer, { type: 'buffer' })
       const sheetName = workbook.SheetNames[1]
+      if (!sheetName) {
+        return Response.json(
+          { success: false, error: 'Рабочая книга не содержит второго листа.' },
+          { status: 400 },
+        )
+      }
       const sheet = workbook.Sheets[sheetName]
 
       const rows: ImportStockTableRows[] = XLSX.utils.sheet_to_json(sheet)
