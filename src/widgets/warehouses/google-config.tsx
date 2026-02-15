@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { GoogleStock } from '../remote-stocks-result/_ui/google-stock'
+import { Typography } from '@/shared/ui/typography'
 
 type GoogleSheetsConfigProps = {
   supplier: Tenant
@@ -133,21 +134,25 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
         </CardContent>
       </Card>
 
-      {data && data.data && data.data.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Предпросмотр</CardTitle>
-            <CardDescription>
-              {isFetching
-                ? 'Загрузка...'
-                : `Показано ${data.data.length} позиций из ${data.meta.total}`}
-            </CardDescription>
-          </CardHeader>
+      <Card>
+        <CardHeader>
+          <CardTitle>Предпросмотр</CardTitle>
+          <CardDescription>
+            {data && data.data && isFetching ? (
+              <Typography variant="inter-md-16" className="text-primary">
+                Секунда, данные загружаются...
+              </Typography>
+            ) : (
+              `Показано ${data?.data.length} позиций из ${data?.meta.total}`
+            )}
+          </CardDescription>
+        </CardHeader>
+        {data && data.data && data.data.length > 0 && (
           <CardContent>
             <GoogleStock dataArray={data.data} count={data.meta.total ?? 0} />
           </CardContent>
-        </Card>
-      )}
+        )}
+      </Card>
     </div>
   )
 }
