@@ -27,9 +27,9 @@ import {
 import Link from 'next/link'
 
 const supplierItems = [
-  { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' },
-  { href: '/suppliers/stocks', icon: Boxes, label: 'Товары' },
-  { href: '/suppliers/warehouses', icon: WarehouseIcon, label: 'Склады' },
+  { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' }, // Каталог и запасы
+  { href: '/suppliers/stocks', icon: Boxes, label: 'Складские запасы' }, // остатки, импорт, Google Локации
+  { href: '/suppliers/warehouses', icon: WarehouseIcon, label: 'Склады' }, // название, адрес, DaData
   { href: '/suppliers/requests', icon: Inbox, label: 'Заявки' },
   { href: '/suppliers/billing', icon: CreditCard, label: 'Тариф' },
   { href: '/suppliers/profile', icon: Building2, label: 'Компания' },
