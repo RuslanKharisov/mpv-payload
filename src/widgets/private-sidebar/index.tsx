@@ -1,6 +1,6 @@
 'use client'
 
-// import { LogoutButton } from '@/entities/auth/api/ui/LogoutButton'
+import { LogoutButton } from '@/features/auth/_ui/logout-button'
 import { User } from '@/payload-types'
 import { LogoIcon } from '@/shared/icons/logo-icon'
 import {
@@ -79,7 +79,9 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
             <span>{user?.email}</span>
           </Link>
         </SidebarMenuButton>
-        <SidebarMenuButton asChild>{/* <LogoutButton /> */}</SidebarMenuButton>
+        <SidebarMenuButton asChild>
+          <LogoutButton />
+        </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
   )
