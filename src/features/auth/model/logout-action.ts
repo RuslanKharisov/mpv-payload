@@ -19,8 +19,6 @@ export async function logoutAction() {
     return { success: true }
   } catch (error) {
     console.error('Logout error:', error)
-    throw new Error(
-      `Выход не удался: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`,
-    )
+    throw new Error('Выход не удался')
   }
 }

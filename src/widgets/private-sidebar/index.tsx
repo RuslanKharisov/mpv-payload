@@ -79,9 +79,7 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
             <span>{user?.email}</span>
           </Link>
         </SidebarMenuButton>
-        <SidebarMenuButton asChild>
-          <LogoutButton />
-        </SidebarMenuButton>
+        <LogoutButton />
       </SidebarFooter>
     </Sidebar>
   )

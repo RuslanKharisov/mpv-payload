@@ -36,13 +36,27 @@ export async function getStocksByTenant(
         equals: tenantId,
       },
     },
-    depth: 2,
+    depth: 2, // Ensures product, currency, and warehouse are populated objects, not IDs
     page: params.page,
     limit: params.perPage,
   })
 
+  // Validate that depth: 2 correctly populated relations (product and currency are required)
+  // If relations are not populated (e.g., due to access control or data issues), filter them out
+  const validatedDocs = result.docs.filter((doc): doc is StockWithRelations => {
+    const hasProduct = typeof doc.product === 'object' && doc.product !== null
+    const hasCurrency = typeof doc.currency === 'object' && doc.currency !== null
+    if (!hasProduct || !hasCurrency) {
+      console.warn(
+        `[getStocksByTenant] Skipping stock ${doc.id}: missing populated relations (product: ${hasProduct}, currency: ${hasCurrency})`,
+      )
+      return false
+    }
+    return true
+  })
+
   return {
-    data: result.docs as StockWithRelations[],
+    data: validatedDocs,
     total: result.totalDocs,
     page: params.page,
     perPage: params.perPage,

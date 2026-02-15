@@ -5,7 +5,7 @@ import { StockWithRelations } from '@/entities/stocks/model/stock-with-relations
 import { Spinner } from '@/shared/ui/spinner'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { JSX, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { JSX, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 
 interface LocalWarehousesProps {
   initialData: StockWithRelations[]
@@ -57,6 +57,8 @@ function LocalWarehouses({
     })
   }, [pagination])
 
+  const handleDelete = useCallback(() => {}, [])
+
   // Hide spinner shortly after transition completes to avoid flickering
   useEffect(() => {
     if (!isPending) {
@@ -79,7 +81,7 @@ function LocalWarehouses({
         pagination={pagination}
         rowCount={total}
         manualPagination={true}
-        handleDelete={() => {}}
+        handleDelete={handleDelete}
       />
     </div>
   )
