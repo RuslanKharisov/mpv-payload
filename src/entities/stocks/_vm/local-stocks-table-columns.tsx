@@ -1,14 +1,9 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import type { Stock, Product, Warehouse, Currency } from '@/payload-types'
+import { StockWithRelations } from '../model/stock-with-relations'
 
-// Type for Stock with populated relations
-export type LocalStockRow = Stock & {
-  product: Product
-  warehouse?: Warehouse | null
-  currency: Currency
-}
+export type LocalStockRow = StockWithRelations
 
 export const LocalStocksTableColumns: ColumnDef<LocalStockRow>[] = [
   {

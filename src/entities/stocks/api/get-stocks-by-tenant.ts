@@ -1,20 +1,15 @@
 'use server'
 
-import { getPayload } from 'payload'
+import type { User } from '@/payload-types'
 import configPromise from '@payload-config'
-import type { Currency, Product, Stock, User, Warehouse } from '@/payload-types'
-
-type PopulatedStock = Stock & {
-  product: Product
-  warehouse?: Warehouse | null
-  currency: Currency
-}
+import { getPayload } from 'payload'
+import { StockWithRelations } from '../model/stock-with-relations'
 
 export async function getStocksByTenant(
   params: { page: number; perPage: number },
   user?: User | null,
 ): Promise<{
-  data: Stock[]
+  data: StockWithRelations[]
   total: number
   page: number
   perPage: number
@@ -47,7 +42,7 @@ export async function getStocksByTenant(
   })
 
   return {
-    data: result.docs as PopulatedStock[],
+    data: result.docs as StockWithRelations[],
     total: result.totalDocs,
     page: params.page,
     perPage: params.perPage,

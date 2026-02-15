@@ -1,17 +1,14 @@
 'use client'
 
-import { useEffect, useTransition, useState, JSX, useMemo, useRef } from 'react'
+import { LocalStocksTableColumns } from '@/entities/stocks/_vm/local-stocks-table-columns'
+import { StockWithRelations } from '@/entities/stocks/model/stock-with-relations'
+import { Spinner } from '@/shared/ui/spinner'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Spinner } from '@/shared/ui/spinner'
-import {
-  LocalStocksTableColumns,
-  type LocalStockRow,
-} from '@/entities/stocks/_vm/local-stocks-table-columns'
-import type { Stock } from '@/payload-types'
+import { JSX, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 
 interface LocalWarehousesProps {
-  initialData: Stock[]
+  initialData: StockWithRelations[]
   total: number
   initialPage: number
   initialPerPage: number
@@ -76,8 +73,8 @@ function LocalWarehouses({
         </div>
       )}
       <DataTable
-        columns={columns as any}
-        data={initialData as LocalStockRow[]}
+        columns={columns}
+        data={initialData}
         onPaginationChange={setPagination}
         pagination={pagination}
         rowCount={total}
