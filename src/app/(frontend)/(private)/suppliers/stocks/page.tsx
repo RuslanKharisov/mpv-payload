@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
-import { getStocksByTenant } from '@/entities/stocks/api/get-stocks-by-tenant'
+import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
 import { UploadExcelDialog } from '@/widgets/stocks/upload-excel-dialog'
@@ -73,7 +73,6 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
         </TabsContent>
 
         <TabsContent value="google" className="pt-4">
-          Google Таблицы (API)
           <GoogleSheetsConfig supplier={supplier} />
         </TabsContent>
       </Tabs>

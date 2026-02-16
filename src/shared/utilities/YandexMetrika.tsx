@@ -18,9 +18,10 @@ const MetrikaTracker = ({ enabled }: { enabled: boolean }) => {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (!enabled || !YM_COUNTER_ID) return
+    if (!YM_COUNTER_ID) return
 
-    const url = pathname + searchParams.toString()
+    const search = searchParams.toString()
+    const url = pathname + (search ? `?${search}` : '')
 
     if (enabled) {
       ym('hit', url)
