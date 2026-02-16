@@ -1,7 +1,11 @@
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { getMeUser } from '@/shared/utilities/getMeUser'
+import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
 import { getWarehousesByTenant } from '@/entities/warehouse/api/get-warehouses-by-tenant'
 import { CreateWarehouseDialog } from '@/features/create-warehouse-dialog'
 import { WarehousesTable } from '@/widgets/warehouses-table'
+import { tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
 
 export default async function WarehousesPage() {
   const { user } = await getMeUser({ nullUserRedirect: '/login' })
@@ -9,8 +13,22 @@ export default async function WarehousesPage() {
     return null
   }
 
+  // Get tenant ID from user and pass only the ID (not the full user object) for security
+  const tenantIds = getUserTenantIDs(user)
+  const currentTenantId = tenantIds[0]
+  if (!currentTenantId) {
+    return <div className="px-4 py-6">Нет привязанных компаний.</div>
+  }
+
+  // Check if user has CAN_MANAGE_STOCK feature (super-admins always have access)
+  const payload = await getPayload({ config: configPromise })
+  const isSuperAdmin = user.roles?.includes('super-admin')
+  const canManageStock = isSuperAdmin
+    ? true
+    : await tenantHasActiveFeature(currentTenantId, 'CAN_MANAGE_STOCK', payload)
+
   // Fetch warehouses for the current tenant
-  const warehouses = await getWarehousesByTenant(user)
+  const warehouses = await getWarehousesByTenant(currentTenantId)
 
   return (
     <div className="space-y-4 px-4 lg:px-6 py-4 md:py-6">
@@ -21,7 +39,7 @@ export default async function WarehousesPage() {
             Управление вашими складами: название и адрес для импорта остатков.
           </p>
         </div>
-        <CreateWarehouseDialog />
+        {canManageStock && <CreateWarehouseDialog />}
       </div>
 
       {warehouses.length > 0 ? (

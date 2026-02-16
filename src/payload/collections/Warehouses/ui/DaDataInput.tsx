@@ -6,9 +6,10 @@ import './index.scss'
 type DaDataInputProps = {
   onSelect: (suggestion: any) => void // Изменили тип для ясности
   initialValue?: string
+  disabled?: boolean
 }
 
-export function DaDataInput({ onSelect, initialValue }: DaDataInputProps) {
+export function DaDataInput({ onSelect, initialValue, disabled = false }: DaDataInputProps) {
   const [inputValue, setInputValue] = useState(initialValue || '')
   const [suggestions, setSuggestions] = useState<any[]>([])
   const [isFocused, setIsFocused] = useState(false)
@@ -28,6 +29,7 @@ export function DaDataInput({ onSelect, initialValue }: DaDataInputProps) {
   }, [debouncedValue, isFocused])
 
   const handleSelectSuggestion = (suggestion: any) => {
+    if (disabled) return
     setIsFocused(false)
     setInputValue(suggestion.value)
     setSuggestions([])
@@ -44,8 +46,9 @@ export function DaDataInput({ onSelect, initialValue }: DaDataInputProps) {
         id="adress__find-input"
         data-slot="input"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onFocus={() => setIsFocused(true)}
+        disabled={disabled}
+        onChange={(e) => !disabled && setInputValue(e.target.value)}
+        onFocus={() => !disabled && setIsFocused(true)}
         // Скрываем список при потере фокуса, с небольшой задержкой, чтобы успел сработать onClick
         onBlur={() => setTimeout(() => setIsFocused(false), 200)}
       />

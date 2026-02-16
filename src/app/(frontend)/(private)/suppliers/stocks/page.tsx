@@ -42,8 +42,8 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
     return <div className="px-4 py-6">Компания не найдена.</div>
   }
 
-  // Fetch local stocks for the tenant (pass user to avoid double auth)
-  const { data: stocks, total } = await getStocksByTenant({ page, perPage }, user)
+  // Fetch local stocks for the tenant (pass only tenantId for security)
+  const { data: stocks, total } = await getStocksByTenant({ page, perPage }, currentTenantId)
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">

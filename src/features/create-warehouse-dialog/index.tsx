@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
-import { Checkbox } from '@/shared/ui/checkbox'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +22,6 @@ interface CreateWarehouseFormData {
   name: string
   addressText: string
   addressData: unknown
-  isDefault: boolean
 }
 
 export function CreateWarehouseDialog() {
@@ -36,7 +34,6 @@ export function CreateWarehouseDialog() {
     name: '',
     addressText: '',
     addressData: null,
-    isDefault: false,
   })
 
   const resetForm = useCallback(() => {
@@ -44,7 +41,6 @@ export function CreateWarehouseDialog() {
       name: '',
       addressText: '',
       addressData: null,
-      isDefault: false,
     })
     setError(null)
   }, [])
@@ -53,6 +49,19 @@ export function CreateWarehouseDialog() {
     setIsOpen(false)
     setTimeout(resetForm, 300)
   }, [resetForm])
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        // Dialog is closing - use handleClose to reset form
+        handleClose()
+      } else {
+        // Dialog is opening
+        setIsOpen(true)
+      }
+    },
+    [handleClose],
+  )
 
   const handleAddressChange = useCallback((payload: { text: string; raw: unknown }) => {
     setFormData((prev) => ({
@@ -93,7 +102,7 @@ export function CreateWarehouseDialog() {
   }, [formData, handleClose, router])
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
@@ -128,25 +137,8 @@ export function CreateWarehouseDialog() {
             label="Адрес склада"
             value={formData.addressText}
             onChange={handleAddressChange}
+            disabled={isLoading}
           />
-
-          {/* Is Default */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="warehouse-default"
-              checked={formData.isDefault}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  isDefault: checked === true,
-                }))
-              }
-              disabled={isLoading}
-            />
-            <Label htmlFor="warehouse-default" className="cursor-pointer">
-              Склад по умолчанию
-            </Label>
-          </div>
 
           {/* Error */}
           {error && (

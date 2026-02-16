@@ -20,9 +20,15 @@ export async function createNewWarehouse(
   // Super-admin has access in any case
   const isSuperAdmin = user.roles?.includes('super-admin')
 
-  const tenantId = getActiveTenantId(user)
-  if (!tenantId) {
+  const tenantIdRaw = getActiveTenantId(user)
+  if (!tenantIdRaw) {
     return { success: false, error: 'Не найден активный проект компании' }
+  }
+
+  // Validate and convert tenantId to number
+  const tenantId = typeof tenantIdRaw === 'string' ? parseInt(tenantIdRaw, 10) : tenantIdRaw
+  if (Number.isNaN(tenantId)) {
+    return { success: false, error: 'Некорректный идентификатор компании' }
   }
 
   // Check CAN_MANAGE_STOCK feature for current tenant
@@ -46,6 +52,11 @@ export async function createNewWarehouse(
     }
   }
 
+  // Validate input payload
+  if (!input || typeof input.title !== 'string') {
+    return { success: false, error: 'Укажите название склада' }
+  }
+
   if (!input.title.trim()) {
     return { success: false, error: 'Укажите название склада' }
   }
@@ -53,16 +64,16 @@ export async function createNewWarehouse(
   try {
     // Note: capacity and isDefault are NOT taken from client input
     // These are set by admin/tariff on server side only
+    // The beforeChange hook will resolve selectedAddressData into warehouse_address
     const doc = await payload.create({
       collection: 'warehouses',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: {
         title: input.title.trim(),
-        tenant: tenantId as number,
-        // selectedAddressData stores the raw DaData response for future use
+        tenant: tenantId,
+        // selectedAddressData is processed by the beforeChange hook to create/update
+        // the warehouse_address relationship. The hook sets warehouse_address and deletes this field.
         selectedAddressData: input.addressData as Record<string, unknown>,
-        // capacity is not set here - it will use default from collection config
-        // or be set by super-admin later
       } as any,
     })
 

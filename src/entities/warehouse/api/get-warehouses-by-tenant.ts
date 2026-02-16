@@ -1,20 +1,12 @@
 'use server'
 
-import type { User } from '@/payload-types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { UiWarehouse } from '../model/types'
 
-export async function getWarehousesByTenant(user?: User | null): Promise<UiWarehouse[]> {
-  // Get tenantId from user's first tenant
-  const firstTenant = user?.tenants?.[0]
-  if (!firstTenant) {
-    return []
-  }
-
-  const tenantId =
-    typeof firstTenant.tenant === 'object' ? firstTenant.tenant.id : firstTenant.tenant
-
+export async function getWarehousesByTenant(
+  tenantId?: string | number | null,
+): Promise<UiWarehouse[]> {
   if (!tenantId) {
     return []
   }
@@ -28,7 +20,7 @@ export async function getWarehousesByTenant(user?: User | null): Promise<UiWareh
         equals: tenantId,
       },
     },
-    depth: 1, // Populate warehouse_address relationship
+    depth: 1,
   })
 
   // Map to simplified Warehouse type with address string
