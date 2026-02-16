@@ -1,6 +1,7 @@
+import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
+import { isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 import { CollectionConfig } from 'payload'
 import { beforeChangeHook } from './hooks/resolveAddress'
-import { isSuperAdminFieldAccess } from '@/payload/access/isSuperAdmin'
 
 export const Warehouses: CollectionConfig = {
   slug: 'warehouses',
@@ -8,9 +9,9 @@ export const Warehouses: CollectionConfig = {
   admin: { useAsTitle: 'title', group: 'Управление складом' },
   access: {
     read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    create: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
+    update: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
+    delete: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
   },
   hooks: {
     beforeChange: [beforeChangeHook],

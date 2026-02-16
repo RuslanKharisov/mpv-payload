@@ -1,6 +1,8 @@
 import { cn } from '@/shared/utilities/ui'
 
 export type TypographyVariant =
+  | 'display-48'
+  | 'heading-36'
   | 'inter-bold-48'
   | 'inter-bold-36'
   | 'inter-md-24'
@@ -17,11 +19,14 @@ interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const variantStyles: Record<TypographyVariant, string> = {
-  'inter-bold-48': 'text-[48px] leading-[120%] font-[family-name:inter] font-bold',
-  'inter-bold-36': 'text-[36px] leading-[120%] font-[family-name:inter] font-bold',
-  'inter-md-24': 'text-[24px] leading-[120%] var(--font-inter) font-medium',
-  'inter-md-16': 'text-[16px] leading-[20px] var(--font-inter) font-medium',
-  'inter-reg-14': 'text-[14px] leading-[20px] var(--font-inter) font-normal',
+  'display-48': 'font-serif font-bold text-[48px] leading-tight',
+  'heading-36': 'font-serif font-bold text-[36px] leading-snug',
+  'inter-md-24': 'font-sans font-medium text-[24px]',
+  'inter-reg-14': 'font-sans font-normal text-[14px]',
+
+  'inter-bold-48': 'font-sans text-[48px] leading-[120%] font-bold',
+  'inter-bold-36': 'font-sans text-[36px] leading-[120%] font-bold',
+  'inter-md-16': 'font-sans text-[16px] leading-[20px] font-medium',
 }
 
 export const Typography = ({

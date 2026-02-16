@@ -1,14 +1,13 @@
+import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
+import { Tenant } from '@/payload-types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
-import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
+import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
-import { UploadExcelDialog } from '@/widgets/stocks/upload-excel-dialog'
-import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { Tenant } from '@/payload-types'
-import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
+import { getPayload } from 'payload'
 
 interface WarehousesPageProps {
   searchParams: Promise<Record<string, string>>
@@ -43,8 +42,8 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
     return <div className="px-4 py-6">Компания не найдена.</div>
   }
 
-  // Fetch local stocks for the tenant (pass user to avoid double auth)
-  const { data: stocks, total } = await getStocksByTenant({ page, perPage }, user)
+  // Fetch local stocks for the tenant (pass only tenantId for security)
+  const { data: stocks, total } = await getStocksByTenant({ page, perPage }, currentTenantId)
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">

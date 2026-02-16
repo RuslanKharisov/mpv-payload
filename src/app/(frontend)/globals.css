@@ -7,16 +7,6 @@
 @config '../../../tailwind.config.mjs';
 
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: unset;
-    font-weight: unset;
-  }
-
   :root {
     --spacing: 0.25rem;
     --header-height: 4rem;
@@ -115,15 +105,19 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground min-h-screen flex flex-col overflow-x-hidden;
-  }
-
   h1,
   h2,
   h3,
-  h4 {
-    @apply tracking-tight! font-extrabold;
+  h4,
+  h5,
+  h6 {
+    @apply font-serif tracking-tight;
+    font-size: unset;
+    font-weight: unset;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-screen flex flex-col overflow-x-hidden font-sans;
   }
 
   p,
