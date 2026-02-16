@@ -1,18 +1,32 @@
 'use server'
 
-import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { getMeUser } from '@/shared/utilities/getMeUser'
+import type { Stock } from '@/payload-types'
 import { StockWithRelations } from '../model/stock-with-relations'
 
-export async function getStocksByTenant(
-  params: { page: number; perPage: number },
-  tenantId?: string | number | null,
-): Promise<{
+export async function getStocksByTenant(params: { page: number; perPage: number }): Promise<{
   data: StockWithRelations[]
   total: number
   page: number
   perPage: number
 }> {
+  const { user } = await getMeUser()
+
+  if (!user) {
+    throw new Error('UNAUTHORIZED')
+  }
+
+  // Get tenantId from user's first tenant
+  const firstTenant = user.tenants?.[0]
+  if (!firstTenant) {
+    return { data: [], total: 0, page: params.page, perPage: params.perPage }
+  }
+
+  const tenantId =
+    typeof firstTenant.tenant === 'object' ? firstTenant.tenant.id : firstTenant.tenant
+
   if (!tenantId) {
     return { data: [], total: 0, page: params.page, perPage: params.perPage }
   }
@@ -26,28 +40,14 @@ export async function getStocksByTenant(
         equals: tenantId,
       },
     },
-    depth: 2, // Ensures product, currency, and warehouse are populated objects, not IDs
+    depth: 2,
     page: params.page,
     limit: params.perPage,
   })
 
-  // Validate that depth: 2 correctly populated relations (product and currency are required)
-  // If relations are not populated (e.g., due to access control or data issues), filter them out
-  const validatedDocs = result.docs.filter((doc): doc is StockWithRelations => {
-    const hasProduct = typeof doc.product === 'object' && doc.product !== null
-    const hasCurrency = typeof doc.currency === 'object' && doc.currency !== null
-    if (!hasProduct || !hasCurrency) {
-      console.warn(
-        `[getStocksByTenant] Skipping stock ${doc.id}: missing populated relations (product: ${hasProduct}, currency: ${hasCurrency})`,
-      )
-      return false
-    }
-    return true
-  })
-
   return {
-    data: validatedDocs,
-    total: validatedDocs.length,
+    data: result.docs as StockWithRelations[],
+    total: result.totalDocs,
     page: params.page,
     perPage: params.perPage,
   }
