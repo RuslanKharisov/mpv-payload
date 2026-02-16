@@ -1,46 +1,63 @@
 'use client'
 
-import Router from 'next/router'
-import React, { useCallback, useEffect } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import React, { useEffect, Suspense } from 'react'
 import ym, { YMInitializer } from 'react-yandex-metrika'
 
 type Props = {
   enabled: boolean
 }
 
-const YM_COUNTER_ID = 1234567898 // Replace with your Yandex Metrika counter ID
+const RAW_ID = process.env.NEXT_PUBLIC_YM_COUNTER_ID
+const YM_COUNTER_ID = RAW_ID ? Number(RAW_ID) : null
 
-const YandexMetrikaContainer: React.FC<Props> = ({ enabled }) => {
-  const hit = useCallback(
-    (url: string) => {
-      if (enabled) {
-        ym('hit', url)
-      } else {
-        console.log(`%c[YandexMetrika](HIT)`, `color: orange`, url)
-      }
-    },
-    [enabled],
-  )
+// Внутренний компонент для отслеживания переходов
+// Выделен отдельно, чтобы использовать Suspense (требование Next.js для useSearchParams)
+const MetrikaTracker = ({ enabled }: { enabled: boolean }) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
-    hit(window.location.pathname + window.location.search)
-    Router.events.on('routeChangeComplete', (url: string) => hit(url))
-  }, [hit])
+    if (!YM_COUNTER_ID) return
 
-  if (!enabled) return null
+    const search = searchParams.toString()
+    const url = pathname + (search ? `?${search}` : '')
+
+    if (enabled) {
+      ym('hit', url)
+    } else {
+      console.log(`%c[YandexMetrika](HIT)`, `color: orange`, url)
+    }
+  }, [pathname, searchParams, enabled])
+
+  return null
+}
+
+const YandexMetrikaContainer: React.FC<Props> = ({ enabled }) => {
+  // Если метрика выключена или нет ID, вообще ничего не рендерим
+  if (!enabled || !YM_COUNTER_ID) {
+    return null
+  }
 
   return (
-    <YMInitializer
-      accounts={[YM_COUNTER_ID]}
-      options={{
-        defer: true,
-        webvisor: true,
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true,
-      }}
-      version="2"
-    />
+    <>
+      {/* Suspense обязателен в App Router при использовании useSearchParams */}
+      <Suspense fallback={null}>
+        <MetrikaTracker enabled={enabled} />
+      </Suspense>
+
+      <YMInitializer
+        accounts={[YM_COUNTER_ID]}
+        options={{
+          defer: true, // Позволяет нам вручную отправлять 'hit' через useEffect
+          webvisor: true,
+          clickmap: true,
+          trackLinks: true,
+          accurateTrackBounce: true,
+        }}
+        version="2"
+      />
+    </>
   )
 }
 
