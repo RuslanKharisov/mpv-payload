@@ -6,26 +6,21 @@ import { getMeUser } from '@/shared/utilities/getMeUser'
 import type { Stock } from '@/payload-types'
 import { StockWithRelations } from '../model/stock-with-relations'
 
-export async function getStocksByTenant(params: { page: number; perPage: number }): Promise<{
+export interface GetStocksByTenantParams {
+  page: number
+  perPage: number
+  tenantId?: string | number | null
+}
+
+export async function getStocksByTenant(params: GetStocksByTenantParams): Promise<{
   data: StockWithRelations[]
   total: number
   page: number
   perPage: number
 }> {
-  const { user } = await getMeUser()
-
-  if (!user) {
-    throw new Error('UNAUTHORIZED')
-  }
-
-  // Get tenantId from user's first tenant
-  const firstTenant = user.tenants?.[0]
-  if (!firstTenant) {
-    return { data: [], total: 0, page: params.page, perPage: params.perPage }
-  }
-
-  const tenantId =
-    typeof firstTenant.tenant === 'object' ? firstTenant.tenant.id : firstTenant.tenant
+  const page = Math.max(1, Math.floor(params.page) || 1)
+  const perPage = Math.min(100, Math.max(1, Math.floor(params.perPage) || 20))
+  const tenantId = params.tenantId
 
   if (!tenantId) {
     return { data: [], total: 0, page: params.page, perPage: params.perPage }
@@ -41,14 +36,14 @@ export async function getStocksByTenant(params: { page: number; perPage: number 
       },
     },
     depth: 2,
-    page: params.page,
-    limit: params.perPage,
+    page: page,
+    limit: perPage,
   })
 
   return {
     data: result.docs as StockWithRelations[],
     total: result.totalDocs,
-    page: params.page,
-    perPage: params.perPage,
+    page: page,
+    perPage: perPage,
   }
 }

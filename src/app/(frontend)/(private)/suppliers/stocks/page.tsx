@@ -43,7 +43,11 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
   }
 
   // Fetch local stocks for the tenant
-  const { data: stocks, total } = await getStocksByTenant({ page, perPage })
+  const { data: stocks, total } = await getStocksByTenant({
+    page,
+    perPage,
+    tenantId: currentTenantId,
+  })
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">
