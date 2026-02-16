@@ -24,9 +24,9 @@ const variantStyles: Record<TypographyVariant, string> = {
   'inter-md-24': 'font-sans font-medium text-[24px]',
   'inter-reg-14': 'font-sans font-normal text-[14px]',
 
-  'inter-bold-48': 'text-[48px] leading-[120%] font-[family-name:inter] font-bold',
-  'inter-bold-36': 'text-[36px] leading-[120%] font-[family-name:inter] font-bold',
-  'inter-md-16': 'text-[16px] leading-[20px] var(--font-inter) font-medium',
+  'inter-bold-48': 'font-sans text-[48px] leading-[120%] font-bold',
+  'inter-bold-36': 'font-sans text-[36px] leading-[120%] font-bold',
+  'inter-md-16': 'font-sans text-[16px] leading-[20px] font-medium',
 }
 
 export const Typography = ({
