@@ -1,7 +1,7 @@
 'use client'
 
-import { LocalStocksTableColumns } from '@/entities/stocks/_vm/local-stocks-table-columns'
-import { StockWithRelations } from '@/entities/stocks/model/stock-with-relations'
+import { LocalStocksTableColumns } from '@/entities/stock/_vm/local-stocks-table-columns'
+import { StockWithRelations } from '@/entities/stock/model/stock-with-relations'
 import { Spinner } from '@/shared/ui/spinner'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'

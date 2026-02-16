@@ -1,14 +1,13 @@
+import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
+import { Tenant } from '@/payload-types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
-import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
+import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
-import { UploadExcelDialog } from '@/widgets/stocks/upload-excel-dialog'
-import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { Tenant } from '@/payload-types'
-import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
+import { getPayload } from 'payload'
 
 interface WarehousesPageProps {
   searchParams: Promise<Record<string, string>>
