@@ -139,9 +139,7 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
           <CardTitle>Предпросмотр</CardTitle>
           <CardDescription>
             {data && data.data && isFetching ? (
-              <Typography variant="inter-md-16" className="text-primary">
-                Секунда, данные загружаются...
-              </Typography>
+              <Typography className="text-primary">Секунда, данные загружаются...</Typography>
             ) : (
               `Показано ${data?.data.length} позиций из ${data?.meta.total}`
             )}

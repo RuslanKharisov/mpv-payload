@@ -51,3 +51,18 @@ export async function getStocksByTenant(params: GetStocksByTenantParams): Promis
     perPage: perPage,
   }
 }
+
+//  ToDo: Рекомендуется добавить легковесную проверку во время выполнения
+// Вариант 1: Фильтрация с валидацией (рекомендуемый)
+// const validatedDocs = result.docs.filter((doc): doc is StockWithRelations => {
+//   const hasProduct = typeof doc.product === 'object' && doc.product !== null
+//   const hasCurrency = typeof doc.currency === 'object' && doc.currency !== null
+//   return hasProduct && hasCurrency
+// })
+
+// return {
+//   data: validatedDocs,
+//   total: result.totalDocs, // общее количество из базы
+//   page: params.page,
+//   perPage: params.perPage,
+// }

@@ -16,18 +16,10 @@ async function page() {
   return (
     <div className="relative isolate px-6 py-3 lg:py-16 lg:px-8 ">
       <div className="mx-auto max-w-4xl text-center">
-        <Typography variant="inter-md-16" tag="h1">
-          Цены
-        </Typography>
-        <Typography variant="inter-bold-48" tag="p">
-          Выберите подходящий тариф
-        </Typography>
+        <Typography tag="h1">Цены</Typography>
+        <Typography tag="p">Выберите подходящий тариф</Typography>
       </div>
-      <Typography
-        variant="inter-md-24"
-        tag="p"
-        className="mx-auto mt-6 max-w-2xl text-center opacity-80"
-      >
+      <Typography tag="p" className="mx-auto mt-6 max-w-2xl text-center opacity-80">
         Выберите доступный тариф с лучшими функциями для взаимодействия с аудиторией, повышения
         лояльности клиентов и стимулирования продаж.
       </Typography>
@@ -37,14 +29,14 @@ async function page() {
             key={tariff.id}
             className={cn(
               idx % 2 !== 0
-                ? 'relative bg-gray-900 shadow-2xl dark:bg-gray-800 dark:shadow-none'
-                : 'bg-white/60 sm:mx-8 lg:mx-0 dark:bg-white/[0.025]',
-              'flex flex-col p-8 ring-1 ring-gray-900/10 sm:p-10 dark:ring-white/10',
+                ? 'relative bg-card shadow-2xl dark:shadow-none'
+                : 'bg-background/60 sm:mx-8 lg:mx-0 dark:bg-background/2.5',
+              'flex flex-col p-8 ring-1 ring-border sm:p-10 dark:ring-border',
             )}
           >
             <h3
               className={cn(
-                idx % 2 !== 0 ? 'text-indigo-400' : 'text-indigo-600 dark:text-indigo-400',
+                idx % 2 !== 0 ? 'text-primary' : 'text-primary dark:text-primary',
                 'text-base/7 font-semibold',
               )}
             >
@@ -53,7 +45,7 @@ async function page() {
             <p className="mt-4 flex items-baseline gap-x-2">
               <span
                 className={cn(
-                  idx % 2 !== 0 ? 'text-white' : 'text-gray-900 dark:text-white',
+                  idx % 2 !== 0 ? 'text-foreground' : 'text-foreground dark:text-foreground',
                   'text-5xl font-semibold tracking-tight',
                 )}
               >
@@ -61,7 +53,9 @@ async function page() {
               </span>
               <span
                 className={cn(
-                  idx % 2 !== 0 ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400',
+                  idx % 2 !== 0
+                    ? 'text-muted-foreground'
+                    : 'text-muted-foreground dark:text-muted-foreground',
                   'text-base',
                 )}
               >
@@ -70,7 +64,9 @@ async function page() {
             </p>
             <p
               className={cn(
-                idx % 2 !== 0 ? 'text-gray-300' : 'text-gray-600 dark:text-gray-300',
+                idx % 2 !== 0
+                  ? 'text-muted-foreground'
+                  : 'text-muted-foreground dark:text-muted-foreground',
                 'mt-6 text-base/7',
               )}
             >
@@ -79,8 +75,10 @@ async function page() {
             <ul
               role="list"
               className={cn(
-                idx % 2 !== 0 ? 'text-gray-300' : 'text-gray-600 dark:text-gray-300',
-                'mt-8 space-y-3 text-sm/6 sm:mt-10 flex-grow',
+                idx % 2 !== 0
+                  ? 'text-muted-foreground'
+                  : 'text-muted-foreground dark:text-muted-foreground',
+                'mt-8 space-y-3 text-sm/6 sm:mt-10 grow',
               )}
             >
               {tariff.benefits?.map((benefit) => (
@@ -88,7 +86,7 @@ async function page() {
                   <CheckIcon
                     aria-hidden="true"
                     className={cn(
-                      idx % 2 !== 0 ? 'text-indigo-400' : 'text-indigo-600 dark:text-indigo-400',
+                      idx % 2 !== 0 ? 'text-primary' : 'text-primary dark:text-primary',
                       'h-6 w-5 flex-none',
                     )}
                   />
@@ -100,9 +98,9 @@ async function page() {
               href={tariff.name}
               className={cn(
                 idx % 2 !== 0
-                  ? 'bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500 dark:shadow-none'
-                  : 'text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline-indigo-600 dark:bg-white/10 dark:text-white dark:ring-white/5 dark:hover:bg-white/20 dark:hover:ring-white/5 dark:focus-visible:outline-white/75',
-                'mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10',
+                  ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-primary dark:shadow-none'
+                  : 'text-primary ring-1 ring-inset ring-border hover:ring-border/80 focus-visible:outline-primary dark:bg-secondary dark:text-secondary-foreground dark:ring-border dark:hover:bg-secondary/80 dark:hover:ring-border dark:focus-visible:outline-secondary',
+                'mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-offset-2 sm:mt-10',
               )}
             >
               Get started today

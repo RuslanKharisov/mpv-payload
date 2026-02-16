@@ -37,13 +37,6 @@ const config = {
         sm: '1rem',
         xl: '2rem',
       },
-      screens: {
-        '2xl': '86rem',
-        lg: '64rem',
-        md: '48rem',
-        sm: '40rem',
-        xl: '80rem',
-      },
     },
     extend: {
       animation: {
@@ -113,62 +106,45 @@ const config = {
             {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': 'var(--text)',
+
+              // mobile (по умолчанию)
               h1: {
                 fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                marginBottom: '0.25em',
+                fontWeight: '800',
                 fontSize: '1.5rem',
               },
               h2: {
                 fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
+                fontWeight: '700',
                 fontSize: '1.25rem',
               },
               h3: {
                 fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
+                fontWeight: '600',
+                fontSize: '1.0rem',
               },
-              h4: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
+              p: {
+                fontFamily: 'var(--font-inter), sans-serif',
               },
-              h5: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
-              },
-              h6: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
+              li: {
+                fontFamily: 'var(--font-inter), sans-serif',
               },
             },
           ],
         },
-        base: {
+        lg: {
           css: [
             {
+              '--tw-prose-body': 'var(--text)',
+              '--tw-prose-headings': 'var(--text)',
               h1: {
-                fontSize: '2.5rem',
+                fontSize: '2.4rem',
               },
               h2: {
+                fontSize: '2.0rem',
+              },
+              h3: {
                 fontSize: '1.25rem',
-                fontWeight: 600,
-              },
-            },
-          ],
-        },
-        md: {
-          css: [
-            {
-              h1: {
-                fontSize: '3.5rem',
-                fontWeight: 800,
-              },
-              h2: {
-                fontSize: '2.25rem',
               },
             },
           ],

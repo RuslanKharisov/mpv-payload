@@ -23,15 +23,11 @@ const GridItemCard: React.FC<{ item: GridItem }> = ({ item }) => {
     <Card className="p-3 md:p-6 transition-all hover:shadow-md flex flex-col h-full">
       <div className="flex flex-col flex-1">
         <div className="space-y-2 py-4 flex-1">
-          <Typography tag="h3" variant="inter-md-16" className="line-clamp-2 min-h-[2.5rem]">
+          <Typography tag="h3" className="line-clamp-2">
             {item.title}
           </Typography>
           {item.description && (
-            <Typography
-              tag="p"
-              variant="inter-reg-14"
-              className="text-muted-foreground line-clamp-3 min-h-[3.75rem]"
-            >
+            <Typography tag="p" className="text-muted-foreground line-clamp-3">
               {item.description}
             </Typography>
           )}
@@ -132,11 +128,7 @@ export const CategoriesOrBrandsGridBlock: React.FC<BlockType> = async ({
     <section className="py-8 md:py-16">
       <div className="container">
         {title && (
-          <Typography
-            tag="h2"
-            variant="inter-bold-36"
-            className="mb-10 text-center max-w-3xl mx-auto"
-          >
+          <Typography tag="h2" className="mb-10 text-center max-w-3xl mx-auto">
             {title}
           </Typography>
         )}

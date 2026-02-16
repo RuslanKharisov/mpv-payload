@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Input } from './_ui/input'
 import { Button } from '@/shared/ui/button'
+import { Input } from './_ui/input'
 
 type FormData = {
   email: string

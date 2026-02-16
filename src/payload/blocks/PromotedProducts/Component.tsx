@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 
 import type { PromotedProductsBlock as Props, Stock, Product } from '@/payload-types'
 import { PromotedProductsCarousel } from './_ui/PromotedProductsCarousel'
+import { Typography } from '@/shared/ui/typography'
 
 // динамический запрос данных
 export const dynamic = 'force-dynamic'
@@ -53,7 +54,9 @@ export const PromotedProductsBlock: React.FC<Props> = async ({ title, limit }) =
 
   return (
     <div className="container py-8 md:py-16">
-      <h2 className="text-3xl font-bold tracking-tight text-center sm:text-4xl mb-12">{title}</h2>
+      <Typography tag="h2" className="text-center mb-12">
+        {title}
+      </Typography>
       <PromotedProductsCarousel products={productsData} />
     </div>
   )

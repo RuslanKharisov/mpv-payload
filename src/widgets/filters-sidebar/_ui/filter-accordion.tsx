@@ -22,9 +22,7 @@ export function FilterAccordion({
 
   return (
     <div className="border-b border-border pb-2">
-      <Typography variant="inter-md-16" className="mb-5">
-        {title || 'Категории'}
-      </Typography>
+      <Typography className="mb-5">{title || 'Категории'}</Typography>
       <ul className="space-y-2">{visibleItems}</ul>
       {items.length > defaultVisibleCount && (
         <button

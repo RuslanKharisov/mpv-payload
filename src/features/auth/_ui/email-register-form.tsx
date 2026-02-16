@@ -114,9 +114,7 @@ export function EmailRegisterForm() {
 
   return (
     <div className="w-full max-w-md">
-      <Typography variant="inter-bold-36" className="text-center mb-5">
-        Регистрация
-      </Typography>
+      <Typography className="text-center mb-5">Регистрация</Typography>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4">
