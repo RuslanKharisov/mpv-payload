@@ -15,6 +15,11 @@ export function DaDataInput({ onSelect, initialValue, disabled = false }: DaData
   const [isFocused, setIsFocused] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500)
 
+  // Sync internal state when initialValue prop changes (e.g., on form reset)
+  useEffect(() => {
+    setInputValue(initialValue || '')
+  }, [initialValue])
+
   useEffect(() => {
     // Запрашиваем подсказки только если введено 3+ символа, и поле в фокусе
     if (debouncedValue?.length >= 3 && isFocused) {
