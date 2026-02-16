@@ -94,8 +94,8 @@ const config = {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        sans: ['var(--font-inter)', 'sans-serif'],
+        serif: ['var(--font-onest)', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {
@@ -114,9 +114,35 @@ const config = {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': 'var(--text)',
               h1: {
+                fontFamily: 'var(--font-onest), serif',
                 fontWeight: 'normal',
                 marginBottom: '0.25em',
                 fontSize: '1.5rem',
+              },
+              h2: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: 'normal',
+                fontSize: '1.25rem',
+              },
+              h3: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: 'normal',
+                fontSize: '1.15rem',
+              },
+              h4: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: 'normal',
+                fontSize: '1.15rem',
+              },
+              h5: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: 'normal',
+                fontSize: '1.15rem',
+              },
+              h6: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: 'normal',
+                fontSize: '1.15rem',
               },
             },
           ],

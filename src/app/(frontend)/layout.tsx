@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/shared/utilities/ui'
-import { Inter } from 'next/font/google'
+import { Inter, Onest, Playfair_Display } from 'next/font/google'
 import React from 'react'
 
 import { Providers } from '@/shared/providers'
@@ -18,6 +18,12 @@ import { Toaster } from '@/shared/ui/sonner'
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter',
+})
+
+const onest = Onest({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-onest',
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,7 +32,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const analyticsEnabled = !!(process.env.NODE_ENV === 'production')
 
   return (
-    <html className={cn(inter.className)} lang="ru" suppressHydrationWarning>
+    <html
+      className={cn(inter.variable, onest.variable, inter.className)}
+      lang="ru"
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
