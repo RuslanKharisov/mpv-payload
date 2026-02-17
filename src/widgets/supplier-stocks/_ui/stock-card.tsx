@@ -106,12 +106,16 @@ export function StockCard({ stock }: StockCardProps) {
 
         <div className="flex flex-col justify-between items-start md:items-end gap-6">
           <div className="text-left md:text-right">
-            {stock.price && (
-              <div className="text-3xl font-semibold leading-none">
-                {formatCurrency(stock.price, currency.code || '')}
-              </div>
+            {stock.price ? (
+              <>
+                <div className="text-3xl font-semibold leading-none">
+                  {formatCurrency(stock.price, currency.code || '')}
+                </div>
+                <div className="text-sm text-muted-foreground">без НДС</div>
+              </>
+            ) : (
+              <div className="text-sm text-muted-foreground">Цена не указана</div>
             )}
-            <div className="text-sm text-muted-foreground">без НДС</div>
           </div>
           <div className="flex flex-col gap-4 w-full lg:w-auto">
             <SendPriceRequestModal
