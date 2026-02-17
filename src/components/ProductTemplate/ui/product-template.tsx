@@ -20,7 +20,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
         data-testid="product-container"
       >
         <ImageGallery product={product} />
-        <div className="flex flex-col bg-secondary drop-shadow-lg rounded-xl w-full gap-6 items-start justify-center small:p-20 p-6 h-full">
+        <div className="flex flex-col bg-card rounded-xl w-full gap-6 items-start justify-center small:p-20 p-6 h-full">
           <ProductInfo product={product} />
         </div>
       </div>

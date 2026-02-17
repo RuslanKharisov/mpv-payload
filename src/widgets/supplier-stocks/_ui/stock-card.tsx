@@ -9,6 +9,7 @@ import { formatDateTime } from '@/shared/utilities/formatDateTime'
 import { formatCurrency } from '@/shared/utilities/formatAmountWithСurency'
 import { ImageMedia } from '@/components/Media/ImageMedia'
 import Link from 'next/link'
+import { Typography } from '@/shared/ui/typography'
 
 interface StockCardProps {
   stock: StockWithTenantAndCurrency
@@ -20,10 +21,10 @@ export function StockCard({ stock }: StockCardProps) {
   const tenant = typeof stock.tenant === 'object' ? stock.tenant : ({} as Tenant)
 
   return (
-    <Card className="relative block min-h-41.5 w-full cursor-pointer rounded-lg border border-[#EAEAEA] p-4 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
-      <div className="grid grid-cols-[103px_1fr] gap-6 transition-all max-md:gap-2 max-md:gap-y-5 md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
-        {/* элемент сетки 1 */}
-        <div className="flex aspect-square max-h-40.5 min-h-21.75 min-w-21.75 max-w-40.5 items-center justify-center rounded border border-solid border-[#F4F4F4] p-1 transition-size max-md:max-h-33 relative">
+    <Card className="relative block min-h-41.5 w-full rounded-lg border p-6 text-sm after:pointer-events-none after:absolute after:inset-0 after:opacity-100 after:transition-opacity hover:after:shadow-md">
+      <div className="grid grid-cols-1 gap-8 transition-all md:grid-cols-[132px_1fr_1fr] lg:grid-cols-[160px_1fr_1.2fr_1fr]">
+        {/* элемент сетки 1 - фото */}
+        <div className="flex aspect-square max-h-40.5 min-h-21.75 min-w-21.75 max-w-40.5 items-center justify-center rounded border p-1 transition-size relative mx-auto md:mx-0">
           <ImageMedia
             resource={product.productImage}
             fill
@@ -33,52 +34,49 @@ export function StockCard({ stock }: StockCardProps) {
         </div>
 
         {/* ------------ элемент сетки 1 -------------- */}
-        <div className="flex flex-col md:gap-4">
-          <div className="w-fit gap-1.5">
-            <p className="text-sm uppercase text-[#4A4D58]">
+        <div className="flex flex-col justify-between">
+          <div className="w-fit gap-2">
+            <span className="uppercase text-muted-foreground">
               {(product.brand?.name && product.brand?.name) || 'Производитель'}
-            </p>
-            <h3 className="text-base font-semibold transition-all hover:text-primary-default hover:underline md:text-lg">
+            </span>
+            <Typography tag="h3" wrapper={false}>
               {product.sku || 'Product Name'}
-            </h3>
-            <p className="text-sm text-primary-grey">
-              <span className="font-normal">Состояние: </span>
-              <span>{stock.condition || 'Не указано'}</span>
-            </p>
+            </Typography>
           </div>
 
-          <div className="flex items-center gap-1 flex-wrap">
-            <dt className="flex shrink-0 items-center gap-1.5">
-              <span className="opacity-70">Доступность:</span>
-            </dt>
-            <dd className="truncate font-medium">
-              <div className="flex items-center gap-3">
-                <span className="text-base font-semibold text-primary-default">
-                  {stock.quantity} шт.
-                </span>
-                {stock.quantity > 0 && (
-                  <Badge variant="outline" className="bg-green-100 text-green-600 border-none">
-                    <div className="h-2 w-2 rounded-full bg-green-600 mr-2"></div>В наличии
-                  </Badge>
-                )}
-              </div>
-            </dd>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">Состояние:</span>
+              <span className="font-medium">{stock.condition || 'Не указано'}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-muted-foreground">Доступность:</span>
+              <span className="text-base font-semibold text-primary">{stock.quantity} шт.</span>
+              {stock.quantity > 0 && (
+                <Badge
+                  variant="outline"
+                  className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800"
+                >
+                  <div className="h-2 w-2 rounded-full bg-green-600 mr-2"></div>В наличии
+                </Badge>
+              )}
+            </div>
           </div>
         </div>
 
         {/* -------------- элемент сетки -------------- */}
 
-        <div className="flex flex-col gap-y-3 max-lg:col-span-2">
-          <div className="flex gap-2">
-            <span className="opacity-70">Предложение от: </span>
-            <div className="font-medium inline-flex items-center gap-1 ">
+        <div className="flex flex-col justify-end gap-1">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-muted-foreground">Предложение от:</span>
+            <div className="font-medium inline-flex items-center gap-1">
               {stock.warehouse?.warehouse_address?.country_iso_code && (
-                <Badge variant="default" className="">
+                <Badge variant="default">
                   {stock.warehouse?.warehouse_address?.country_iso_code}
                 </Badge>
               )}
               <Link
-                className="cursor-pointer hover:underline hover:text-destructive duration-300"
+                className="cursor-pointer hover:underline hover:text-destructive transition-colors duration-300"
                 href={`/supplier/${tenant.slug}`}
                 target="_blank"
               >
@@ -86,38 +84,38 @@ export function StockCard({ stock }: StockCardProps) {
               </Link>
             </div>
           </div>
-          <div className="flex gap-2">
-            <span className="opacity-70">Адрес склада:</span>
-            <div className="font-medium">{stock.warehouse?.warehouse_address?.city}</div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-muted-foreground">Адрес склада:</span>
+            <span className="font-medium">{stock.warehouse?.warehouse_address?.city}</span>
           </div>
-          <div className="flex gap-2">
-            <span className="opacity-70">Гарантия:</span>
-            <div className="font-medium">{stock.warranty || 'Не указана'} мес.</div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-muted-foreground">Гарантия:</span>
+            <span className="font-medium">{stock.warranty || 'Не указана'} мес.</span>
           </div>
-          <div className="flex gap-2">
-            <span className="opacity-70">Обновлен:</span>
-            <div className="font-medium">{formatDateTime(stock.updatedAt) || 'Не указана'}.</div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-muted-foreground">Обновлен:</span>
+            <span className="font-medium">{formatDateTime(stock.updatedAt) || 'Не указана'}</span>
           </div>
         </div>
 
         {/* ---------- элемент сетки  --------------  */}
 
-        <div className="flex flex-col justify-between items-end max-md:col-span-2">
-          <div className="text-right">
+        <div className="flex flex-col justify-between items-start md:items-end gap-6">
+          <div className="text-left md:text-right">
             {stock.price && (
               <div className="text-3xl font-semibold leading-none">
                 {formatCurrency(stock.price, currency.code || '')}
               </div>
             )}
-            <div className="text-sm text-[#1E222C]">без НДС</div>
+            <div className="text-sm text-muted-foreground">без НДС</div>
           </div>
-          <div className="flex flex-col gap-2 w-full lg:w-auto">
+          <div className="flex flex-col gap-4 w-full lg:w-auto">
             <SendPriceRequestModal
               tenantName={tenant.name}
               tenantEmail={tenant.requestEmail}
               items={[{ item: mapLocalStockToCartItem(stock), quantity: 1 }]}
             />
-            <AddToCartCell stock={stock} className=""></AddToCartCell>
+            <AddToCartCell stock={stock}></AddToCartCell>
           </div>
         </div>
       </div>

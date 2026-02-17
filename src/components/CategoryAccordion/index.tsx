@@ -47,9 +47,9 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
               <Accordion type="multiple" defaultValue={defaultExpandedValues} className="w-full">
                 <AccordionItem
                   value={parent.id.toString()}
-                  className="overflow-hidden rounded-lg border bg-secondary"
+                  className="overflow-hidden rounded-lg border bg-card"
                 >
-                  <AccordionTrigger className="p-4 text-base font-semibold hover:no-underline">
+                  <AccordionTrigger className="p-4 text-base font-semibold text-card-foreground hover:no-underline">
                     <Link href={`/products?category=${parent.slug}`} className="hover:underline">
                       {parent.title}
                     </Link>
@@ -60,7 +60,7 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                         <li key={child.id} className="flex items-center gap-2">
                           <Link
                             href={`/products?category=${child.slug}`}
-                            className="rounded px-1 text-sm  hover:bg-primary/90 hover:text-white duration-100"
+                            className="rounded px-1 text-sm text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-100"
                           >
                             {child.title}
                           </Link>
@@ -71,11 +71,11 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                 </AccordionItem>
               </Accordion>
             ) : (
-              <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-secondary p-4">
+              <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-card p-4">
                 {parent.slug && (
                   <Link
                     href={`/products?category=${encodeURIComponent(parent.slug)}`}
-                    className="w-full text-base font-semibold leading-[22px]"
+                    className="w-full text-base font-semibold leading-[22px] text-card-foreground"
                   >
                     {parent.title}
                   </Link>

@@ -23,7 +23,7 @@ export function AddToCartCell({ stock, children, className }: AddToCartCellProps
 
   return (
     <Button
-      className={cn('w-full text-xs', className)}
+      className={cn('w-full text-xs cursor-pointer', className)}
       variant="outline"
       size="sm"
       onClick={handleAddToCart}

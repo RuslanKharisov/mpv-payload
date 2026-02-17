@@ -22,11 +22,9 @@ function SupplierStockWidget({ slug }: SupplierStockWidgetProps) {
 
   return (
     <section className="mt-8">
-      <div className="flex items-center gap-2 mb-5">
-        <Store className="h-5 w-5 text-muted-foreground" />
-        <Typography tag="h2" className="font-semibold">
-          Наличие у поставщиков
-        </Typography>
+      <div className="flex items-center justify-center gap-2 mb-5">
+        <Store className="h-7 w-7 text-muted-foreground" />
+        <Typography tag="h2">Наличие у поставщиков</Typography>
       </div>
 
       {isLoading && (

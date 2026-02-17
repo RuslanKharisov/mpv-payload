@@ -1,12 +1,12 @@
-import { cn } from '@/shared/utilities/ui'
 import { CheckIcon } from 'lucide-react'
-
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
+import { Button } from '@/shared/ui/button'
 import { Typography } from '@/shared/ui/typography'
 
-async function page() {
+async function TariffsPage() {
   const payload = await getPayload({ config: configPromise })
 
   const tariffs = await payload.find({
@@ -14,102 +14,50 @@ async function page() {
   })
 
   return (
-    <div className="relative isolate px-6 py-3 lg:py-16 lg:px-8 ">
-      <div className="mx-auto max-w-4xl text-center">
+    <div className="space-y-6 px-4 lg:px-6 py-4 md:py-6">
+      <div className="text-center">
         <Typography tag="h1">Цены</Typography>
-        <Typography tag="p">Выберите подходящий тариф</Typography>
+        <Typography tag="p" className="text-sm text-muted-foreground mt-1">
+          Выберите подходящий тариф
+        </Typography>
       </div>
-      <Typography tag="p" className="mx-auto mt-6 max-w-2xl text-center opacity-80">
+
+      <p className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
         Выберите доступный тариф с лучшими функциями для взаимодействия с аудиторией, повышения
         лояльности клиентов и стимулирования продаж.
-      </Typography>
-      <div className="mx-auto mt-16 grid grid-cols-1  gap-y-6 sm:mt-20 sm:gap-y-0 lg:grid-cols-3 gap-3">
-        {tariffs.docs.map((tariff, idx) => (
-          <div
-            key={tariff.id}
-            className={cn(
-              idx % 2 !== 0
-                ? 'relative bg-card shadow-2xl dark:shadow-none'
-                : 'bg-background/60 sm:mx-8 lg:mx-0 dark:bg-background/2.5',
-              'flex flex-col p-8 ring-1 ring-border sm:p-10 dark:ring-border',
-            )}
-          >
-            <h3
-              className={cn(
-                idx % 2 !== 0 ? 'text-primary' : 'text-primary dark:text-primary',
-                'text-base/7 font-semibold',
-              )}
-            >
-              {tariff.name}
-            </h3>
-            <p className="mt-4 flex items-baseline gap-x-2">
-              <span
-                className={cn(
-                  idx % 2 !== 0 ? 'text-foreground' : 'text-foreground dark:text-foreground',
-                  'text-5xl font-semibold tracking-tight',
-                )}
-              >
-                {tariff.price}
-              </span>
-              <span
-                className={cn(
-                  idx % 2 !== 0
-                    ? 'text-muted-foreground'
-                    : 'text-muted-foreground dark:text-muted-foreground',
-                  'text-base',
-                )}
-              >
-                /month
-              </span>
-            </p>
-            <p
-              className={cn(
-                idx % 2 !== 0
-                  ? 'text-muted-foreground'
-                  : 'text-muted-foreground dark:text-muted-foreground',
-                'mt-6 text-base/7',
-              )}
-            >
-              {tariff.description}
-            </p>
-            <ul
-              role="list"
-              className={cn(
-                idx % 2 !== 0
-                  ? 'text-muted-foreground'
-                  : 'text-muted-foreground dark:text-muted-foreground',
-                'mt-8 space-y-3 text-sm/6 sm:mt-10 grow',
-              )}
-            >
-              {tariff.benefits?.map((benefit) => (
-                <li key={benefit.id} className="flex gap-x-3">
-                  <CheckIcon
-                    aria-hidden="true"
-                    className={cn(
-                      idx % 2 !== 0 ? 'text-primary' : 'text-primary dark:text-primary',
-                      'h-6 w-5 flex-none',
-                    )}
-                  />
-                  {benefit.value}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={tariff.name}
-              className={cn(
-                idx % 2 !== 0
-                  ? 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-primary dark:shadow-none'
-                  : 'text-primary ring-1 ring-inset ring-border hover:ring-border/80 focus-visible:outline-primary dark:bg-secondary dark:text-secondary-foreground dark:ring-border dark:hover:bg-secondary/80 dark:hover:ring-border dark:focus-visible:outline-secondary',
-                'mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-offset-2 sm:mt-10',
-              )}
-            >
-              Get started today
-            </Link>
-          </div>
+      </p>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {tariffs.docs.map((tariff) => (
+          <Card key={tariff.id} className="flex flex-col">
+            <CardHeader>
+              <CardTitle className="text-lg">{tariff.name}</CardTitle>
+              <CardDescription>{tariff.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <div className="flex items-baseline gap-x-2">
+                <span className="text-4xl font-bold tracking-tight">{tariff.price}</span>
+                <span className="text-sm text-muted-foreground">/месяц</span>
+              </div>
+
+              <ul role="list" className="mt-6 space-y-3 text-sm flex-1">
+                {tariff.benefits?.map((benefit) => (
+                  <li key={benefit.id} className="flex gap-x-3">
+                    <CheckIcon aria-hidden="true" className="h-5 w-5 flex-none text-primary" />
+                    <span className="text-muted-foreground">{benefit.value}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button asChild className="w-full mt-6">
+                <Link href={`/tariffs/${tariff.id}`}>Выбрать тариф</Link>
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
   )
 }
 
-export default page
+export default TariffsPage
