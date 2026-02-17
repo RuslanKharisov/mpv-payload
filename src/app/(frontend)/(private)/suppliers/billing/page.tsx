@@ -50,7 +50,7 @@ async function TariffsPage() {
               </ul>
 
               <Button asChild className="w-full mt-6">
-                <Link href={`/tariffs/${tariff.id}`}>Выбрать тариф</Link>
+                Выбрать тариф
               </Button>
             </CardContent>
           </Card>
