@@ -35,9 +35,9 @@ export function StockCard({ stock }: StockCardProps) {
 
         {/* ------------ элемент сетки 1 -------------- */}
         <div className="flex flex-col justify-between">
-          <div className="w-fit gap-2">
+          <div className="flex w-fit flex-col gap-2">
             <span className="uppercase text-muted-foreground">
-              {(product.brand?.name && product.brand?.name) || 'Производитель'}
+              {product.brand?.name || 'Производитель'}
             </span>
             <Typography tag="h3" wrapper={false}>
               {product.sku || 'Product Name'}
@@ -90,7 +90,9 @@ export function StockCard({ stock }: StockCardProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-muted-foreground">Гарантия:</span>
-            <span className="font-medium">{stock.warranty || 'Не указана'} мес.</span>
+            <span className="font-medium">
+              {stock.warranty ? `${stock.warranty} мес.` : 'Не указана'}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-muted-foreground">Обновлен:</span>
