@@ -54,18 +54,25 @@
     - `_domain/` - схемы и типы продуктов
   - `stocks/` - управление складскими запасами
     - `api/{client|server}/` - tRPC процедуры для работы со складами
+    - `api/get-stocks-by-tenant.ts` - server action для получения остатков по тенанту с аутентификацией
     - `_domain/` - схемы и типы складских данных
+    - `model/stock-with-relations.ts` - тип `StockWithRelations` для полностью загруженных связей
+- `dashboard/` - дашборд поставщика
+    - `api/get-supplier-dashboard-summary.ts` - server action для агрегации данных дашборда (пользователь, тенант, склады, остатки, подписка)
   - `tenants/` - работа с тенантами (профили поставщиков)
     - `api/server/get-tenants.ts` - server action для получения списка тенантов
+    - `api/update-remote-config.ts` - server action для обновления конфигурации Google Таблиц
     - `api/{client|server}/` - tRPC процедуры для работы с тенантами
     - `_domain/` - схемы и типы тенантов
   - `user/` - работа с пользователями
   - `warehouse/` - управление складами
+    - `api/get-warehouses-by-tenant.ts` - server action для получения складов по тенанту
+    - `api/create-new-warehouse.ts` - server action для создания нового склада с проверкой фичи CAN_MANAGE_STOCK
+    - `model/types.ts` - типы для UI представления складов
   - `remote-stock/` - работа с удаленными остатками (Google Таблицы)
   - `brands/` - работа с брендами
   - `cart/` - функционал корзины
   - `category/` - работа с категориями
-  - `remote-stock/` - работа с удаленными остатками
   - `price-request/` - запросы коммерческих предложений
 - `src/features/` - бизнес-функциональность (фичи), реализующие конкретные возможности ЛК поставщика
   - `auth/` - аутентификация и регистрация
@@ -135,6 +142,12 @@
 
 - `private-header/`, `private-sidebar/` - навигация в личном кабинете поставщика
 - `products-catalog/` - отображение каталога товаров поставщика
+- `supplier-dashboard/` - виджеты дашборда поставщика (FSD-архитектура)
+  - `company-card/` - карточка компании
+  - `user-card/` - карточка пользователя
+  - `stats-cards/` - статистика (склады, остатки, SKU)
+  - `quick-links-card/` - быстрые ссылки
+  - `warehouses-sample/` - список складов
 - `supplier-stocks/` - таблица управления остатками
 - `smart-data-table/` - интерактивная таблица для работы с данными
 
@@ -146,7 +159,19 @@
 2. `products/` - управление каталогом товаров
 3. `stock/` - управление складскими остатками
 4. `search/` - внутренний поиск по товарам
-5. `suppliers/warehouses/` - управление складами и интеграция с Google Таблицами
+5. `suppliers/` - дашборд поставщика (обзор компании, складов, остатков)
+   - Использует FSD-виджеты: `CompanyCard`, `UserCard`, `StatsCards`, `QuickLinksCard`, `WarehousesSample`
+   - Server action `getSupplierDashboardSummary` для агрегации данных
+   - Отображает информацию о подписке и доступе к управлению складами (`canManageStock`)
+6. `suppliers/warehouses/` - управление локальными складами (создание, список)
+   - Аутентификация через `getMeUser({ nullUserRedirect: '/login' })`
+   - Проверка фичи `CAN_MANAGE_STOCK` для отображения кнопки создания
+   - Использует `getWarehousesByTenant()` для загрузки складов
+6. `suppliers/stocks/` - управление складскими остатками с табами
+   - Таб "Локальные склады (БД)" - отображение остатков из БД с пагинацией
+   - Таб "Google Таблицы (API)" - интеграция с внешними источниками
+   - Аутентификация через `getMeUser({ nullUserRedirect: '/login' })`
+   - Использует `getStocksByTenant()` для загрузки остатков с `depth: 2`
 
 **Public Supplier Pages (`(public)/`, `(tenants)/suppliers/[slug]/`):**
 
@@ -190,13 +215,19 @@
 7. Приватные маршруты для личного кабинета
 8. Интеграция с Google Таблицами для удаленных остатков
 9. Управление доступом: супер-админы видят все тенанты, пользователи — только свои
+10. **Управление локальными складами:**
+    - Страница `suppliers/warehouses/` для создания и просмотра складов
+    - Server action `createNewWarehouse` с проверкой фичи `CAN_MANAGE_STOCK`
+    - Server action `getWarehousesByTenant` для загрузки складов с адресами
+11. **Управление остатками с табами:**
+    - Страница `suppliers/stocks/` с табами "Локальные склады (БД)" и "Google Таблицы (API)"
+    - Server action `getStocksByTenant` с аутентификацией и типобезопасностью (`StockWithRelations`)
+    - Пагинация и отображение остатков в `LocalWarehouses` таблице
 
 **В разработке:**
 
 1. Интерфейс управления заказами
 2. Расширенная аналитика
-3. Управление локальными складами и локациями (таб local)
-4. Полный функционал вкладки "Локальные склады (БД)" в управлении складами
 
 **Планируется:**
 
@@ -274,6 +305,7 @@ Product CRUD -> Hooks -> Update Category/Brand Counts
 - **i18n:** Поддержка RU/EN локализаций
 - **Технический долг:** Некоторые области используют хардкод (например, валидация имен пользователей)
 - **Асинхронные операции:** Обработка импорта и обновления статистики через серверные эндпоинты
+- **Аутентификация в Server Actions:** Server actions (`getStocksByTenant`, `createNewWarehouse`, `updateRemoteConfig`) используют `getMeUser({ nullUserRedirect: '/login' })` для проверки авторизации, не полагаясь только на layout-уровень защиты
 
 ## Структура связей (Relations)
 
