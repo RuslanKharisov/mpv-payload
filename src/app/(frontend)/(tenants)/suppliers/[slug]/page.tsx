@@ -11,7 +11,7 @@ export default async function page({ params }: Props) {
 
   return (
     <div className="container mx-auto text-center">
-      <Typography variant="inter-bold-36">Поставщик: {slug}</Typography>
+      <Typography>Поставщик: {slug}</Typography>
     </div>
   )
 }

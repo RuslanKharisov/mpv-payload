@@ -70,8 +70,8 @@ const ImageGallery = ({ product }: ImageGalleryProps) => {
   }, [handleArrowClick])
 
   return (
-    <div className="flex flex-col justify-end items-center bg-card border p-6 gap-6 w-full h-full rounded-xl">
-      <div className="relative aspect-[20/15] w-full overflow-hidden">
+    <div className="flex flex-col justify-end items-center bg-card p-6 gap-6 w-full h-full rounded-xl">
+      <div className="relative aspect-20/15 w-full overflow-hidden">
         {/* Убрал лишний div и padding, чтобы Image мог корректно работать с fill */}
         {!!selectedImage.url && (
           <Image
@@ -89,7 +89,7 @@ const ImageGallery = ({ product }: ImageGalleryProps) => {
           {images.map((image, index) => (
             <li
               key={image.id}
-              className="flex-shrink-0 aspect-[1/1] w-16 h-16 rounded-lg cursor-pointer"
+              className="shrink-0 aspect-square w-16 h-16 rounded-lg cursor-pointer"
               onClick={() => handleImageClick(image, index)}
               role="button"
             >

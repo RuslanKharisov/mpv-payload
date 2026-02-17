@@ -1,5 +1,4 @@
 import tailwindcssAnimate from 'tailwindcss-animate'
-import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -10,7 +9,7 @@ const config = {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [tailwindcssAnimate],
   prefix: '',
   safelist: [
     'lg:col-span-4',
@@ -36,13 +35,6 @@ const config = {
         md: '2rem',
         sm: '1rem',
         xl: '2rem',
-      },
-      screens: {
-        '2xl': '86rem',
-        lg: '64rem',
-        md: '48rem',
-        sm: '40rem',
-        xl: '80rem',
       },
     },
     extend: {
@@ -107,73 +99,6 @@ const config = {
           to: { height: '0' },
         },
       },
-      typography: () => ({
-        DEFAULT: {
-          css: [
-            {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
-              h1: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                marginBottom: '0.25em',
-                fontSize: '1.5rem',
-              },
-              h2: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.25rem',
-              },
-              h3: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
-              },
-              h4: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
-              },
-              h5: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
-              },
-              h6: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: 'normal',
-                fontSize: '1.15rem',
-              },
-            },
-          ],
-        },
-        base: {
-          css: [
-            {
-              h1: {
-                fontSize: '2.5rem',
-              },
-              h2: {
-                fontSize: '1.25rem',
-                fontWeight: 600,
-              },
-            },
-          ],
-        },
-        md: {
-          css: [
-            {
-              h1: {
-                fontSize: '3.5rem',
-                fontWeight: 800,
-              },
-              h2: {
-                fontSize: '2.25rem',
-              },
-            },
-          ],
-        },
-      }),
     },
   },
 }

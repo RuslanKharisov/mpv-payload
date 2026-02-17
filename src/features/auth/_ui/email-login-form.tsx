@@ -44,7 +44,7 @@ export function EmailLoginForm() {
 
   return (
     <div className="w-full max-w-md">
-      <Typography variant="inter-bold-36" className="text-center mb-5">
+      <Typography tag="h1" className="text-center mb-5">
         Войти
       </Typography>
       <Form {...form}>

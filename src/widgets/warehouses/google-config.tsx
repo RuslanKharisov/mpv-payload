@@ -139,7 +139,7 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
           <CardTitle>Предпросмотр</CardTitle>
           <CardDescription>
             {data && data.data && isFetching ? (
-              <Typography variant="inter-md-16" className="text-primary">
+              <Typography className="text-primary" wrapper={false}>
                 Секунда, данные загружаются...
               </Typography>
             ) : (

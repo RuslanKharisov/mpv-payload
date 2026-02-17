@@ -19,7 +19,7 @@ export async function Footer() {
         <div className="flex flex-col items-center gap-6">
           <Logo className="flex-col md:flex-row" />
           <div className="w-full flex flex-col justify-between gap-24 items-center lg:flex-row md:items-center">
-            <nav className="flex flex-col flex-grow items-center  md:flex-row gap-5">
+            <nav className="flex flex-col grow items-center  md:flex-row gap-5">
               {navItems.map(({ link }, i) => {
                 return (
                   <CMSLink

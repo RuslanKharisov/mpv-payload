@@ -36,20 +36,20 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
     .map((p) => p.id.toString())
 
   return (
-    <div className="columns-[300px] gap-x-4 gap-y-[10px]">
+    <div className="columns-[300px] gap-x-4 gap-y-2.5">
       {parentCategories.map((parent) => {
         const childCategories = categoriesByParent[parent.id.toString()] || []
         const hasChildren = childCategories.length > 0
 
         return (
-          <div key={parent.id} className="mb-[10px] break-inside-avoid-column">
+          <div key={parent.id} className="mb-2.5 break-inside-avoid-column">
             {hasChildren ? (
               <Accordion type="multiple" defaultValue={defaultExpandedValues} className="w-full">
                 <AccordionItem
                   value={parent.id.toString()}
-                  className="overflow-hidden rounded-lg border bg-secondary"
+                  className="overflow-hidden rounded-lg border bg-card"
                 >
-                  <AccordionTrigger className="p-4 text-base font-semibold hover:no-underline">
+                  <AccordionTrigger className="p-4 text-base font-semibold text-card-foreground hover:no-underline">
                     <Link href={`/products?category=${parent.slug}`} className="hover:underline">
                       {parent.title}
                     </Link>
@@ -60,7 +60,7 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                         <li key={child.id} className="flex items-center gap-2">
                           <Link
                             href={`/products?category=${child.slug}`}
-                            className="rounded px-1 text-sm  hover:bg-primary/90 hover:text-white duration-100"
+                            className="rounded px-1 text-sm text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-100"
                           >
                             {child.title}
                           </Link>
@@ -71,11 +71,11 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                 </AccordionItem>
               </Accordion>
             ) : (
-              <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-secondary p-4">
+              <div className="flex min-h-13.5 items-center overflow-hidden rounded-lg border bg-card p-4">
                 {parent.slug && (
                   <Link
                     href={`/products?category=${encodeURIComponent(parent.slug)}`}
-                    className="w-full text-base font-semibold leading-[22px]"
+                    className="w-full text-base font-semibold leading-5.5 text-card-foreground"
                   >
                     {parent.title}
                   </Link>

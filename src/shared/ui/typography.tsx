@@ -1,44 +1,51 @@
 import { cn } from '@/shared/utilities/ui'
 
-export type TypographyVariant =
-  | 'display-48'
-  | 'heading-36'
-  | 'inter-bold-48'
-  | 'inter-bold-36'
-  | 'inter-md-24'
-  | 'inter-md-16'
-  | 'inter-reg-14'
+export type TypographyTag = 'h1' | 'h2' | 'h3' | 'h4' | 'span' | 'div' | 'p'
 
-export type TypographyTag = 'h1' | 'h2' | 'h3' | 'h4' | 'span' | 'div' | 'p' | 'li'
+// Inline/phrasing elements that shouldn't be wrapped in a div
+const inlineTags = new Set(['span', 'a', 'strong', 'em', 'small', 'label', 'b', 'i'])
 
 interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   tag?: TypographyTag
-  variant: TypographyVariant
   className?: string
   children: React.ReactNode
-}
-
-const variantStyles: Record<TypographyVariant, string> = {
-  'display-48': 'font-serif font-bold text-[48px] leading-tight',
-  'heading-36': 'font-serif font-bold text-[36px] leading-snug',
-  'inter-md-24': 'font-sans font-medium text-[24px]',
-  'inter-reg-14': 'font-sans font-normal text-[14px]',
-
-  'inter-bold-48': 'font-sans text-[48px] leading-[120%] font-bold',
-  'inter-bold-36': 'font-sans text-[36px] leading-[120%] font-bold',
-  'inter-md-16': 'font-sans text-[16px] leading-[20px] font-medium',
+  /**
+   * Force wrapper div. When undefined, auto-detected based on tag type.
+   * - true: always wrap in div
+   * - false: never wrap in div
+   * - undefined: wrap only for block-level tags
+   */
+  wrapper?: boolean
 }
 
 export const Typography = ({
   tag: Tag = 'div',
-  variant,
   className,
   children,
+  wrapper,
   ...props
 }: TypographyProps) => {
+  const proseClasses = cn(
+    'payload-richtext',
+    'max-w-none prose md:prose-md lg:prose-lg dark:prose-invert',
+    className,
+  )
+
+  // Auto-detect: use wrapper for block-level elements, skip for inline
+  const needsWrapper = wrapper ?? !inlineTags.has(Tag)
+
+  if (!needsWrapper) {
+    // Render inline element directly with prose classes
+    return (
+      <Tag className={proseClasses} {...props}>
+        {children}
+      </Tag>
+    )
+  }
+
   return (
-    <Tag className={cn(variantStyles[variant], className)} {...props}>
-      {children}
-    </Tag>
+    <div className={proseClasses}>
+      <Tag {...props}>{children}</Tag>
+    </div>
   )
 }

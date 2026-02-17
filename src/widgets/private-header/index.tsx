@@ -5,6 +5,7 @@ import { Input } from '@/shared/ui/input'
 import { SidebarTrigger } from '@/shared/ui/sidebar'
 import { Bell } from 'lucide-react'
 import { Separator } from '@/shared/ui/separator'
+import { ThemeSelector } from '@/shared/providers/Theme/ThemeSelector'
 
 export function PrivateHeader() {
   return (
@@ -21,7 +22,7 @@ export function PrivateHeader() {
           <Button variant="ghost" size="icon">
             <Bell className="h-4 w-4" />
           </Button>
-          {/* Аватар клиента */}
+          <ThemeSelector />
         </div>
       </div>
     </header>

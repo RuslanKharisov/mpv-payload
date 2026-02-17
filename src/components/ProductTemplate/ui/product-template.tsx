@@ -14,13 +14,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
   }
 
   return (
-    <div className="flex flex-col gap-y-2 my-2">
+    <div className="flex flex-col justify-between gap-y-2 my-2">
       <div
-        className="container grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-fit"
+        className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-fit"
         data-testid="product-container"
       >
         <ImageGallery product={product} />
-        <div className="flex flex-col bg-secondary drop-shadow-lg rounded-xl w-full gap-6 items-start justify-center small:p-20 p-6 h-full">
+        <div className="flex flex-col bg-card rounded-xl w-full gap-6 items-start justify-center small:p-20 p-6 h-full">
           <ProductInfo product={product} />
         </div>
       </div>

@@ -36,7 +36,7 @@ export const ThemeSelector: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 max-w-fit min-w-fit">
-      <div className="relative z-0 inline-grid grid-cols-3 gap-0.5 rounded-full bg-white/10 p-0.5 text-white">
+      <div className="relative z-0 inline-grid grid-cols-3 gap-0.5 rounded-full bg-white/10 p-0.5">
         {themes.map(({ value: themeValue, icon: Icon, label }) => (
           <div
             key={themeValue}
