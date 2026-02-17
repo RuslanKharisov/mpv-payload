@@ -27,16 +27,14 @@ const GridItemCard: React.FC<{ item: GridItem }> = ({ item }) => {
             {item.title}
           </Typography>
           {item.description && (
-            <Typography tag="p" className="text-muted-foreground line-clamp-3">
-              {item.description}
-            </Typography>
+            <p className="text-sm text-muted-foreground line-clamp-3">{item.description}</p>
           )}
         </div>
 
         <div className="pt-4 mt-auto border-t border-dashed">
           <Button
             asChild
-            variant="secondary"
+            variant="default"
             className="group w-full justify-between shadow-none hover:shadow-sm transition-shadow"
           >
             <Link href={item.link}>

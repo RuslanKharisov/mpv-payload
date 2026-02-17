@@ -36,13 +36,13 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
     .map((p) => p.id.toString())
 
   return (
-    <div className="columns-[300px] gap-x-4 gap-y-[10px]">
+    <div className="columns-[300px] gap-x-4 gap-y-2.5">
       {parentCategories.map((parent) => {
         const childCategories = categoriesByParent[parent.id.toString()] || []
         const hasChildren = childCategories.length > 0
 
         return (
-          <div key={parent.id} className="mb-[10px] break-inside-avoid-column">
+          <div key={parent.id} className="mb-2.5 break-inside-avoid-column">
             {hasChildren ? (
               <Accordion type="multiple" defaultValue={defaultExpandedValues} className="w-full">
                 <AccordionItem
@@ -71,11 +71,11 @@ export function CategoryAccordion({ categories }: CategoryAccordionProps) {
                 </AccordionItem>
               </Accordion>
             ) : (
-              <div className="flex min-h-[54px] items-center overflow-hidden rounded-lg border bg-card p-4">
+              <div className="flex min-h-13.5 items-center overflow-hidden rounded-lg border bg-card p-4">
                 {parent.slug && (
                   <Link
                     href={`/products?category=${encodeURIComponent(parent.slug)}`}
-                    className="w-full text-base font-semibold leading-[22px] text-card-foreground"
+                    className="w-full text-base font-semibold leading-5.5 text-card-foreground"
                   >
                     {parent.title}
                   </Link>

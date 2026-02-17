@@ -25,6 +25,7 @@ import {
   WarehouseIcon,
 } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const supplierItems = [
   { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' }, // Каталог и запасы
@@ -42,6 +43,8 @@ interface PrivateSidebarProps {
 
 export function PrivateSidebar({ user }: PrivateSidebarProps) {
   const { state } = useSidebar() // "expanded" | "collapsed"
+  const pathname = usePathname()
+  console.log('pathname ==> ', pathname)
   const iconSize = state == 'expanded' ? '!w-8 !h-auto' : ''
 
   return (
@@ -60,10 +63,11 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
           <SidebarMenu>
             {supplierItems.map((item, index) => (
               <SidebarMenuItem key={item.href + index}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === item.href}>
                   <Link href={item.href}>
                     <item.icon className="h-4 w-4" />
                     <span>{item.label}</span>
+                    {pathname === item.href ? 'active' : 'none'}
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

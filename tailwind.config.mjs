@@ -1,5 +1,4 @@
 import tailwindcssAnimate from 'tailwindcss-animate'
-import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -10,7 +9,7 @@ const config = {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [tailwindcssAnimate],
   prefix: '',
   safelist: [
     'lg:col-span-4',
@@ -100,56 +99,6 @@ const config = {
           to: { height: '0' },
         },
       },
-      typography: () => ({
-        DEFAULT: {
-          css: [
-            {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
-
-              // mobile (по умолчанию)
-              h1: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: '800',
-                fontSize: '1.5rem',
-              },
-              h2: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: '700',
-                fontSize: '1.25rem',
-              },
-              h3: {
-                fontFamily: 'var(--font-onest), serif',
-                fontWeight: '600',
-                fontSize: '1.0rem',
-              },
-              p: {
-                fontFamily: 'var(--font-inter), sans-serif',
-              },
-              li: {
-                fontFamily: 'var(--font-inter), sans-serif',
-              },
-            },
-          ],
-        },
-        lg: {
-          css: [
-            {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
-              h1: {
-                fontSize: '2.4rem',
-              },
-              h2: {
-                fontSize: '2.0rem',
-              },
-              h3: {
-                fontSize: '1.25rem',
-              },
-            },
-          ],
-        },
-      }),
     },
   },
 }
