@@ -86,7 +86,9 @@ export function StockCard({ stock }: StockCardProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-muted-foreground">Адрес склада:</span>
-            <span className="font-medium">{stock.warehouse?.warehouse_address?.city}</span>
+            <span className="font-medium">
+              {stock.warehouse?.warehouse_address?.city || 'Не указан'}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-muted-foreground">Гарантия:</span>
