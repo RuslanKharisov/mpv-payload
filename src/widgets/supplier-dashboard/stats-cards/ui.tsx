@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
+import { Typography } from '@/shared/ui/typography'
 import { Package, Warehouse } from 'lucide-react'
 
 export interface StatsCardsProps {
@@ -22,13 +23,15 @@ export function StatsCards({
           <CardTitle className="text-sm font-medium">Склады</CardTitle>
           <Warehouse className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
-        <CardContent className="gap-y-3">
-          <div className="text-2xl font-bold">Общее количество складов: {warehousesCount}</div>
-          <p className="text-xs text-muted-foreground mt-1">
+        <CardContent className="flex flex-col gap-y-2">
+          <Typography tag="p" wrapper={false} className="text-lg font-bold">
+            Общее количество складов: {warehousesCount}
+          </Typography>
+          <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
             {warehousesWithStock > 0
               ? `склады с остатками: ${warehousesWithStock}`
               : 'Нет складов с остатками'}
-          </p>
+          </Typography>
         </CardContent>
       </Card>
 
@@ -38,9 +41,13 @@ export function StatsCards({
           <CardTitle className="text-sm font-medium">Записи остатков</CardTitle>
           <Package className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stocksCount}</div>
-          <p className="text-xs text-muted-foreground">Всего записей остатков в базе данных</p>
+        <CardContent className="flex flex-col gap-y-2">
+          <Typography tag="p" wrapper={false} className="text-2xl font-bold">
+            {stocksCount}
+          </Typography>
+          <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
+            Всего записей остатков в базе данных
+          </Typography>
         </CardContent>
       </Card>
 
@@ -50,9 +57,13 @@ export function StatsCards({
           <CardTitle className="text-sm font-medium">Уникальные SKU</CardTitle>
           <Package className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{skuCount}</div>
-          <p className="text-xs text-muted-foreground">Уникальных товаров на складах</p>
+        <CardContent className="flex flex-col gap-y-2">
+          <Typography tag="p" wrapper={false} className="text-2xl font-bold">
+            {skuCount}
+          </Typography>
+          <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
+            Уникальных товаров на складах
+          </Typography>
         </CardContent>
       </Card>
     </>

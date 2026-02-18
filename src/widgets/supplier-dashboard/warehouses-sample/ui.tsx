@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/sha
 import { Button } from '@/shared/ui/button'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { Typography } from '@/shared/ui/typography'
 
 export interface WarehousesSampleItem {
   id: string
@@ -18,7 +19,7 @@ export function WarehousesSample({ warehousesSample, warehousesCount }: Warehous
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Ваши склады</CardTitle>
+        <CardTitle className="text-lg font-bold">Ваши склады</CardTitle>
         <CardDescription>
           {warehousesCount > warehousesSample.length
             ? `Показано ${warehousesSample.length} из ${warehousesCount} складов`
@@ -32,10 +33,14 @@ export function WarehousesSample({ warehousesSample, warehousesCount }: Warehous
               key={warehouse.id}
               className="flex items-center justify-between rounded-md border p-3"
             >
-              <div>
-                <div className="font-medium">{warehouse.title}</div>
+              <div className="flex flex-col gap-y-1">
+                <Typography tag="p" wrapper={false} className="text-lg font-bold">
+                  {warehouse.title}
+                </Typography>
                 {warehouse.address && (
-                  <div className="text-sm text-muted-foreground">{warehouse.address}</div>
+                  <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
+                    {warehouse.address}
+                  </Typography>
                 )}
               </div>
             </div>

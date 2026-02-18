@@ -7,6 +7,7 @@ import type { User, Tenant } from '@/payload-types'
 // Безопасный интерфейс пользователя (без чувствительных полей)
 export interface SupplierDashboardUser {
   id: string
+  name: string
   email: string
   roles?: ('user' | 'admin' | 'super-admin' | 'content-editor')[]
 }
@@ -16,6 +17,9 @@ export interface SupplierDashboardTenant {
   id: string
   name: string
   slug?: string | null
+  domain?: string | null
+  requestEmail: string
+  createdAt: string
 }
 
 export interface SupplierDashboardSummary {
@@ -174,6 +178,7 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
   // Фильтруем чувствительные поля перед возвратом
   const safeUser: SupplierDashboardUser = {
     id: String(user.id),
+    name: user.username,
     email: user.email,
     roles: user.roles ?? undefined,
   }
@@ -182,6 +187,9 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     id: String(tenant.id),
     name: tenant.name,
     slug: tenant.slug,
+    domain: tenant.domain,
+    requestEmail: tenant.requestEmail,
+    createdAt: tenant.createdAt,
   }
 
   return {

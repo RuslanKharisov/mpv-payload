@@ -1,14 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { User } from 'lucide-react'
-import type { User as UserType } from '@/payload-types'
+import type { SupplierDashboardUser } from '@/entities/dashboard/api/get-supplier-dashboard-summary'
 import { Typography } from '@/shared/ui/typography'
 
 export interface UserCardProps {
-  user: UserType
+  user: SupplierDashboardUser
 }
 
 export function UserCard({ user }: UserCardProps) {
-  const tenantRoles = user.tenants?.[0]?.roles ?? []
   const systemRoles = user.roles ?? []
 
   return (
@@ -17,26 +16,22 @@ export function UserCard({ user }: UserCardProps) {
         <CardTitle className="text-sm font-medium">Пользователь</CardTitle>
         <User className="h-4 w-4" />
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-y-2">
         <Typography tag="p" wrapper={false} className="text-lg font-bold">
-          {user.username || user.email}
-        </Typography>
-        <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
           {user.email}
         </Typography>
-        <div className="mt-2 space-y-1">
-          {systemRoles.length > 0 && (
-            <Typography tag="p" wrapper={false} className="text-xs">
-              <span className="text-muted-foreground">Системные роли:</span>{' '}
-              {systemRoles.join(', ')}
-            </Typography>
-          )}
-          {tenantRoles.length > 0 && (
-            <Typography tag="p" wrapper={false} className="text-xs">
-              <span className="text-muted-foreground">Роли в компании:</span>{' '}
-              {tenantRoles.join(', ')}
-            </Typography>
-          )}
+        <div className="flex flex-col gap-y-1">
+          <Typography tag="p" wrapper={false} className="text-xs text-muted-foreground">
+            {user.name}
+          </Typography>
+          <div className="space-y-1">
+            {systemRoles.length > 0 && (
+              <Typography tag="p" wrapper={false} className="text-xs">
+                <span className="text-muted-foreground">Системные роли:</span>{' '}
+                {systemRoles.join(', ')}
+              </Typography>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

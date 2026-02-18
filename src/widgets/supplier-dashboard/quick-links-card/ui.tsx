@@ -11,18 +11,20 @@ export function QuickLinksCard() {
         <ArrowRight className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-2">
-        <Button asChild variant="outline" className="w-full justify-between" size="sm">
-          <Link href="/suppliers/warehouses">
-            Управление складами
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="w-full justify-between" size="sm">
-          <Link href="/suppliers/stocks">
-            Остатки и цены
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
+        <div className="flex flex-col gap-y-1">
+          <Button asChild variant="destructive" className="w-full justify-between" size="sm">
+            <Link href="/suppliers/warehouses">
+              Управление складами
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="default" className="w-full justify-between" size="sm">
+            <Link href="/suppliers/stocks">
+              Остатки и цены
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )
