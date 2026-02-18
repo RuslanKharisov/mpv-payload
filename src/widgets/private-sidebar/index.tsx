@@ -44,7 +44,6 @@ interface PrivateSidebarProps {
 export function PrivateSidebar({ user }: PrivateSidebarProps) {
   const { state } = useSidebar() // "expanded" | "collapsed"
   const pathname = usePathname()
-  console.log('pathname ==> ', pathname)
   const iconSize = state == 'expanded' ? '!w-8 !h-auto' : ''
 
   return (

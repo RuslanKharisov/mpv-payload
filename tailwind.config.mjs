@@ -99,6 +99,66 @@ const config = {
           to: { height: '0' },
         },
       },
+      typography: () => ({
+        DEFAULT: {
+          css: [
+            {
+              '--tw-prose-body': 'var(--text)',
+              '--tw-prose-headings': 'var(--text)',
+              h1: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: '800',
+                fontSize: '2rem', // Базовый размер (mobile)
+                marginBottom: '0.25em',
+              },
+              h2: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: '800',
+                fontSize: '1.65rem',
+              },
+              h3: {
+                fontFamily: 'var(--font-onest), serif',
+                fontWeight: '700',
+                fontSize: '1.15rem',
+              },
+              h4: {
+                fontFamily: 'var(--font-onest), serif',
+                fontSize: '1.0rem',
+              },
+              body: {
+                fontFamily: 'var(--font-inter), sans-serif',
+              },
+            },
+          ],
+        },
+        // Брейкпоинт MD (обычно от 768px)
+        md: {
+          css: [
+            {
+              h1: {
+                fontSize: '2.5rem',
+              },
+              h2: {
+                fontSize: '2rem',
+              },
+            },
+          ],
+        },
+        // Брейкпоинт LG (обычно от 1024px)
+        lg: {
+          css: [
+            {
+              h1: {
+                fontSize: '3rem',
+                marginBottom: '0.5em',
+              },
+              h2: {
+                fontSize: '2.25rem',
+              },
+            },
+          ],
+        },
+      }),
     },
   },
 }

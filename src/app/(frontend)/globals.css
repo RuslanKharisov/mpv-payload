@@ -45,52 +45,6 @@ html[data-theme='light'] {
     @apply font-serif tracking-tight;
   }
 
-  /* Prose typography overrides */
-  .prose h1,
-  h1.prose {
-    font-family: var(--font-onest), serif;
-    font-weight: 800;
-    font-size: 1.5rem;
-  }
-
-  .prose h2,
-  h2.prose {
-    font-family: var(--font-onest), serif;
-    font-weight: 700;
-    font-size: 1.25rem;
-  }
-
-  .prose h3,
-  h3.prose {
-    font-family: var(--font-onest), serif;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .prose p,
-  .prose li,
-  p.prose,
-  li.prose {
-    font-family: var(--font-inter), sans-serif;
-  }
-
-  @media (min-width: 1024px) {
-    .prose h1,
-    h1.prose {
-      font-size: 2.4rem;
-    }
-
-    .prose h2,
-    h2.prose {
-      font-size: 2rem;
-    }
-
-    .prose h3,
-    h3.prose {
-      font-size: 1.25rem;
-    }
-  }
-
   body {
     @apply bg-background text-foreground min-h-screen flex flex-col overflow-x-hidden font-sans;
   }
@@ -100,7 +54,7 @@ html[data-theme='light'] {
     @apply text-[18px] leading-6 font-light;
   } */
 
-  @media (max-width: 770px) {
+  /* @media (max-width: 770px) {
     table thead tr {
       display: none;
     }
@@ -136,7 +90,7 @@ html[data-theme='light'] {
     .font-medium {
       font-size: 14px;
     }
-  }
+  } */
 }
 
 @layer base {

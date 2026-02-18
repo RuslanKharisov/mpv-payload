@@ -35,9 +35,8 @@ export const Typography = ({
   const needsWrapper = wrapper ?? !inlineTags.has(Tag)
 
   if (!needsWrapper) {
-    // Render inline element directly with prose classes
     return (
-      <Tag className={proseClasses} {...props}>
+      <Tag {...props} className={className}>
         {children}
       </Tag>
     )

@@ -1,5 +1,3 @@
-'use server'
-
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getMeUser } from '@/shared/utilities/getMeUser'
@@ -88,7 +86,7 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
       },
     },
     depth: 0,
-    limit: 1000,
+    limit: 0,
   })
 
   const stocksCount = stocksResult.totalDocs

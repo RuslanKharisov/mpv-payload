@@ -26,7 +26,7 @@ export function StatsCards({
           <div className="text-2xl font-bold">Общее количество складов: {warehousesCount}</div>
           <p className="text-xs text-muted-foreground mt-1">
             {warehousesWithStock > 0
-              ? `${warehousesWithStock} склад (ов) с остатками`
+              ? `склады с остатками: ${warehousesWithStock}`
               : 'Нет складов с остатками'}
           </p>
         </CardContent>

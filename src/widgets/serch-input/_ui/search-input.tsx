@@ -1,5 +1,6 @@
 'use client'
 import { TextFilterInput } from '@/shared/ui/text-filter-input'
+import { Typography } from '@/shared/ui/typography'
 import { cn } from '@/shared/utilities/ui'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -54,12 +55,13 @@ export function SearchInput({ className, currentPhrase }: Args) {
         applyFilter={applyFilters}
         placeholder="Искать ..."
       />
-      <p
-        className="mt-1 cursor-pointer text-lg font-bold text-white underline"
+      <Typography
+        tag="p"
+        className="mt-1 cursor-pointer text-white underline"
         onClick={() => handleExampleClick('6ES7')}
       >
         Введите чатсть артикула: 6ES7
-      </p>
+      </Typography>
     </div>
   )
 }
