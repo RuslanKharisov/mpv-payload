@@ -125,9 +125,6 @@ const config = {
                 fontFamily: 'var(--font-onest), serif',
                 fontSize: '1.0rem',
               },
-              body: {
-                fontFamily: 'var(--font-inter), sans-serif',
-              },
             },
           ],
         },

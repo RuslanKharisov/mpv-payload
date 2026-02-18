@@ -4,9 +4,23 @@ import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getActiveTenantId, tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
 import type { User, Tenant } from '@/payload-types'
 
+// Безопасный интерфейс пользователя (без чувствительных полей)
+export interface SupplierDashboardUser {
+  id: string
+  email: string
+  roles?: ('user' | 'admin' | 'super-admin' | 'content-editor')[]
+}
+
+// Безопасный интерфейс тенанта (без чувствительных полей)
+export interface SupplierDashboardTenant {
+  id: string
+  name: string
+  slug?: string | null
+}
+
 export interface SupplierDashboardSummary {
-  user: User
-  tenant: Tenant
+  user: SupplierDashboardUser
+  tenant: SupplierDashboardTenant
   warehousesCount: number
   stocksCount: number
   skuCount: number
@@ -51,15 +65,21 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
   }
 
   // Fetch warehouses for the tenant
-  const warehousesResult = await payload.find({
-    collection: 'warehouses',
-    where: {
-      tenant: {
-        equals: activeTenantId,
+  let warehousesResult
+  try {
+    warehousesResult = await payload.find({
+      collection: 'warehouses',
+      where: {
+        tenant: {
+          equals: activeTenantId,
+        },
       },
-    },
-    depth: 1,
-  })
+      depth: 1,
+    })
+  } catch (error) {
+    console.error('Error fetching warehouses:', error)
+    warehousesResult = { totalDocs: 0, docs: [] }
+  }
 
   const warehousesCount = warehousesResult.totalDocs
 
@@ -151,9 +171,22 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     console.error('Error fetching subscription:', error)
   }
 
+  // Фильтруем чувствительные поля перед возвратом
+  const safeUser: SupplierDashboardUser = {
+    id: String(user.id),
+    email: user.email,
+    roles: user.roles ?? undefined,
+  }
+
+  const safeTenant: SupplierDashboardTenant = {
+    id: String(tenant.id),
+    name: tenant.name,
+    slug: tenant.slug,
+  }
+
   return {
-    user,
-    tenant,
+    user: safeUser,
+    tenant: safeTenant,
     warehousesCount,
     stocksCount,
     skuCount,

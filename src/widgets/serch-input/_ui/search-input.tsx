@@ -57,7 +57,7 @@ export function SearchInput({ className, currentPhrase }: Args) {
       />
       <Typography
         tag="p"
-        className="mt-1 cursor-pointer text-white underline"
+        className="mt-1 cursor-pointer underline"
         onClick={() => handleExampleClick('6ES7')}
       >
         Введите чатсть артикула: 6ES7
