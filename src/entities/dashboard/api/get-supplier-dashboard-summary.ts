@@ -1,7 +1,8 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getMeUser } from '@/shared/utilities/getMeUser'
-import { getActiveTenantId, tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
+import { getActiveTenantId } from '@/payload/access/hasActiveFeature'
+import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 import type { User, Tenant } from '@/payload-types'
 
 // Безопасный интерфейс пользователя (без чувствительных полей)
@@ -138,16 +139,13 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
   const skuCount = uniqueProductIds.size
   const warehousesWithStock = uniqueWarehouseIds.size
 
-  // Check if user is super-admin
-  const isSuperAdmin = user.roles?.includes('super-admin') ?? false
+  // Check if user is super-admin using shared utility
+  const userIsSuperAdmin = isSuperAdmin(user)
 
-  // Check CAN_MANAGE_STOCK feature
-  const canManageStock = isSuperAdmin
-    ? true
-    : await tenantHasActiveFeature(activeTenantId, 'CAN_MANAGE_STOCK', payload)
-
-  // Fetch active subscription for the tenant
+  // Fetch active subscription for the tenant (single query)
   let subscription: SupplierDashboardSummary['subscription'] = null
+  let canManageStock = userIsSuperAdmin
+
   try {
     const subscriptionsResult = await payload.find({
       collection: 'subscriptions',
@@ -169,6 +167,15 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
         endDate: activeSubscription.endDate ?? undefined,
         tariffName: typeof tariff === 'object' && tariff !== null ? tariff.name : undefined,
         features: typeof tariff === 'object' && tariff !== null ? (tariff.features ?? []) : [],
+      }
+
+      // Derive canManageStock from subscription if not super-admin
+      if (!userIsSuperAdmin) {
+        canManageStock =
+          typeof tariff === 'object' &&
+          tariff !== null &&
+          Array.isArray(tariff.features) &&
+          tariff.features.includes('CAN_MANAGE_STOCK')
       }
     }
   } catch (error) {
