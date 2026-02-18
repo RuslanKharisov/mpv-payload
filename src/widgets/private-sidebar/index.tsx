@@ -44,7 +44,6 @@ interface PrivateSidebarProps {
 export function PrivateSidebar({ user }: PrivateSidebarProps) {
   const { state } = useSidebar() // "expanded" | "collapsed"
   const pathname = usePathname()
-  console.log('pathname ==> ', pathname)
   const iconSize = state == 'expanded' ? '!w-8 !h-auto' : ''
 
   return (
@@ -67,7 +66,6 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
                   <Link href={item.href}>
                     <item.icon className="h-4 w-4" />
                     <span>{item.label}</span>
-                    {pathname === item.href ? 'active' : 'none'}
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

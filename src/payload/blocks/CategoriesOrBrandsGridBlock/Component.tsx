@@ -23,7 +23,7 @@ const GridItemCard: React.FC<{ item: GridItem }> = ({ item }) => {
     <Card className="p-3 md:p-6 transition-all hover:shadow-md flex flex-col h-full">
       <div className="flex flex-col flex-1">
         <div className="space-y-2 py-4 flex-1">
-          <Typography tag="h3" className="line-clamp-2">
+          <Typography tag="h3" className="line-clamp-2 wrap-break-word">
             {item.title}
           </Typography>
           {item.description && (
