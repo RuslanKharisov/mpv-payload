@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useTransition, useState, JSX, useMemo, useRef } from 'react'
-import { DataTable, usePagination } from '@/widgets/smart-data-table'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Spinner } from '@/shared/ui/spinner'
+import { RemoteStock } from '@/entities/remote-stock'
 import { ProductsTableColumns } from '@/entities/remote-stock/_vm/products-table-columns'
 import { Tenant } from '@/payload-types'
-import { RemoteStock } from '@/entities/remote-stock'
+import { Spinner } from '@/shared/ui/spinner'
+import { DataTable, usePagination } from '@/widgets/smart-data-table'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { JSX, useEffect, useMemo, useTransition } from 'react'
 
 interface GoogleStockProps {
   dataArray: RemoteStock[]
@@ -20,11 +20,8 @@ function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Elem
   const searchParams = useSearchParams()
 
   const [isPending, startTransition] = useTransition()
-  const [showSpinner, setShowSpinner] = useState(false)
 
   const columns = useMemo(() => ProductsTableColumns(supplier), [supplier])
-
-  const isInitialMount = useRef(true)
 
   useEffect(() => {
     const pageStr = (pagination.pageIndex + 1).toString()
@@ -47,8 +44,8 @@ function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Elem
 
   return (
     <div className="relative">
-      {showSpinner && (
-        <div className="absolute top-8 z-10 ">
+      {isPending && (
+        <div className="absolute -top-10 left-1/2 z-10 ">
           <Spinner />
         </div>
       )}

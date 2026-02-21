@@ -1,13 +1,9 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { CartEntry } from '@/entities/cart'
+import { SendPriceRequestFormValues, SendPriceRequestSchema } from '@/entities/price-request'
+import { useTRPC } from '@/shared/trpc/client'
 import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Spinner } from '@/shared/ui/spinner'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -17,18 +13,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shared/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
+import { Input } from '@/shared/ui/input'
+import PolicyLink from '@/shared/ui/policy-link'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
 import { Separator } from '@/shared/ui/separator'
-import { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
-import { CartEntry } from '@/entities/cart'
+import { Spinner } from '@/shared/ui/spinner'
 import { Textarea } from '@/shared/ui/textarea'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SendPriceRequestFormValues, SendPriceRequestSchema } from '@/entities/price-request'
-import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRequestItem'
-import { useTRPC } from '@/shared/trpc/client'
+import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { deliveryTimeLabels } from '../_domain/deliveryTime'
-import PolicyLink from '@/shared/ui/policy-link'
+import { mapCartEntryToPriceRequestItem } from '../_domain/mapCartEntryToPriceRequestItem'
 
 interface SendPriceRequestModalProps {
   tenantName: string

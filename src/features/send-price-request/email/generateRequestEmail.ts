@@ -1,6 +1,6 @@
 import { PriceRequestSchema } from '@/entities/price-request'
 import { generateEmailHTML } from '@/payload/email/generateEmailHTML'
-import { sanitizeEmail, sanitizePhone } from '@/shared/utilities/sanitazeData'
+import { sanitizeEmail } from '@/shared/utilities/sanitazeData'
 import { sanitizeUserDataForEmail } from 'payload/shared'
 import z from 'zod'
 import { formatDeliveryTime } from '../_domain/deliveryTime'

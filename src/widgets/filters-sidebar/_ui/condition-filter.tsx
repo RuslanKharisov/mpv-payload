@@ -1,13 +1,13 @@
 'use client'
 
-import { useMemo } from 'react'
 import { useFilters } from '@/shared/providers/Filters'
-import { FilterAccordion } from './filter-accordion'
-import { Label } from '@/shared/ui/label'
-import { Checkbox } from '@/shared/ui/checkbox'
-import { toDomId } from '@/shared/utilities/toDomId'
-import { useAllFilterStats } from '@/shared/utilities/getProductCounts'
 import { Badge } from '@/shared/ui/badge'
+import { Checkbox } from '@/shared/ui/checkbox'
+import { Label } from '@/shared/ui/label'
+import { useAllFilterStats } from '@/shared/utilities/getProductCounts'
+import { toDomId } from '@/shared/utilities/toDomId'
+import { useMemo } from 'react'
+import { FilterAccordion } from './filter-accordion'
 
 const CONDITIONS = [
   { value: 'НОВЫЙ С ЗАВОДА', label: 'Новый с завода' },
@@ -56,7 +56,7 @@ export function ConditionFilter() {
   const currentCondition = filters.condition
 
   // Берем данные из общего агрегатора (уже загружены City и Region фильтрами)
-  const { stats, isLoading } = useAllFilterStats()
+  const { stats } = useAllFilterStats()
 
   const toggleCondition = (value: string) => {
     setFilter('condition', currentCondition === value ? undefined : value)
