@@ -98,7 +98,7 @@ export function SendPriceRequestModal({
       <DialogTrigger asChild>
         {trigger || (
           <Button className="w-full cursor-pointer">
-            Запросить предложение
+            Запроc КП
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         )}
