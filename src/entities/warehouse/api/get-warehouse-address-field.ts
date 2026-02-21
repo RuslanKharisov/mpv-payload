@@ -1,7 +1,7 @@
-import { getPayload } from 'payload'
+import { Address } from '@/payload-types'
 import configPromise from '@payload-config'
+import { getPayload, Where } from 'payload'
 import { cache } from 'react'
-import { Address, Warehouse } from '@/payload-types'
 
 async function getWarehouseAddressField<T extends string>(
   field: 'region' | 'city',
@@ -9,7 +9,7 @@ async function getWarehouseAddressField<T extends string>(
 ): Promise<T[]> {
   const payload = await getPayload({ config: configPromise })
 
-  const where: any = {}
+  const where: Where = {}
   if (filterRegion && field === 'city') {
     where['warehouse_address.region'] = { equals: filterRegion }
   }
@@ -24,7 +24,7 @@ async function getWarehouseAddressField<T extends string>(
 
   const valuesSet = new Set<string>()
 
-  for (const warehouse of warehouses.docs as Warehouse[]) {
+  for (const warehouse of warehouses.docs) {
     if (
       warehouse.warehouse_address &&
       typeof warehouse.warehouse_address === 'object' &&

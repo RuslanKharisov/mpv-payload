@@ -98,7 +98,8 @@ export const CategoriesOrBrandsGridBlock: React.FC<BlockType> = async ({
           .filter((doc) => doc.slug && doc.name)
           .map((doc) => {
             // Безопасное получение описания (поле может отсутствовать в типе)
-            const description = (doc as any).description || (doc as any).bio || ''
+            const brandWithDescription = doc as Brand & { description?: string; bio?: string }
+            const description = brandWithDescription.description || brandWithDescription.bio || ''
             return {
               id: doc.id,
               title: doc.name,

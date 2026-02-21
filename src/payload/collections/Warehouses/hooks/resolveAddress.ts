@@ -6,8 +6,27 @@ export const beforeChangeHook: CollectionBeforeChangeHook<Warehouse> = async ({
   req: { payload, user },
 }) => {
   // Проверяем, выбрал ли пользователь новый адрес в UI-компоненте
-  if (data.selectedAddressData) {
-    const suggestion = data.selectedAddressData as any // Получаем полный объект адреса
+  if (
+    data.selectedAddressData &&
+    typeof data.selectedAddressData === 'object' &&
+    data.selectedAddressData !== null
+  ) {
+    // Проверяем, что это объект с необходимыми свойствами
+    const suggestion = data.selectedAddressData as {
+      value: string
+      data: {
+        fias_id: string
+        kladr_id?: string
+        city?: string
+        settlement?: string
+        region_with_type?: string
+        street?: string
+        house?: string
+        geo_lat?: string
+        geo_lon?: string
+        country_iso_code?: string
+      }
+    }
 
     try {
       // 1. Ищем существующий адрес по FIAS ID
@@ -48,7 +67,8 @@ export const beforeChangeHook: CollectionBeforeChangeHook<Warehouse> = async ({
       // 2. Обновляем основное поле `address` ID-шником найденного/созданного адреса
       data.warehouse_address = addressDoc.id
     } catch (e: unknown) {
-      payload.logger.error(`Error resolving address in beforeChange hook: ${e}`)
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error'
+      payload.logger.error(`Error resolving address in beforeChange hook: ${errorMessage}`)
     }
   }
 

@@ -5,10 +5,12 @@ import config from '@payload-config'
 import { revalidatePath } from 'next/cache'
 import { getPayload } from 'payload'
 
+import { Tenant } from '@/payload-types'
+
 export interface UpdateRemoteConfigResult {
   success: boolean
   error?: string
-  tenant?: any
+  tenant?: Tenant
 }
 
 export async function updateRemoteConfig(formData: FormData): Promise<UpdateRemoteConfigResult> {
@@ -31,7 +33,7 @@ export async function updateRemoteConfig(formData: FormData): Promise<UpdateRemo
 
     const apiUrl = formData.get('apiUrl') as string
     const apiToken = formData.get('apiToken') as string
-    const apiType = formData.get('apiType') as string
+    const _apiType = formData.get('apiType') as string
 
     // Обновляем тенант
     const updatedTenant = await payload.update({

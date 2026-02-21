@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useField } from '@payloadcms/ui'
 import { DaDataInput } from './DaDataInput'
 // import { findOrCreateAddressAction } from '../actions/findOrCreateAddressAction'
+import { DaDataSuggestion } from '@/shared/types/dadata.types'
 
 type Props = {
   addressRelationPath: string
@@ -15,7 +16,7 @@ const DaDataAddressField: React.FC<Props> = ({ addressRelationPath, selectedAddr
   // 👇 ИСПОЛЬЗУЕМ ХУК useField.
   // Он предназначен для работы с одним полем и предоставляет и value, и setValue.
   // В качестве generic <string> указываем тип значения поля (ID - это строка).
-  const { value: addressId, setValue } = useField<string>({ path: addressRelationPath })
+  const { value: addressId, setValue: _setValue } = useField<string>({ path: addressRelationPath })
 
   const { setValue: setSelectedAddress } = useField<object>({ path: selectedAddressDataPath })
 
@@ -49,7 +50,7 @@ const DaDataAddressField: React.FC<Props> = ({ addressRelationPath, selectedAddr
   }, [addressId, initialDisplayValue])
 
   const handleSelect = useCallback(
-    (suggestion: any) => {
+    (suggestion: DaDataSuggestion) => {
       if (setSelectedAddress) {
         // Просто кладем весь объект suggestion в наше временное поле.
         // Payload автоматически обработает его как JSON.

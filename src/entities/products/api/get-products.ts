@@ -1,7 +1,6 @@
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { Product } from '@/payload-types'
-import { ProductCategory } from '@/payload-types'
+import { getPayload, Where } from 'payload'
+import { Product, ProductCategory, Warehouse, Stock } from '@/payload-types' // Добавил Warehouse и Stock
 import { ProductCategoryWithParents } from '@/entities/category/model/product-category-withParents'
 import { findAllCategoryChildrenIds } from '@/entities/category/lib/find-all-category-childrenIds'
 
@@ -40,7 +39,8 @@ export async function getProducts({
   const payload = await getPayload({ config: configPromise })
 
   const pageNumber = Number(page) || 1
-  const where: any = {}
+  // Используем тип Where для корректной фильтрации
+  const where: Where = {}
   let currentCategory: ProductCategory | undefined
   let selectedBrandSlugs: string[] = []
   let invalidCategory = false
@@ -51,16 +51,15 @@ export async function getProducts({
       invalidCategory = true
     } else {
       const childrenIds = findAllCategoryChildrenIds(currentCategory.id, allCategories)
-      const allCategoryIds = [String(currentCategory.id), ...childrenIds]
+      // Преобразуем ID в строки/числа согласно типам вашей БД
+      const allCategoryIds = [currentCategory.id, ...childrenIds]
 
       where['productCategory.id'] = { in: allCategoryIds }
     }
   }
 
   if (brandsSlug) {
-    // Превращаем строку в массив и сохраняем в нашу переменную
     selectedBrandSlugs = brandsSlug.split(',')
-
     if (selectedBrandSlugs.length > 0) {
       where['brand.slug'] = { in: selectedBrandSlugs }
     }
@@ -70,23 +69,17 @@ export async function getProducts({
     where.or = [{ name: { contains: phrase } }, { sku: { contains: phrase } }]
   }
 
-  // Сначала получим ID продуктов, которые соответствуют фильтрам по stocks
-  let stockProductIds: number[] = []
   const hasStockFilters = condition || city || region
 
   if (hasStockFilters) {
-    // Формируем запрос к коллекции stocks с нужными фильтрами
-    const stockWhere: any = {}
+    const stockWhere: Where = {}
 
-    // Фильтр по состоянию товара
     if (condition) {
       stockWhere.condition = { equals: condition }
     }
 
-    // Фильтр по городу и региону
     if (city || region) {
-      // Получаем склады с учетом фильтров по городу и региону
-      const warehouseWhere: any = {}
+      const warehouseWhere: Where = {}
 
       if (region) {
         warehouseWhere['warehouse_address.region'] = { equals: region }
@@ -103,17 +96,16 @@ export async function getProducts({
         limit: 1000,
       })
 
-      const warehouseIds = warehouses.docs.map((w: any) => w.id)
+      // Явно типизируем маппинг ID складов
+      const warehouseIds = (warehouses.docs as Warehouse[]).map((w) => w.id)
 
       if (warehouseIds.length > 0) {
         stockWhere.warehouse = { in: warehouseIds }
       } else {
-        // Если нет складов, удовлетворяющих условиям, то нет и товаров
-        stockWhere.warehouse = { in: [-1] } // Несуществующий ID
+        stockWhere.warehouse = { in: [-1] }
       }
     }
 
-    // Получаем stocks с нужными фильтрами
     const stocks = await payload.find({
       collection: 'stocks',
       where: stockWhere,
@@ -121,14 +113,16 @@ export async function getProducts({
       limit: 1000,
     })
 
-    stockProductIds = stocks.docs.map((s: any) => s.product)
+    // Извлекаем ID продуктов из стоков.
+    // В Payload связи хранятся как ID или объекты, делаем проверку типа.
+    const stockProductIds = (stocks.docs as Stock[]).map((s) =>
+      typeof s.product === 'object' ? s.product.id : s.product,
+    )
 
-    // Если есть фильтры по stocks, добавляем фильтр по ID продуктов
     if (stockProductIds.length > 0) {
       where.id = { in: stockProductIds }
     } else {
-      // Если нет подходящих stocks, возвращаем пустой результат
-      where.id = { in: [-1] } // Несуществующий ID
+      where.id = { in: [-1] }
     }
   }
 
@@ -138,6 +132,7 @@ export async function getProducts({
     page: pageNumber,
     limit: 12,
     depth: 1,
+    // Выбираем только нужные поля для оптимизации
     select: {
       sku: true,
       name: true,

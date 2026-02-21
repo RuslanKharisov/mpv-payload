@@ -29,22 +29,24 @@ export default function ImportStocksButton(props: BeforeListTableClientProps) {
       const formData = new FormData()
       formData.append('file', file)
 
-      let result: any = {}
+      let result: { message?: string; errors?: string[] } = {}
       try {
         const response = await fetch(`${serverURL}${api}/import-stocks`, {
           method: 'POST',
           body: formData,
         })
         result = await response.json()
-      } catch (error: any) {
-        result.errors = [error.message || 'Критическая ошибка. Проверьте консоль сервера.']
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Критическая ошибка. Проверьте консоль сервера.'
+        result.errors = [errorMessage]
       } finally {
         setIsLoading(false)
         if (inputRef.current) {
           inputRef.current.value = ''
         }
         setImportResult({
-          successMessage: result.message,
+          successMessage: result.message || '',
           errors: result.errors || [],
         })
         router.refresh()

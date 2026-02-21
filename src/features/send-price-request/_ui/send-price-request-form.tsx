@@ -21,7 +21,7 @@ import { Separator } from '@/shared/ui/separator'
 import { Spinner } from '@/shared/ui/spinner'
 import { Textarea } from '@/shared/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -45,7 +45,6 @@ export function SendPriceRequestModal({
   const [isOpen, setIsOpen] = useState(false)
 
   const trpc = useTRPC()
-  const queryClient = useQueryClient()
 
   const form = useForm<SendPriceRequestFormValues>({
     resolver: zodResolver(SendPriceRequestSchema),
@@ -69,9 +68,11 @@ export function SendPriceRequestModal({
         setIsOpen(false)
       },
 
-      onError: (error) => {
+      onError: (error: unknown) => {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Пожалуйста, попробуйте еще раз.'
         toast.error('Ошибка при отправке запроса', {
-          description: error.message || 'Пожалуйста, попробуйте еще раз.',
+          description: errorMessage,
         })
       },
     }),
@@ -82,7 +83,7 @@ export function SendPriceRequestModal({
       return
     }
 
-    const { website, ...safeData } = data
+    const { website: _website, ...safeData } = data
 
     sendRequest({
       tenantName,
