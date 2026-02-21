@@ -25,7 +25,7 @@ export const resendVerificationHandler: Endpoint = {
     const foundUser = docs?.[0]
 
     if (!foundUser) return Response.json({ error: 'User not found' })
-    if ((foundUser as any)._verified) return Response.json({ ok: true, alreadyVerified: true })
+    if (foundUser._verified) return Response.json({ ok: true, alreadyVerified: true })
 
     const token = randomBytes(32).toString('hex')
 
