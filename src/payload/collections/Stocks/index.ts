@@ -126,11 +126,8 @@ export const Stocks: CollectionConfig = {
       },
       admin: {
         description: 'Отметьте, чтобы товар появился в карусели на главной странице.',
-        // Можно даже скрыть поле, если нет доступа
-        condition: (data, siblingData, { user }) => {
-          // Эта логика сложнее и требует асинхронной проверки,
-          // но можно реализовать через кастомный UI компонент
-          return true
+        condition: (_data, _siblingData, { user }) => {
+          return Boolean(user?.roles?.includes('super-admin'))
         },
       },
     },

@@ -1,12 +1,12 @@
 import { getTenants } from '@/entities/tenant/api/get-tenants'
+import { Button } from '@/shared/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
-import { Metadata } from 'next'
-import { Suspense } from 'react'
-import Link from 'next/link'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
 import { Building2, ExternalLink } from 'lucide-react'
+import { Metadata } from 'next'
+import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default async function page({
   searchParams,

@@ -57,11 +57,10 @@ export async function generateMetadata({ searchParams: paramsPromice }: Args): P
 
   let pageTitle = 'Каталог товаров: промышленное оборудование и запчасти'
 
-  if (categorySlug && typeof categorySlug === 'string') {
-    const category = await getCategoryBySlug(categorySlug)
-    if (category && category[0]?.title) {
-      pageTitle = `${category[0].title} | Каталог товаров`
-    }
+  const category = categorySlug ? await getCategoryBySlug(categorySlug) : null
+
+  if (category?.title) {
+    pageTitle = `${category.title} | Каталог товаров`
   }
 
   const pseudoDoc = {
