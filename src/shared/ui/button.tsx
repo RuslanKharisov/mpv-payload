@@ -39,23 +39,18 @@ export interface ButtonProps
   ref?: React.Ref<HTMLButtonElement>
 }
 
-const Button: React.FC<ButtonProps> = ({
-  asChild = false,
-  className,
-  size,
-  variant,
-  ref,
-  ...props
-}) => {
+const Button = ({ className, variant, size, asChild = false, ref, ...props }: ButtonProps) => {
   const Comp = asChild ? Slot : 'button'
-
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ size, className, variant }))}
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
       {...props}
     />
   )
 }
+
+Button.displayName = 'Button'
 
 export { Button, buttonVariants }

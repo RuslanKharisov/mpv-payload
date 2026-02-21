@@ -9,6 +9,7 @@ import { Button } from '@/shared/ui/button'
 import { Input } from './_ui/input'
 
 type FormData = {
+  username: string // добавил, так как в инпуте есть name="username"
   email: string
   password: string
   passwordConfirm: string
@@ -17,8 +18,9 @@ type FormData = {
 export const CreateAccountForm: React.FC = () => {
   const searchParams = useSearchParams()
   const allParams = searchParams.toString() ? `?${searchParams.toString()}` : ''
-  //   const { login } = useAuth()
   const router = useRouter()
+
+  // Теперь эти переменные используются в onSubmit и в JSX
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
 
@@ -29,32 +31,46 @@ export const CreateAccountForm: React.FC = () => {
     watch,
   } = useForm<FormData>()
 
-  const password = useRef({})
-  password.current = watch('password', '')
+  const passwordValue = watch('password', '')
+  const passwordRef = useRef({})
+  passwordRef.current = passwordValue
 
   const onSubmit = useCallback(
     async (data: FormData) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
+      setLoading(true) // Используем setLoading
+      setError(null) // Сбрасываем старые ошибки
 
-      if (!response.ok) {
-        const message = response.statusText || 'There was an error creating the account.'
-        setError(message)
-        return
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
+
+        if (!response.ok) {
+          const message = 'There was an error creating the account.'
+          setError(message) // Используем setError
+          return
+        }
+
+        // Если успех, редиректим на логин или дашборд
+        // Validate redirect to prevent open redirect vulnerabilities
+        const rawRedirect = searchParams.get('redirect')
+        const isValidRedirect = (value: string): boolean => {
+          // Must start with single '/' and not contain '://' or start with '//'
+          return /^\/(?!\/)/.test(value) && !value.includes('://')
+        }
+        const redirect = rawRedirect && isValidRedirect(rawRedirect) ? rawRedirect : '/account'
+        router.push(redirect)
+      } catch (_err) {
+        setError('Something went wrong. Please try again.')
+      } finally {
+        setLoading(false)
       }
-
-      // const redirect = searchParams.get('redirect')
-
-      // const timer = setTimeout(() => {
-      //   setLoading(true)
-      // }, 1000)
     },
-    [router, searchParams],
+    [router, searchParams], // Зависимости теперь честные
   )
 
   return (
@@ -66,9 +82,12 @@ export const CreateAccountForm: React.FC = () => {
         </Link>
         .
       </p>
-      {/* <Message className={classes.message} error={error} /> */}
+
+      {/* Выводим ошибку, если она есть */}
+      {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+
       <Input
-        error={errors.email}
+        error={errors.username} // Исправил с email на username
         label="User Name"
         name="username"
         register={register}
@@ -98,17 +117,17 @@ export const CreateAccountForm: React.FC = () => {
         register={register}
         required
         type="password"
-        validate={(value) => value === password.current || 'The passwords do not match'}
+        validate={(value) => value === passwordValue || 'The passwords do not match'}
       />
+
       <Button
-        // appearance="primary"
-        // className={classes.submit}
-        // label={loading ? 'Processing' : 'Create Account'}
         type="submit"
+        disabled={loading} // Блокируем кнопку при загрузке
       >
-        Create Account
+        {loading ? 'Creating account...' : 'Create Account'}
       </Button>
-      <div>
+
+      <div style={{ marginTop: '1rem' }}>
         {'Already have an account? '}
         <Link href={`/login${allParams}`}>Login</Link>
       </div>

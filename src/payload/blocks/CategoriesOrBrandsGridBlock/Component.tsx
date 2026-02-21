@@ -1,15 +1,17 @@
-import React from 'react'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import type { ProductCategory, Brand } from '@/payload-types'
 import { Card } from '@/components/ui/card'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+import React from 'react'
 
-import { ChevronRight } from 'lucide-react'
-import { Typography } from '@/shared/ui/typography'
+import type {
+  Brand,
+  CategoriesOrBrandsGridBlock as BlockType,
+  ProductCategory,
+} from '@/payload-types'
 import { Button } from '@/shared/ui/button'
+import { Typography } from '@/shared/ui/typography'
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import type { CategoriesOrBrandsGridBlock as BlockType } from '@/payload-types'
-import { string } from 'zod'
 
 interface GridItem {
   title: string

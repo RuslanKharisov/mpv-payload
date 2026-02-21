@@ -47,7 +47,7 @@ export function CityFilter({ cities = [] }: CityFilterProps) {
   const { filters, setFilter } = useFilters()
   const currentCity = filters.city
 
-  const { stats, isLoading } = useAllFilterStats()
+  const { stats } = useAllFilterStats()
 
   const toggleCity = (value: string) => {
     // В B2B часто ищут в одном городе, поэтому оставляем логику выбора одного значения

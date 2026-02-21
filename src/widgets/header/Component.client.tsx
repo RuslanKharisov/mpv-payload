@@ -1,7 +1,7 @@
 'use client'
 import { useHeaderTheme } from '@/shared/providers/HeaderTheme'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import type { Header } from '@/payload-types'
 
@@ -19,7 +19,6 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
-  /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -35,8 +34,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+  }, [])
+
   return (
-    // <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="container">
         <div className="py-3 flex justify-between">
@@ -62,7 +64,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
             {/* Логотип */}
           </div>
           {/* Десктопное меню */}
-          <HeaderNav data={data} pathname={pathname} userId={userId} />
+          <HeaderNav data={data} userId={userId} />
 
           {/* Мобильное меню (контент) */}
           <div
@@ -72,7 +74,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
               isOpen ? 'translate-x-0' : '-translate-x-full',
             )}
           >
-            <MobileNav data={data} onClose={() => setIsOpen(false)} />
+            <MobileNav data={data} onClose={handleClose} />
           </div>
         </div>
       </div>

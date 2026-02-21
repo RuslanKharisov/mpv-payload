@@ -1,13 +1,9 @@
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { ProductCategory } from '@/payload-types'
 import { CategoryAccordion } from '@/components/CategoryAccordion'
-import { generateMeta } from '@/shared/utilities/generateMeta'
 import { getAllCategoriesWithParents } from '@/entities/category/api/get-all-categories'
+import { ProductCategory } from '@/payload-types'
+import { generateMeta } from '@/shared/utilities/generateMeta'
 
 export default async function Page() {
-  const payload = await getPayload({ config: configPromise })
-
   const categories = await getAllCategoriesWithParents()
 
   return (

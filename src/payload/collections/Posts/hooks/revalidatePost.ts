@@ -6,7 +6,7 @@ import { Post } from '@/payload-types'
 export const revalidatePost: CollectionAfterChangeHook<Post> = ({
   doc,
   previousDoc,
-  req: { payload, context },
+  req: { context },
 }) => {
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {

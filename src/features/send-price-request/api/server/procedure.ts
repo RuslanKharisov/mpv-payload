@@ -1,8 +1,8 @@
-import { ApiExternalProcedure, baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
+import { PriceRequestSchema } from '@/entities/price-request/_domain/schemas'
+import { baseProcedure, createTRPCRouter } from '@/shared/trpc/init'
 import { TRPCError } from '@trpc/server'
 import { headers as getHeaders } from 'next/headers'
 import { generateRequestEmail } from '../../email/generateRequestEmail'
-import { PriceRequestSchema } from '@/entities/price-request/_domain/schemas'
 
 export const sendPriceRequestRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {

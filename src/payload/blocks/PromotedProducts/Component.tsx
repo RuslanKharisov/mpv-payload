@@ -1,10 +1,10 @@
-import React from 'react'
-import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+import React from 'react'
 
-import type { PromotedProductsBlock as Props, Stock, Product } from '@/payload-types'
-import { PromotedProductsCarousel } from './_ui/PromotedProductsCarousel'
+import type { Product, PromotedProductsBlock as Props } from '@/payload-types'
 import { Typography } from '@/shared/ui/typography'
+import { PromotedProductsCarousel } from './_ui/PromotedProductsCarousel'
 
 // динамический запрос данных
 export const dynamic = 'force-dynamic'

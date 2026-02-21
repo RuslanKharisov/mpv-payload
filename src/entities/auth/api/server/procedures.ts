@@ -98,7 +98,7 @@ export const authRouter = createTRPCRouter({
 
       try {
         // 2. Попытка создать пользователя
-        const newUser = await ctx.payload.create({
+        await ctx.payload.create({
           collection: 'users',
           data: {
             email: input.email,

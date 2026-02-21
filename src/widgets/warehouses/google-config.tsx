@@ -138,12 +138,16 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
         <CardHeader>
           <CardTitle>Предпросмотр</CardTitle>
           <CardDescription>
-            {data && data.data && isFetching ? (
-              <Typography className="text-primary" wrapper={false}>
+            {isFetching ? (
+              <Typography tag="p" wrapper={false} className="text-primary">
                 Секунда, данные загружаются...
               </Typography>
+            ) : data && data.data ? (
+              `Показано ${data.data.length} позиций из ${data.meta.total ?? 0}`
             ) : (
-              `Показано ${data?.data.length} позиций из ${data?.meta.total}`
+              <Typography tag="span" wrapper={false}>
+                Данные отсутствуют
+              </Typography>
             )}
           </CardDescription>
         </CardHeader>

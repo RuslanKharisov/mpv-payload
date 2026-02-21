@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo } from 'react'
 
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -9,14 +9,15 @@ import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 import { CartIcon } from '../_ui/cart-icon'
 import { LoginButton } from '../_ui/login-button'
+import { usePathname } from 'next/navigation'
 
 type HeaderNavProps = {
   data: HeaderType
-  pathname?: string
   userId?: number | null
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = ({ data, pathname, userId }) => {
+export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, userId }) => {
+  const pathname = usePathname()
   const navItems = data?.navItems || []
 
   return (
@@ -34,4 +35,6 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, pathname, userId }) 
       {!userId && <LoginButton />}
     </nav>
   )
-}
+})
+
+HeaderNav.displayName = 'HeaderNav'

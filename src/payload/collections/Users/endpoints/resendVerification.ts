@@ -10,7 +10,9 @@ export const resendVerificationHandler: Endpoint = {
       if (typeof req.json === 'function') {
         data = await req.json()
       }
-    } catch (error) {}
+    } catch (error) {
+      req.payload.logger.error({ err: error }, 'Failed to parse resendVerification request body')
+    }
     const { email } = data
 
     if (!email) return Response.json({ error: 'email is required' })
@@ -23,7 +25,7 @@ export const resendVerificationHandler: Endpoint = {
     const foundUser = docs?.[0]
 
     if (!foundUser) return Response.json({ error: 'User not found' })
-    if ((foundUser as any)._verified) return Response.json({ ok: true, alreadyVerified: true })
+    if (foundUser._verified) return Response.json({ ok: true, alreadyVerified: true })
 
     const token = randomBytes(32).toString('hex')
 

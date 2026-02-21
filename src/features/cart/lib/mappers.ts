@@ -1,7 +1,7 @@
-import { StockWithTenantAndCurrency } from '@/features/stock'
-import { Address, Tenant, Warehouse } from '@/payload-types'
-import { RemoteStock } from '@/entities/remote-stock'
 import { NormalizedCartItem } from '@/entities/cart'
+import { RemoteStock } from '@/entities/remote-stock'
+import { StockWithTenantAndCurrency } from '@/features/stock'
+import { Tenant } from '@/payload-types'
 
 const PLACEHOLDER_IMAGE_URL = '/images/placeholder.webp'
 
