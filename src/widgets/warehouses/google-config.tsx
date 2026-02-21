@@ -145,7 +145,9 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
             ) : data && data.data ? (
               `Показано ${data.data.length} позиций из ${data.meta.total ?? 0}`
             ) : (
-              'Данные отсутствуют'
+              <Typography tag="span" wrapper={false}>
+                Данные отсутствуют
+              </Typography>
             )}
           </CardDescription>
         </CardHeader>

@@ -43,6 +43,7 @@ export interface SupplierDashboardSummary {
     features?: string[]
   } | null
   canManageStock: boolean
+  hasStockError?: boolean
 }
 
 export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSummary | null> {
@@ -103,47 +104,79 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
   })
 
   // Fetch stocks for the tenant
-  let stocksResult
+  let stocksCount = 0
+  let hasStockError = false
+  let skuCount = 0
+  let warehousesWithStock = 0
+
   try {
-    stocksResult = await payload.find({
+    // Get total count only (limit: 1, we only need totalDocs)
+    const stocksCountResult = await payload.find({
       collection: 'stocks',
-      where: {
-        tenant: {
-          equals: activeTenantId,
-        },
-      },
+      where: { tenant: { equals: activeTenantId } },
       depth: 0,
-      limit: 0,
+      limit: 1,
+      pagination: true,
     })
-  } catch (error) {
-    console.error('Error fetching stocks:', error)
-    stocksResult = { docs: [], totalDocs: 0 }
-  }
+    stocksCount = stocksCountResult.totalDocs
 
-  const stocksCount = stocksResult.totalDocs
+    // Fetch only product and warehouse IDs with pagination to avoid OOM
+    // Process in chunks to compute unique counts
+    const uniqueProductIds = new Set<number>()
+    const uniqueWarehouseIds = new Set<number>()
+    const BATCH_SIZE = 1000
+    let page = 1
+    let hasMore = true
 
-  // Calculate unique SKU count from stocks
-  const uniqueProductIds = new Set<number>()
-  const uniqueWarehouseIds = new Set<number>()
+    while (hasMore && !hasStockError) {
+      const batchResult = await payload.find({
+        collection: 'stocks',
+        where: { tenant: { equals: activeTenantId } },
+        depth: 0,
+        limit: BATCH_SIZE,
+        page,
+        select: {
+          product: true,
+          warehouse: true,
+        },
+      })
 
-  for (const stock of stocksResult.docs) {
-    // Product can be number or object, we only need the ID
-    const productId = typeof stock.product === 'number' ? stock.product : stock.product?.id
-    if (productId) {
-      uniqueProductIds.add(productId)
-    }
+      for (const stock of batchResult.docs) {
+        // Product can be number or object, we only need the ID
+        const productId = typeof stock.product === 'number' ? stock.product : stock.product?.id
+        if (productId) {
+          uniqueProductIds.add(productId)
+        }
 
-    // Warehouse can be number, object, or null
-    if (stock.warehouse) {
-      const warehouseId = typeof stock.warehouse === 'number' ? stock.warehouse : stock.warehouse.id
-      if (warehouseId) {
-        uniqueWarehouseIds.add(warehouseId)
+        // Warehouse can be number, object, or null
+        if (stock.warehouse) {
+          const warehouseId =
+            typeof stock.warehouse === 'number' ? stock.warehouse : stock.warehouse.id
+          if (warehouseId) {
+            uniqueWarehouseIds.add(warehouseId)
+          }
+        }
+      }
+
+      hasMore = batchResult.hasNextPage
+      page++
+
+      // Safety limit to prevent infinite loops
+      if (page > 1000) {
+        console.warn('Stock pagination safety limit reached')
+        break
       }
     }
-  }
 
-  const skuCount = uniqueProductIds.size
-  const warehousesWithStock = uniqueWarehouseIds.size
+    skuCount = uniqueProductIds.size
+    warehousesWithStock = uniqueWarehouseIds.size
+  } catch (error) {
+    console.error('Error fetching stocks:', error)
+    hasStockError = true
+    stocksCount = 0
+    skuCount = 0
+    warehousesWithStock = 0
+  }
 
   // Check if user is super-admin using shared utility
   const userIsSuperAdmin = isSuperAdmin(user)
@@ -215,5 +248,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     warehousesSample,
     subscription,
     canManageStock,
+    hasStockError,
   }
 }

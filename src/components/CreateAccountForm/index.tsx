@@ -56,7 +56,13 @@ export const CreateAccountForm: React.FC = () => {
         }
 
         // Если успех, редиректим на логин или дашборд
-        const redirect = searchParams.get('redirect') || '/account'
+        // Validate redirect to prevent open redirect vulnerabilities
+        const rawRedirect = searchParams.get('redirect')
+        const isValidRedirect = (value: string): boolean => {
+          // Must start with single '/' and not contain '://' or start with '//'
+          return /^\/(?!\/)/.test(value) && !value.includes('://')
+        }
+        const redirect = rawRedirect && isValidRedirect(rawRedirect) ? rawRedirect : '/account'
         router.push(redirect)
       } catch (_err) {
         setError('Something went wrong. Please try again.')
