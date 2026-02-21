@@ -1,14 +1,15 @@
 'use client'
 
-import { useEffect, useTransition, useState, JSX, useMemo } from 'react'
+import { useEffect, useTransition, useState, JSX, useMemo, useRef } from 'react'
 import { DataTable, usePagination } from '@/widgets/smart-data-table'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Spinner } from '@/shared/ui/spinner'
 import { ProductsTableColumns } from '@/entities/remote-stock/_vm/products-table-columns'
 import { Tenant } from '@/payload-types'
+import { RemoteStock } from '@/entities/remote-stock'
 
 interface GoogleStockProps {
-  dataArray: any[]
+  dataArray: RemoteStock[]
   count: number
   supplier?: Tenant
 }
@@ -23,24 +24,26 @@ function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Elem
 
   const columns = useMemo(() => ProductsTableColumns(supplier), [supplier])
 
+  const isInitialMount = useRef(true)
+
   useEffect(() => {
-    setShowSpinner(true)
+    const pageStr = (pagination.pageIndex + 1).toString()
+    const perPageStr = pagination.pageSize.toString()
+
+    // Проверка: если URL уже такой же, как стейт — ничего не делаем
+    if (searchParams.get('page') === pageStr && searchParams.get('perPage') === perPageStr) {
+      return
+    }
 
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString())
-      params.set('page', (pagination.pageIndex + 1).toString())
-      params.set('perPage', pagination.pageSize.toString())
-      router.push(`?${params.toString()}`)
+      params.set('page', pageStr)
+      params.set('perPage', perPageStr)
+      router.push(`?${params.toString()}`, { scroll: false })
     })
-  }, [pagination])
 
-  // Убираем спиннер чуть позже, чтобы не мигал
-  useEffect(() => {
-    if (!isPending) {
-      const timer = setTimeout(() => setShowSpinner(false), 50)
-      return () => clearTimeout(timer)
-    }
-  }, [isPending])
+    // Следим за примитивами, а не за объектом!
+  }, [pagination.pageIndex, pagination.pageSize, router, searchParams])
 
   return (
     <div className="relative">
@@ -56,7 +59,7 @@ function GoogleStock({ dataArray, count, supplier }: GoogleStockProps): JSX.Elem
         pagination={pagination}
         rowCount={count}
         manualPagination={true}
-        handleDelete={() => {}}
+        handleDelete={() => undefined}
       />
     </div>
   )

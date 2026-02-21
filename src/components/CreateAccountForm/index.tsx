@@ -32,8 +32,8 @@ export const CreateAccountForm: React.FC = () => {
   } = useForm<FormData>()
 
   const passwordValue = watch('password', '')
-  const passwordRef = useRef({})
-  passwordRef.current = passwordValue
+  // const passwordRef = useRef({})
+  // passwordRef.current = passwordValue
 
   const onSubmit = useCallback(
     async (data: FormData) => {
