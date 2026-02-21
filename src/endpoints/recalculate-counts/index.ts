@@ -70,8 +70,9 @@ export const recalculateCountsEndpoint: Endpoint = {
       }
 
       return Response.json({ message: `Успешно пересчитано для ${products.totalDocs} товаров` })
-    } catch (err: any) {
-      return Response.json({ error: err.message }, { status: 500 })
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
+      return Response.json({ error: errorMessage }, { status: 500 })
     }
   },
 }

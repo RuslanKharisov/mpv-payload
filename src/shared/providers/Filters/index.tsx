@@ -15,7 +15,7 @@ type Filters = {
 
 type FiltersContextType = {
   filters: Filters
-  setFilter: (key: keyof Filters, value: any) => void
+  setFilter: (key: keyof Filters, value: string | string[] | number | undefined) => void
   resetFilters: () => void
 }
 
@@ -41,7 +41,7 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
     setFilters(newFilters)
   }, [searchParams])
 
-  const setFilter = (key: keyof Filters, value: any) => {
+  const setFilter = (key: keyof Filters, value: string | string[] | number | undefined) => {
     const params = new URLSearchParams(searchParams.toString())
 
     if (value === undefined || (Array.isArray(value) && value.length === 0)) {

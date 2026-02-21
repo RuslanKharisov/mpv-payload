@@ -1,18 +1,23 @@
-import type { FieldValues, UseFormRegister } from 'react-hook-form'
+import type { FieldValues, Path, UseFormRegister } from 'react-hook-form'
 
 import React from 'react'
 
-type Props = {
-  error: any
+type Props<TFieldValues extends FieldValues = FieldValues> = {
+  error:
+    | {
+        message?: string
+        type?: string
+      }
+    | undefined
   label: string
-  name: string
-  register: UseFormRegister<any & FieldValues> // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
+  name: Path<TFieldValues>
+  register: UseFormRegister<TFieldValues>
   required?: boolean
   type?: 'email' | 'number' | 'password' | 'text'
   validate?: (value: string) => boolean | string
 }
 
-export const Input: React.FC<Props> = ({
+export const Input = <TFieldValues extends FieldValues = FieldValues>({
   name,
   type = 'text',
   error,
@@ -20,10 +25,10 @@ export const Input: React.FC<Props> = ({
   register,
   required,
   validate,
-}) => {
+}: Props<TFieldValues>) => {
   return (
-    <div className="{classes.inputWrap}">
-      <label className="{classes.label}" htmlFor="name">
+    <div className="input-wrap">
+      <label className="label" htmlFor={name}>
         {`${label} ${required ? '*' : ''}`}
       </label>
       <input
@@ -43,7 +48,7 @@ export const Input: React.FC<Props> = ({
         })}
       />
       {error && (
-        <div className="{classes.errorMessage}">
+        <div className="error-message">
           {!error?.message && error?.type === 'required'
             ? 'This field is required'
             : error?.message}

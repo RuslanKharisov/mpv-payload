@@ -6,7 +6,6 @@ type ForgotPasswordEmailArgs =
   | {
       req?: PayloadRequest
       token?: string
-      user?: any
     }
   | undefined
 

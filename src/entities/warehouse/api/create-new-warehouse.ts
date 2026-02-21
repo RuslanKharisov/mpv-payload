@@ -1,10 +1,9 @@
 'use server'
 
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getActiveTenantId, tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
-import type { Warehouse } from '@/payload-types'
+import { getMeUser } from '@/shared/utilities/getMeUser'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import type { CreateWarehouseInput, CreateWarehouseResult } from '../model/types'
 
 export async function createNewWarehouse(
@@ -67,18 +66,19 @@ export async function createNewWarehouse(
     // The beforeChange hook will resolve selectedAddressData into warehouse_address
     const doc = await payload.create({
       collection: 'warehouses',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: {
         title: input.title.trim(),
         tenant: tenantId,
+        warehouse_address: 0, // Will be overwritten by beforeChange hook based on selectedAddressData
         // selectedAddressData is processed by the beforeChange hook to create/update
         // the warehouse_address relationship. The hook sets warehouse_address and deletes this field.
         selectedAddressData: input.addressData as Record<string, unknown>,
-      } as any,
+      }, // selectedAddressData is processed by the beforeChange hook to create/update the warehouse_address relationship
+      draft: false,
     })
 
-    return { success: true, warehouse: { id: String((doc as Warehouse).id) } }
-  } catch (e) {
+    return { success: true, warehouse: { id: String(doc.id) } }
+  } catch (e: unknown) {
     console.error('createNewWarehouse error:', e)
     return { success: false, error: 'Не удалось создать склад' }
   }

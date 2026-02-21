@@ -35,8 +35,7 @@ function LocalWarehouses({
       pageIndex: initialPage - 1,
       pageSize: initialPerPage,
     })
-  }, [initialPage, initialPerPage])
-  // Add setPagination if eslint exhaustive-deps warn
+  }, [initialPage, initialPerPage, setPagination])
 
   const isMounted = useRef(false)
 
@@ -55,7 +54,7 @@ function LocalWarehouses({
       params.set('perPage', pagination.pageSize.toString())
       router.push(`?${params.toString()}`)
     })
-  }, [pagination])
+  }, [pagination, router, searchParams])
 
   // ToDo Handle delete stock item
   const handleDelete = useCallback(() => {}, [])

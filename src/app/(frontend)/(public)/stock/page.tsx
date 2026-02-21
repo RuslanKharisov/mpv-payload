@@ -13,7 +13,7 @@ export default async function page({
 }: {
   searchParams: Promise<Record<string, string>>
 }) {
-  const sp = await searchParams
+  const _sp = await searchParams
 
   const suppliersList = await getTenants()
   const supplierWithApi = suppliersList.filter(

@@ -1,4 +1,13 @@
-export const afterReadHook = async ({ doc, req: { payload } }: { doc: any; req: any }) => {
+import type { Product } from '@/payload-types'
+import type { Payload } from 'payload'
+
+export const afterReadHook = async ({
+  doc,
+  req: { payload },
+}: {
+  doc: Product
+  req: { payload: Payload }
+}) => {
   if (doc.productImage) {
     return doc
   }
@@ -16,8 +25,9 @@ export const afterReadHook = async ({ doc, req: { payload } }: { doc: any; req: 
         productImage: siteSettings.productPlaceholder,
       }
     }
-  } catch (error) {
-    payload.logger.error(`Error fetching site-settings for placeholder: ${error}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    payload.logger.error(`Error fetching site-settings for placeholder: ${errorMessage}`)
   }
 
   return doc

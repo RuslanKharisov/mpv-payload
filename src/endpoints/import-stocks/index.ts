@@ -3,6 +3,14 @@ import { Endpoint, PayloadRequest } from 'payload'
 import * as XLSX from 'xlsx'
 import { z } from 'zod'
 
+type WhereOperator<T> = { equals: T }
+
+type StockWhereClause = {
+  product: WhereOperator<number>
+  tenant: WhereOperator<number | string>
+  warehouse: WhereOperator<number | null>
+}
+
 const stockRowSchema = z.object({
   sku: z
     .union([z.string(), z.number()]) // Принимаем строку или число
@@ -216,7 +224,7 @@ export const importStocksEndpoint: Endpoint = {
         }
 
         try {
-          const whereClause: any = {
+          const whereClause: StockWhereClause = {
             product: { equals: product.id },
             tenant: { equals: tenantId },
             warehouse: { equals: warehouseId || null },
@@ -242,10 +250,13 @@ export const importStocksEndpoint: Endpoint = {
             })
             successes.push(`SKU ${sku}: Запас создан.`)
           }
-        } catch (dbError: any) {
-          // "Ловим" ошибку от хука (или любую другую ошибку БД) для этой строки
-          // и добавляем ее в наш общий массив ошибок, не прерывая цикл.
-          errors.push(`Строка ${rowIndex} (SKU: ${sku}): ${dbError.message}`)
+        } catch (dbError: unknown) {
+          const message =
+            dbError && typeof dbError === 'object' && 'message' in dbError
+              ? String((dbError as { message: unknown }).message)
+              : 'Неизвестная ошибка БД'
+
+          errors.push(`Строка ${rowIndex} (SKU: ${sku}): ${message}`)
         }
       }
 
@@ -265,12 +276,15 @@ export const importStocksEndpoint: Endpoint = {
         { success: true, message: `Успешно импортировано ${successes.length} записей.` },
         { status: 200 },
       )
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Import Error:', err)
-      return Response.json(
-        { success: false, error: err.message || 'Произошла внутренняя ошибка сервера' },
-        { status: 500 },
-      )
+
+      const message =
+        err && typeof err === 'object' && 'message' in err
+          ? String((err as { message: unknown }).message)
+          : 'Произошла внутренняя ошибка сервера'
+
+      return Response.json({ success: false, error: message }, { status: 500 })
     }
   },
 }

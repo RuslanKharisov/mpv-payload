@@ -8,7 +8,7 @@ import { formatDeliveryTime } from '../_domain/deliveryTime'
 type GenerateRequestEmailArgs = z.infer<typeof PriceRequestSchema>
 
 export const generateRequestEmail = async (args: GenerateRequestEmailArgs): Promise<string> => {
-  const { formData, tenantName, items } = args
+  const { formData, tenantName: _tenantName, items } = args
 
   return generateEmailHTML({
     headline: 'Новый запрос на коммерческое предложение',

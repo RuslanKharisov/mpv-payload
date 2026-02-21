@@ -2,16 +2,17 @@
 import { useDebounce } from '@/shared/utilities/useDebounce'
 import React, { useEffect, useState } from 'react'
 import './index.scss'
+import { DaDataSuggestion, DaDataResponse } from '@/shared/types/dadata.types'
 
 type DaDataInputProps = {
-  onSelect: (suggestion: any) => void // Изменили тип для ясности
+  onSelect: (suggestion: DaDataSuggestion) => void // Изменили тип для ясности
   initialValue?: string
   disabled?: boolean
 }
 
 export function DaDataInput({ onSelect, initialValue, disabled = false }: DaDataInputProps) {
   const [inputValue, setInputValue] = useState(initialValue || '')
-  const [suggestions, setSuggestions] = useState<any[]>([])
+  const [suggestions, setSuggestions] = useState<DaDataSuggestion[]>([])
   const [isFocused, setIsFocused] = useState(false)
   const debouncedValue = useDebounce(inputValue, 500)
 
@@ -33,7 +34,7 @@ export function DaDataInput({ onSelect, initialValue, disabled = false }: DaData
     }
   }, [debouncedValue, isFocused])
 
-  const handleSelectSuggestion = (suggestion: any) => {
+  const handleSelectSuggestion = (suggestion: DaDataSuggestion) => {
     if (disabled) return
     setIsFocused(false)
     setInputValue(suggestion.value)
@@ -75,7 +76,7 @@ export function DaDataInput({ onSelect, initialValue, disabled = false }: DaData
   )
 }
 
-async function fetchSuggestions(query: string): Promise<{ suggestions: any[] }> {
+async function fetchSuggestions(query: string): Promise<DaDataResponse> {
   const res = await fetch('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
     method: 'POST',
     headers: {

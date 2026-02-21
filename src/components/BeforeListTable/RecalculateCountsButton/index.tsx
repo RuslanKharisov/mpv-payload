@@ -25,7 +25,7 @@ export default function RecalculateCountsButton() {
         method: 'POST',
       })
 
-      const data = await res.json()
+      const data: { message: string; error?: string } = await res.json()
 
       if (!res.ok) {
         throw new Error(data.error || 'Ошибка сервера')
@@ -34,9 +34,10 @@ export default function RecalculateCountsButton() {
       // Вызываем успех
       toast.success(`✅ ${data.message}`)
       router.refresh()
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      toast.error(`❌ Ошибка: ${err.message}`)
+      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка'
+      toast.error(`❌ Ошибка: ${errorMessage}`)
     } finally {
       setIsLoading(false)
     }

@@ -50,6 +50,6 @@ export type WithPopulated<T, K extends keyof T, R> = Omit<T, K> & { [P in K]: R 
  *   - поле `currency` имеет тип `Currency`
  *   - поле `product` имеет тип `Product`, где `productImage` заменён на `Media`
  */
-export type WithPopulatedMany<T, M extends { [K in keyof T]?: any }> = Omit<T, keyof M> & {
+export type WithPopulatedMany<T, M extends { [K in keyof T]?: unknown }> = Omit<T, keyof M> & {
   [K in keyof M]: M[K]
 }

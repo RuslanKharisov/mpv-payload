@@ -13,7 +13,13 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null): stri
   return undefined
 }
 
-type Doc = Partial<Page> | Partial<Post> | { [key: string]: any }
+interface Meta {
+  title?: string | null
+  image?: (number | null) | Media
+  description?: string | null
+}
+
+type Doc = Partial<Page> | Partial<Post> | { meta?: Meta; slug?: string }
 
 type GenerateMetaArgs = {
   doc?: Doc | null
