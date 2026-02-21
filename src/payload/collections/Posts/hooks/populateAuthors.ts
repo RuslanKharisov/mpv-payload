@@ -20,16 +20,15 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { pay
         if (authorDoc) {
           authorDocs.push(authorDoc)
         }
-
-        if (authorDocs.length > 0) {
-          doc.populatedAuthors = authorDocs.map((authorDoc) => ({
-            id: authorDoc.id,
-            name: authorDoc.username,
-          }))
-        }
       } catch {
         // swallow error
       }
+    }
+    if (authorDocs.length > 0) {
+      doc.populatedAuthors = authorDocs.map((authorDoc) => ({
+        id: authorDoc.id,
+        name: authorDoc.username,
+      }))
     }
   }
 

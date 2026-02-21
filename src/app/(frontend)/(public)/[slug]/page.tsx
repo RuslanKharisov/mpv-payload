@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import { homeStatic } from '@/endpoints/seed/data/home-static'
 import configPromise from '@payload-config'
 import { draftMode } from 'next/headers'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
@@ -53,11 +52,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   page = await queryPageBySlug({
     slug,
   })
-
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
-  }
 
   if (!page) {
     return <PayloadRedirects url={url} />

@@ -103,16 +103,22 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
   })
 
   // Fetch stocks for the tenant
-  const stocksResult = await payload.find({
-    collection: 'stocks',
-    where: {
-      tenant: {
-        equals: activeTenantId,
+  let stocksResult
+  try {
+    stocksResult = await payload.find({
+      collection: 'stocks',
+      where: {
+        tenant: {
+          equals: activeTenantId,
+        },
       },
-    },
-    depth: 0,
-    limit: 0,
-  })
+      depth: 0,
+      limit: 0,
+    })
+  } catch (error) {
+    console.error('Error fetching stocks:', error)
+    stocksResult = { docs: [], totalDocs: 0 }
+  }
 
   const stocksCount = stocksResult.totalDocs
 

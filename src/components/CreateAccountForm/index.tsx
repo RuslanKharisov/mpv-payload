@@ -118,7 +118,7 @@ export const CreateAccountForm: React.FC = () => {
         type="submit"
         disabled={loading} // Блокируем кнопку при загрузке
       >
-        {loading ? 'Создание аккаунта...' : 'Create Account'}
+        {loading ? 'Creating account...' : 'Create Account'}
       </Button>
 
       <div style={{ marginTop: '1rem' }}>

@@ -11,7 +11,7 @@ export const resendVerificationHandler: Endpoint = {
         data = await req.json()
       }
     } catch (error) {
-      console.error(error)
+      req.payload.logger.error({ err: error }, 'Failed to parse resendVerification request body')
     }
     const { email } = data
 
