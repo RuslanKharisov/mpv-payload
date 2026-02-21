@@ -90,7 +90,7 @@ export const ProductCategories: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
-      async ({ data, req, operation, originalDoc }) => {
+      async ({ data, req }) => {
         if (!data.title) return data
 
         let breadcrumb = data.title

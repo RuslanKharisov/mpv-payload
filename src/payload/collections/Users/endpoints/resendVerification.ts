@@ -10,7 +10,9 @@ export const resendVerificationHandler: Endpoint = {
       if (typeof req.json === 'function') {
         data = await req.json()
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
     const { email } = data
 
     if (!email) return Response.json({ error: 'email is required' })

@@ -1,18 +1,17 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/shared/utilities/ui'
-import { Inter, Onest, Playfair_Display } from 'next/font/google'
+import { Inter, Onest } from 'next/font/google'
 import React from 'react'
 
 import { Providers } from '@/shared/providers'
 import { InitTheme } from '@/shared/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
 
-import './globals.css'
+import { Toaster } from '@/shared/ui/sonner'
 import { getServerSideURL } from '@/shared/utilities/getURL'
 import YandexMetrikaContainer from '@/shared/utilities/YandexMetrika'
-import { Toaster } from '@/shared/ui/sonner'
+import './globals.css'
 // import { generateMeta } from '@/shared/utilities/generateMeta'
 
 const inter = Inter({
@@ -27,8 +26,6 @@ const onest = Onest({
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
   const analyticsEnabled = !!(process.env.NODE_ENV === 'production')
 
   return (

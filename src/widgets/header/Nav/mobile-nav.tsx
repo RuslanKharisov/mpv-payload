@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo } from 'react'
 
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -13,12 +13,11 @@ type MobileNavProps = {
   pathname?: string
 }
 
-export const MobileNav: React.FC<MobileNavProps> = ({ data, onClose, pathname }) => {
+export const MobileNav: React.FC<MobileNavProps> = memo(({ data, onClose, pathname }) => {
   const navItems = data?.navItems || []
 
   return (
     <div className="bg-background flex h-dvh w-full flex-col space-y-2 px-4">
-      {/* 3. Добавляем `onClick` ко всем кликабельным элементам */}
       <div onClick={onClose} className="cursor-pointer ">
         <Logo />
       </div>
@@ -36,4 +35,6 @@ export const MobileNav: React.FC<MobileNavProps> = ({ data, onClose, pathname })
       })}
     </div>
   )
-}
+})
+
+MobileNav.displayName = 'MobileNav'

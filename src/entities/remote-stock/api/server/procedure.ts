@@ -76,7 +76,7 @@ async function fetchRemoteStock(
   let rawData: unknown
   try {
     rawData = await response.json()
-  } catch (parseError) {
+  } catch (_parseError) {
     throw new TRPCError({
       code: 'BAD_GATEWAY',
       message: 'Failed to parse external API response as JSON',

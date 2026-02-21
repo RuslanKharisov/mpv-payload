@@ -1,15 +1,14 @@
-import React from 'react'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import type { ProductCategory, Brand } from '@/payload-types'
 import { Card } from '@/components/ui/card'
+import type { Brand, ProductCategory } from '@/payload-types'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+import React from 'react'
 
-import { ChevronRight } from 'lucide-react'
-import { Typography } from '@/shared/ui/typography'
-import { Button } from '@/shared/ui/button'
-import Link from 'next/link'
 import type { CategoriesOrBrandsGridBlock as BlockType } from '@/payload-types'
-import { string } from 'zod'
+import { Button } from '@/shared/ui/button'
+import { Typography } from '@/shared/ui/typography'
+import { ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 interface GridItem {
   title: string

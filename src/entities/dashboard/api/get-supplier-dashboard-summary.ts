@@ -1,9 +1,9 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import { getMeUser } from '@/shared/utilities/getMeUser'
+import type { Tenant } from '@/payload-types'
 import { getActiveTenantId } from '@/payload/access/hasActiveFeature'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
-import type { User, Tenant } from '@/payload-types'
+import { getMeUser } from '@/shared/utilities/getMeUser'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
 // Безопасный интерфейс пользователя (без чувствительных полей)
 export interface SupplierDashboardUser {

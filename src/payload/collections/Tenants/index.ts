@@ -1,5 +1,3 @@
-import { anyone } from '@/payload/access/anyone'
-import { authenticated } from '@/payload/access/authenticated'
 import { canReadTenant } from '@/payload/access/canReadTenant'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import { Archive } from '@/payload/blocks/ArchiveBlock/config'
