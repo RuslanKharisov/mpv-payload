@@ -4,6 +4,7 @@ import { authRouter } from '@/entities/auth/api/server/procedures'
 import { remoteStocksRouter } from '@/entities/remote-stock/api/server/procedure'
 import { sendPriceRequestRouter } from '@/features/send-price-request/api/server/procedure'
 import { tenantsRouter } from '@/entities/tenant/api/server/procedures'
+import { dashboardRouter } from '@/entities/dashboard/api/server/procedures'
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -11,6 +12,7 @@ export const appRouter = createTRPCRouter({
   remoteStocks: remoteStocksRouter,
   sendPriceRequest: sendPriceRequestRouter,
   tenants: tenantsRouter,
+  dashboard: dashboardRouter,
 })
 
 export type AppRouter = typeof appRouter

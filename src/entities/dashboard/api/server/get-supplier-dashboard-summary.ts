@@ -1,65 +1,28 @@
-import type { Tenant } from '@/payload-types'
+import type {
+  SupplierDashboardSummary,
+  SupplierDashboardTenant,
+  SupplierDashboardUser,
+} from '../../model/types'
+import type { Payload } from 'payload'
+import type { Tenant, User } from '@/payload-types'
 import { getActiveTenantId } from '@/payload/access/hasActiveFeature'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
-import { getMeUser } from '@/shared/utilities/getMeUser'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 
-// Безопасный интерфейс пользователя (без чувствительных полей)
-export interface SupplierDashboardUser {
-  id: string
-  name: string
-  email: string
-  roles?: ('user' | 'admin' | 'super-admin' | 'content-editor')[]
+interface GetSummaryDeps {
+  payload: Payload
+  user: User
 }
 
-// Безопасный интерфейс тенанта (без чувствительных полей)
-export interface SupplierDashboardTenant {
-  id: string
-  name: string
-  slug?: string | null
-  domain?: string | null
-  requestEmail: string
-  createdAt: string
-}
+export async function getSupplierDashboardSummaryServer(
+  deps: GetSummaryDeps,
+): Promise<SupplierDashboardSummary | null> {
+  const { payload, user } = deps
 
-export interface SupplierDashboardSummary {
-  user: SupplierDashboardUser
-  tenant: SupplierDashboardTenant
-  warehousesCount: number
-  stocksCount: number
-  skuCount: number
-  warehousesWithStock: number
-  warehousesSample: {
-    id: string
-    title: string
-    address?: string
-  }[]
-  subscription?: {
-    id: string
-    status: 'active' | 'inactive' | 'canceled' | 'expired' | string
-    endDate?: string
-    tariffName?: string
-    features?: string[]
-  } | null
-  canManageStock: boolean
-  hasStockError?: boolean
-}
-
-export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSummary | null> {
-  const { user } = await getMeUser({ nullUserRedirect: '/login' })
-  if (!user) {
-    return null
-  }
+  if (!user) return null
 
   const activeTenantId = getActiveTenantId(user)
-  if (!activeTenantId) {
-    return null
-  }
+  if (!activeTenantId) return null
 
-  const payload = await getPayload({ config: configPromise })
-
-  // Fetch tenant data
   let tenant: Tenant
   try {
     tenant = await payload.findByID({
@@ -70,7 +33,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     return null
   }
 
-  // Fetch warehouses for the tenant
   let warehousesResult
   try {
     warehousesResult = await payload.find({
@@ -103,14 +65,12 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     }
   })
 
-  // Fetch stocks for the tenant
   let stocksCount = 0
   let hasStockError = false
   let skuCount = 0
   let warehousesWithStock = 0
 
   try {
-    // Get total count only (limit: 1, we only need totalDocs)
     const stocksCountResult = await payload.find({
       collection: 'stocks',
       where: { tenant: { equals: activeTenantId } },
@@ -120,8 +80,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     })
     stocksCount = stocksCountResult.totalDocs
 
-    // Fetch only product and warehouse IDs with pagination to avoid OOM
-    // Process in chunks to compute unique counts
     const uniqueProductIds = new Set<number>()
     const uniqueWarehouseIds = new Set<number>()
     const BATCH_SIZE = 1000
@@ -142,13 +100,11 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
       })
 
       for (const stock of batchResult.docs) {
-        // Product can be number or object, we only need the ID
         const productId = typeof stock.product === 'number' ? stock.product : stock.product?.id
         if (productId) {
           uniqueProductIds.add(productId)
         }
 
-        // Warehouse can be number, object, or null
         if (stock.warehouse) {
           const warehouseId =
             typeof stock.warehouse === 'number' ? stock.warehouse : stock.warehouse.id
@@ -161,7 +117,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
       hasMore = batchResult.hasNextPage
       page++
 
-      // Safety limit to prevent infinite loops
       if (page > 1000) {
         console.warn('Stock pagination safety limit reached')
         break
@@ -178,10 +133,8 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     warehousesWithStock = 0
   }
 
-  // Check if user is super-admin using shared utility
   const userIsSuperAdmin = isSuperAdmin(user)
 
-  // Fetch active subscription for the tenant (single query)
   let subscription: SupplierDashboardSummary['subscription'] = null
   let canManageStock = userIsSuperAdmin
 
@@ -208,7 +161,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
         features: typeof tariff === 'object' && tariff !== null ? (tariff.features ?? []) : [],
       }
 
-      // Derive canManageStock from subscription if not super-admin
       if (!userIsSuperAdmin) {
         canManageStock =
           typeof tariff === 'object' &&
@@ -221,7 +173,6 @@ export async function getSupplierDashboardSummary(): Promise<SupplierDashboardSu
     console.error('Error fetching subscription:', error)
   }
 
-  // Фильтруем чувствительные поля перед возвратом
   const safeUser: SupplierDashboardUser = {
     id: String(user.id),
     name: user.username,
