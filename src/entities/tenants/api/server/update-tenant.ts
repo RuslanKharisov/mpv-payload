@@ -1,11 +1,11 @@
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
 import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 import { TenantUpdateInput } from '../../_domain/schemas'
-import type { User } from '@/payload-types'
+import type { Tenant, User } from '@/payload-types'
 import type { Payload } from 'payload'
 
 // Helper function to convert tenant entity to response object
-function toTenantResponse(tenant: any) {
+function toTenantResponse(tenant: Tenant) {
   return {
     id: String(tenant.id),
     name: tenant.name,
