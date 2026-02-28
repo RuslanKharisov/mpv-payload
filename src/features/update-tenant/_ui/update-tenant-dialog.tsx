@@ -85,8 +85,8 @@ export function UpdateTenantDialog({ tenant, children, onTenantUpdated }: Update
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {children || (
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <Edit3 className="h-4 w-4" />
+          <Button variant="ghost" className="">
+            Редактировать <Edit3 className="ml-2 h-4 w-4" />
           </Button>
         )}
       </DialogTrigger>
