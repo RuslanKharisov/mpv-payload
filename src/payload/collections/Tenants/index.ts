@@ -25,10 +25,10 @@ export const Tenants: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    group: 'Профиль и инфо о компании',
+    group: 'Управление информацией о компании',
   },
   labels: {
-    singular: 'Профиль_Компании',
+    singular: 'Данные компании, настройка API ',
     plural: 'Профиль_Компании',
   },
   fields: [
@@ -123,6 +123,36 @@ export const Tenants: CollectionConfig = {
                 { label: 'ERP', value: 'erp' },
                 { label: 'Custom', value: 'custom' },
               ],
+            },
+          ],
+        },
+        {
+          label: 'Реквизиты',
+          fields: [
+            {
+              name: 'inn',
+              type: 'text',
+              label: 'ИНН',
+              admin: {
+                description: 'ИНН юридического лица, выбранного через DaData',
+              },
+              index: true,
+            },
+            {
+              name: 'status',
+              type: 'select',
+              label: 'Статус организации',
+              options: [
+                { label: 'Действующая', value: 'ACTIVE' },
+                { label: 'Ликвидируется', value: 'LIQUIDATING' },
+                { label: 'Ликвидирована', value: 'LIQUIDATED' },
+                { label: 'Банкротство', value: 'BANKRUPT' },
+                { label: 'Реорганизация', value: 'REORGANIZING' },
+              ],
+              admin: {
+                description: 'Статус из DaData: data.state.status',
+                readOnly: true,
+              },
             },
           ],
         },

@@ -37,4 +37,5 @@ export interface SupplierDashboardSummary {
   } | null
   canManageStock: boolean
   hasStockError?: boolean
+  needsCompanyCompletion: boolean
 }

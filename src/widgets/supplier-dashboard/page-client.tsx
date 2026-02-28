@@ -1,16 +1,17 @@
 'use client'
 
+import { CompleteCompanyModal } from '@/features/complete-tenant-onboarding'
 import { useTRPC } from '@/shared/trpc/client'
-import { queryOptions, useQuery } from '@tanstack/react-query'
-import { CompanyCard } from '@/widgets/supplier-dashboard/company-card'
-import { UserCard } from '@/widgets/supplier-dashboard/user-card'
-import { StatsCards } from '@/widgets/supplier-dashboard/stats-cards'
-import { QuickLinksCard } from '@/widgets/supplier-dashboard/quick-links-card'
-import { WarehousesSample } from '@/widgets/supplier-dashboard/warehouses-sample'
 import { Card, CardContent } from '@/shared/ui/card'
-import { Typography } from '@/shared/ui/typography'
-import { useMemo } from 'react'
 import { Spinner } from '@/shared/ui/spinner'
+import { Typography } from '@/shared/ui/typography'
+import { CompanyCard } from '@/widgets/supplier-dashboard/company-card'
+import { QuickLinksCard } from '@/widgets/supplier-dashboard/quick-links-card'
+import { StatsCards } from '@/widgets/supplier-dashboard/stats-cards'
+import { UserCard } from '@/widgets/supplier-dashboard/user-card'
+import { WarehousesSample } from '@/widgets/supplier-dashboard/warehouses-sample'
+import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
 export function SupplierDashboardClient() {
   const trpc = useTRPC()
@@ -18,7 +19,10 @@ export function SupplierDashboardClient() {
   const queryOptions = useMemo(() => trpc.dashboard.getSupplierSummary.queryOptions(), [trpc])
 
   const { data: summary, isLoading } = useQuery({ ...queryOptions })
-  console.log('data ==> ', summary)
+
+  if (summary?.needsCompanyCompletion) {
+    return <CompleteCompanyModal tenant={summary.tenant} />
+  }
 
   if (isLoading) {
     return <Spinner className="mt-20" />

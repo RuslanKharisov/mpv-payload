@@ -16,14 +16,31 @@ export async function updateOrCreateTenant(input: TenantUpdateInput) {
 
   const payload = await getPayload({ config: configPromise })
 
-  // Check if user has permissions to manage this tenant
   const userTenantIds = getUserTenantIDs(user)
 
   if (input.id) {
-    // Update case - check if user has access to this tenant
     const tenantId = Number(input.id)
     if (!userTenantIds.some((id) => id === tenantId)) {
       throw new Error('У вас нет доступа к этому тенанту')
+    }
+
+    if (input.status && input.status !== 'ACTIVE') {
+      throw new Error(`Нельзя использовать недействующую компанию (статус: ${input.status}).`)
+    }
+
+    if (input.inn) {
+      const existing = await payload.find({
+        collection: 'tenants',
+        where: {
+          inn: { equals: input.inn },
+          id: { not_equals: tenantId },
+        },
+        limit: 1,
+      })
+
+      if (existing.docs && existing.docs.length > 0) {
+        throw new Error('Поставщик с таким ИНН уже существует')
+      }
     }
 
     // Update the tenant
@@ -34,6 +51,9 @@ export async function updateOrCreateTenant(input: TenantUpdateInput) {
         name: input.name,
         requestEmail: input.requestEmail,
         domain: input.domain,
+        inn: input.inn,
+        status: input.status,
+        accountDetailsSubmitted: true,
       },
     })
 
@@ -47,7 +67,6 @@ export async function updateOrCreateTenant(input: TenantUpdateInput) {
       createdAt: updatedTenant.createdAt,
     }
   } else {
-    // Create case - only super admins can create tenants directly
     const isSuperAdmin = user.roles?.includes('super-admin')
     if (!isSuperAdmin) {
       throw new Error('Только супер-администраторы могут создавать тенанты напрямую')

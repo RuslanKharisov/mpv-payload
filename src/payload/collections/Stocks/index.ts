@@ -1,9 +1,9 @@
 import { authenticated } from '@/payload/access/authenticated'
 import { checkTenantFeatureAccess } from '@/payload/access/hasActiveFeature'
 import { CollectionConfig } from 'payload'
-import { setStockDefaults } from './hooks/set-stock-defaults'
 import { checkWarehouseCapacity } from './hooks/check-warehouse-capacity'
 import { fillLocationData } from './hooks/fillLocationData'
+import { setStockDefaults } from './hooks/set-stock-defaults'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
@@ -16,7 +16,7 @@ export const Stocks: CollectionConfig = {
     read: authenticated,
     create: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
     update: authenticated,
-    delete: authenticated,
+    delete: checkTenantFeatureAccess('CAN_MANAGE_STOCK'),
   },
   admin: {
     useAsTitle: 'title_in_admin',

@@ -615,6 +615,14 @@ export interface Tenant {
    */
   apiToken?: string | null;
   apiType?: ('google' | 'erp' | 'custom') | null;
+  /**
+   * ИНН юридического лица, выбранного через DaData
+   */
+  inn?: string | null;
+  /**
+   * Статус из DaData: data.state.status
+   */
+  status?: ('ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'BANKRUPT' | 'REORGANIZING') | null;
   layout?: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[] | null;
   meta?: {
     title?: string | null;
@@ -2175,6 +2183,8 @@ export interface TenantsSelect<T extends boolean = true> {
   apiUrl?: T;
   apiToken?: T;
   apiType?: T;
+  inn?: T;
+  status?: T;
   layout?:
     | T
     | {

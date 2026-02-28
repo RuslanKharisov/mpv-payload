@@ -189,6 +189,8 @@ export async function getSupplierDashboardSummaryServer(
     createdAt: tenant.createdAt,
   }
 
+  const needsCompanyCompletion = !tenant.inn || tenant.accountDetailsSubmitted === false
+
   return {
     user: safeUser,
     tenant: safeTenant,
@@ -200,5 +202,6 @@ export async function getSupplierDashboardSummaryServer(
     subscription,
     canManageStock,
     hasStockError,
+    needsCompanyCompletion,
   }
 }

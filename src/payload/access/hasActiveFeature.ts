@@ -51,8 +51,6 @@ export const tenantHasActiveFeature = async (
 
   return false
 }
-
-// 🔥 Ключевое изменение: объединяем Access и FieldAccess
 export const checkTenantFeatureAccess =
   (feature: Feature): Access & FieldAccess =>
   async ({ req }) => {

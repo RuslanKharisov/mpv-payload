@@ -84,7 +84,27 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
             <ExternalLink className="h-5 w-5" />
             Настройка внешнего источника
           </CardTitle>
-          <CardDescription>Подключите таблицу для синхронизации остатков</CardDescription>
+          <CardDescription>
+            <Typography>
+              Подключите таблицу для синхронизации остатков БЕСПЛАТНО и данные появятся на странице{' '}
+              <a
+                href="/stock"
+                target="_blank"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                Склад,
+              </a>{' '}
+              ознакомиться с инструкцией по настройке API можно на странице
+              <a
+                href="/google-sheets-api-guide"
+                target="_blank"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                {' '}
+                API Google Таблиц,
+              </a>{' '}
+            </Typography>
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
