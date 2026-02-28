@@ -22,7 +22,7 @@ export const generateBillingRequestEmail = async (args: Args): Promise<string> =
       </tr>
       <tr>
         <td style="padding: 4px 8px; color: #555;">ID тарифа:</td>
-        <td style="padding: 4px 8px;">${tariffId}</td>
+        <td style="padding: 4px 8px;">${String(tariffId)}</td
       </tr>
     </table>
 

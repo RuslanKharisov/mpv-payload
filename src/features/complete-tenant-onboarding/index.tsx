@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { SupplierDashboardTenant } from '@/entities/dashboard/model/types'
 import { TenantUpdateSchema } from '@/entities/tenants/_domain/schemas'
 import { z } from 'zod'
+import { TENANT_STATUS_LABELS } from '@/shared/constants/tenant-status'
 import InnInput from './ui/inn-input'
 
 const CompleteTenantSchema = TenantUpdateSchema.pick({
@@ -68,14 +69,20 @@ export function CompleteCompanyModal({ tenant }: Props) {
       return
     }
 
-    await mutateAsync({
-      id: base.id,
-      name: company.name,
-      requestEmail: base.requestEmail,
-      domain: tenant.domain ?? '',
-      inn: company.inn,
-      status: company.status,
-    })
+    try {
+      await mutateAsync({
+        id: base.id,
+        name: company.name,
+        requestEmail: base.requestEmail,
+        domain: tenant.domain ?? '',
+        inn: company.inn,
+        status: company.status,
+      })
+    } catch (error) {
+      console.error('Ошибка при обновлении данных компании:', error)
+      // Optionally show user-facing error notification
+      // toast.error('Ошибка при сохранении данных компании')
+    }
   }
 
   return (
@@ -101,14 +108,6 @@ export function CompleteCompanyModal({ tenant }: Props) {
                   | 'REORGANIZING'
                   | undefined
 
-                const statusLabel: Record<string, string> = {
-                  ACTIVE: 'Действующая',
-                  LIQUIDATING: 'Ликвидируется',
-                  LIQUIDATED: 'Ликвидирована',
-                  BANKRUPT: 'Банкротство',
-                  REORGANIZING: 'Реорганизация',
-                }
-
                 return (
                   <FormItem>
                     <FormLabel className="mb-2">ИНН компании *</FormLabel>
@@ -129,7 +128,9 @@ export function CompleteCompanyModal({ tenant }: Props) {
                                     status === 'ACTIVE' ? 'text-green-600' : 'text-red-600'
                                   }
                                 >
-                                  {statusLabel[status] ?? status}
+                                  {TENANT_STATUS_LABELS[
+                                    status as keyof typeof TENANT_STATUS_LABELS
+                                  ] ?? status}
                                 </span>
                               </div>
                             )}

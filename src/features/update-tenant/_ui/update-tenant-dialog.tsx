@@ -6,11 +6,10 @@ import { Input } from '@/shared/ui/input'
 import { useTRPC } from '@/shared/trpc/client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Edit3 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { TenantUpdateSchema, type TenantUpdateInput } from '@/entities/tenants/_domain/schemas'
-import type { z } from 'zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
 import { SupplierDashboardTenant } from '@/entities/dashboard/model/types'
@@ -26,7 +25,7 @@ export function UpdateTenantDialog({ tenant, children, onTenantUpdated }: Update
   const trpc = useTRPC()
   const queryClient = useQueryClient()
 
-  const form = useForm<z.infer<typeof TenantUpdateSchema>>({
+  const form = useForm<TenantUpdateInput>({
     resolver: zodResolver(TenantUpdateSchema),
     defaultValues: {
       id: tenant?.id,
@@ -35,6 +34,16 @@ export function UpdateTenantDialog({ tenant, children, onTenantUpdated }: Update
       domain: tenant?.domain || '',
     },
   })
+
+  // Reset form when tenant prop changes
+  useEffect(() => {
+    form.reset({
+      id: tenant?.id,
+      name: tenant?.name || '',
+      requestEmail: tenant?.requestEmail || '',
+      domain: tenant?.domain || '',
+    })
+  }, [tenant, form])
 
   const { handleSubmit, reset } = form
 

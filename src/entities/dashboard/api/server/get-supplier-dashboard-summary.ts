@@ -18,8 +18,6 @@ export async function getSupplierDashboardSummaryServer(
 ): Promise<SupplierDashboardSummary | null> {
   const { payload, user } = deps
 
-  if (!user) return null
-
   const activeTenantId = getActiveTenantId(user)
   if (!activeTenantId) return null
 

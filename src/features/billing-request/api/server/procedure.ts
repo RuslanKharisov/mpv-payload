@@ -7,6 +7,14 @@ const toEmail = process.env.BILLING_REQUEST_EMAIL
 
 export const billingRequestRouter = createTRPCRouter({
   sendBillingRequest: baseProcedure.input(BillingRequestSchema).mutation(async ({ ctx, input }) => {
+    // Check if toEmail is configured before entering try block to avoid catching TRPCError
+    if (!toEmail) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Не настроен адрес для заявок на тариф',
+      })
+    }
+
     try {
       const { formData, tariffId, tariffName } = input
 
@@ -20,13 +28,6 @@ export const billingRequestRouter = createTRPCRouter({
         tariffId,
         tariffName,
       })
-
-      if (!toEmail) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Не настроен адрес для заявок на тариф',
-        })
-      }
 
       await ctx.payload.sendEmail({
         to: toEmail,

@@ -23,7 +23,6 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
   }
 
   const canManageStock = await canManageStockForCurrentTenant()
-  console.log('canManageStock ==> ', canManageStock)
 
   // Parse search params for pagination
   const sp = await searchParams
@@ -101,7 +100,4 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
       </Tabs>
     </div>
   )
-}
-function heckTenantFeatureAccess(arg0: string) {
-  throw new Error('Function not implemented.')
 }

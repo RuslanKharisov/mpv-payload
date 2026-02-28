@@ -55,7 +55,6 @@ async function TariffsPage() {
       }
     }
   }
-  console.log('currentTariff ==> ', currentTariff)
 
   return (
     <div className="space-y-6 px-4 lg:px-6 py-4 md:py-6">
@@ -75,10 +74,10 @@ async function TariffsPage() {
       </div>
 
       {!currentTariff && (
-        <p className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
+        <Typography tag="p" className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
           Выберите доступный тариф с лучшими функциями для взаимодействия с аудиторией, повышения
           лояльности клиентов и стимулирования продаж.
-        </p>
+        </Typography>
       )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">

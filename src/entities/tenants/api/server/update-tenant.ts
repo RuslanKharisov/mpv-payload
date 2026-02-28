@@ -1,26 +1,45 @@
-import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { isSuperAdmin } from '@/payload/access/isSuperAdmin'
 import { TenantUpdateInput } from '../../_domain/schemas'
+import type { User } from '@/payload-types'
+import type { Payload } from 'payload'
+
+// Helper function to convert tenant entity to response object
+function toTenantResponse(tenant: any) {
+  return {
+    id: String(tenant.id),
+    name: tenant.name,
+    slug: tenant.slug,
+    domain: tenant.domain || undefined,
+    requestEmail: tenant.requestEmail,
+    createdAt: tenant.createdAt,
+  }
+}
+
+interface UpdateOrCreateTenantDeps {
+  user: User
+  payload: Payload
+}
 
 /**
  * Helper function to create or update a tenant
  * Ensures tenant isolation and proper access control
  */
-export async function updateOrCreateTenant(input: TenantUpdateInput) {
-  const { user } = await getMeUser({ nullUserRedirect: '/login' })
+export async function updateOrCreateTenant(
+  input: TenantUpdateInput,
+  deps: UpdateOrCreateTenantDeps,
+) {
+  const { user, payload } = deps
+
   if (!user) {
     throw new Error('Пользователь не авторизован')
   }
-
-  const payload = await getPayload({ config: configPromise })
 
   const userTenantIds = getUserTenantIDs(user)
 
   if (input.id) {
     const tenantId = Number(input.id)
-    if (!userTenantIds.some((id) => id === tenantId)) {
+    if (!userTenantIds.includes(tenantId)) {
       throw new Error('У вас нет доступа к этому тенанту')
     }
 
@@ -58,17 +77,10 @@ export async function updateOrCreateTenant(input: TenantUpdateInput) {
     })
 
     // Return a safe representation of the tenant
-    return {
-      id: String(updatedTenant.id),
-      name: updatedTenant.name,
-      slug: updatedTenant.slug,
-      domain: updatedTenant.domain || undefined,
-      requestEmail: updatedTenant.requestEmail,
-      createdAt: updatedTenant.createdAt,
-    }
+    return toTenantResponse(updatedTenant)
   } else {
-    const isSuperAdmin = user.roles?.includes('super-admin')
-    if (!isSuperAdmin) {
+    const userIsSuperAdmin = isSuperAdmin(user)
+    if (!userIsSuperAdmin) {
       throw new Error('Только супер-администраторы могут создавать тенанты напрямую')
     }
 
@@ -84,13 +96,6 @@ export async function updateOrCreateTenant(input: TenantUpdateInput) {
     })
 
     // Return a safe representation of the tenant
-    return {
-      id: String(newTenant.id),
-      name: newTenant.name,
-      slug: newTenant.slug,
-      domain: newTenant.domain || undefined,
-      requestEmail: newTenant.requestEmail,
-      createdAt: newTenant.createdAt,
-    }
+    return toTenantResponse(newTenant)
   }
 }

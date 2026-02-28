@@ -18,8 +18,8 @@ export const tenantsRouter = createTRPCRouter({
     return supplierWithApi
   }),
 
-  updateOrCreateTenant: baseProcedure.input(TenantUpdateSchema).mutation(async ({ input }) => {
-    // Note: Actual authorization happens inside updateOrCreateTenant function
-    return await updateOrCreateTenant(input)
+  updateOrCreateTenant: baseProcedure.input(TenantUpdateSchema).mutation(async ({ input, ctx }) => {
+    // Pass the context user and payload to avoid redundant fetch
+    return await updateOrCreateTenant(input, { user: ctx.user, payload: ctx.payload })
   }),
 })

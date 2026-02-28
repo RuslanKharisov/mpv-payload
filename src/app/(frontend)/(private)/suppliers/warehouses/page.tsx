@@ -36,12 +36,14 @@ export default async function WarehousesPage() {
     <div className="space-y-4 px-4 lg:px-6 py-4 md:py-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">Управление адресами ксладов</h1>
-          <p className="text-sm text-muted-foreground">
+          <Typography tag="h1" className="text-xl font-semibold">
+            Управление адресами складов
+          </Typography>
+          <Typography tag="p" className="text-sm text-muted-foreground">
             Здесь вы можете создавать склады, адрес нахождения и указывать в поле местонахождение
             остатков. Это позволяет в поиске проводить фильтрацию по месту нахождения склада и
-            находить тавар с наименьшим логистическим плечом.
-          </p>
+            находить товар с наименьшим логистическим плечом.
+          </Typography>
         </div>
         {canManageStock && <CreateWarehouseDialog />}
       </div>

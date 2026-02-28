@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Input } from '@/shared/ui/input'
 import { findCompanyByInn } from '@/entities/tenant/api/get-company-data-by-inn'
 import { DaDataCompanySuggestion } from '@/entities/tenant/_domain/da-data-company-response.dto'
@@ -21,6 +21,27 @@ const InnInput: React.FC<InputProps> = ({ field, placeholder = 'Начните �
   const [suggestions, setSuggestions] = useState<DaDataCompanySuggestion[]>([])
   const [onFocus, setOnFocus] = useState<boolean>(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        dropdownRef.current &&
+        !(dropdownRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setOnFocus(false)
+        setSuggestions([])
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [])
 
   const inn = field.value?.inn || ''
 
@@ -82,9 +103,9 @@ const InnInput: React.FC<InputProps> = ({ field, placeholder = 'Начните �
       />
       {onFocus && suggestions.length > 0 && (
         <ul className="absolute z-10 mt-1 w-full rounded-md border border-border bg-background shadow-lg">
-          {suggestions.map((suggestion, idx) => (
+          {suggestions.map((suggestion) => (
             <li
-              key={idx}
+              key={suggestion.data.inn}
               className="cursor-pointer px-3 py-2 hover:bg-muted"
               onClick={() => handleSelect(suggestion)}
             >
