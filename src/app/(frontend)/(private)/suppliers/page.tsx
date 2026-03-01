@@ -1,17 +1,13 @@
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { SupplierDashboardClient } from '@/widgets/supplier-dashboard/page-client'
-import { appRouter } from '@/shared/trpc/routers/_app'
-import { createTRPCContext } from '@/shared/trpc/init'
-import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient, trpc } from '@/shared/trpc/server'
 
 export default async function SuppliersDashboardPage() {
-  // Create the context and caller to prefetch data on the server
-  const ctx = await createTRPCContext()
-  const caller = appRouter.createCaller(ctx)
-  const summary = await caller.dashboard.getSupplierSummary()
+  const queryClient = getQueryClient()
 
-  // Create a query client and add the prefetched data
-  const queryClient = new QueryClient()
-  queryClient.setQueryData(['dashboard.getSupplierSummary'], summary)
+  const queryOptions = trpc.dashboard.getSupplierSummary.queryOptions()
+
+  await queryClient.prefetchQuery(queryOptions)
 
   const dehydratedState = dehydrate(queryClient)
 
