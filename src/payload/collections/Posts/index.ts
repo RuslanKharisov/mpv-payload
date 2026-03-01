@@ -1,12 +1,17 @@
 import type { CollectionConfig } from 'payload'
 
 import {
+  AlignFeature,
   BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
+  IndentFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  LinkFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -27,6 +32,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { CallToAction } from '@/payload/blocks/CallToAction/config'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -96,10 +102,15 @@ export const Posts: CollectionConfig<'posts'> = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock, CallToAction] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
+                    AlignFeature(),
+                    UnorderedListFeature(),
+                    OrderedListFeature(),
+                    LinkFeature(),
+                    IndentFeature(),
                   ]
                 },
               }),
