@@ -1,6 +1,12 @@
 'use client'
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/ui/dialog'
 import { Button } from '@/shared/ui/button'
 import { Form, FormField, FormItem, FormLabel, FormMessage, FormControl } from '@/shared/ui/form'
 import { useForm } from 'react-hook-form'
@@ -90,6 +96,7 @@ export function CompleteCompanyModal({ tenant }: Props) {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Завершите регистрацию компании</DialogTitle>
+          <DialogDescription>Начните вводить ИНН и выберите компанию из списка</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
