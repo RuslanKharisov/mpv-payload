@@ -10,7 +10,7 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
   return {
     id: stock.id.toString(), // ID из базы данных Payload уникален
     sku: stock.product.sku,
-    description: stock.product?.shortDescription ?? '', // Уточните, где у вас описание
+    description: stock.product?.shortDescription ?? '',
     imageUrl: stock.product.productImage.url || PLACEHOLDER_IMAGE_URL,
     brand: stock.product.brand?.name,
     supplierName: stock.tenant.name,
@@ -24,7 +24,7 @@ export function mapLocalStockToCartItem(stock: StockWithTenantAndCurrency): Norm
 }
 
 // Адаптер для удаленного склада
-// Обратите внимание: `supplier` передается отдельно, т.к. сам `remoteStock` его не содержит
+// `supplier` передается отдельно, т.к. `remoteStock` его не содержит
 
 function getWarehouseCityFromTenant(tenant: Tenant): string | undefined {
   if (!tenant.warehouse || typeof tenant.warehouse !== 'object') return undefined
@@ -39,7 +39,7 @@ export function mapRemoteStockToCartItem(
   remoteStock: RemoteStock, // Тип для одного элемента из `data`
   supplier: Tenant,
 ): NormalizedCartItem {
-  // Генерируем стабильный уникальный ID. Комбинация ID поставщика и SKU - хороший кандидат.
+  // Генерация стабильного уникального ID. Комбинация ID поставщика и SKU.
   const uniqueId = `remote-${supplier.id}-${remoteStock.sku}`
 
   return {
@@ -50,10 +50,10 @@ export function mapRemoteStockToCartItem(
     brand: remoteStock.brand || undefined,
     supplierName: supplier.name,
     supplierEmail: supplier.requestEmail,
-    price: remoteStock.price ?? 0, // Предполагаем, что цена может приходить
-    currencyCode: 'RUB', // Или получаем из `supplier` или `remoteStock`, если возможно
+    price: remoteStock.price ?? 0,
+    currencyCode: 'RUB',
     availableQuantity: remoteStock.quantity,
-    originalItem: { ...remoteStock, supplierId: supplier.id }, // Добавляем контекст
+    originalItem: { ...remoteStock, supplierId: supplier.id },
     source: 'remote',
     warehouse: getWarehouseCityFromTenant(supplier),
   }

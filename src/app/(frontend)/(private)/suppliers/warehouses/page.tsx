@@ -6,6 +6,8 @@ import { getWarehousesByTenant } from '@/entities/warehouse/api/get-warehouses-b
 import { CreateWarehouseDialog } from '@/features/create-warehouse-dialog'
 import { WarehousesTable } from '@/widgets/warehouses-table'
 import { tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
+import { Typography } from '@/shared/ui/typography'
+import Link from 'next/link'
 
 export default async function WarehousesPage() {
   const { user } = await getMeUser({ nullUserRedirect: '/login' })
@@ -34,10 +36,14 @@ export default async function WarehousesPage() {
     <div className="space-y-4 px-4 lg:px-6 py-4 md:py-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">Склады</h1>
-          <p className="text-sm text-muted-foreground">
-            Управление вашими складами: название и адрес для импорта остатков.
-          </p>
+          <Typography tag="h1" className="text-xl font-semibold">
+            Управление адресами складов
+          </Typography>
+          <Typography tag="p" className="text-sm text-muted-foreground">
+            Здесь вы можете создавать склады, адрес нахождения и указывать в поле местонахождение
+            остатков. Это позволяет в поиске проводить фильтрацию по месту нахождения склада и
+            находить товар с наименьшим логистическим плечом.
+          </Typography>
         </div>
         {canManageStock && <CreateWarehouseDialog />}
       </div>
@@ -46,10 +52,21 @@ export default async function WarehousesPage() {
         <WarehousesTable initialData={warehouses} />
       ) : (
         <div className="rounded-md border p-8 text-center">
-          <p className="text-muted-foreground">У вас пока нет созданных складов.</p>
-          <p className="text-sm text-muted-foreground mt-1">
+          <Typography tag="p" className="text-muted-foreground">
+            У вас пока нет складов.
+          </Typography>
+          <Typography tag="p">
+            Доступ открывается начиная с тарифа:{' '}
+            <Link
+              href="/suppliers/billing"
+              className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+            >
+              СТАРТ
+            </Link>{' '}
+          </Typography>
+          {/* <p className="text-sm text-muted-foreground mt-1">
             Нажмите «Создать склад», чтобы добавить первый склад.
-          </p>
+          </p> */}
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
+import { SupplierDashboardUser } from '@/entities/dashboard/model/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
-import { User } from 'lucide-react'
-import type { SupplierDashboardUser } from '@/entities/dashboard/api/get-supplier-dashboard-summary'
 import { Typography } from '@/shared/ui/typography'
+import { User } from 'lucide-react'
 
 export interface UserCardProps {
   user: SupplierDashboardUser
@@ -27,7 +27,9 @@ export function UserCard({ user }: UserCardProps) {
           <div className="space-y-1">
             {systemRoles.length > 0 && (
               <Typography tag="p" wrapper={false} className="text-xs">
-                <span className="text-muted-foreground">Системные роли:</span>{' '}
+                <Typography tag="span" wrapper={false} className="text-muted-foreground">
+                  Системные роли:
+                </Typography>{' '}
                 {systemRoles.join(', ')}
               </Typography>
             )}

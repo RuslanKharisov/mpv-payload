@@ -157,7 +157,7 @@ export function UploadExcelDialog({ onFinished }: UploadExcelDialogProps): JSX.E
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="destructive" className="w-full md:w-fit gap-2 cursor-pointer">
           <Upload className="h-4 w-4" />
           Импорт из Excel
         </Button>

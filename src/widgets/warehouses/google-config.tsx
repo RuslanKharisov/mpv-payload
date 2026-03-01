@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { GoogleStock } from '../remote-stocks-result/_ui/google-stock'
 import { Typography } from '@/shared/ui/typography'
+import Link from 'next/link'
 
 type GoogleSheetsConfigProps = {
   supplier: Tenant
@@ -84,7 +85,29 @@ export function GoogleSheetsConfig({ supplier }: GoogleSheetsConfigProps) {
             <ExternalLink className="h-5 w-5" />
             Настройка внешнего источника
           </CardTitle>
-          <CardDescription>Подключите таблицу для синхронизации остатков</CardDescription>
+          <CardDescription>
+            <Typography>
+              Подключите таблицу для синхронизации остатков БЕСПЛАТНО и данные появятся на странице{' '}
+              <Link
+                href="/stock"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                Склад,
+              </Link>{' '}
+              ознакомиться с инструкцией по настройке API можно на странице
+              <Link
+                href="/google-sheets-api-guide"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                {' '}
+                API Google Таблиц,
+              </Link>{' '}
+            </Typography>
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

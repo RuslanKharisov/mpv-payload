@@ -1,12 +1,15 @@
 import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
+import { canManageStockForCurrentTenant } from '@/entities/tenant/api/can-manage-stock'
 import { Tenant } from '@/payload-types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
+import { Typography } from '@/shared/ui/typography'
 import { getMeUser } from '@/shared/utilities/getMeUser'
 import { getUserTenantIDs } from '@/shared/utilities/getUserTenantIDs'
 import { UploadExcelDialogWithRefresh } from '@/widgets/stocks/upload-excel-dialog-wrapper'
 import { GoogleSheetsConfig } from '@/widgets/warehouses/google-config'
 import { LocalWarehouses } from '@/widgets/warehouses/local-warehouses'
 import configPromise from '@payload-config'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 
 interface WarehousesPageProps {
@@ -18,6 +21,8 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
   if (!user) {
     return null
   }
+
+  const canManageStock = await canManageStockForCurrentTenant()
 
   // Parse search params for pagination
   const sp = await searchParams
@@ -60,11 +65,25 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
         </TabsList>
 
         <TabsContent value="local" className="pt-4">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">
-              Управление локальными остатками в базе данных.
-            </div>
-            <UploadExcelDialogWithRefresh />
+          <div className="mb-4 flex flex-col md:flex-row gap-6 items-center justify-between">
+            <Typography tag="p">
+              Данные из локальной базы данных отражаются на странице:{' '}
+              <Link
+                href="/products"
+                target="_blank"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                Каталог,
+              </Link>{' '}
+              и доступ открывается начиная с тарифа:{' '}
+              <Link
+                href="/suppliers/billing"
+                className="text-accent-foreground hover:text-destructive transition-colors duration-300"
+              >
+                СТАРТ
+              </Link>{' '}
+            </Typography>
+            {canManageStock && <UploadExcelDialogWithRefresh />}
           </div>
 
           <LocalWarehouses

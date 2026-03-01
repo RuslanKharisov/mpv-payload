@@ -1,7 +1,8 @@
+import { SupplierDashboardTenant } from '@/entities/dashboard/model/types'
+import { UpdateTenantDialog } from '@/features/update-tenant/_ui/update-tenant-dialog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
-import { Building2, Globe, Mail } from 'lucide-react'
-import type { SupplierDashboardTenant } from '@/entities/dashboard/api/get-supplier-dashboard-summary'
 import { Typography } from '@/shared/ui/typography'
+import { Building2, Globe, Mail } from 'lucide-react'
 
 export interface CompanyCardProps {
   tenant: SupplierDashboardTenant
@@ -12,7 +13,10 @@ export function CompanyCard({ tenant }: CompanyCardProps) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Компания</CardTitle>
-        <Building2 className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-2">
+          <UpdateTenantDialog tenant={tenant}></UpdateTenantDialog>
+          <Building2 className="h-4 w-4 text-muted-foreground" />
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-2">
         <Typography tag="p" wrapper={false} className="text-lg font-bold">

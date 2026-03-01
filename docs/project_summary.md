@@ -7,7 +7,7 @@
 **Стек технологий:**
 
 - Frontend: Next.js 15, React 19, TypeScript
-- CMS: PayloadCMS v3.76.0
+- CMS: PayloadCMS v3.77.0
 - Backend: Node.js, PostgreSQL (через @payloadcms/db-postgres)
 - API: tRPC 11 для внутреннего API, REST для внешних эндпоинтов
 - UI: Radix UI, Tailwind CSS, Shadcn
@@ -58,12 +58,12 @@
     - `_domain/` - схемы и типы складских данных
     - `model/stock-with-relations.ts` - тип `StockWithRelations` для полностью загруженных связей
 - `dashboard/` - дашборд поставщика
-    - `api/get-supplier-dashboard-summary.ts` - server action для агрегации данных дашборда (пользователь, тенант, склады, остатки, подписка)
+  - `api/get-supplier-dashboard-summary.ts` - server action для агрегации данных дашборда (пользователь, тенант, склады, остатки, подписка)
   - `tenants/` - работа с тенантами (профили поставщиков)
-    - `api/server/get-tenants.ts` - server action для получения списка тенантов
-    - `api/update-remote-config.ts` - server action для обновления конфигурации Google Таблиц
-    - `api/{client|server}/` - tRPC процедуры для работы с тенантами
-    - `_domain/` - схемы и типы тенантов
+  - `api/server/get-tenants.ts` - server action для получения списка тенантов
+  - `api/update-remote-config.ts` - server action для обновления конфигурации Google Таблиц
+  - `api/{client|server}/` - tRPC процедуры для работы с тенантами
+  - `_domain/` - схемы и типы тенантов
   - `user/` - работа с пользователями
   - `warehouse/` - управление складами
     - `api/get-warehouses-by-tenant.ts` - server action для получения складов по тенанту
@@ -245,6 +245,7 @@
 - **Warehouses** - склады с локациями
 - **Brands** - производители/бренды продукции
 - **Currencies** - валюты для ценообразования
+- **Addresses** - адреса для складов (интеграция с DaData)
 
 ## Основные Flow / Процессы
 
@@ -306,6 +307,7 @@ Product CRUD -> Hooks -> Update Category/Brand Counts
 - **Технический долг:** Некоторые области используют хардкод (например, валидация имен пользователей)
 - **Асинхронные операции:** Обработка импорта и обновления статистики через серверные эндпоинты
 - **Аутентификация в Server Actions:** Server actions (`getStocksByTenant`, `createNewWarehouse`, `updateRemoteConfig`) используют `getMeUser({ nullUserRedirect: '/login' })` для проверки авторизации, не полагаясь только на layout-уровень защиты
+- **DaData интеграция:** Используется для валидации адресов складов
 
 ## Структура связей (Relations)
 
@@ -358,6 +360,12 @@ Product CRUD -> Hooks -> Update Category/Brand Counts
 - Тип: Self-referencing (Parent-Child)
 - Обязательная: Нет
 - Поле связи: `parent` в ProductCategories (реализовано через плагин nested-docs)
+
+**Warehouses → Addresses:**
+
+- Тип: Many-to-One
+- Обязательная: Да
+- Поле связи: `warehouse_address` в Warehouses
 
 ## Логика доступа и фильтрации
 

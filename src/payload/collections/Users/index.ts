@@ -39,7 +39,7 @@ const defaultTenantArrayField = tenantsArrayField({
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
+    admin: isSuperAdminFieldAccess,
     create: anyone,
     delete: authenticated,
     read: authenticated,

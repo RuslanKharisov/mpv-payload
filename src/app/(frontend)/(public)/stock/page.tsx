@@ -31,8 +31,6 @@ export default async function page({
         </div>
 
         <Suspense fallback={<StocksSkeleton />}>
-          <StockSearchBar />
-
           {/* Карточки поставщиков */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {supplierWithApi.map((supplier) => (

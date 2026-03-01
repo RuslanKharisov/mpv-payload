@@ -11,9 +11,13 @@ import type { PaginationState, OnChangeFn } from '@tanstack/react-table'
 
 interface GoogleStockPublicProps {
   supplier: Tenant
+  filters: {
+    sku: string
+    description: string
+  }
 }
 
-export function GoogleStockPublic({ supplier }: GoogleStockPublicProps) {
+export function GoogleStockPublic({ supplier, filters }: GoogleStockPublicProps) {
   const trpc = useTRPC()
 
   // Локальная пагинация (не через URL)
@@ -24,7 +28,10 @@ export function GoogleStockPublic({ supplier }: GoogleStockPublicProps) {
 
   const remoteStocksQueryOptions = trpc.remoteStocks.getByUrlPublic.queryOptions({
     tenantId: supplier.id,
-    filters: { sku: '', description: '' },
+    filters: {
+      sku: filters.sku,
+      description: filters.description,
+    },
     page: pagination.pageIndex + 1,
     perPage: pagination.pageSize,
   })

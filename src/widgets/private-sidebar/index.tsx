@@ -14,27 +14,18 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/shared/ui/sidebar'
-import {
-  Boxes,
-  Building2,
-  CreditCard,
-  Inbox,
-  LayoutDashboard,
-  UserIcon,
-  Users,
-  WarehouseIcon,
-} from 'lucide-react'
+import { Typography } from '@/shared/ui/typography'
+import { Boxes, CreditCard, LayoutDashboard, UserIcon, WarehouseIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const supplierItems = [
-  { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' }, // Каталог и запасы
-  { href: '/suppliers/stocks', icon: Boxes, label: 'Складские запасы' }, // остатки, импорт, Google Локации
-  { href: '/suppliers/warehouses', icon: WarehouseIcon, label: 'Склады' }, // название, адрес, DaData
-  { href: '/suppliers/requests', icon: Inbox, label: 'Заявки' },
+  { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' },
+  { href: '/suppliers/stocks', icon: Boxes, label: 'Складские запасы' },
+  { href: '/suppliers/warehouses', icon: WarehouseIcon, label: 'Склады' },
   { href: '/suppliers/billing', icon: CreditCard, label: 'Тариф' },
-  { href: '/suppliers/profile', icon: Building2, label: 'Компания' },
-  { href: '/suppliers/users', icon: Users, label: 'Пользователи' },
+  // { href: '/suppliers/profile', icon: Building2, label: 'Компания' },
+  // { href: '/suppliers/users', icon: Users, label: 'Пользователи' }, ToDo
 ]
 
 interface PrivateSidebarProps {
@@ -52,7 +43,9 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
         <SidebarMenuButton asChild size="lg">
           <Link href="/">
             <LogoIcon className={`${iconSize}`} />
-            <span>Личный кабинет</span>
+            <Typography tag="span" wrapper={false}>
+              Личный кабинет
+            </Typography>
           </Link>
         </SidebarMenuButton>
       </SidebarHeader>
@@ -65,7 +58,9 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
                 <SidebarMenuButton asChild isActive={pathname === item.href}>
                   <Link href={item.href}>
                     <item.icon className="h-4 w-4" />
-                    <span>{item.label}</span>
+                    <Typography tag="span" wrapper={false}>
+                      {item.label}
+                    </Typography>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -78,7 +73,9 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
         <SidebarMenuButton asChild>
           <Link href="/supplier">
             <UserIcon height={16} />
-            <span>{user?.email}</span>
+            <Typography tag="span" wrapper={false}>
+              {user?.email}
+            </Typography>
           </Link>
         </SidebarMenuButton>
         <LogoutButton />
