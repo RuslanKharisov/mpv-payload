@@ -8,18 +8,19 @@ import Link from 'next/link'
 import { Button } from '@/shared/ui/button'
 import { Metadata } from 'next'
 import { generateMeta } from '@/shared/utilities/generateMeta'
+import { StockSearchBar } from '@/widgets/stock-search-bar'
+import { Suspense } from 'react'
 
 type Args = {
   params: Promise<{ slug?: string }>
-  searchParams: Promise<{ tab?: string }>
+  searchParams: Promise<{ tab?: string; sku?: string; description?: string }>
 }
 
 export default async function page({ params: paramsPromise, searchParams }: Args) {
   const { slug = '' } = await paramsPromise
-  const { tab = 'google' } = await searchParams
+  const { tab = 'google', sku = '', description = '' } = await searchParams
 
   const supplier = await getTenantBySlug(slug)
-
   if (!supplier) {
     return notFound()
   }
@@ -49,6 +50,10 @@ export default async function page({ params: paramsPromise, searchParams }: Args
           </Button>
         </div>
 
+        <Suspense>
+          <StockSearchBar />
+        </Suspense>
+
         {/* Табы */}
         <Tabs defaultValue={hasGoogleApi ? tab : 'local'} className="w-full">
           <TabsList className="grid w-full max-w-md grid-cols-2">
@@ -59,12 +64,12 @@ export default async function page({ params: paramsPromise, searchParams }: Args
           </TabsList>
 
           <TabsContent value="local" className="mt-6">
-            <LocalWarehousesPublic supplier={supplier} />
+            <LocalWarehousesPublic supplier={supplier} filters={{ sku, description }} />
           </TabsContent>
 
           <TabsContent value="google" className="mt-6">
             {hasGoogleApi ? (
-              <GoogleStockPublic supplier={supplier} />
+              <GoogleStockPublic supplier={supplier} filters={{ sku, description }} />
             ) : (
               <div className="rounded-lg bg-gray-50 py-16 text-center dark:bg-gray-800">
                 <p className="text-muted-foreground">

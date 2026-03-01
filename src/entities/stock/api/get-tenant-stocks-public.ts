@@ -8,6 +8,10 @@ interface GetTenantStocksPublicInput {
   tenantId: number | string
   page?: number
   perPage?: number
+  filters?: {
+    sku?: string
+    description?: string
+  }
 }
 
 interface GetTenantStocksPublicOutput {
@@ -21,15 +25,30 @@ export async function getTenantStocksPublic({
   tenantId,
   page = 1,
   perPage = 20,
+  filters,
 }: GetTenantStocksPublicInput): Promise<GetTenantStocksPublicOutput> {
   const payload = await getPayload({ config: configPromise })
 
   try {
+    const where: Record<string, any> = {
+      tenant: { equals: tenantId },
+    }
+
+    if (filters?.sku) {
+      where['product.sku'] = { like: filters.sku }
+    }
+
+    if (filters?.description) {
+      // можно искать по name/shortDescription одновременно через or
+      where.or = [
+        { 'product.name': { like: filters.description } },
+        { 'product.shortDescription': { like: filters.description } },
+      ]
+    }
+
     const result = await payload.find({
       collection: 'stocks',
-      where: {
-        tenant: { equals: tenantId },
-      },
+      where,
       limit: perPage,
       page,
       depth: 2,

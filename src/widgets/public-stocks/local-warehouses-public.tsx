@@ -13,22 +13,36 @@ import type { PaginationState, OnChangeFn, ColumnDef } from '@tanstack/react-tab
 
 interface LocalWarehousesPublicProps {
   supplier: Tenant
+  filters: {
+    sku: string
+    description: string
+  }
 }
 
-export function LocalWarehousesPublic({ supplier }: LocalWarehousesPublicProps) {
-  // Локальная пагинация (не через URL)
+export function LocalWarehousesPublic({ supplier, filters }: LocalWarehousesPublicProps) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
   })
 
   const { data, isFetching } = useQuery({
-    queryKey: ['local-stocks-public', supplier.id, pagination.pageIndex, pagination.pageSize],
+    queryKey: [
+      'local-stocks-public',
+      supplier.id,
+      pagination.pageIndex,
+      pagination.pageSize,
+      filters.sku,
+      filters.description,
+    ],
     queryFn: async () => {
       return getTenantStocksPublic({
         tenantId: supplier.id,
         page: pagination.pageIndex + 1,
         perPage: pagination.pageSize,
+        filters: {
+          sku: filters.sku,
+          description: filters.description,
+        },
       })
     },
     placeholderData: (previousData) => previousData,
