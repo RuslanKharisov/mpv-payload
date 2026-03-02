@@ -1,6 +1,6 @@
 import { formatSku } from '@/payload/fields/skuNormalized/formatSku'
 import { Endpoint, PayloadRequest } from 'payload'
-import * as XLSX from 'xlsx'
+import ExcelJS from 'exceljs'
 import { z } from 'zod'
 
 type WhereOperator<T> = { equals: T }
@@ -63,18 +63,51 @@ export const importStocksEndpoint: Endpoint = {
         return Response.json({ success: false, error: 'Файл не был загружен' }, { status: 400 })
       }
 
-      const buffer = Buffer.from(await file.arrayBuffer())
-      const workbook = XLSX.read(buffer, { type: 'buffer' })
-      const sheetName = workbook.SheetNames[1]
-      if (!sheetName) {
+      const arrayBuffer = await file.arrayBuffer()
+      const workbook = new ExcelJS.Workbook()
+      await workbook.xlsx.load(arrayBuffer)
+
+      // второй лист (0 — первый, 1 — второй)
+      const sheet = workbook.worksheets[1]
+
+      if (!sheet) {
         return Response.json(
           { success: false, error: 'Рабочая книга не содержит второго листа.' },
           { status: 400 },
         )
       }
-      const sheet = workbook.Sheets[sheetName]
 
-      const rows: ImportStockTableRows[] = XLSX.utils.sheet_to_json(sheet)
+      const headerRow = sheet.getRow(1)
+      const rawHeaderValues = headerRow.values ?? [] // fallback на []
+      const headers: string[] = (rawHeaderValues as unknown[])
+        .slice(1) // пропускаем индекс 0
+        .map((v) => String(v ?? '').trim())
+        .filter((h) => h.length > 0)
+
+      const rows: ImportStockTableRows[] = []
+
+      for (let rowIndex = 2; rowIndex <= sheet.rowCount; rowIndex++) {
+        const row = sheet.getRow(rowIndex)
+        const obj: Record<string, unknown> = {}
+
+        headers.forEach((header, colIdx) => {
+          if (!header) return
+          const cell = row.getCell(colIdx + 1)
+          let value: unknown = cell.value
+
+          // если формула, берём результат
+          if (value && typeof value === 'object' && 'result' in value) {
+            value = (value as any).result
+          }
+
+          obj[header] = value
+        })
+
+        // пропускаем пустые строки
+        if (Object.values(obj).every((v) => v == null || v === '')) continue
+
+        rows.push(obj as ImportStockTableRows)
+      }
 
       const errors: string[] = []
       const successes: string[] = []
