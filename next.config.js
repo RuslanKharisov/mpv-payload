@@ -10,8 +10,8 @@ const nextConfig = {
     cpus: 1,
     workerThreads: false,
   },
-  typescript: { ignoreBuildErrors: true }, // отключение проверки типов при сборке на VPS
-  eslint: { ignoreDuringBuilds: true }, // отключение линтинга при сборке на VPS
+  // typescript: { ignoreBuildErrors: true }, // отключение проверки типов при сборке на VPS
+  // eslint: { ignoreDuringBuilds: true }, // отключение линтинга при сборке на VPS
   images: {
     remotePatterns: [
       ...NEXT_PUBLIC_SERVER_URL.split(',').map((item) => {
