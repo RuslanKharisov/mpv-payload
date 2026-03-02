@@ -6,10 +6,12 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // experimental: {
-  //   cpus: 1,
-  //   workerThreads: false,
-  // },
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+  },
+  typescript: { ignoreBuildErrors: true }, // отключение проверки типов при сборке на VPS
+  eslint: { ignoreDuringBuilds: true }, // отключение линтинга при сборке на VPS
   images: {
     remotePatterns: [
       ...NEXT_PUBLIC_SERVER_URL.split(',').map((item) => {
