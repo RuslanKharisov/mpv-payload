@@ -57,7 +57,7 @@ export function SupplierDashboardClient() {
 
   return (
     <div className="space-y-6 px-4 lg:px-6 py-4 md:py-6">
-      <div className="space-y-2">
+      <div className="space-y-4">
         <Typography tag="h1">Дашборд поставщика</Typography>
         <Typography tag="p" className="text-sm text-muted-foreground">
           Обзор вашей компании, складов и остатков.

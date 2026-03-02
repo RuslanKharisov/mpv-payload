@@ -56,7 +56,7 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
 
   return (
     <div className="flex flex-col gap-4 px-4 lg:px-6 py-4 md:py-6">
-      <h1 className="text-2xl font-bold tracking-tight">Управление складами</h1>
+      <Typography tag="h1">Управление складами</Typography>
 
       <Tabs defaultValue="local" className="w-full">
         <TabsList>
