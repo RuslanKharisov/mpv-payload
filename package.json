@@ -99,7 +99,6 @@
     "@tailwindcss/typography": "^0.5.13",
     "@types/ejs": "^3.1.5",
     "@types/escape-html": "^1.0.2",
-    "@types/exceljs": "^0.5.3",
     "@types/node": "22.5.4",
     "@types/react": "19.2.1",
     "@types/react-dom": "19.2.1",

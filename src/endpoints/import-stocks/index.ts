@@ -78,11 +78,14 @@ export const importStocksEndpoint: Endpoint = {
       }
 
       const headerRow = sheet.getRow(1)
-      const rawHeaderValues = headerRow.values ?? [] // fallback на []
-      const headers: string[] = (rawHeaderValues as unknown[])
+      const rawHeaderValues = headerRow.values ?? []
+      const headerMap = (rawHeaderValues as unknown[])
         .slice(1) // пропускаем индекс 0
-        .map((v) => String(v ?? '').trim())
-        .filter((h) => h.length > 0)
+        .map((v, idx) => ({
+          header: String(v ?? '').trim(),
+          columnNumber: idx + 1,
+        }))
+        .filter((h) => h.header.length > 0)
 
       const rows: ImportStockTableRows[] = []
 
@@ -90,9 +93,8 @@ export const importStocksEndpoint: Endpoint = {
         const row = sheet.getRow(rowIndex)
         const obj: Record<string, unknown> = {}
 
-        headers.forEach((header, colIdx) => {
-          if (!header) return
-          const cell = row.getCell(colIdx + 1)
+        headerMap.forEach(({ header, columnNumber }) => {
+          const cell = row.getCell(columnNumber)
           let value: unknown = cell.value
 
           // если формула, берём результат
