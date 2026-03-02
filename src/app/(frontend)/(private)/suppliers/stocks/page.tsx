@@ -34,7 +34,7 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
   const tenantIds = getUserTenantIDs(user)
   const currentTenantId = tenantIds[0]
   if (!currentTenantId) {
-    return <div className="px-4 py-6">Нет привязанных компаний.</div>
+    return <div className="px-4 py-6">Нет привязанных компаний</div>
   }
 
   let supplier: Tenant
