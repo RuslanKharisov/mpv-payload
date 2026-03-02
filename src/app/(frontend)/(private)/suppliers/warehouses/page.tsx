@@ -35,7 +35,7 @@ export default async function WarehousesPage() {
   return (
     <div className="space-y-4 px-4 lg:px-6 py-4 md:py-6">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="space-y-4">
           <Typography tag="h1" className="text-xl font-semibold">
             Управление адресами складов
           </Typography>
