@@ -26,11 +26,14 @@ export function GoogleStockPublic({ supplier, filters }: GoogleStockPublicProps)
     pageSize: 20,
   })
 
+  const skuKey = filters.sku.trim() || undefined
+  const descKey = filters.description.trim() || undefined
+
   const remoteStocksQueryOptions = trpc.remoteStocks.getByUrlPublic.queryOptions({
     tenantId: supplier.id,
     filters: {
-      sku: filters.sku,
-      description: filters.description,
+      sku: skuKey ?? '',
+      description: descKey ?? '',
     },
     page: pagination.pageIndex + 1,
     perPage: pagination.pageSize,
@@ -39,6 +42,8 @@ export function GoogleStockPublic({ supplier, filters }: GoogleStockPublicProps)
   const { data, isFetching } = useQuery({
     ...remoteStocksQueryOptions,
     placeholderData: (previousData) => previousData,
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
   })
 
   const handlePaginationChange: OnChangeFn<PaginationState> = (updaterOrValue) => {

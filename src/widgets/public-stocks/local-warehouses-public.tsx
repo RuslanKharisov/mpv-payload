@@ -25,14 +25,17 @@ export function LocalWarehousesPublic({ supplier, filters }: LocalWarehousesPubl
     pageSize: 20,
   })
 
+  const skuKey = filters.sku.trim() || undefined
+  const descKey = filters.description.trim() || undefined
+
   const { data, isFetching } = useQuery({
     queryKey: [
       'local-stocks-public',
       supplier.id,
       pagination.pageIndex,
       pagination.pageSize,
-      filters.sku,
-      filters.description,
+      skuKey,
+      descKey,
     ],
     queryFn: async () => {
       return getTenantStocksPublic({
@@ -46,6 +49,8 @@ export function LocalWarehousesPublic({ supplier, filters }: LocalWarehousesPubl
       })
     },
     placeholderData: (previousData) => previousData,
+    staleTime: 0,
+    gcTime: 5 * 60 * 1000,
   })
 
   const { addToCart } = useCart()
