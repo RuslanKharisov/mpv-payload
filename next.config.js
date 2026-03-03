@@ -7,7 +7,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    cpus: 2,
+    cpus: Number(process.env.NEXT_BUILD_CPUS) || 2,
     workerThreads: false,
   },
   // typescript: { ignoreBuildErrors: true }, // отключение проверки типов при сборке на VPS

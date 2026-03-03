@@ -43,8 +43,8 @@ export function LocalWarehousesPublic({ supplier, filters }: LocalWarehousesPubl
         page: pagination.pageIndex + 1,
         perPage: pagination.pageSize,
         filters: {
-          sku: filters.sku,
-          description: filters.description,
+          sku: skuKey ?? '',
+          description: descKey ?? '',
         },
       })
     },
