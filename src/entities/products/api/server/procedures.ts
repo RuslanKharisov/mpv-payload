@@ -64,7 +64,7 @@ export const productsRouter = createTRPCRouter({
   /**
    * Единый агрегатор статистики для всех фильтров (Города, Регионы, Состояния)
    */
-  getFilterStats: baseProcedure.query(async ({ ctx }) => {
+  getFilterStats: baseProcedurePublic.query(async ({ ctx }) => {
     const payload: Payload = ctx.payload
 
     // Получаем все активные остатки. Depth: 0 — это молниеносно.
