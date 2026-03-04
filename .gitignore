@@ -23,4 +23,8 @@ node_modules/
 
 src.zip
 
-docs/ai
+#agents
+.agents
+.qoder
+AGENTS.MD
+skills-lock.json

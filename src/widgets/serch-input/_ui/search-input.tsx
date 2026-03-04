@@ -53,14 +53,14 @@ export function SearchInput({ className, currentPhrase }: Args) {
         value={searchQueryDraft}
         onChange={(e) => handleSearchChange(e.target.value)}
         applyFilter={applyFilters}
-        placeholder="Искать ..."
+        placeholder="Искать…"
       />
       <Typography
         tag="p"
         className="mt-1 cursor-pointer underline"
         onClick={() => handleExampleClick('6ES7')}
       >
-        Введите чатсть артикула: 6ES7
+        Введите часть артикула: 6ES7
       </Typography>
     </div>
   )

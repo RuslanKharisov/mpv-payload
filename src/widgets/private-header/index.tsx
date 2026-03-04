@@ -17,7 +17,11 @@ export function PrivateHeader() {
 
         <div className="flex items-center justify-end gap-2 grow py-1">
           <div className="hidden items-center gap-2 md:flex">
-            <Input placeholder="Поиск по контрактам..." className="h-10 w-50 lg:w-65" />
+            <Input
+              placeholder="Поиск по контрактам..."
+              className="h-10 w-50 lg:w-65"
+              aria-label="Поиск по контрактам"
+            />
           </div>
           <Button variant="ghost" size="icon">
             <Bell className="h-4 w-4" />
