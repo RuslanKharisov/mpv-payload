@@ -18,9 +18,14 @@ export const MobileNav: React.FC<MobileNavProps> = memo(({ data, onClose, pathna
 
   return (
     <div className="bg-background flex h-dvh w-full flex-col space-y-2 px-4">
-      <div onClick={onClose} className="cursor-pointer ">
+      <button
+        type="button"
+        onClick={onClose}
+        className="cursor-pointer text-left"
+        aria-label="Закрыть меню"
+      >
         <Logo />
-      </div>
+      </button>
 
       {navItems.map(({ link }, i) => {
         return (

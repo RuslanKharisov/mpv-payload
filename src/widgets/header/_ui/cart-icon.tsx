@@ -12,8 +12,8 @@ export function CartIcon() {
   // показываем иконку без счетчика
   if (!cartContext) {
     return (
-      <Link href="/cart" className="relative inline-block">
-        <ShoppingCart className="h-6 w-6 text-foreground" />
+      <Link href="/cart" className="relative inline-block" aria-label="Открыть корзину">
+        <ShoppingCart className="h-6 w-6 text-foreground" aria-hidden="true" />
       </Link>
     )
   }
@@ -24,8 +24,8 @@ export function CartIcon() {
   const totalCount = items.reduce((sum: number, entry) => sum + entry.quantity, 0)
 
   return (
-    <Link href="/cart" className="relative inline-block">
-      <ShoppingCart className="h-6 w-6 text-foreground" />
+    <Link href="/cart" className="relative inline-block" aria-label="Открыть корзину">
+      <ShoppingCart className="h-6 w-6 text-foreground" aria-hidden="true" />
 
       {totalCount > 0 && (
         <span

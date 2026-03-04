@@ -27,6 +27,9 @@ export const Search: React.FC = () => {
         </Label>
         <Input
           id="search"
+          type="search"
+          name="q"
+          autoComplete="off"
           onChange={(event) => {
             setValue(event.target.value)
           }}
