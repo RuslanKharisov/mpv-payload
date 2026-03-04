@@ -1,8 +1,18 @@
+import dynamic from 'next/dynamic'
 import { Product } from '@/payload-types'
 import { ProductCard } from '../ProductCard'
-import { GeneralSearchModal } from '@/features/send-general-search-request/_ui/general-search-form'
 import { Button } from '@/shared/ui/button'
 import { SearchCode } from 'lucide-react'
+
+const GeneralSearchModal = dynamic(
+  () =>
+    import('@/features/send-general-search-request/_ui/general-search-form').then(
+      (mod) => mod.GeneralSearchModal,
+    ),
+  {
+    ssr: false,
+  },
+)
 
 interface ProductsBlockProps {
   products?: Product[]

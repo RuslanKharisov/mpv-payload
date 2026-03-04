@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { Suspense, useState } from 'react'
 import { cn } from '@/shared/utilities/ui'
@@ -13,7 +14,16 @@ import Link from 'next/link'
 import { ConditionFilter } from './condition-filter'
 import { CityFilter } from './city-filter'
 import { RegionFilter } from './region-filter'
-import { GeneralSearchModal } from '@/features/send-general-search-request/_ui/general-search-form'
+
+const GeneralSearchModal = dynamic(
+  () =>
+    import('@/features/send-general-search-request/_ui/general-search-form').then(
+      (mod) => mod.GeneralSearchModal,
+    ),
+  {
+    ssr: false,
+  },
+)
 
 type FiltersSidebarProps = {
   allCategories: ProductCategoryWithParents[]

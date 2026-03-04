@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 type Filters = {
@@ -24,21 +24,31 @@ const FiltersContext = createContext<FiltersContextType | undefined>(undefined)
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [filters, setFilters] = useState<Filters>({})
+  const filters = useMemo<Filters>(() => {
+    const next: Filters = {}
 
-  useEffect(() => {
-    const newFilters: Filters = {}
-    if (searchParams.get('brands')) newFilters.brands = searchParams.get('brands')?.split(',') || []
-    if (searchParams.get('city')) newFilters.city = searchParams.get('city') || undefined
-    if (searchParams.get('category'))
-      newFilters.category = searchParams.get('category') || undefined
-    if (searchParams.get('region')) newFilters.region = searchParams.get('region') || undefined
-    if (searchParams.get('phrase')) newFilters.phrase = searchParams.get('phrase') || undefined
-    if (searchParams.get('page')) newFilters.page = Number(searchParams.get('page')) || 1
-    if (searchParams.get('condition'))
-      newFilters.condition = searchParams.get('condition') || undefined
+    const brands = searchParams.get('brands')
+    if (brands) next.brands = brands.split(',')
 
-    setFilters(newFilters)
+    const city = searchParams.get('city')
+    if (city) next.city = city
+
+    const category = searchParams.get('category')
+    if (category) next.category = category
+
+    const region = searchParams.get('region')
+    if (region) next.region = region
+
+    const phrase = searchParams.get('phrase')
+    if (phrase) next.phrase = phrase
+
+    const page = searchParams.get('page')
+    if (page) next.page = Number(page) || 1
+
+    const condition = searchParams.get('condition')
+    if (condition) next.condition = condition
+
+    return next
   }, [searchParams])
 
   const setFilter = (key: keyof Filters, value: string | string[] | number | undefined) => {
