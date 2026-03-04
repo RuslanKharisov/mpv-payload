@@ -5,11 +5,16 @@ import React, { memo } from 'react'
 
 interface LogoProps {
   className?: string
+  onClick?: () => void
 }
 
-export const Logo = memo(({ className }: LogoProps) => {
+export const Logo = memo(({ className, onClick }: LogoProps) => {
   return (
-    <Link className={cn('flex justify-center items-center space-x-2', className)} href="/">
+    <Link
+      href="/"
+      onClick={onClick}
+      className={cn('flex justify-center items-center space-x-2', className)}
+    >
       <LogoIcon className="h-12 w-12" />
       <span className="inline-block font-bold">Prom-Stock</span>
     </Link>

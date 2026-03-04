@@ -21,19 +21,21 @@ export default async function Page({ searchParams: paramsPromice }: Args) {
 
   const allCategories = await getAllCategoriesWithParents()
 
-  const productsData = await getProducts({
-    page: params.page,
-    categorySlug: params.category,
-    brandsSlug: params.brands,
-    phrase: params.phrase,
-    allCategories,
-    condition: params.condition,
-    city: params.city,
-    region: params.region,
-  })
-  const brandsData = await getBrands()
-  const regionsData = await getRegions()
-  const citiesData = await getCities(params.region)
+  const [productsData, brandsData, regionsData, citiesData] = await Promise.all([
+    getProducts({
+      page: params.page,
+      categorySlug: params.category,
+      brandsSlug: params.brands,
+      phrase: params.phrase,
+      allCategories,
+      condition: params.condition,
+      city: params.city,
+      region: params.region,
+    }),
+    getBrands(),
+    getRegions(),
+    getCities(params.region),
+  ])
 
   if (productsData.invalidCategory) return notFound()
 
