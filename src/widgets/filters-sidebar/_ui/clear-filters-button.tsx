@@ -20,7 +20,7 @@ export function ClearFiltersButton() {
   }
 
   return (
-    <Button variant="outline" className="w-fit" onClick={resetFilters}>
+    <Button asChild variant="outline" className="w-fit" onClick={resetFilters}>
       Очистить все фильтры
     </Button>
   )
