@@ -1,4 +1,5 @@
 import { getServerSideURL } from '@/shared/utilities/getURL'
+import { normalizeUrl } from '@/shared/utilities/normalizeUrl'
 
 export function makeTrackedUrl(opts: {
   website: string
@@ -18,9 +19,7 @@ export function makeTrackedUrl(opts: {
     query = null,
   } = opts
 
-  const normalizedWebsite = /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(website)
-    ? website
-    : `https://${website}`
+  const normalizedWebsite = normalizeUrl(website)
   const encodedUrl = Buffer.from(normalizedWebsite).toString('base64url')
 
   const params = new URLSearchParams({
