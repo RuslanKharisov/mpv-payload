@@ -1,11 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { LogOut } from 'lucide-react'
-import { toast } from 'sonner'
-import { SidebarMenuButton } from '@/shared/ui/sidebar'
-import { logoutAction } from '../model/logout-action'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import { logoutAction } from '../model/logout-action'
 
 export function LogoutButton() {
   const router = useRouter()
@@ -30,9 +29,19 @@ export function LogoutButton() {
   }
 
   return (
-    <SidebarMenuButton onClick={handleLogout} className="cursor-pointer">
-      <LogOut height={16} />
-      <span>Выход</span>
-    </SidebarMenuButton>
+    <div
+      onClick={handleLogout}
+      className={`flex items-center gap-4 cursor-pointer transition-opacity ${
+        isPending ? 'opacity-50 pointer-events-none' : 'hover:text-primary'
+      }`}
+    >
+      {isPending ? (
+        <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+      ) : (
+        <LogOut height={16} />
+      )}
+
+      <span>{isPending ? 'Выходим...' : 'Выход'}</span>
+    </div>
   )
 }

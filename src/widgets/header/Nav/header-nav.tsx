@@ -5,18 +5,19 @@ import React, { memo } from 'react'
 import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
-import { CartIcon } from '../_ui/cart-icon'
-import { LoginButton } from '../_ui/login-button'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { CartIcon } from '../_ui/cart-icon'
+import { UserProfile } from '../_ui/user-profile'
+import { Profile } from '@/entities/profile/_domain/profile'
 
 type HeaderNavProps = {
   data: HeaderType
-  userId?: number | null
+  user: Profile
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, userId }) => {
+export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, user }) => {
   const pathname = usePathname()
   const navItems = data?.navItems || []
 
@@ -32,7 +33,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, userId }) => {
         <SearchIcon className="w-5 text-primary" />
       </Link>
       <CartIcon />
-      {!userId && <LoginButton />}
+      {user?.id && <UserProfile user={user} />}
     </nav>
   )
 })

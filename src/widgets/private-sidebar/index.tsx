@@ -78,7 +78,9 @@ export function PrivateSidebar({ user }: PrivateSidebarProps) {
             </Typography>
           </Link>
         </SidebarMenuButton>
-        <LogoutButton />
+        <SidebarMenuButton className="cursor-pointer">
+          <LogoutButton />
+        </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
   )
