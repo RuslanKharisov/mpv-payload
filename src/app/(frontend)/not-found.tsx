@@ -10,7 +10,7 @@ export default function NotFound() {
         <h1 style={{ marginBottom: 0, fontSize: '4rem' }}>404</h1>
         <p className="mb-4 text-lg text-muted-foreground">Упс! Похоже, вы забрели не туда 🚀</p>
         <p className="mb-6 text-muted-foreground">
-          Но ничего страшного — вернёмся на главную и продолжим путешествие.
+          Но ничего страшного — вернёмся на главную и продолжим путешествие..
         </p>
       </div>
       <Button asChild variant="default">
