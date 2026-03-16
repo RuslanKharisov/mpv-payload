@@ -18,7 +18,10 @@ export function makeTrackedUrl(opts: {
     query = null,
   } = opts
 
-  const encodedUrl = Buffer.from(website).toString('base64url')
+  const normalizedWebsite = /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(website)
+    ? website
+    : `https://${website}`
+  const encodedUrl = Buffer.from(normalizedWebsite).toString('base64url')
 
   const params = new URLSearchParams({
     u: encodedUrl,

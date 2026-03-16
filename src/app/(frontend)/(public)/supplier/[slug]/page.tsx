@@ -58,7 +58,7 @@ export default async function page({ params: paramsPromise, searchParams }: Args
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  nppgks.com
+                  {website}
                 </a>
               </div>
             )}

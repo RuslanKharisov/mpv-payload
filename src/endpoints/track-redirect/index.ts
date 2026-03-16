@@ -21,8 +21,16 @@ export const trackRedirectEndpoint: Endpoint = {
     const rawSrc = url.searchParams.get('src')
     const companyId = url.searchParams.get('cid') || null
     const tenantId = url.searchParams.get('tid') || ''
-    const query = url.searchParams.get('q') || null
     const ctx = url.searchParams.get('ctx') || null
+    const rawQuery = url.searchParams.get('q')
+    const query = (() => {
+      if (!rawQuery) return null
+      try {
+        return decodeBase64Url(rawQuery)
+      } catch {
+        return null
+      }
+    })()
 
     if (!encoded) {
       return new Response('Missing "u" param', { status: 400 })
@@ -71,7 +79,7 @@ export const trackRedirectEndpoint: Endpoint = {
         collection: 'clicks',
         data: {
           companyId,
-          tenant, // number | null — ок для relationship
+          tenant,
           src,
           ctx,
           query,
@@ -79,6 +87,7 @@ export const trackRedirectEndpoint: Endpoint = {
           ip,
           userAgent: req.headers.get('user-agent') || '',
         },
+        overrideAccess: true,
       })
     } catch (e) {
       console.error('Failed to log click', e)

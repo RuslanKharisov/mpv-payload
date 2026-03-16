@@ -13,7 +13,7 @@ export const Clicks: CollectionConfig = {
   },
   access: {
     read: isSuperAdminAccess,
-    create: () => true, // endpoint будет писать от сервера
+    create: () => false,
     update: () => false,
     delete: isSuperAdminAccess,
   },
