@@ -6,19 +6,19 @@ import React, { useCallback, useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav/header-nav'
-import { MenuIcon, SearchIcon, XIcon } from 'lucide-react'
+import { Profile } from '@/entities/profile/_domain/profile'
 import { cn } from '@/shared/utilities/ui'
+import { MenuIcon, XIcon } from 'lucide-react'
+import { HeaderNav } from './Nav/header-nav'
 import { MobileNav } from './Nav/mobile-nav'
 import { CartIcon } from './_ui/cart-icon'
-import Link from 'next/link'
 
 interface HeaderClientProps {
   data: Header
-  userId?: number | null
+  user: Profile
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, user }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -55,16 +55,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
               <Logo />
             </div>
             <div className="flex sm:hidden items-center gap-5">
-              <Link href="/search">
+              {/* <Link href="/search">
                 <span className="sr-only">Search</span>
                 <SearchIcon className="w-5 text-primary" />
-              </Link>
+              </Link> */}
               <CartIcon />
             </div>
             {/* Логотип */}
           </div>
           {/* Десктопное меню */}
-          <HeaderNav data={data} userId={userId} />
+          <HeaderNav data={data} user={user} />
 
           {/* Мобильное меню (контент) */}
           <div
@@ -74,7 +74,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, userId }) => {
               isOpen ? 'translate-x-0' : '-translate-x-full',
             )}
           >
-            <MobileNav data={data} onClose={handleClose} />
+            <MobileNav data={data} user={user} onClose={handleClose} />
           </div>
         </div>
       </div>
