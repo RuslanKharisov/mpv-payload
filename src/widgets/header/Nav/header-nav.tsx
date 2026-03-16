@@ -33,7 +33,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, user }) => {
         <SearchIcon className="w-5 text-primary" />
       </Link>
       <CartIcon />
-      {user?.id && <UserProfile user={user} />}
+      <UserProfile user={user} />
     </nav>
   )
 })

@@ -25,7 +25,7 @@ export const MobileNav: React.FC<MobileNavProps> = memo(({ data, user, onClose, 
         <Logo onClick={onClose} />
       </div>
 
-      {user?.id && <UserProfile user={user} />}
+      <UserProfile user={user} />
 
       <div className="space-y-2">
         {navItems.map(({ link }, i) => {

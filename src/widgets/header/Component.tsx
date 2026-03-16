@@ -1,12 +1,12 @@
 import React from 'react'
-import type { Header } from '@/payload-types'
+import type { Header as HeaderType } from '@/payload-types'
 import { getCachedGlobal } from '@/shared/utilities/getGlobals'
 import { getMeUser } from '@/shared/utilities/getMeUser'
 import { HeaderClient } from './Component.client'
 import { Profile } from '@/entities/profile/_domain/profile'
 
 export async function Header() {
-  const headerData: Header = await getCachedGlobal('header', 1)()
+  const headerData: HeaderType = await getCachedGlobal('header', 1)()
   const { user } = await getMeUser()
 
   const headerUser: Profile = {

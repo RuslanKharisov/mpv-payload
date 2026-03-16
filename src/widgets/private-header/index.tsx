@@ -6,6 +6,7 @@ import { SidebarTrigger } from '@/shared/ui/sidebar'
 import { Bell } from 'lucide-react'
 import { Separator } from '@/shared/ui/separator'
 import { ThemeSelector } from '@/shared/providers/Theme/ThemeSelector'
+import { LogoutButton } from '@/features/auth/_ui/logout-button'
 
 export function PrivateHeader() {
   return (
@@ -23,6 +24,7 @@ export function PrivateHeader() {
               aria-label="Поиск по контрактам"
             />
           </div>
+          <LogoutButton />
           <Button variant="ghost" size="icon">
             <Bell className="h-4 w-4" />
           </Button>

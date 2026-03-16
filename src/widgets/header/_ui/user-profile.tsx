@@ -48,8 +48,8 @@ export function UserProfile({ user }: UserProfileProps) {
               <span>Личный кабинет</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LogoutButton />
+          <DropdownMenuItem asChild>
+            <LogoutButton className="w-full" />
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
