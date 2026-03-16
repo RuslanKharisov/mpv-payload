@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 
-import sharp from 'sharp' // sharp-import
+import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
@@ -44,12 +44,14 @@ import { importStocksEndpoint } from './endpoints/import-stocks'
 import { SiteSettings } from './payload/globals/SettingsGlobal'
 import { Icons } from './payload/collections/Icons'
 import { recalculateCountsEndpoint } from './endpoints/recalculate-counts'
+import { trackRedirectEndpoint } from './endpoints/track-redirect'
+import Clicks from './payload/collections/Clicks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  endpoints: [importStocksEndpoint, recalculateCountsEndpoint],
+  endpoints: [importStocksEndpoint, recalculateCountsEndpoint, trackRedirectEndpoint],
   cors: [getServerSideURL()].filter(Boolean),
   csrf: [getServerSideURL()].filter(Boolean),
   i18n: {
@@ -120,6 +122,7 @@ export default buildConfig({
     Tenants,
     Currencies,
     Icons,
+    Clicks,
   ],
   globals: [Header, Footer, SiteSettings],
   plugins: [

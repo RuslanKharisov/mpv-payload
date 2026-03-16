@@ -87,6 +87,7 @@ export interface Config {
     tenants: Tenant;
     currencies: Currency;
     icons: Icon;
+    clicks: Click;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -119,6 +120,7 @@ export interface Config {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
     icons: IconsSelect<false> | IconsSelect<true>;
+    clicks: ClicksSelect<false> | ClicksSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1256,6 +1258,35 @@ export interface CompanyType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clicks".
+ */
+export interface Click {
+  id: number;
+  /**
+   * ID компании из RAG / OnStock (например, neftegaz-2026-123)
+   */
+  companyId?: string | null;
+  tenant?: (number | null) | Tenant;
+  src: 'web' | 'ai' | 'telegram' | 'email';
+  /**
+   * Контекст кампании: neftegaz-2026, catalog, newsletter и т.п.
+   */
+  ctx?: string | null;
+  /**
+   * Поисковый запрос пользователя (если есть)
+   */
+  query?: string | null;
+  /**
+   * Итоговый URL, на который ушёл редирект (с UTM)
+   */
+  target: string;
+  ip?: string | null;
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1523,6 +1554,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'icons';
         value: number | Icon;
+      } | null)
+    | ({
+        relationTo: 'clicks';
+        value: number | Click;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2234,6 +2269,22 @@ export interface IconsSelect<T extends boolean = true> {
   focalX?: T;
   focalY?: T;
   sizes?: T | {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clicks_select".
+ */
+export interface ClicksSelect<T extends boolean = true> {
+  companyId?: T;
+  tenant?: T;
+  src?: T;
+  ctx?: T;
+  query?: T;
+  target?: T;
+  ip?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
