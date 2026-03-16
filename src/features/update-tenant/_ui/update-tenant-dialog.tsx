@@ -9,7 +9,10 @@ import { Edit3 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { TenantUpdateSchema, type TenantUpdateInput } from '@/entities/tenants/_domain/schemas'
+import {
+  TenantUpdateSchema,
+  type TenantUpdateInput,
+} from '@/entities/tenant/_domain/tenant-update-schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form'
 import { SupplierDashboardTenant } from '@/entities/dashboard/model/types'
