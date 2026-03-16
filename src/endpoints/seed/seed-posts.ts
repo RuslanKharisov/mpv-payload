@@ -1,4 +1,3 @@
-// src/endpoints/seed/seed-posts.ts
 import type { Payload, PayloadRequest } from 'payload'
 import { googleSheetsApiPost } from './data/google-sheets-api-post'
 import { Media, User } from '@/payload-types'

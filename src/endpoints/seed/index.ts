@@ -1,17 +1,11 @@
-import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
+import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest } from 'payload'
 
-import { contactForm as contactFormData } from './data/contact-form'
-import { contact as contactPageData } from './data/contact-page'
-
-import { seedMedia } from './seed-media'
-import { seedPostCategories } from './seed-post-categories'
-import { seedUsers } from './seed-users'
-import { seedPosts } from './seed-posts'
-import { seedPages } from './seed-pages'
+import { seedBrands } from './seed-brands'
 import { seedGlobal } from './seed-global'
+import { seedMedia } from './seed-media'
+import { seedPages } from './seed-pages'
 import { seedProductCategories } from './seed-product-categories'
 import { seedTariffs } from './seed-tariffs'
-import { seedBrands } from './seed-brands'
 
 /* --- СПИСКИ КОЛЛЕКЦИЙ И ГЛОБАЛЬНЫХ НАСТРОЕК ДЛЯ ОЧИСТКИ --- */
 const collections: CollectionSlug[] = [

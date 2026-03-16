@@ -57,7 +57,7 @@ export const importStocksEndpoint: Endpoint = {
         )
       }
       const formData = await req.formData()
-      const file = formData.get('file') as File // Получаем файл по ключу 'file'
+      const file = formData.get('file') as File
 
       if (!file) {
         return Response.json({ success: false, error: 'Файл не был загружен' }, { status: 400 })

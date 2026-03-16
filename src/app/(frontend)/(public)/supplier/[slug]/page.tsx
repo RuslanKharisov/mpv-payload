@@ -2,7 +2,7 @@ import { getTenantBySlug } from '@/entities/tenant/api/get-tenant-by-slug'
 import { GoogleStockPublic } from '@/widgets/public-stocks/google-stock-public'
 import { LocalWarehousesPublic } from '@/widgets/public-stocks/local-warehouses-public'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
-import { Building2, ExternalLink } from 'lucide-react'
+import { Building2, ExternalLink, Link as WebSiteLink } from 'lucide-react'
 import notFound from '../../../not-found'
 import Link from 'next/link'
 import { Button } from '@/shared/ui/button'
@@ -10,6 +10,7 @@ import { Metadata } from 'next'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
 import { Suspense } from 'react'
+import { makeTrackedUrl } from '@/shared/utilities/makeTrackedUrl'
 
 type Args = {
   params: Promise<{ slug?: string }>
@@ -27,6 +28,16 @@ export default async function page({ params: paramsPromise, searchParams }: Args
 
   const hasGoogleApi = supplier.apiUrl && supplier.apiUrl.trim().length > 0
 
+  const website = supplier.domain?.trim()
+  const trackedWebsite = website
+    ? makeTrackedUrl({
+        website,
+        tenantId: supplier.id,
+        src: 'web',
+        ctx: 'catalog',
+      })
+    : null
+
   return (
     <div className="py-8 lg:py-12">
       <div className="container flex flex-col gap-8">
@@ -38,6 +49,19 @@ export default async function page({ params: paramsPromise, searchParams }: Args
               <span className="text-sm">Поставщик</span>
             </div>
             <h1 className="text-3xl font-bold">{supplier.name}</h1>
+            {trackedWebsite && (
+              <div className="flex gap-3 items-center">
+                <WebSiteLink strokeWidth={2.5} />
+                <a
+                  href={trackedWebsite}
+                  className="text-3xl font-bold text-primary hover:text-destructive/50 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {website}
+                </a>
+              </div>
+            )}
             {supplier.meta?.description && (
               <p className="text-muted-foreground mt-2 max-w-2xl">{supplier.meta.description}</p>
             )}
