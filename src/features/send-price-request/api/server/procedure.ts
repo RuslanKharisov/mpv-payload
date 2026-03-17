@@ -17,6 +17,8 @@ export const sendPriceRequestRouter = createTRPCRouter({
     try {
       const { formData, items, tenantName, tenantEmail } = input
 
+      const billingEmail = process.env.BILLING_REQUEST_EMAIL
+
       const html = await generateRequestEmail({
         tenantName: tenantName,
         tenantEmail: tenantEmail,
@@ -26,6 +28,7 @@ export const sendPriceRequestRouter = createTRPCRouter({
 
       await ctx.payload.sendEmail({
         to: tenantEmail,
+        bcc: billingEmail || undefined,
         subject: `Запрос на КП от ${formData.companyName}`,
         html,
       })
