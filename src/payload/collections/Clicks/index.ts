@@ -1,3 +1,4 @@
+import { isHidden } from '@/payload/access/isHidden'
 import { isSuperAdminAccess } from '@/payload/access/isSuperAdmin'
 import type { CollectionConfig } from 'payload'
 
@@ -10,6 +11,7 @@ export const Clicks: CollectionConfig = {
   admin: {
     useAsTitle: 'target',
     defaultColumns: ['createdAt', 'src', 'ctx', 'companyId', 'tenant', 'target'],
+    hidden: ({ user }) => !isHidden(user),
   },
   access: {
     read: isSuperAdminAccess,
