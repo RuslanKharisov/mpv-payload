@@ -1,0 +1,15 @@
+export const companyTagsData = [
+  { name: 'Бурение и добыча', slug: 'bureniye-i-dobycha' },
+  { name: 'Насосы и компрессоры', slug: 'nasosy-i-kompressory' },
+  { name: 'Трубопроводная арматура', slug: 'truboprovodnaya-armatura' },
+  { name: 'КИПиА и автоматизация', slug: 'kipa-i-avtomatizaciya' },
+  { name: 'Электрооборудование и Энергетика', slug: 'elektrooborudovanie-i-energetika' },
+  { name: 'Химия и реагенты', slug: 'himiya-i-reagenty' },
+  { name: 'Безопасность и защита', slug: 'bezopasnost-i-zashchita' },
+  { name: 'Сервис и инжиниринг', slug: 'servis-i-inzhiniring' },
+  { name: 'Емкостное и теплообменное', slug: 'emkostnoe-i-teploobmennoe' },
+  { name: 'IT и Цифровизация', slug: 'it-i-cifrovizaciya' },
+  { name: 'Лаборатория и диагностика', slug: 'laboratoriya-i-diagnostika' },
+  { name: 'СМИ и услуги', slug: 'smi-i-uslugi' },
+  { name: 'Промышленное оборудование/Прочее', slug: 'promyshlennoe-oborudovanie-prochee' },
+]

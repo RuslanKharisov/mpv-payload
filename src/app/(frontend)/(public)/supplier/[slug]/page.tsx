@@ -1,23 +1,25 @@
+// src/app/(frontend)/(public)/supplier/[slug]/page.tsx
 import { getTenantBySlug } from '@/entities/tenant/api/get-tenant-by-slug'
 import { GoogleStockPublic } from '@/widgets/public-stocks/google-stock-public'
 import { LocalWarehousesPublic } from '@/widgets/public-stocks/local-warehouses-public'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
-import { Building2, ExternalLink, Link as WebSiteLink } from 'lucide-react'
+import { Building2, ExternalLink, Link as WebSiteLink, Mail, MapPin } from 'lucide-react'
 import notFound from '../../../not-found'
 import Link from 'next/link'
 import { Button } from '@/shared/ui/button'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import { StockSearchBar } from '@/widgets/stock-search-bar'
 import { Suspense } from 'react'
 import { makeTrackedUrl } from '@/shared/utilities/makeTrackedUrl'
+import { Badge } from '@/shared/ui/badge'
 
 type Args = {
   params: Promise<{ slug?: string }>
   searchParams: Promise<{ tab?: string; sku?: string; description?: string }>
 }
 
-export default async function page({ params: paramsPromise, searchParams }: Args) {
+export default async function Page({ params: paramsPromise, searchParams }: Args) {
   const { slug = '' } = await paramsPromise
   const { tab = 'google', sku = '', description = '' } = await searchParams
 
@@ -38,23 +40,34 @@ export default async function page({ params: paramsPromise, searchParams }: Args
       })
     : null
 
+  const email = supplier.requestEmail?.trim()
+  const country = supplier.country?.trim()
+  const address = supplier.address?.trim()
+
   return (
     <div className="py-8 lg:py-12">
       <div className="container flex flex-col gap-8">
         {/* Шапка */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-muted-foreground mb-2">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <Building2 className="h-5 w-5" />
               <span className="text-sm">Поставщик</span>
+              {supplier.is_foreign && (
+                <Badge variant="outline" className="text-xs">
+                  Иностранная компания
+                </Badge>
+              )}
             </div>
+
             <h1 className="text-3xl font-bold">{supplier.name}</h1>
+
             {trackedWebsite && (
-              <div className="flex gap-3 items-center">
-                <WebSiteLink strokeWidth={2.5} />
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <WebSiteLink strokeWidth={2.5} className="h-4 w-4" />
                 <a
                   href={trackedWebsite}
-                  className="text-3xl font-bold text-primary hover:text-destructive/50 transition-colors duration-300"
+                  className="font-medium text-primary hover:text-destructive/60 transition-colors duration-300 break-all"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -62,14 +75,50 @@ export default async function page({ params: paramsPromise, searchParams }: Args
                 </a>
               </div>
             )}
-            {supplier.meta?.description && (
-              <p className="text-muted-foreground mt-2 max-w-2xl">{supplier.meta.description}</p>
+
+            <div className="space-y-1 text-sm text-muted-foreground">
+              {email && (
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  <a href={`mailto:${email}`} className="hover:underline">
+                    {email}
+                  </a>
+                </div>
+              )}
+
+              {(country || address) && (
+                <div className="flex items-start gap-2">
+                  <MapPin className="h-4 w-4 mt-0.5" />
+                  <div className="space-y-0.5">
+                    {country && <p>{country}</p>}
+                    {address && <p>{address}</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {supplier.description && (
+              <p className="text-sm text-muted-foreground max-w-2xl">{supplier.description}</p>
+            )}
+
+            {Array.isArray(supplier.tags) && supplier.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                {(supplier.tags as any[])
+                  .filter((t) => t && typeof t === 'object')
+                  .slice(0, 6)
+                  .map((tag: any) => (
+                    <Badge key={tag.id} variant="secondary" className="text-[11px] font-normal">
+                      {tag.name}
+                    </Badge>
+                  ))}
+              </div>
             )}
           </div>
+
           <Button asChild variant="outline">
-            <Link href="/stock">
+            <Link href="/suppliers">
               <ExternalLink className="mr-2 h-4 w-4" />
-              Все поставщики
+              Все компании
             </Link>
           </Button>
         </div>
@@ -119,8 +168,11 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   return generateMeta({
     doc: {
       meta: {
-        title: `${supplier.name} — Остатки на складе`,
-        description: supplier.meta?.description || `Актуальные остатки ${supplier.name}`,
+        title: `${supplier.name} — Поставщик промышленного оборудования`,
+        description:
+          supplier.description ||
+          supplier.meta?.description ||
+          `Информация о поставщике ${supplier.name}`,
       },
     },
   })

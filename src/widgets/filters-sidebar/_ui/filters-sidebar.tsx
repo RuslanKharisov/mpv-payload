@@ -54,7 +54,7 @@ export function FiltersSidebar({
       </button>
       <div
         className={cn(
-          'z-40 bg-background -translate-x-[200%] absolute left-0 h-full w-full min-w-[fit-content] md:max-w-[324px] space-y-4 md:relative md:translate-x-0 md:min-w-[270px] duration-300',
+          'z-40 bg-background -translate-x-[200%] absolute left-0 h-full w-full min-w-fit md:max-w-81 space-y-4 md:relative md:translate-x-0 md:min-w-67.5 duration-300',
           isOpen ? 'translate-x-0 w-full' : '-translate-x-full',
         )}
       >
