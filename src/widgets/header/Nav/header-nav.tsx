@@ -28,10 +28,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = memo(({ data, user }) => {
           <CMSLink key={i} {...link} className={pathname === link.url ? 'text-destructive' : ''} />
         )
       })}
-      <Link href="/search">
-        <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
+
       <CartIcon />
       <UserProfile user={user} />
     </nav>
