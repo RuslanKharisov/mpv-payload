@@ -88,6 +88,7 @@ export interface Config {
     currencies: Currency;
     icons: Icon;
     clicks: Click;
+    'company-tags': CompanyTag;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -121,6 +122,7 @@ export interface Config {
     currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
     icons: IconsSelect<false> | IconsSelect<true>;
     clicks: ClicksSelect<false> | ClicksSelect<true>;
+    'company-tags': CompanyTagsSelect<false> | CompanyTagsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -599,6 +601,12 @@ export interface Tenant {
    * На этот адрес будут приходить запросы (КП, заявки и т.д.)
    */
   requestEmail: string;
+  description?: string | null;
+  country?: string | null;
+  address?: string | null;
+  isForeign?: boolean | null;
+  source?: ('manual' | 'parsing') | null;
+  tags?: (number | CompanyTag)[] | null;
   warehouse?: (number | null) | Warehouse;
   /**
    * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
@@ -634,6 +642,18 @@ export interface Tenant {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-tags".
+ */
+export interface CompanyTag {
+  id: number;
+  name: string;
+  slug: string;
+  tenantCount?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1560,6 +1580,10 @@ export interface PayloadLockedDocument {
         value: number | Click;
       } | null)
     | ({
+        relationTo: 'company-tags';
+        value: number | CompanyTag;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -2212,6 +2236,12 @@ export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   domain?: T;
   requestEmail?: T;
+  description?: T;
+  country?: T;
+  address?: T;
+  isForeign?: T;
+  source?: T;
+  tags?: T;
   warehouse?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
@@ -2283,6 +2313,17 @@ export interface ClicksSelect<T extends boolean = true> {
   target?: T;
   ip?: T;
   userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-tags_select".
+ */
+export interface CompanyTagsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  tenantCount?: T;
   updatedAt?: T;
   createdAt?: T;
 }

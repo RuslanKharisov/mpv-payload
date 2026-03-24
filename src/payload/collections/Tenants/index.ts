@@ -65,6 +65,45 @@ export const Tenants: CollectionConfig = {
                 description: 'На этот адрес будут приходить запросы (КП, заявки и т.д.)',
               },
             },
+
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Описание компании',
+            },
+            {
+              name: 'country',
+              type: 'text',
+              label: 'Страна',
+            },
+            {
+              name: 'address',
+              type: 'text',
+              label: 'Юр./почтовый адрес компании',
+            },
+            {
+              name: 'isForeign',
+              type: 'checkbox',
+              label: 'Иностранная компания',
+              defaultValue: false,
+            },
+            {
+              name: 'source',
+              type: 'select',
+              label: 'Источник данных',
+              defaultValue: 'manual',
+              options: [
+                { label: 'Manual', value: 'manual' },
+                { label: 'Parsing', value: 'parsing' },
+              ],
+            },
+            {
+              name: 'tags',
+              type: 'relationship',
+              relationTo: 'company-tags',
+              hasMany: true,
+              label: 'Категории / теги',
+            },
             {
               name: 'warehouse',
               label: 'Склад',

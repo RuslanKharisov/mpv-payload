@@ -20,12 +20,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const supplierItems = [
-  { href: '/suppliers', icon: LayoutDashboard, label: 'Дашборд' },
-  { href: '/suppliers/stocks', icon: Boxes, label: 'Складские запасы' },
-  { href: '/suppliers/warehouses', icon: WarehouseIcon, label: 'Склады' },
-  { href: '/suppliers/billing', icon: CreditCard, label: 'Тариф' },
-  // { href: '/suppliers/profile', icon: Building2, label: 'Компания' },
-  // { href: '/suppliers/users', icon: Users, label: 'Пользователи' }, ToDo
+  { href: '/dashboard', icon: LayoutDashboard, label: 'Дашборд' },
+  { href: '/dashboard/stocks', icon: Boxes, label: 'Складские запасы' },
+  { href: '/dashboard/warehouses', icon: WarehouseIcon, label: 'Склады' },
+  { href: '/dashboard/billing', icon: CreditCard, label: 'Тариф' },
+  // { href: '/dashboard/profile', icon: Building2, label: 'Компания' },
+  // { href: '/dashboard/users', icon: Users, label: 'Пользователи' }, ToDo
 ]
 
 interface PrivateSidebarProps {

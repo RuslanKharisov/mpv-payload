@@ -46,6 +46,7 @@ import { Icons } from './payload/collections/Icons'
 import { recalculateCountsEndpoint } from './endpoints/recalculate-counts'
 import { trackRedirectEndpoint } from './endpoints/track-redirect'
 import Clicks from './payload/collections/Clicks'
+import { CompanyTags } from './payload/collections/CompanyTags'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -123,6 +124,7 @@ export default buildConfig({
     Currencies,
     Icons,
     Clicks,
+    CompanyTags,
   ],
   globals: [Header, Footer, SiteSettings],
   plugins: [

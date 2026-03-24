@@ -11,19 +11,29 @@ type Filters = {
   page?: number
   condition?: string
   category?: string
+  country?: string
+  tags?: string[]
+  hasStock?: string
 }
 
 type FiltersContextType = {
   filters: Filters
   setFilter: (key: keyof Filters, value: string | string[] | number | undefined) => void
   resetFilters: () => void
+  basePath: string
 }
 
 const FiltersContext = createContext<FiltersContextType | undefined>(undefined)
 
-export function FiltersProvider({ children }: { children: React.ReactNode }) {
+type FiltersProviderProps = {
+  children: React.ReactNode
+  basePath?: string
+}
+
+export function FiltersProvider({ children, basePath = '/products' }: FiltersProviderProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+
   const filters = useMemo<Filters>(() => {
     const next: Filters = {}
 
@@ -48,6 +58,15 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
     const condition = searchParams.get('condition')
     if (condition) next.condition = condition
 
+    const country = searchParams.get('country')
+    if (country) next.country = country
+
+    const tags = searchParams.get('tags')
+    if (tags) next.tags = tags.split(',')
+
+    const hasStock = searchParams.get('hasStock')
+    if (hasStock) next.hasStock = hasStock
+
     return next
   }, [searchParams])
 
@@ -63,16 +82,16 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
     // Удаляем page при изменении фильтра
     if (key !== 'page') params.delete('page')
 
-    const url = `/products?${params.toString()}`
+    const url = `${basePath}?${params.toString()}`
     router.push(url, { scroll: false })
   }
 
   const resetFilters = () => {
-    router.push('/products', { scroll: false })
+    router.push(`${basePath}`, { scroll: false })
   }
 
   return (
-    <FiltersContext.Provider value={{ filters, setFilter, resetFilters }}>
+    <FiltersContext.Provider value={{ filters, setFilter, resetFilters, basePath }}>
       {children}
     </FiltersContext.Provider>
   )
