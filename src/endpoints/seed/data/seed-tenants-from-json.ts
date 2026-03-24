@@ -13,7 +13,7 @@ type CompanyJson = {
     website?: string
     address?: string
     tags?: string[]
-    is_foreign?: boolean
+    isForeign?: boolean
   }
 }
 
@@ -95,7 +95,7 @@ export async function seedTenantsFromJson(payload: Payload) {
       requestEmail: email,
       country: metadata.country || '',
       address: metadata.address || '',
-      is_foreign: metadata.is_foreign ?? false,
+      isForeign: metadata.isForeign ?? false,
       source: 'parsing' as const,
       tags: tagIds,
       allowPublicRead: true,

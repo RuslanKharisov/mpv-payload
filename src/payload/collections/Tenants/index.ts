@@ -82,7 +82,7 @@ export const Tenants: CollectionConfig = {
               label: 'Юр./почтовый адрес компании',
             },
             {
-              name: 'is_foreign',
+              name: 'isForeign',
               type: 'checkbox',
               label: 'Иностранная компания',
               defaultValue: false,

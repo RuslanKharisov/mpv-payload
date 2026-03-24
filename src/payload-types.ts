@@ -604,7 +604,7 @@ export interface Tenant {
   description?: string | null;
   country?: string | null;
   address?: string | null;
-  is_foreign?: boolean | null;
+  isForeign?: boolean | null;
   source?: ('manual' | 'parsing') | null;
   tags?: (number | CompanyTag)[] | null;
   warehouse?: (number | null) | Warehouse;
@@ -2239,7 +2239,7 @@ export interface TenantsSelect<T extends boolean = true> {
   description?: T;
   country?: T;
   address?: T;
-  is_foreign?: T;
+  isForeign?: T;
   source?: T;
   tags?: T;
   warehouse?: T;

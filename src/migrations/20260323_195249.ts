@@ -15,7 +15,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "tenants" ADD COLUMN "description" varchar;
   ALTER TABLE "tenants" ADD COLUMN "country" varchar;
   ALTER TABLE "tenants" ADD COLUMN "address" varchar;
-  ALTER TABLE "tenants" ADD COLUMN "is_foreign" boolean DEFAULT false;
+  ALTER TABLE "tenants" ADD COLUMN "isForeign" boolean DEFAULT false;
   ALTER TABLE "tenants" ADD COLUMN "source" "enum_tenants_source" DEFAULT 'manual';
   ALTER TABLE "tenants_rels" ADD COLUMN "company_tags_id" integer;
   ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "company_tags_id" integer;
@@ -41,7 +41,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "tenants" DROP COLUMN "description";
   ALTER TABLE "tenants" DROP COLUMN "country";
   ALTER TABLE "tenants" DROP COLUMN "address";
-  ALTER TABLE "tenants" DROP COLUMN "is_foreign";
+  ALTER TABLE "tenants" DROP COLUMN "isForeign";
   ALTER TABLE "tenants" DROP COLUMN "source";
   ALTER TABLE "tenants_rels" DROP COLUMN "company_tags_id";
   ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "company_tags_id";
