@@ -16,7 +16,7 @@ type ListPaginationProps = {
   className?: string
   page: number
   totalPages: number
-  route: string // 'products' | 'suppliers' и т.п.
+  route: 'products' | 'suppliers'
 }
 
 export const ListPagination: React.FC<ListPaginationProps> = ({
@@ -25,6 +25,8 @@ export const ListPagination: React.FC<ListPaginationProps> = ({
   totalPages,
   route,
 }) => {
+  if (totalPages <= 1) return null
+
   const hasNextPage = page < totalPages
   const hasPrevPage = page > 1
 

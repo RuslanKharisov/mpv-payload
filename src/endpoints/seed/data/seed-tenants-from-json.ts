@@ -86,6 +86,7 @@ export async function seedTenantsFromJson(payload: Payload) {
         and: [{ name: { equals: title } }, { source: { equals: 'parsing' } }],
       },
       limit: 1,
+      overrideAccess: true,
     })
 
     const data = {
@@ -109,12 +110,14 @@ export async function seedTenantsFromJson(payload: Payload) {
           ...data,
           updatedAt: new Date().toISOString(),
         },
+        overrideAccess: true,
       })
       console.log(`✅ Tenant обновлён: ${title}`)
     } else {
       await payload.create({
         collection: 'tenants',
         data,
+        overrideAccess: true,
       })
       console.log(`➕ Tenant создан: ${title}`)
     }

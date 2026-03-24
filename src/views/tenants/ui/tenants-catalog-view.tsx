@@ -3,11 +3,13 @@
 import { CompanyTag, Tenant } from '@/payload-types'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card'
+import { PaginationSkeleton } from '@/shared/ui/pagination-skeleton'
 import { Typography } from '@/shared/ui/typography'
 import { CompanyFiltersSidebar } from '@/widgets/company-filters-sidebar'
 import { ListPagination } from '@/widgets/pagination'
 import { Building2, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 type TenantsCatalogViewProps = {
   tenants: Tenant[]
@@ -106,11 +108,13 @@ export function TenantsCatalogView({
               </div>
             )}
 
-            <ListPagination
-              page={pagination.page}
-              totalPages={pagination.totalPages}
-              route="suppliers"
-            />
+            <Suspense fallback={<PaginationSkeleton />}>
+              <ListPagination
+                page={pagination.page}
+                totalPages={pagination.totalPages}
+                route="suppliers"
+              />
+            </Suspense>
           </main>
         </div>
       </div>

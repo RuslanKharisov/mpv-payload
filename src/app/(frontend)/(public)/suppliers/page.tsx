@@ -2,18 +2,21 @@ import { FiltersProvider } from '@/shared/providers/Filters'
 import { getTenantsCatalog } from '@/entities/tenant/api/get-tenants-catalog'
 import { TenantsCatalogView } from '@/views/tenants/ui/tenants-catalog-view'
 
-export default async function Page({
-  searchParams: paramsPromise,
-}: {
-  searchParams: Promise<Record<string, string>>
-}) {
+type Args = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function Page({ searchParams: paramsPromise }: Args) {
   const params = await paramsPromise
 
+  const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value)
+  const tagSlugs = Array.isArray(params.tags) ? params.tags.join(',') : params.tags
+
   const { tenants, pagination, countries, tags, totalDocs } = await getTenantsCatalog({
-    page: params.page,
-    country: params.country,
-    tagSlugs: params.tags, // "tag1,tag2"
-    hasStock: params.hasStock, // "1" / "0"
+    page: first(params.page),
+    country: first(params.country),
+    tagSlugs,
+    hasStock: first(params.hasStock),
   })
 
   return (

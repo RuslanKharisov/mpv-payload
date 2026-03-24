@@ -44,6 +44,10 @@ export default async function Page({ params: paramsPromise, searchParams }: Args
   const country = supplier.country?.trim()
   const address = supplier.address?.trim()
 
+  const visibleTags = Array.isArray(supplier.tags)
+    ? supplier.tags.filter((t): t is CompanyTag => t !== null && typeof t === 'object').slice(0, 6)
+    : []
+
   return (
     <div className="py-8 lg:py-12">
       <div className="container flex flex-col gap-8">
@@ -53,7 +57,7 @@ export default async function Page({ params: paramsPromise, searchParams }: Args
             <div className="flex items-center gap-2 text-muted-foreground">
               <Building2 className="h-5 w-5" />
               <span className="text-sm">Поставщик</span>
-              {supplier.is_foreign && (
+              {supplier.isForeign && (
                 <Badge variant="outline" className="text-xs">
                   Иностранная компания
                 </Badge>
@@ -101,16 +105,13 @@ export default async function Page({ params: paramsPromise, searchParams }: Args
               <p className="text-sm text-muted-foreground max-w-2xl">{supplier.description}</p>
             )}
 
-            {Array.isArray(supplier.tags) && supplier.tags.length > 0 && (
+            {visibleTags.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {supplier.tags
-                  .filter((t): t is CompanyTag => t !== null && typeof t === 'object')
-                  .slice(0, 6)
-                  .map((tag) => (
-                    <Badge key={tag.id} variant="secondary" className="text-[11px] font-normal">
-                      {tag.name}
-                    </Badge>
-                  ))}
+                {visibleTags.map((tag) => (
+                  <Badge key={tag.id} variant="secondary" className="text-[11px] font-normal">
+                    {tag.name}
+                  </Badge>
+                ))}
               </div>
             )}
           </div>
