@@ -1,6 +1,5 @@
 import type { Payload, PayloadRequest } from 'payload'
-import { seedTenantsFromJson } from './data/seed-tenants-from-json'
-import { seedCompanyTags } from './seed-company-tags'
+import { syncAllTenants } from './syncAllTenants'
 
 export const seed = async ({
   payload,
@@ -11,8 +10,7 @@ export const seed = async ({
 }): Promise<void> => {
   console.log('Запущен скрипт seed базы данных...')
 
-  await seedCompanyTags(payload)
-  await seedTenantsFromJson(payload)
+  await syncAllTenants(payload)
 
   console.log('✅ Seed завершён')
 }
