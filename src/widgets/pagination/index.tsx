@@ -25,6 +25,8 @@ export const ListPagination: React.FC<ListPaginationProps> = ({
   totalPages,
   route,
 }) => {
+  const searchParams = useSearchParams()
+
   if (totalPages <= 1) return null
 
   const hasNextPage = page < totalPages
@@ -32,8 +34,6 @@ export const ListPagination: React.FC<ListPaginationProps> = ({
 
   const hasExtraPrevPages = page - 1 > 1
   const hasExtraNextPages = page + 1 < totalPages
-
-  const searchParams = useSearchParams()
 
   const createPageURL = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams.toString())

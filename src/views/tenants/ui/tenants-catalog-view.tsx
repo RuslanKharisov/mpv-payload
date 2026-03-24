@@ -62,7 +62,7 @@ export function TenantsCatalogView({
                       {tenant.country && (
                         <p className="text-xs text-muted-foreground mt-1">
                           {tenant.country}
-                          {tenant.is_foreign ? ' · иностранная компания' : ''}
+                          {tenant.isForeign ? ' · иностранная компания' : ''}
                         </p>
                       )}
                     </CardHeader>
