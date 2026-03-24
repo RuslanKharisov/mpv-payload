@@ -14,6 +14,10 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { CollectionConfig } from 'payload'
+import {
+  revalidateTenantsAfterChange,
+  revalidateTenantsAfterDelete,
+} from './hooks/revalidateTenants'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -26,6 +30,10 @@ export const Tenants: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Управление информацией о компании',
+  },
+  hooks: {
+    afterChange: [revalidateTenantsAfterChange],
+    afterDelete: [revalidateTenantsAfterDelete],
   },
   labels: {
     singular: 'Данные компании, настройка API ',
@@ -112,6 +120,21 @@ export const Tenants: CollectionConfig = {
               required: false,
             },
             {
+              name: 'hasActiveStock',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                position: 'sidebar',
+                description: 'Автоматически устанавливается, если у компании есть товары в наличии',
+              },
+              access: {
+                read: () => true,
+                create: () => false,
+                update: () => false,
+              },
+              index: true,
+            },
+            {
               name: 'allowPublicRead',
               type: 'checkbox',
               admin: {
@@ -119,7 +142,7 @@ export const Tenants: CollectionConfig = {
                   'Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.',
                 position: 'sidebar',
               },
-              defaultValue: false,
+              defaultValue: true,
               index: true,
             },
             {

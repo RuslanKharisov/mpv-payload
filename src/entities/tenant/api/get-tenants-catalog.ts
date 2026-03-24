@@ -1,16 +1,17 @@
-// src/entities/tenant/api/get-tenants-catalog.ts
 'use server'
 
 import configPromise from '@payload-config'
 import { getPayload, Where } from 'payload'
-import { Tenant, CompanyTag, Warehouse, Stock } from '@/payload-types'
+import { Tenant, CompanyTag } from '@/payload-types'
+import { unstable_cache } from 'next/cache'
 
+// 1. Добавляем недостающие интерфейсы
 type Params = {
   page?: string
   country?: string
   phrase?: string
-  tagSlugs?: string // "tag1,tag2"
-  hasStock?: string // "1" | "0"
+  tagSlugs?: string
+  hasStock?: string
 }
 
 type TenantsCatalogResponse = {
@@ -24,6 +25,33 @@ type TenantsCatalogResponse = {
   tags: CompanyTag[]
 }
 
+// 2. Кэширование стран с типизацией
+const getCachedCountries = unstable_cache(
+  async () => {
+    // 2. Получаем payload прямо здесь
+    const payload = await getPayload({ config: configPromise })
+
+    const allTenants = await payload.find({
+      collection: 'tenants',
+      where: { allowPublicRead: { equals: true } },
+      depth: 0,
+      limit: 1000,
+      select: { country: true },
+      pagination: false,
+    })
+
+    const rawCountries = allTenants.docs
+      .map((t: any) => t.country)
+      .filter((c: unknown): c is string => typeof c === 'string' && c.trim().length > 0)
+
+    const uniqueCountries = Array.from(new Set(rawCountries))
+
+    return uniqueCountries.sort((a: string, b: string) => a.localeCompare(b, 'ru'))
+  },
+  ['tenants-countries-list'],
+  { revalidate: 3600, tags: ['tenants'] },
+)
+
 export async function getTenantsCatalog({
   page,
   country,
@@ -32,7 +60,6 @@ export async function getTenantsCatalog({
   hasStock,
 }: Params): Promise<TenantsCatalogResponse> {
   const payload = await getPayload({ config: configPromise })
-
   const pageNumber = Number(page) || 1
   const limit = 24
 
@@ -40,70 +67,26 @@ export async function getTenantsCatalog({
     allowPublicRead: { equals: true },
   }
 
-  // фильтр по стране
-  if (country) {
-    where.country = { equals: country }
-  }
+  if (country) where.country = { equals: country }
 
-  // поиск по фразе (название + описание)
   if (phrase) {
     where.or = [{ name: { contains: phrase } }, { description: { contains: phrase } }]
   }
 
-  // фильтр по тегам (company-tags)
-  let selectedTagSlugs: string[] = []
   if (tagSlugs) {
-    selectedTagSlugs = tagSlugs
+    const selectedTagSlugs = tagSlugs
       .split(',')
-      .map((s) => s.trim())
+      .map((s: string) => s.trim()) // Типизируем 's'
       .filter(Boolean)
+
     if (selectedTagSlugs.length > 0) {
-      // фильтр по slug'ам связанных тегов
       where['tags.slug'] = { in: selectedTagSlugs }
     }
   }
 
-  // фильтр "есть склад" — через stocks, как у продуктов
-  if (hasStock === '1' || hasStock === '0') {
-    // ищем все stocks, у которых есть связанный tenant
-    const stocks = await payload.find({
-      collection: 'stocks',
-      where: {
-        tenant: { exists: true },
-      },
-      depth: 0,
-      limit: 1000, // 0 = нет лимита по страницам, но docs пустые; лучше задать разумный лимит
-      pagination: false,
-    })
-
-    const tenantIdsWithStock = (stocks.docs as Stock[])
-      .map((s) => {
-        const tenantField = s.tenant
-        if (!tenantField) return null
-
-        if (typeof tenantField === 'object') {
-          return tenantField.id ?? null
-        }
-
-        return tenantField
-      })
-      .filter((id): id is number => typeof id === 'number')
-
-    if (hasStock === '1') {
-      if (tenantIdsWithStock.length > 0) {
-        where.id = { in: tenantIdsWithStock }
-      } else {
-        where.id = { in: [-1] } // заглушка, чтобы ничего не вернуть
-      }
-    }
-
-    if (hasStock === '0') {
-      if (tenantIdsWithStock.length > 0) {
-        where.id = { not_in: tenantIdsWithStock }
-      }
-      // если tenantIdsWithStock пуст, условие не нужно — и так все без складов
-    }
-  }
+  // Используем наше новое быстрое поле
+  if (hasStock === '1') where.hasActiveStock = { equals: true }
+  if (hasStock === '0') where.hasActiveStock = { equals: false }
 
   const tenantsReq = await payload.find({
     collection: 'tenants',
@@ -112,29 +95,18 @@ export async function getTenantsCatalog({
     limit,
     depth: 1,
     sort: 'name',
-  })
-
-  // справочники для сайдбара
-
-  // 1) страны (distinct по Tenants)
-  const allTenants = await payload.find({
-    collection: 'tenants',
-    where: {
-      allowPublicRead: { equals: true },
+    select: {
+      name: true,
+      slug: true,
+      description: true,
+      country: true,
+      tags: true,
+      hasActiveStock: true,
     },
-    depth: 0,
-    pagination: false,
   })
 
-  const countries = Array.from(
-    new Set(
-      allTenants.docs
-        .map((t: any) => t.country as string | undefined)
-        .filter((c): c is string => Boolean(c && c.trim().length > 0)),
-    ),
-  ).sort((a, b) => a.localeCompare(b, 'ru'))
+  const countries = await getCachedCountries()
 
-  // 2) теги
   const tagsReq = await payload.find({
     collection: 'company-tags',
     limit: 100,

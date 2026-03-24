@@ -609,6 +609,10 @@ export interface Tenant {
   tags?: (number | CompanyTag)[] | null;
   warehouse?: (number | null) | Warehouse;
   /**
+   * Автоматически устанавливается, если у компании есть товары в наличии
+   */
+  hasActiveStock?: boolean | null;
+  /**
    * Если отмечено, пользователи смогут просматривать данные этого тенанта без авторизации.
    */
   allowPublicRead?: boolean | null;
@@ -2243,6 +2247,7 @@ export interface TenantsSelect<T extends boolean = true> {
   source?: T;
   tags?: T;
   warehouse?: T;
+  hasActiveStock?: T;
   allowPublicRead?: T;
   accountDetailsSubmitted?: T;
   apiUrl?: T;
