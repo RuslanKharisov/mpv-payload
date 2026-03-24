@@ -48,7 +48,7 @@ export const ListPagination: React.FC<ListPaginationProps> = ({
               <PaginationPrevious href={createPageURL(page - 1)} />
             ) : (
               <PaginationPrevious
-                aria-disabled
+                aria-disabled={true}
                 tabIndex={-1}
                 className="pointer-events-none opacity-50"
               />
@@ -88,7 +88,7 @@ export const ListPagination: React.FC<ListPaginationProps> = ({
               <PaginationNext href={createPageURL(page + 1)} />
             ) : (
               <PaginationNext
-                aria-disabled
+                aria-disabled={true}
                 tabIndex={-1}
                 className="pointer-events-none opacity-50"
               />

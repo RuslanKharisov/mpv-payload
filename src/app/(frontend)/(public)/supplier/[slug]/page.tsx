@@ -1,4 +1,3 @@
-// src/app/(frontend)/(public)/supplier/[slug]/page.tsx
 import { getTenantBySlug } from '@/entities/tenant/api/get-tenant-by-slug'
 import { GoogleStockPublic } from '@/widgets/public-stocks/google-stock-public'
 import { LocalWarehousesPublic } from '@/widgets/public-stocks/local-warehouses-public'
@@ -13,6 +12,7 @@ import { StockSearchBar } from '@/widgets/stock-search-bar'
 import { Suspense } from 'react'
 import { makeTrackedUrl } from '@/shared/utilities/makeTrackedUrl'
 import { Badge } from '@/shared/ui/badge'
+import { CompanyTag } from '@/payload-types'
 
 type Args = {
   params: Promise<{ slug?: string }>
@@ -103,10 +103,10 @@ export default async function Page({ params: paramsPromise, searchParams }: Args
 
             {Array.isArray(supplier.tags) && supplier.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {(supplier.tags as any[])
-                  .filter((t) => t && typeof t === 'object')
+                {supplier.tags
+                  .filter((t): t is CompanyTag => t !== null && typeof t === 'object')
                   .slice(0, 6)
-                  .map((tag: any) => (
+                  .map((tag) => (
                     <Badge key={tag.id} variant="secondary" className="text-[11px] font-normal">
                       {tag.name}
                     </Badge>

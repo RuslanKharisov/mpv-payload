@@ -5,6 +5,7 @@ import { SlidersHorizontal, XIcon } from 'lucide-react'
 import { cn } from '@/shared/utilities/ui'
 import { useFilters } from '@/shared/providers/Filters'
 import { FilterAccordion } from '@/widgets/filters-sidebar/_ui/filter-accordion'
+import { Typography } from '@/shared/ui/typography'
 
 type CompanyFiltersSidebarProps = {
   pageTitle: string
@@ -52,7 +53,9 @@ export function CompanyFiltersSidebar({ pageTitle, countries, tags }: CompanyFil
             Сбросить фильтры
           </button>
 
-          <h2 className="font-semibold text-base">{pageTitle}</h2>
+          <Typography tag="h2" className="font-semibold text-base">
+            {pageTitle}
+          </Typography>
 
           {/* Страны */}
           <FilterAccordion title="Страна" defaultVisibleCount={10}>

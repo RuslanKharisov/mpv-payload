@@ -1,15 +1,5 @@
-export const companyTagNameToSlug: Record<string, string> = {
-  'Бурение и добыча': 'bureniye-i-dobycha',
-  'Насосы и компрессоры': 'nasosy-i-kompressory',
-  'Трубопроводная арматура': 'truboprovodnaya-armatura',
-  'КИПиА и автоматизация': 'kipa-i-avtomatizaciya',
-  'Электрооборудование и Энергетика': 'elektrooborudovanie-i-energetika',
-  'Химия и реагенты': 'himiya-i-reagenty',
-  'Безопасность и защита': 'bezopasnost-i-zashchita',
-  'Сервис и инжиниринг': 'servis-i-inzhiniring',
-  'Емкостное и теплообменное': 'emkostnoe-i-teploobmennoe',
-  'IT и Цифровизация': 'it-i-cifrovizaciya',
-  'Лаборатория и диагностика': 'laboratoriya-i-diagnostika',
-  'СМИ и услуги': 'smi-i-uslugi',
-  'Промышленное оборудование/Прочее': 'promyshlennoe-oborudovanie-prochee',
-}
+import { companyTagsData } from './company-tags-data'
+
+export const companyTagNameToSlug: Record<string, string> = Object.fromEntries(
+  companyTagsData.map(({ name, slug }) => [name, slug]),
+)

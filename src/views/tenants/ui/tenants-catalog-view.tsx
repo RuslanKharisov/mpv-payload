@@ -48,9 +48,7 @@ export function TenantsCatalogView({
               <Typography tag="p">Найдено компаний: {totalDocs}</Typography>
             </div>
 
-            {tenants.length === 0 ? (
-              ''
-            ) : (
+            {tenants.length > 0 && (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {orderedTenants.map((tenant) => (
                   <Card key={tenant.id} className="flex flex-col">
