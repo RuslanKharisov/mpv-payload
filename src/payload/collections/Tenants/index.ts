@@ -18,10 +18,6 @@ import {
   revalidateTenantsAfterChange,
   revalidateTenantsAfterDelete,
 } from './hooks/revalidateTenants'
-import {
-  updateTenantStockAfterChange,
-  updateTenantStockAfterDelete,
-} from './hooks/updateTenantStockStatus'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -36,8 +32,8 @@ export const Tenants: CollectionConfig = {
     group: 'Управление информацией о компании',
   },
   hooks: {
-    afterChange: [updateTenantStockAfterChange, revalidateTenantsAfterChange],
-    afterDelete: [updateTenantStockAfterDelete, revalidateTenantsAfterDelete],
+    afterChange: [revalidateTenantsAfterChange],
+    afterDelete: [revalidateTenantsAfterDelete],
   },
   labels: {
     singular: 'Данные компании, настройка API ',
@@ -128,11 +124,15 @@ export const Tenants: CollectionConfig = {
               type: 'checkbox',
               defaultValue: false,
               admin: {
-                readOnly: true, // Поле обновляется только программно
                 position: 'sidebar',
                 description: 'Автоматически устанавливается, если у компании есть товары в наличии',
               },
-              index: true, // Обязательно для быстрого поиска
+              access: {
+                read: () => true,
+                create: () => false,
+                update: () => false,
+              },
+              index: true,
             },
             {
               name: 'allowPublicRead',

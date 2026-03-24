@@ -4,13 +4,13 @@ import { CollectionConfig } from 'payload'
 import { checkWarehouseCapacity } from './hooks/check-warehouse-capacity'
 import { fillLocationData } from './hooks/fillLocationData'
 import { setStockDefaults } from './hooks/set-stock-defaults'
+import {
+  updateTenantStockAfterChange,
+  updateTenantStockAfterDelete,
+} from './hooks/updateTenantStockStatus'
 
 export const Stocks: CollectionConfig = {
   slug: 'stocks',
-  hooks: {
-    beforeValidate: [setStockDefaults],
-    beforeChange: [checkWarehouseCapacity, fillLocationData],
-  },
   labels: { singular: 'СКЛАД', plural: 'СКЛАД' },
   access: {
     read: authenticated,
@@ -22,6 +22,12 @@ export const Stocks: CollectionConfig = {
     useAsTitle: 'title_in_admin',
     group: 'Управление складом',
     // Import button moved to frontend: src/widgets/stocks/upload-excel-dialog.tsx
+  },
+  hooks: {
+    beforeValidate: [setStockDefaults],
+    beforeChange: [checkWarehouseCapacity, fillLocationData],
+    afterChange: [updateTenantStockAfterChange],
+    afterDelete: [updateTenantStockAfterDelete],
   },
   fields: [
     { name: 'quantity', label: 'Количество', type: 'number', required: true },
