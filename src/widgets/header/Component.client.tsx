@@ -42,7 +42,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, user }) => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="container">
         <div className="py-3 flex justify-between">
-          <div className="w-full flex items-center justify-between gap-x-8">
+          <div className="flex items-center justify-between gap-x-8">
             {/* Мобильное меню (бургер) */}
             <button
               className="z-50 p-2 lg:hidden"
@@ -55,10 +55,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, user }) => {
               <Logo />
             </div>
             <div className="flex sm:hidden items-center gap-5">
-              {/* <Link href="/search">
-                <span className="sr-only">Search</span>
-                <SearchIcon className="w-5 text-primary" />
-              </Link> */}
               <CartIcon />
             </div>
             {/* Логотип */}
