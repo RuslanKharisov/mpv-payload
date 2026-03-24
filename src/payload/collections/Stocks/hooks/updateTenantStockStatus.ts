@@ -3,40 +3,35 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 
 // Функция синхронизации, которую вызывают оба хука
 async function syncStatus(payload: any, tenantField: any, req: any) {
-  const { transactionID } = req
   const tenantId = typeof tenantField === 'object' ? tenantField?.id : tenantField
 
   if (!tenantId) return
 
   try {
-    await payload.db.beginTransaction(transactionID)
-
     const stocks = await payload.find({
       collection: 'stocks',
       where: { tenant: { equals: tenantId } },
       limit: 1,
       depth: 0,
-      pagination: false,
       req,
     })
+
+    const hasStock = (stocks.totalDocs ?? 0) > 0
 
     await payload.update({
       collection: 'tenants',
       id: tenantId,
-      data: { hasActiveStock: stocks.totalDocs > 0 },
+      data: { hasActiveStock: hasStock },
       overrideAccess: true,
       depth: 0,
       req,
     })
-
-    await payload.db.commitTransaction(transactionID)
 
     // Ревалидация после успешного коммита
     try {
       revalidateTag('tenants')
     } catch (e) {}
   } catch (error) {
-    await payload.db.rollbackTransaction(transactionID)
     payload.logger.error(`[Stock Hook Error] Tenant ${tenantId}: ${error}`)
   }
 }
