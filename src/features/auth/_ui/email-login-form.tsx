@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import BackButton from './back-button'
 import { Typography } from '@/shared/ui/typography'
 import PolicyLink from '@/shared/ui/policy-link'
+import { ROUTES } from '@/shared/lib/routes'
 
 export function EmailLoginForm() {
   const router = useRouter()
@@ -26,7 +27,7 @@ export function EmailLoginForm() {
     trpc.auth.login.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(trpc.auth.session.queryFilter())
-        router.push('/suppliers')
+        router.push(ROUTES.DASHBOARD.ROOT)
       },
     }),
   )

@@ -1,6 +1,7 @@
 import { FiltersProvider } from '@/shared/providers/Filters'
 import { getTenantsCatalog } from '@/entities/tenant/api/get-tenants-catalog'
 import { TenantsCatalogView } from '@/views/tenants/ui/tenants-catalog-view'
+import { ROUTES } from '@/shared/lib/routes'
 
 type Args = {
   searchParams: Promise<Record<string, string | string[] | undefined>>
@@ -20,7 +21,7 @@ export default async function Page({ searchParams: paramsPromise }: Args) {
   })
 
   return (
-    <FiltersProvider basePath="/suppliers">
+    <FiltersProvider basePath={ROUTES.SUPPLIERS}>
       <TenantsCatalogView
         tenants={tenants}
         pagination={pagination}

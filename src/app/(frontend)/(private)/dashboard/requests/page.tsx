@@ -1,5 +1,4 @@
 import { getMeUser } from '@/shared/utilities/getMeUser'
-// import { RequestsTable } from '@/widgets/suppliers/requests-table'
 
 export default async function RequestsPage() {
   const { user } = await getMeUser()

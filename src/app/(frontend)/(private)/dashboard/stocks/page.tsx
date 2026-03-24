@@ -1,6 +1,7 @@
 import { getStocksByTenant } from '@/entities/stock/api/get-stocks-by-tenant'
 import { canManageStockForCurrentTenant } from '@/entities/tenant/api/can-manage-stock'
 import { Tenant } from '@/payload-types'
+import { ROUTES } from '@/shared/lib/routes'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 import { Typography } from '@/shared/ui/typography'
 import { getMeUser } from '@/shared/utilities/getMeUser'
@@ -77,7 +78,7 @@ export default async function WarehousesPage({ searchParams }: WarehousesPagePro
               </Link>{' '}
               и доступ открывается начиная с тарифа:{' '}
               <Link
-                href="/suppliers/billing"
+                href={ROUTES.DASHBOARD.BILLING}
                 className="text-accent-foreground hover:text-destructive transition-colors duration-300"
               >
                 СТАРТ

@@ -4,6 +4,7 @@ import { getMeUser } from '@/shared/utilities/getMeUser'
 import config from '@payload-config'
 import { revalidatePath } from 'next/cache'
 import { getPayload } from 'payload'
+import { ROUTES } from '@/shared/lib/routes'
 
 import { Tenant } from '@/payload-types'
 
@@ -46,7 +47,7 @@ export async function updateRemoteConfig(formData: FormData): Promise<UpdateRemo
       },
     })
 
-    revalidatePath('/suppliers/warehouses')
+    revalidatePath(ROUTES.DASHBOARD.WAREHOUSES)
 
     return { success: true, tenant: updatedTenant }
   } catch (error) {

@@ -13,6 +13,7 @@ import { Suspense } from 'react'
 import { makeTrackedUrl } from '@/shared/utilities/makeTrackedUrl'
 import { Badge } from '@/shared/ui/badge'
 import { CompanyTag } from '@/payload-types'
+import { ROUTES } from '@/shared/lib/routes'
 
 type Args = {
   params: Promise<{ slug?: string }>
@@ -117,7 +118,7 @@ export default async function Page({ params: paramsPromise, searchParams }: Args
           </div>
 
           <Button asChild variant="outline">
-            <Link href="/suppliers">
+            <Link href={ROUTES.SUPPLIERS}>
               <ExternalLink className="mr-2 h-4 w-4" />
               Все компании
             </Link>

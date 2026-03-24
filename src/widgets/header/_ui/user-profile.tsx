@@ -15,6 +15,7 @@ import { UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { LoginButton } from './login-button'
 import { Profile } from '@/entities/profile/_domain/profile'
+import { ROUTES } from '@/shared/lib/routes'
 
 interface UserProfileProps {
   user: Profile
@@ -43,7 +44,7 @@ export function UserProfile({ user }: UserProfileProps) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={`/suppliers`}>
+            <Link href={ROUTES.DASHBOARD.ROOT}>
               <UserIcon className="mr-2 h-4 w-4" />
               <span>Личный кабинет</span>
             </Link>

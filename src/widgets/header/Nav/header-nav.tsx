@@ -5,12 +5,10 @@ import React, { memo } from 'react'
 import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-import { SearchIcon } from 'lucide-react'
-import Link from 'next/link'
+import { Profile } from '@/entities/profile/_domain/profile'
 import { usePathname } from 'next/navigation'
 import { CartIcon } from '../_ui/cart-icon'
 import { UserProfile } from '../_ui/user-profile'
-import { Profile } from '@/entities/profile/_domain/profile'
 
 type HeaderNavProps = {
   data: HeaderType
