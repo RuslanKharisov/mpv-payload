@@ -3,6 +3,7 @@ import { Button } from '@/shared/ui/button'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Typography } from '@/shared/ui/typography'
+import { ROUTES } from '@/shared/lib/routes'
 
 export interface WarehousesSampleItem {
   id: string
@@ -49,7 +50,7 @@ export function WarehousesSample({ warehousesSample, warehousesCount }: Warehous
         {warehousesCount > warehousesSample.length && (
           <div className="mt-4">
             <Button asChild variant="outline" className="w-full">
-              <Link href="/suppliers/warehouses">
+              <Link href={ROUTES.DASHBOARD.STOCKS}>
                 Посмотреть все склады
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Link>

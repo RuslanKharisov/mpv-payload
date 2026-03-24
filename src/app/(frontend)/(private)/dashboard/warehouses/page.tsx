@@ -8,6 +8,7 @@ import { WarehousesTable } from '@/widgets/warehouses-table'
 import { tenantHasActiveFeature } from '@/payload/access/hasActiveFeature'
 import { Typography } from '@/shared/ui/typography'
 import Link from 'next/link'
+import { ROUTES } from '@/shared/lib/routes'
 
 export default async function WarehousesPage() {
   const { user } = await getMeUser({ nullUserRedirect: '/login' })
@@ -58,7 +59,7 @@ export default async function WarehousesPage() {
           <Typography tag="p">
             Доступ открывается начиная с тарифа:{' '}
             <Link
-              href="/suppliers/billing"
+              href={ROUTES.DASHBOARD.BILLING}
               className="text-accent-foreground hover:text-destructive transition-colors duration-300"
             >
               СТАРТ

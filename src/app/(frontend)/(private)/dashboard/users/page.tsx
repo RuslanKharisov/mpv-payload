@@ -1,5 +1,4 @@
 import { getMeUser } from '@/shared/utilities/getMeUser'
-// import { TenantUsersTable } from '@/widgets/suppliers/users-table'
 
 export default async function UsersPage() {
   const { user } = await getMeUser()

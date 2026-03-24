@@ -1,6 +1,6 @@
 import { Skeleton } from '@/shared/ui/skeleton'
 
-function PaginationSkeleton({ className, ...props }: React.ComponentProps<'div'>) {
+function PaginationSkeleton({}: React.ComponentProps<'div'>) {
   return (
     <div className="flex justify-between w-full">
       <Skeleton className="h-8 w-24" />

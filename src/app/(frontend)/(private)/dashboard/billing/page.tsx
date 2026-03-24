@@ -10,6 +10,7 @@ import { CheckIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { Tariff, Subscription } from '@/payload-types'
 import { BillingRequestModal } from '@/features/billing-request/_ui/billing-request-modal'
+import { ROUTES } from '@/shared/lib/routes'
 
 async function TariffsPage() {
   const payload = await getPayload({ config: configPromise })
@@ -121,12 +122,9 @@ async function TariffsPage() {
 
                   {isCurrent ? (
                     ''
-                  ) : // <Button asChild variant="outline" className="w-full mt-6">
-                  //   <Link href="/suppliers/billing">Управлять подпиской</Link>
-                  // </Button>
-                  tariff.price === 0 ? (
+                  ) : tariff.price === 0 ? (
                     <Button asChild className="w-full mt-6">
-                      <Link href="/suppliers/billing">Перейти на бесплатный тариф</Link>
+                      <Link href={ROUTES.DASHBOARD.BILLING}>Перейти на бесплатный тариф</Link>
                     </Button>
                   ) : (
                     <BillingRequestModal

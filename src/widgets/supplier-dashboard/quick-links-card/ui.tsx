@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Button } from '@/shared/ui/button'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { ROUTES } from '@/shared/lib/routes'
 
 export function QuickLinksCard() {
   return (
@@ -13,13 +14,13 @@ export function QuickLinksCard() {
       <CardContent className="space-y-2">
         <div className="flex flex-col gap-y-1">
           <Button asChild variant="destructive" className="w-full justify-between" size="sm">
-            <Link href="/suppliers/warehouses">
+            <Link href={ROUTES.DASHBOARD.WAREHOUSES}>
               Управление складами
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
           <Button asChild variant="default" className="w-full justify-between" size="sm">
-            <Link href="/suppliers/stocks">
+            <Link href={ROUTES.DASHBOARD.STOCKS}>
               Остатки и цены
               <ArrowRight className="h-4 w-4" />
             </Link>
