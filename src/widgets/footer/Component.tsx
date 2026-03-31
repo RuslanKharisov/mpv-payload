@@ -36,19 +36,21 @@ export async function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center pt-8 gap-5">
+        <div className="flex flex-col items-center pt-8 gap-3 text-gray-500">
           <p className="text-center text-xs">
-            © 2024{' '}
+            © 2024–2026 Пром-Сток (Prom-Stock). Все права защищены.
+          </p>
+          {/* <p className="text-center text-[10px] opacity-70">
+            Разработка сайта —{' '}
             <a
               href="https://www.barbarisstudio.ru/"
               target="_blank"
               rel="noreferrer"
-              className="hover:underline"
+              className="hover:underline font-medium"
             >
-              Studio Barbaris™
+              Студия Барбарис (Studio Barbaris™)
             </a>
-            . All Rights Reserved.
-          </p>
+          </p> */}
         </div>
       </div>
     </footer>
